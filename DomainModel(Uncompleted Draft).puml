@@ -1,0 +1,84 @@
+@startuml
+class User{
+  +name: String
+  +surname1: String
+  +surname2: String
+  +email: String
+
+}
+
+class Customer{
+  +points
+  +balance
+}
+
+class Worker{
+}
+
+class Ticket{
+  +date
+}
+
+class TicketAmount{
+  +quantity
+}
+
+class Screen{
+  +seats
+  +freeHour
+  +openingTime
+  +closingTime
+}
+
+class Film{
+  +name
+  +duration
+  +description
+}
+
+class Rating{
+  +description
+  +rating
+}
+
+enum Genre{
+  +Action
+  +Adventure
+  +Animated
+  +Comedy
+  +Drama
+  +Fantasy
+  +Historical
+  +Horror
+  +Musical
+  +Romance
+  +Science Fiction
+  +Thriller
+  +Western
+}
+
+enum TicketStatus{
+  +Reserved
+  +Completed
+  +Cancelled
+}
+  
+
+
+
+
+User <|-- Customer
+User <|-- Worker
+
+
+Screen "*" -- "*" Film
+Screen "1" -- "*" Ticket
+
+Ticket "*" -- "1" TicketStatus : has >
+(Ticket, Screen) .. TicketAmount
+
+Film "1" -- "*" Rating: has
+Film "1" -- "*" Ticket : associated with
+Film "*" -- "*" Genre : categorized by >
+
+@enduml
