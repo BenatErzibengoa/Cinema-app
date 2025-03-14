@@ -15,19 +15,27 @@ class Customer{
 class Worker{
 }
 
-class Ticket{
+class Booking{
   +date
 }
 
-class TicketAmount{
+
+class FoodAmount{
   +quantity
 }
 
+class Cinema{
+
+}
+
 class Screen{
-  +seats
+  +number
+}
+
+class Schedule{
   +freeHour
   +openingTime
-  +closingTime
+  +closingTIme
 }
 
 class Film{
@@ -37,9 +45,18 @@ class Film{
 }
 
 class Rating{
-  +description
-  +rating
+  +mark
+  +opinion
 }
+
+class Seat{
+  +id
+}
+class SeatAmount{
+  +quantity
+}
+
+
 
 enum Genre{
   +Action
@@ -57,28 +74,52 @@ enum Genre{
   +Western
 }
 
-enum TicketStatus{
+enum BookingStatus{
   +Reserved
   +Completed
   +Cancelled
 }
-  
 
+enum Food{
+  +SmallPopCorn
+  +MediumPopCorn
+  +LargePopCorn
+  +SmallSoda
+  +MediumSoda
+  +LargeSoda
+  +Nachos
+  +Candy
+}
 
+enum SeatType{
+  +Normal
+  +Comfortable
+  +Premium
+}
 
 
 User <|-- Customer
 User <|-- Worker
 
+Cinema "1" -- "*" Screen: has >
+Cinema "1" -- "*" Film: can display >
 
-Screen "*" -- "*" Film
-Screen "1" -- "*" Ticket
+Screen "*" -- "*" Film: displays >
+Screen "1" -- "*" Schedule: every day has a different >
 
-Ticket "*" -- "1" TicketStatus : has >
-(Ticket, Screen) .. TicketAmount
+Seat "*" -- "1" SeatType
 
 Film "1" -- "*" Rating: has
-Film "1" -- "*" Ticket : associated with
 Film "*" -- "*" Genre : categorized by >
+
+
+Booking "*" -- "1" Film: associated with >
+Booking "*" -- "1" BookingStatus : has >
+Booking "*" -- "1" Screen
+Booking "*" -- "1" Food: has >
+(Booking, Food) .. FoodAmount
+(Booking, Seat) .. SeatAmount
+
+
 
 @enduml
