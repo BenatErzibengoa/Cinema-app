@@ -1,5 +1,7 @@
+
 @startuml
 class User{
+  +id: String 
   +name: String
   +surname1: String
   +surname2: String
@@ -20,7 +22,7 @@ class Booking{
 }
 
 
-class FoodAmount{
+class Amount{
   +quantity
 }
 
@@ -52,10 +54,6 @@ class Rating{
 class Seat{
   +id
 }
-class SeatAmount{
-  +quantity
-}
-
 
 
 enum Genre{
@@ -118,8 +116,8 @@ Booking "*" -- "1" BookingStatus : has >
 Booking "*" -- "1" Screen
 Booking "1" -- "*" Seat
 Booking "*" -- "*" Food: has >
-(Booking, Food) .. FoodAmount
-(Booking, Seat) .. SeatAmount
+(Booking, Food) .. Amount
+(Booking, Seat) .. Amount
 
 
 
