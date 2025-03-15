@@ -116,7 +116,8 @@ Film "*" -- "*" Genre : categorized by >
 Booking "*" -- "1" Film: associated with >
 Booking "*" -- "1" BookingStatus : has >
 Booking "*" -- "1" Screen
-Booking "*" -- "1" Food: has >
+Booking "1" -- "*" Seat
+Booking "*" -- "*" Food: has >
 (Booking, Food) .. FoodAmount
 (Booking, Seat) .. SeatAmount
 
