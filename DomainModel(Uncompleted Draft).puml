@@ -1,7 +1,7 @@
 
 @startuml
 class User{
-  +id: String 
+  +id: String
   +name: String
   +surname1: String
   +surname2: String
@@ -24,10 +24,6 @@ class Booking{
 
 class Amount{
   +quantity
-}
-
-class Cinema{
-
 }
 
 class Screen{
@@ -99,11 +95,10 @@ enum SeatType{
 User <|-- Customer
 User <|-- Worker
 
-Cinema "1" -- "*" Screen: has >
-Cinema "1" -- "*" Film: can display >
 
 Screen "*" -- "*" Film: displays >
 Screen "1" -- "*" Schedule: every day has a different >
+Screen "1" -- "*" Seat: contains >
 
 Seat "*" -- "1" SeatType
 
