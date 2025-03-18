@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cinema Reservation Manager</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #121212;
+      color: #ffffff;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      border-bottom: 1px solid #333;
+    }
+    
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #e50914;
+    }
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+    
+    nav ul li {
+      margin-left: 20px;
+    }
+    
+    nav ul li a {
+      color: #ffffff;
+      text-decoration: none;
+    }
+    
+    nav ul li a:hover {
+      color: #e50914;
+    }
+    
+    .user-actions {
+      display: flex;
+      align-items: center;
+    }
+    
+    .user-actions button {
+      background-color: #e50914;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    
+    .filters {
+      display: flex;
+      justify-content: space-between;
+      margin: 20px 0;
+      padding: 10px 0;
+      border-bottom: 1px solid #333;
+    }
+    
+    .filter-group {
+      display: flex;
+      align-items: center;
+    }
+    
+    .filter-group select {
+      background-color: #333;
+      color: white;
+      border: none;
+      padding: 8px;
+      margin-left: 10px;
+      border-radius: 4px;
+    }
+    
+    .movie-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    
+    .movie-card {
+      background-color: #1f1f1f;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.3s;
+      cursor: pointer;
+    }
+    
+    .movie-card:hover {
+      transform: scale(1.05);
+    }
+    
+    .movie-poster {
+      width: 100%;
+      height: 300px;
+      background-color: #333;
+      position: relative;
+    }
+    
+    .movie-rating {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+    
+    .movie-info {
+      padding: 15px;
+    }
+    
+    .movie-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    
+    .movie-meta {
+      font-size: 14px;
+      color: #aaa;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    /* Movie Detail View */
+    .movie-detail {
+      display: flex;
+      margin-top: 30px;
+      background-color: #1f1f1f;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .movie-detail-poster {
+      flex: 0 0 300px;
+      height: 450px;
+      background-color: #333;
+    }
+    
+    .movie-detail-info {
+      flex: 1;
+      padding: 20px;
+    }
+    
+    .movie-detail-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    .movie-detail-meta {
+      display: flex;
+      margin-bottom: 20px;
+      color: #aaa;
+    }
+    
+    .movie-detail-meta span {
+      margin-right: 15px;
+    }
+    
+    .movie-description {
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    
+    .showtimes {
+      margin-top: 20px;
+    }
+    
+    .showtimes h3 {
+      margin-bottom: 15px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 10px;
+    }
+    
+    .showtime-dates {
+      display: flex;
+      margin-bottom: 20px;
+    }
+    
+    .date-item {
+      padding: 10px 15px;
+      margin-right: 10px;
+      background-color: #333;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .date-item.active {
+      background-color: #e50914;
+    }
+    
+    .showtime-slots {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .time-slot {
+      padding: 8px 16px;
+      background-color: #333;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .time-slot:hover {
+      background-color: #444;
+    }
+    
+    .time-slot.active {
+      background-color: #e50914;
+    }
+    
+    .seat-selection {
+      margin-top: 40px;
+    }
+    
+    .screen {
+      background-color: #333;
+      height: 10px;
+      width: 80%;
+      margin: 0 auto 30px;
+      border-radius: 5px;
+    }
+    
+    .screen-label {
+      text-align: center;
+      margin-bottom: 10px;
+      color: #aaa;
+    }
+    
+    .seating-plan {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 10px;
+      margin: 0 auto;
+      max-width: 600px;
+    }
+    
+    .seat {
+      aspect-ratio: 1;
+      background-color: #333;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+    
+    .seat.unavailable {
+      background-color: #555;
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+    
+    .seat.selected {
+      background-color: #e50914;
+    }
+    
+    .seat.vip {
+      background-color: #ffd700;
+      color: #000;
+    }
+    
+    .seat.premium {
+      background-color: #1e90ff;
+    }
+    
+    .seat-types {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      gap: 20px;
+    }
+    
+    .seat-type {
+      display: flex;
+      align-items: center;
+    }
+    
+    .seat-type-indicator {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      margin-right: 8px;
+    }
+    
+    .standard-seat {
+      background-color: #333;
+    }
+    
+    .premium-seat {
+      background-color: #1e90ff;
+    }
+    
+    .vip-seat {
+      background-color: #ffd700;
+    }
+    
+    .unavailable-seat {
+      background-color: #555;
+      opacity: 0.5;
+    }
+    
+    .booking-summary {
+      margin-top: 40px;
+      background-color: #1f1f1f;
+      border-radius: 8px;
+      padding: 20px;
+    }
+    
+    .summary-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 10px;
+    }
+    
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    
+    .summary-total {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #333;
+      font-weight: bold;
+      font-size: 18px;
+    }
+    
+    .food-section {
+      margin-top: 40px;
+    }
+    
+    .food-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    
+    .food-item {
+      background-color: #1f1f1f;
+      border-radius: 8px;
+      overflow: hidden;
+      padding: 15px;
+    }
+    
+    .food-image {
+      height: 120px;
+      background-color: #333;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+    
+    .food-name {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    
+    .food-price {
+      color: #aaa;
+      margin-bottom: 10px;
+    }
+    
+    .food-options {
+      margin-top: 10px;
+    }
+    
+    .food-option {
+      margin-bottom: 5px;
+    }
+    
+    .food-option select {
+      width: 100%;
+      background-color: #333;
+      color: white;
+      border: none;
+      padding: 8px;
+      border-radius: 4px;
+    }
+    
+    .add-food {
+      background-color: #e50914;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+    }
+    
+    .checkout-actions {
+      margin-top: 40px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    
+    .checkout-button {
+      background-color: #e50914;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    
+    /* Login Modal */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    
+    .modal-content {
+      background-color: #1f1f1f;
+      border-radius: 8px;
+      padding: 30px;
+      width: 400px;
+      max-width: 90%;
+    }
+    
+    .modal-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+    }
+    
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #333;
+      background-color: #333;
+      color: white;
+    }
+    
+    .modal-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+    
+    .modal-actions button {
+      padding: 10px 20px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .primary-button {
+      background-color: #e50914;
+      color: white;
+    }
+    
+    .secondary-button {
+      background-color: transparent;
+      color: white;
+      border: 1px solid #333;
+    }
+    
+    .forgot-password {
+      text-align: right;
+      margin-top: 5px;
+    }
+    
+    .forgot-password a {
+      color: #aaa;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    
+    .forgot-password a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <!-- Home page with movie listings -->
+  <div class="container" id="home-page" style="display:none;">
+    <header>
+      <div class="logo">CineMax</div>
+      <nav>
+        <ul>
+          <li><a href="#" class="active">Movies</a></li>
+          <li><a href="#">Snacks</a></li>
+          <li><a href="#">My Bookings</a></li>
+        </ul>
+      </nav>
+      <div class="user-actions">
+        <button id="login-button">Login</button>
+        <button id="register-button">Register</button>
+      </div>
+    </header>
+    
+    <div class="filters">
+      <div class="filter-group">
+        <label>Genre:</label>
+        <select>
+          <option>All Genres</option>
+          <option>Action</option>
+          <option>Comedy</option>
+          <option>Drama</option>
+          <option>Horror</option>
+          <option>Sci-Fi</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Language:</label>
+        <select>
+          <option>All Languages</option>
+          <option>English</option>
+          <option>Spanish</option>
+          <option>French</option>
+          <option>Japanese</option>
+        </select>
+      </div>
+    </div>
+    
+    <div class="movie-grid">
+      <div class="movie-card">
+        <div class="movie-poster">
+          <div class="movie-rating">PG-13</div>
+        </div>
+        <div class="movie-info">
+          <div class="movie-title">Interstellar Odyssey</div>
+          <div class="movie-meta">
+            <span>Sci-Fi</span>
+            <span>145 min</span>
+          </div>
+        </div>
+      </div>
+      <div class="movie-card">
+        <div class="movie-poster">
+          <div class="movie-rating">R</div>
+        </div>
+        <div class="movie-info">
+          <div class="movie-title">Dark Shadows</div>
+          <div class="movie-meta">
+            <span>Horror</span>
+            <span>118 min</span>
+          </div>
+        </div>
+      </div>
+      <div class="movie-card">
+        <div class="movie-poster">
+          <div class="movie-rating">PG</div>
+        </div>
+        <div class="movie-info">
+          <div class="movie-title">Comedy Hour</div>
+          <div class="movie-meta">
+            <span>Comedy</span>
+            <span>105 min</span>
+          </div>
+        </div>
+      </div>
+      <div class="movie-card">
+        <div class="movie-poster">
+          <div class="movie-rating">PG-13</div>
+        </div>
+        <div class="movie-info">
+          <div class="movie-title">Action Heroes</div>
+          <div class="movie-meta">
+            <span>Action</span>
+            <span>132 min</span>
+          </div>
+        </div>
+      </div>
+      <div class="movie-card">
+        <div class="movie-poster">
+          <div class="movie-rating">G</div>
+        </div>
+        <div class="movie-info">
+          <div class="movie-title">Animated Adventure</div>
+          <div class="movie-meta">
+            <span>Animation</span>
+            <span>98 min</span>
+          </div>
+        </div>
+      </div>
+      <div class="movie-card">
+        <div class="movie-poster">
+          <div class="movie-rating">PG-13</div>
+        </div>
+        <div class="movie-info">
+          <div class="movie-title">Romantic Getaway</div>
+          <div class="movie-meta">
+            <span>Romance</span>
+            <span>112 min</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Movie detail page with seat booking -->
+  <div class="container" id="movie-detail">
+    <header>
+      <div class="logo">CineMax</div>
+      <nav>
+        <ul>
+          <li><a href="#" class="active">Movies</a></li>
+          <li><a href="#">Snacks</a></li>
+          <li><a href="#">My Bookings</a></li>
+        </ul>
+      </nav>
+      <div class="user-actions">
+        <button id="login-button">Login</button>
+        <button id="register-button">Register</button>
+      </div>
+    </header>
+    
+    <div class="movie-detail">
+      <div class="movie-detail-poster"></div>
+      <div class="movie-detail-info">
+        <h1 class="movie-detail-title">Interstellar Odyssey</h1>
+        <div class="movie-detail-meta">
+          <span>Sci-Fi</span>
+          <span>PG-13</span>
+          <span>145 minutes</span>
+          <span>English</span>
+        </div>
+        <p class="movie-description">
+          A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival. This epic journey will take them beyond our solar system, where they must venture into unknown territories to find a new home for mankind.
+        </p>
+        <div class="showtimes">
+          <h3>Select Date & Time</h3>
+          <div class="showtime-dates">
+            <div class="date-item active">Today</div>
+            <div class="date-item">Tomorrow</div>
+            <div class="date-item">Fri, Mar 8</div>
+            <div class="date-item">Sat, Mar 9</div>
+            <div class="date-item">Sun, Mar 10</div>
+          </div>
+          <div class="showtime-slots">
+            <div class="time-slot">10:00 AM</div>
+            <div class="time-slot active">1:30 PM</div>
+            <div class="time-slot">4:15 PM</div>
+            <div class="time-slot">7:00 PM</div>
+            <div class="time-slot">9:45 PM</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="seat-selection">
+      <div class="screen-label">SCREEN</div>
+      <div class="screen"></div>
+      <div class="seating-plan">
+        <div class="seat">A1</div>
+        <div class="seat">A2</div>
+        <div class="seat selected">A3</div>
+        <div class="seat selected">A4</div>
+        <div class="seat">A5</div>
+        <div class="seat">A6</div>
+        <div class="seat unavailable">A7</div>
+        <div class="seat unavailable">A8</div>
+        <div class="seat">A9</div>
+        <div class="seat">A10</div>
+        
+        <div class="seat">B1</div>
+        <div class="seat">B2</div>
+        <div class="seat">B3</div>
+        <div class="seat">B4</div>
+        <div class="seat">B5</div>
+        <div class="seat">B6</div>
+        <div class="seat">B7</div>
+        <div class="seat">B8</div>
+        <div class="seat">B9</div>
+        <div class="seat">B10</div>
+        
+        <div class="seat">C1</div>
+        <div class="seat">C2</div>
+        <div class="seat unavailable">C3</div>
+        <div class="seat unavailable">C4</div>
+        <div class="seat unavailable">C5</div>
+        <div class="seat">C6</div>
+        <div class="seat">C7</div>
+        <div class="seat">C8</div>
+        <div class="seat">C9</div>
+        <div class="seat">C10</div>
+        
+        <div class="seat premium">D1</div>
+        <div class="seat premium">D2</div>
+        <div class="seat premium">D3</div>
+        <div class="seat premium">D4</div>
+        <div class="seat premium">D5</div>
+        <div class="seat premium">D6</div>
+        <div class="seat premium">D7</div>
+        <div class="seat premium">D8</div>
+        <div class="seat premium">D9</div>
+        <div class="seat premium">D10</div>
+        
+        <div class="seat premium">E1</div>
+        <div class="seat premium">E2</div>
+        <div class="seat premium unavailable">E3</div>
+        <div class="seat premium">E4</div>
+        <div class="seat premium">E5</div>
+        <div class="seat premium">E6</div>
+        <div class="seat premium">E7</div>
+        <div class="seat premium unavailable">E8</div>
+        <div class="seat premium">E9</div>
+        <div class="seat premium">E10</div>
+        
+        <div class="seat vip">F1</div>
+        <div class="seat vip">F2</div>
+        <div class="seat vip">F3</div>
+        <div class="seat vip">F4</div>
+        <div class="seat vip">F5</div>
+        <div class="seat vip">F6</div>
+        <div class="seat vip">F7</div>
+        <div class="seat vip">F8</div>
+        <div class="seat vip">F9</div>
+        <div class="seat vip">F10</div>
+      </div>
+      
+      <div class="seat-types">
+        <div class="seat-type">
+          <div class="seat-type-indicator standard-seat"></div>
+          <span>Standard ($10)</span>
+        </div>
+        <div class="seat-type">
+          <div class="seat-type-indicator premium-seat"></div>
+          <span>Premium ($15)</span>
+        </div>
+        <div class="seat-type">
+          <div class="seat-type-indicator vip-seat"></div>
+          <span>VIP ($20)</span>
+        </div>
+        <div class="seat-type">
+          <div class="seat-type-indicator unavailable-seat"></div>
+          <span>Unavailable</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="food-section">
+      <h2>Add Food & Beverages</h2>
+      <div class="food-items">
+        <div class="food-item">
+          <div class="food-image"></div>
+          <div class="food-name">Popcorn</div>
+          <div class="food-price">From $5.00</div>
+          <div class="food-options">
+            <div class="food-option">
+              <select>
+                <option>Small - $5.00</option>
+                <option>Medium - $7.00</option>
+                <option>Large - $9.00</option>
+              </select>
+            </div>
+          </div>
+          <button class="add-food">Add</button>
+        </div>
+        
+        <div class="food-item">
+          <div class="food-image"></div>
+          <div class="food-name">Soda</div>
+          <div class="food-price">From $3.50</div>
+          <div class="food-options">
+            <div class="food-option">
+              <select>
+                <option>Small - $3.50</option>
+                <option>Medium - $4.50</option>
+                <option>Large - $5.50</option>
+              </select>
+            </div>
+            <div class="food-option">
+              <select>
+                <option>Cola</option>
+                <option>Lemon-Lime</option>
+                <option>Orange</option>
+                <option>Root Beer</option>
+              </select>
+            </div>
+          </div>
+          <button class="add-food">Add</button>
+        </div>
+        
+        <div class="food-item">
+          <div class="food-image"></div>
+          <div class="food-name">Nachos</div>
+          <div class="food-price">$6.50</div>
+          <div class="food-options">
+            <div class="food-option">
+              <select>
+                <option>Regular</option>
+                <option>With Extra Cheese (+$1.50)</option>
+              </select>
+            </div>
+          </div>
+          <button class="add-food">Add</button>
+        </div>
+        
+        <div class="food-item">
+          <div class="food-image"></div>
+          <div class="food-name">Candy</div>
+          <div class="food-price">$4.00</div>
+          <div class="food-options">
+            <div class="food-option">
+              <select>
+                <option>Chocolate</option>
+                <option>Gummy Bears</option>
+                <option>Licorice</option>
+                <option>Sour Candy</option>
+              </select>
+            </div>
+          </div>
+          <button class="add-food">Add</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="booking-summary">
+      <h2 class="summary-title">Booking Summary</h2>
+      <div class="summary-item">
+        <span>Movie</span>
+        <span>Interstellar Odyssey</span>
+      </div>
+      <div class="summary-item">
+        <span>Date & Time</span>
+        <span>Today, 1:30 PM</span>
+      </div>
+      <div class="summary-item">
+        <span>Seats</span>
+        <span>A3, A4 (Standard)</span>
+      </div>
+      <div class="summary-item">
+        <span>Tickets (2 × $10)</span>
+        <span>$20.00</span>
+      </div>
+      <div class="summary-item">
+        <span>Food & Beverages</span>
+        <span>$0.00</span>
+      </div>
+      <div class="summary-item">
+        <span>Booking Fee</span>
+        <span>$2.00</span>
+      </div>
+      <div class="summary-total">
+        <span>Total</span>
+        <span>$22.00</span>
+      </div>
+    </div>
+    
+    <div class="checkout-actions">
+      <button class="checkout-button">Proceed to Payment</button>
+    </div>
+  </div>
+  
+  <!-- Login Modal -->
+  <div class="modal" style="display:none;">
+    <div class="modal-content">
+      <h2 class="modal-title">Login</h2>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Enter your email">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter your password">
+        <div class="forgot-password">
+          <a href="#">Forgot Password?</a>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="secondary-button">Create Account</button>
+        <button class="primary-button">Login</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
