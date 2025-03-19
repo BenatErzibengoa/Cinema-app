@@ -105,6 +105,7 @@ User <|-- Customer: is a
 User <|-- Worker: is a
 Customer "1" -- "*" PurchaseReceipt: has >
 Cinema "1" -- "*" ScreeningRoom: has >
+Cinema "1" -- "1" Cinema: singleton
 
 ScreeningRoom "*" -- "*" ShowTime: has >
 ScreeningRoom "*" -- "*" Seat: has >
