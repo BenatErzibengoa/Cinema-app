@@ -1,119 +1,124 @@
 
 @startuml
 class User{
-  +id: String
-  +name: String
-  +surname1: String
-  +surname2: String
-  +email: String
+  -id: String
+  -email: String
 
 }
 
 class Customer{
-  +points
-  +balance
+  -points: int
+  -totalBalance: double
 }
 
 class Worker{
+    -name: String
+    -salary: double
 }
 
-class Booking{
-  +date
+class Cinema{
+    -name: String
+    -address: String
+    -phoneNumber: String
 }
 
-
-class Amount{
-  +quantity
+class PurchaseReceipt{
+  -orderDate: Date
+  -totalAmount: double
 }
 
-class Screen{
-  +number
+class FoodOrder{
+  -pricePerUnit: double
 }
 
-class Schedule{
-  +freeHour
-  +openingTime
-  +closingTIme
+class ScreeningRoom{
+  -roomNumber: int
+}
+
+class ShowTime{
+  -screeningTime: Date
+  -openingTime: Date
+  -closingTime: Date
 }
 
 class Film{
-  +name
-  +duration
-  +description
+  -title: String
+  -author: String
+  -duration: int
+  -description: String
 }
 
-class Rating{
-  +mark
-  +opinion
+class Review{
+  -opinion: String
+  -rating: int
 }
 
 class Seat{
-  +id
+  -seatId: String
+  -price: double
 }
 
+class Quantity{
+  -quantity: int
+}
 
 enum Genre{
-  +Action
-  +Adventure
-  +Animated
-  +Comedy
-  +Drama
-  +Fantasy
-  +Historical
-  +Horror
-  +Musical
-  +Romance
-  +Science Fiction
-  +Thriller
-  +Western
+  Action
+  Adventure
+  Animated
+  Comedy
+  Drama
+  Fantasy
+  Historical
+  Horror
+  Musical
+  Romance
+  Science Fiction
+  Thriller
+  Western
 }
 
-enum BookingStatus{
-  +Reserved
-  +Completed
-  +Cancelled
+enum OrderStatus{
+  Reserved
+  Completed
+  Cancelled
 }
 
 enum Food{
-  +SmallPopCorn
-  +MediumPopCorn
-  +LargePopCorn
-  +SmallSoda
-  +MediumSoda
-  +LargeSoda
-  +Nachos
-  +Candy
+  SmallPopCorn
+  MediumPopCorn
+  LargePopCorn
+  SmallSoda
+  MediumSoda
+  LargeSoda
+  Nachos
+  Candy
 }
 
 enum SeatType{
-  +Normal
-  +Comfortable
-  +Premium
+  Normal
+  Comfortable
+  Premium
 }
 
+User <|-- Customer: is a
+User <|-- Worker: is a
+Customer "1" -- "*" PurchaseReceipt: has >
+Cinema "1" -- "*" ScreeningRoom: has >
 
-User <|-- Customer
-User <|-- Worker
+ScreeningRoom "*" -- "*" ShowTime: has >
+ScreeningRoom "*" -- "*" Seat: has >
 
-
-Screen "*" -- "*" Film: displays >
-Screen "1" -- "*" Schedule: every day has a different >
-Screen "1" -- "*" Seat: contains >
-
-Seat "*" -- "1" SeatType
-
-Film "1" -- "*" Rating: has
+Seat "*" -- "1" SeatType: of >
+ShowTime "*" -- "1" Film: shows >
+Film "1" -- "*" Review: has >
 Film "*" -- "*" Genre : categorized by >
 
+PurchaseReceipt "0..1" -- "0..1" Review: has >
+PurchaseReceipt "*" -- "1" Film: associated with >
+PurchaseReceipt "*" -- "1" OrderStatus : has >
+PurchaseReceipt "*" -- "*" FoodOrder: has >
 
-Booking "*" -- "1" Film: associated with >
-Booking "*" -- "1" BookingStatus : has >
-Booking "*" -- "1" Screen
-Booking "1" -- "*" Seat
-Booking "*" -- "*" Food: has >
-(Booking, Food) .. Amount
-(Booking, Seat) .. Amount
-
-
-
+FoodOrder "*" -- "1" Food: has >
+(PurchaseReceipt, FoodOrder) .. Quantity
 @enduml
