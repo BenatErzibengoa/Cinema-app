@@ -1,0 +1,125 @@
+
+@startuml
+class User{
+  -id: String
+  -email: String
+
+}
+
+class Customer{
+  -points: int
+  -totalBalance: double
+}
+
+class Worker{
+    -name: String
+    -salary: double
+}
+
+class Cinema{
+    -name: String
+    -address: String
+    -phoneNumber: String
+}
+
+class PurchaseReceipt{
+  -orderDate: Date
+  -totalAmount: double
+}
+
+class FoodOrder{
+  -pricePerUnit: double
+}
+
+class ScreeningRoom{
+  -roomNumber: int
+}
+
+class ShowTime{
+  -screeningTime: Date
+  -openingTime: Date
+  -closingTime: Date
+}
+
+class Film{
+  -title: String
+  -author: String
+  -duration: int
+  -description: String
+}
+
+class Review{
+  -opinion: String
+  -rating: int
+}
+
+class Seat{
+  -seatId: String
+  -price: double
+}
+
+class Quantity{
+  -quantity: int
+}
+
+enum Genre{
+  Action
+  Adventure
+  Animated
+  Comedy
+  Drama
+  Fantasy
+  Historical
+  Horror
+  Musical
+  Romance
+  Science Fiction
+  Thriller
+  Western
+}
+
+enum OrderStatus{
+  Reserved
+  Completed
+  Cancelled
+}
+
+enum Food{
+  SmallPopCorn
+  MediumPopCorn
+  LargePopCorn
+  SmallSoda
+  MediumSoda
+  LargeSoda
+  Nachos
+  Candy
+}
+
+enum SeatType{
+  Normal
+  Comfortable
+  Premium
+}
+
+User <|-- Customer: is a
+User <|-- Worker: is a
+Customer "1" -- "*" PurchaseReceipt: has >
+Cinema "1" -- "*" ScreeningRoom: has >
+Cinema "1" -- "1" Cinema: singleton
+
+ScreeningRoom "*" -- "*" ShowTime: has >
+ScreeningRoom "*" -- "*" Seat: has >
+
+Seat "*" -- "1" SeatType: of >
+ShowTime "*" -- "1" Film: shows >
+Film "1" -- "*" Review: has >
+Film "*" -- "*" Genre : categorized by >
+
+PurchaseReceipt "0..1" -- "0..1" Review: has >
+PurchaseReceipt "*" -- "1" Film: associated with >
+PurchaseReceipt "*" -- "1" OrderStatus : has >
+PurchaseReceipt "*" -- "*" FoodOrder: has >
+
+FoodOrder "*" -- "1" Food: has >
+(PurchaseReceipt, FoodOrder) .. Quantity
+@enduml
