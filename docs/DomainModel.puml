@@ -2,6 +2,7 @@
 @startuml
 class User{
   -id: String
+  -name: String
   -email: String
 
 }
@@ -12,14 +13,13 @@ class Customer{
 }
 
 class Worker{
-    -name: String
     -salary: double
 }
 
 class Cinema{
     -name: String
     -address: String
-    -phoneNumber: String
+    -phoneNumber: int
 }
 
 class PurchaseReceipt{
@@ -33,17 +33,17 @@ class FoodOrder{
 
 class ScreeningRoom{
   -roomNumber: int
-}
-
-class ShowTime{
-  -screeningTime: Date
   -openingTime: Date
   -closingTime: Date
 }
 
+class ShowTime{
+  -screeningTime: Date
+}
+
 class Film{
   -title: String
-  -author: String
+  -director: String
   -duration: int
   -description: String
 }
@@ -108,7 +108,7 @@ Cinema "1" -- "*" ScreeningRoom: has >
 Cinema "1" -- "1" Cinema: singleton
 
 ScreeningRoom "*" -- "*" ShowTime: has >
-ScreeningRoom "*" -- "*" Seat: has >
+ShowTime "1" -- "*" Seat: has >
 
 Seat "*" -- "1" SeatType: of >
 ShowTime "*" -- "1" Film: shows >

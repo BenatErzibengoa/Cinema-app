@@ -1,0 +1,8 @@
+package eus.ehu.cinemaproject.domain;
+
+public class Review {
+    private Film reviewedFilm;
+    private String opinion;
+    private int rating;
+    private String reviewAuthor;
+}
