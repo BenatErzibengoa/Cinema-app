@@ -24,17 +24,20 @@ rectangle "Cinema Reservation Manager" {
     (Manage Projection Rooms) as UC11
     (Generate Revenue Report) as UC12
     (Track Food Inventory) as UC13
+    (Handle Ticket Purchase) as UC14
 
     User --> UC1
     User --> UC2
-    User --> UC4
+
     Customer --> UC6
     Customer --> UC7
     Customer --> UC3
+    Customer --> UC4
 
     Worker --> UC6
     Worker --> UC8
     Worker --> UC5
+    Worker --> UC14
     UC5 ..> UC4 : <<extends>>
 
     Admin --> UC10
