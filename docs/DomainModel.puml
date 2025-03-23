@@ -17,7 +17,7 @@ class Worker{
 }
 
 class Admin{
-
+    -canManageWorkers: boolean
 }
 
 class Cinema{
@@ -112,7 +112,7 @@ Worker<|-- Admin: is a
 Customer "1" -- "*" PurchaseReceipt: has >
 Cinema "1" -- "*" ScreeningRoom: has >
 Cinema "1" -- "1" Cinema: singleton
-Cinema "1" -- "1" Admin: has
+Cinema "1" -- "*" Admin: has
 
 ScreeningRoom "*" -- "*" ShowTime: has >
 ShowTime "1" -- "*" Seat: has >
