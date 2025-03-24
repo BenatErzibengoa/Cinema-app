@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Movie Tickets - CineFlix</title>
+    <style>
+        /* Color palette */
+        :root {
+            /* Primary colors */
+            --color-primary: #e31837;
+            --color-primary-dark: #c01530;
+            
+            /* Background colors */
+            --color-bg-main: #171717;
+            --color-bg-secondary: #242424;
+            
+            /* Text colors */
+            --color-text-primary: #ffffff;
+            --color-text-secondary: #ffffff;
+            --color-text-tertiary: #ffffff;
+            --color-text-muted: #d1d1d1;
+            
+            /* UI element colors */
+            --color-ui-element: #393939;
+            --color-ui-element-hover: #5d5d5d;
+            --color-ui-element-active: rgba(249, 22, 22, 0.1);
+            --color-ui-border: #8f8f8f;
+            --color-ui-disabled: #5e5e5e;
+            --shadows: rgba(0, 0, 0, 0.265);
+            
+            /* Other colors */
+            --color-screen: #ff8282;
+            --color-star: #eab308;
+            --color-white: white;
+            --color-black: black;
+            --dark-transparent: rgba(0, 0, 0, 0.6);
+            --transparent: transparent;
+
+        }
+            
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background-color: var(--color-bg-main);
+            color: var(--color-text-secondary);
+            position: relative;
+            padding-bottom: 100px;
+            min-height: 100vh;
+        }
+        
+        header {
+        background-color: var(--dark-transparent);
+        backdrop-filter: blur(5px);
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-text-primary);
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--color-primary);
+        }
+        
+        .logo-image {
+        height: 40px;
+        width: auto;
+        margin-right: 0.5rem;
+
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: var(--color-text-tertiary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        nav a:hover {
+            color: var(--color-primary);
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        button {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .login-btn {
+            background-color: transparent;
+            color: var(--color-text-secondary);
+            border: 1px solid var(--color-ui-border);
+        }
+        
+        .signup-btn {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        h1 {
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            color: var(--color-text-primary);
+            position: relative;
+            padding-left: 1rem;
+        }
+        
+        h1::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background-color: var(--color-primary);
+            border-radius: 2px;
+        }
+        
+        .booking-section {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* New movie detail banner */
+        .movie-banner {
+            display: flex;
+            background-color: var(--color-bg-secondary);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .movie-banner-poster {
+            width: 200px;
+            flex-shrink: 0;
+        }
+        
+        .movie-banner-poster img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .movie-banner-details {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .movie-banner-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--color-text-primary);
+        }
+        
+        .movie-banner-meta {
+            color: var(--color-text-muted);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .movie-banner-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .star {
+            color: var(--color-star);
+        }
+        
+        .movie-banner-description {
+            color: var(--color-text-tertiary);
+            line-height: 1.6;
+            max-width: 700px;
+        }
+
+
+
+        /* Sections */
+        .details-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .details-section h3 {
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--color-ui-border);
+            color: var(--color-text-primary);
+            font-size: 1.2rem;
+        }
+        
+        .details-section p {
+            color: var(--color-text-tertiary);
+            line-height: 1.6;
+        }
+
+
+        .booking-details {
+            background-color: var(--color-bg-secondary);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+
+        /* Buttons */
+        .button-options {
+            display: flex;
+            gap: 0.75rem;
+            overflow-x: auto;
+        }
+
+        .button-option {
+            min-width: 100px;
+            padding: 1rem;
+            background-color: var(--color-bg-main);
+            border-radius: 0.5rem;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid var(--color-ui-border);
+            transition: all 0.2s ease;
+        }
+        
+        .button-option:hover {
+            background-color: rgba(157, 157, 157, 0.1);
+
+        }
+        
+        .button-option.selected {
+            border-color: var(--color-primary);
+            background-color: var(--color-ui-element-active);
+        }
+        
+        .button-option .weekday {
+            font-weight: bold;
+            color: var(--color-text-primary);
+            margin-bottom: 0.25rem;
+        }
+        
+        .button-option .date {
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+        }
+
+
+        
+
+        
+
+        
+
+
+        .seating-layout {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+            margin: 1.5rem 0;
+        }
+        
+        .screen {
+            background-color: var(--color-screen);
+            width: 80%;
+            height: 10px;
+            border-radius: 50%;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .screen::after {
+            content: 'SCREEN';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+        }
+        
+        .seat-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .seat {
+            width: 30px;
+            height: 30px;
+            background-color: var(--color-ui-element);
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: var(--color-text-muted);
+            position: relative;
+        }
+        
+        .seat::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 3px;
+            right: 3px;
+            height: 3px;
+            background-color: var(--color-bg-secondary);
+            border-radius: 3px;
+        }
+        
+        .seat:hover {
+            background-color: var(--color-ui-element-hover);
+        }
+        
+        .seat.selected {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+        }
+        
+        .seat.taken {
+            background-color: var(--color-bg-secondary);
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+        
+        /* Ticket selection controls */
+        .ticket-type {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding: 0.5rem 0;
+        }
+        
+        .ticket-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .ticket-name {
+            font-weight: 500;
+            color: var(--color-text-primary);
+        }
+        
+        .ticket-price {
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+        }
+        
+        .ticket-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .ticket-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--color-ui-element);
+            color: var(--color-text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
+        }
+        
+        .ticket-btn:hover {
+            background-color: var(--color-ui-element-hover);
+        }
+        
+        .ticket-count {
+            font-weight: 500;
+            min-width: 20px;
+            text-align: center;
+        }
+        
+        footer {
+            background-color: var(--color-bg-secondary);
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .footer-heading {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--color-text-primary);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .footer-heading::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 40px;
+            height: 2px;
+            background-color: var(--color-primary);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-links a {
+            color: #dcdcdc;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .footer-links a:hover {
+            color: #f83737;
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--color-ui-element);
+            color: #dcdcdc;
+            max-width: 1200px;
+            margin: 2rem auto 0;
+        }
+        
+        /* Updated checkout button */
+        .checkout-btn {
+            background-color: #f82f2f;
+            color: white;
+            border: none;
+            padding: 1.5rem 1.5rem; /* Increased height */
+            border-radius: 0;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 10px 15px -3px rgba(249, 115, 22, 0.3);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .checkout-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-left: 1rem;
+        }
+        
+        .checkout-btn:hover {
+            background-color: #e43535;
+        }
+        
+        @media (max-width: 768px) {
+            .movie-banner {
+                flex-direction: column;
+            }
+            
+            .movie-banner-poster {
+                width: 100%;
+                height: 300px;
+            }
+            
+            nav ul {
+                gap: 1rem;
+            }
+            
+            .seat {
+                width: 25px;
+                height: 25px;
+                font-size: 0.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="cinema-homepage.html" class="logo">
+            <img src="./pictures/logo.png" alt="CF" class="logo-image">
+              Cine<span>Flix</span>
+          </a>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Movies</a></li>
+                <li><a href="#">Showtimes</a></li>
+                <li><a href="#">Theaters</a></li>
+                <li><a href="#">Offers</a></li>
+            </ul>
+        </nav>
+        <div class="user-actions">
+      <button class="login-btn" onclick="window.location.href='login.html'">Log In</button>
+      <button class="signup-btn" onclick="window.location.href='signup.html'">Sign Up</button>
+    </div>
+    </header>
+    
+    <div class="container">
+        <h1>Your movie</h1>
+        
+        <!-- Movie Banner -->
+        <div class="movie-banner">
+            <div class="movie-banner-poster">
+                <img src="./pictures/The-Batman-Poster.jpg" alt="The Batman movie poster">
+            </div>
+            <div class="movie-banner-details">
+                <div class="movie-banner-title">The Batman</div>
+                <div class="movie-banner-meta">Action/Crime • PG-13 • 156 min</div>
+                <div class="movie-banner-rating">
+                    <span class="star">★</span> 4.6/5
+                </div>
+                <div class="movie-banner-description">
+                    When a sadistic serial killer begins murdering key political figures in Gotham, Batman is forced to investigate the city's hidden corruption and question his family's involvement.
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="booking-section">
+            <div class="details-section">
+                <h1>Select Date</h1>
+                <div class="button-options">
+                    <div class="button-option" data-type="date">
+                        <div class="weekday">Mon</div>
+                        <div class="date">Mar 10</div>
+                    </div>
+                    <div class="button-option" data-type="date">
+                        <div class="weekday">Tue</div>
+                        <div class="date">Mar 11</div>
+                    </div>
+                    <div class="button-option selected" data-type="date">
+                        <div class="weekday">Wed</div>
+                        <div class="date">Mar 12</div>
+                    </div>
+                    <div class="button-option" data-type="date">
+                        <div class="weekday">Thu</div>
+                        <div class="date">Mar 13</div>
+                    </div>
+                    <div class="button-option" data-type="date">
+                        <div class="weekday">Fri</div>
+                        <div class="date">Mar 14</div>
+                    </div>
+                    <div class="button-option" data-type="date">
+                        <div class="weekday">Sat</div>
+                        <div class="date">Mar 15</div>
+                    </div>
+                    <div class="button-option" data-type="date">
+                        <div class="weekday">Sun</div>
+                        <div class="date">Mar 16</div>
+                    </div>
+                </div>
+            </div>                
+
+                <div class="details-section">
+                    <h1>Select Showtime</h1>
+                    <div class="button-options">
+                        <div class="button-option" data-type="time">11:30 AM</div>
+                        <div class="button-option" data-type="time">2:15 PM</div>
+                        <div class="button-option selected" data-type="time">5:45 PM</div>
+                        <div class="button-option" data-type="time">8:30 PM</div>
+                        <div class="button-option" data-type="time">11:00 PM</div>
+                    </div>
+                </div>
+                
+            <div class="booking-details">    
+                <h1>Select Seats</h1>
+  
+                <div class="details-section">
+                    <div class="seating-layout">
+                        <div class="screen-container">
+                            <div class="screen-label">SCREEN</div>
+                            <div class="screen-line">
+                                <div class="screen-glow"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="seat-row">
+                            <div class="seat">A1</div>
+                            <div class="seat">A2</div>
+                            <div class="seat">A3</div>
+                            <div class="seat taken">A4</div>
+                            <div class="seat taken">A5</div>
+                            <div class="seat">A6</div>
+                            <div class="seat">A7</div>
+                            <div class="seat">A8</div>
+                        </div>
+                        
+                        <div class="seat-row">
+                            <div class="seat">B1</div>
+                            <div class="seat">B2</div>
+                            <div class="seat">B3</div>
+                            <div class="seat">B4</div>
+                            <div class="seat">B5</div>
+                            <div class="seat taken">B6</div>
+                            <div class="seat">B7</div>
+                            <div class="seat">B8</div>
+                        </div>
+                        
+                        <div class="seat-row">
+                            <div class="seat taken">C1</div>
+                            <div class="seat taken">C2</div>
+                            <div class="seat">C3</div>
+                            <div class="seat">C4</div>
+                            <div class="seat">C5</div>
+                            <div class="seat">C6</div>
+                            <div class="seat">C7</div>
+                            <div class="seat">C8</div>
+                        </div>
+                        
+                        <div class="seat-row">
+                            <div class="seat">D1</div>
+                            <div class="seat">D2</div>
+                            <div class="seat">D3</div>
+                            <div class="seat taken">D4</div>
+                            <div class="seat taken">D5</div>
+                            <div class="seat taken">D6</div>
+                            <div class="seat">D7</div>
+                            <div class="seat">D8</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="details-section">
+                    <h3>Select Tickets</h3>
+                    <div class="ticket-types">
+                        <div class="ticket-type">
+                            <div class="ticket-info">
+                                <div class="ticket-name">Adult (18+)</div>
+                                <div class="ticket-price">12.50€</div>
+                            </div>
+                            <div class="ticket-controls">
+                                <div class="ticket-btn minus" data-type="adult">-</div>
+                                <div class="ticket-count" id="adult-count">0</div>
+                                <div class="ticket-btn plus" data-type="adult">+</div>
+                            </div>
+                        </div>
+                        
+                        <div class="ticket-type">
+                            <div class="ticket-info">
+                                <div class="ticket-name">Child (12-)</div>
+                                <div class="ticket-price">8.00€</div>
+                            </div>
+                            <div class="ticket-controls">
+                                <div class="ticket-btn minus" data-type="child">-</div>
+                                <div class="ticket-count" id="child-count">0</div>
+                                <div class="ticket-btn plus" data-type="child">+</div>
+                            </div>
+                        </div>
+                        
+                        <div class="ticket-type">
+                            <div class="ticket-info">
+                                <div class="ticket-name">Senior (65+)</div>
+                                <div class="ticket-price">9.50€</div>
+                            </div>
+                            <div class="ticket-controls">
+                                <div class="ticket-btn minus" data-type="senior">-</div>
+                                <div class="ticket-count" id="senior-count">0</div>
+                                <div class="ticket-btn plus" data-type="senior">+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="details-section">
+                <h1>Payment Method</h1>
+                <div class="button-options">
+                    <div class="button-option selected" data-type="payment">Credit Card</div>
+                    <div class="button-option" data-type="payment">PayPal</div>
+                    <div class="button-option" data-type="payment">Apple Pay</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <button class="checkout-btn disabled" id="checkout-btn">
+        Complete Booking <span class="checkout-price">0.00€</span>
+    </button>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4 class="footer-heading">CineFlix</h4>
+                <ul class="footer-links">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Corporate Info</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4 class="footer-heading">Help</h4>
+                <ul class="footer-links">
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Ticket Policy</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4 class="footer-heading">Cinemas</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Theater Locations</a></li>
+                    <li><a href="#">Food & Drinks</a></li>
+                    <li><a href="#">Experiences</a></li>
+                    <li><a href="#">Corporate Bookings</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4 class="footer-heading">Connect With Us</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">YouTube</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            &copy; 2025 CineFlix. All rights reserved.
+        </div>
+    </footer>
+    
+    <script>
+        // Basic interactivity for demo purposes
+        document.addEventListener('DOMContentLoaded', function() {
+            // Date selection
+            const dateOptions = document.querySelectorAll('.button-option[data-type="date"]');
+            dateOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    dateOptions.forEach(o => o.classList.remove('selected'));
+                    this.classList.add('selected');
+                });
+            });
+            
+            // Time slot selection
+            const timeSlots = document.querySelectorAll('.button-option[data-type="time"]');
+            timeSlots.forEach(slot => {
+                slot.addEventListener('click', function() {
+                    timeSlots.forEach(s => s.classList.remove('selected'));
+                    this.classList.add('selected');
+                });
+            });
+            
+            // Seat selection
+            const seats = document.querySelectorAll('.seat:not(.taken)');
+            let selectedSeatsCount = 0;
+            
+            seats.forEach(seat => {
+                seat.addEventListener('click', function() {
+                    if (!this.classList.contains('taken')) {
+                        if (this.classList.contains('selected')) {
+                            this.classList.remove('selected');
+                            selectedSeatsCount--;
+                        } else {
+                            this.classList.add('selected');
+                            selectedSeatsCount++;
+                        }
+                        updateTicketsBasedOnSeats();
+                        checkButtonState();
+                    }
+                });
+            });
+            
+            // Payment option selection
+            const paymentOptions = document.querySelectorAll('.button-option[data-type="payment"]');
+            paymentOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    paymentOptions.forEach(o => o.classList.remove('selected'));
+                    this.classList.add('selected');
+                });
+            });
+            
+            // Ticket selection
+            const ticketPrices = {
+                adult: 12.50,
+                child: 8.00,
+                senior: 9.50
+            };
+            
+            const ticketCounts = {
+                adult: 0,
+                child: 0,
+                senior: 0
+            };
+            
+            // Adding event listeners to plus and minus buttons
+            document.querySelectorAll('.ticket-btn.plus').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const type = this.getAttribute('data-type');
+                    const totalTickets = Object.values(ticketCounts).reduce((a, b) => a + b, 0);
+                    
+                    if (totalTickets < selectedSeatsCount) {
+                        ticketCounts[type]++;
+                        document.getElementById(`${type}-count`).textContent = ticketCounts[type];
+                        updateTotalPrice();
+                        checkButtonState();
+                    } else if (selectedSeatsCount === 0) {
+                        alert('Please select seats first!');
+                    } else {
+                        alert('You cannot select more tickets than seats!');
+                    }
+                });
+            });
+            
+            document.querySelectorAll('.ticket-btn.minus').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const type = this.getAttribute('data-type');
+                    if (ticketCounts[type] > 0) {
+                        ticketCounts[type]--;
+                        document.getElementById(`${type}-count`).textContent = ticketCounts[type];
+                        updateTotalPrice();
+                        checkButtonState();
+                    }
+                });
+            });
+            
+            // Function to update total price
+            function updateTotalPrice() {
+                let total = 0;
+                for (const type in ticketCounts) {
+                    total += ticketCounts[type] * ticketPrices[type];
+                }
+                
+                // Adding booking fee if there are tickets
+                if (total > 0) {
+                    total += 2.00; // €2.00 booking fee
+                }
+                
+                document.querySelector('.checkout-price').textContent = `${total.toFixed(2)}€`;
+            }
+            
+            // Function to update tickets based on selected seats
+            function updateTicketsBasedOnSeats() {
+                // Reset ticket counts if user reduces seat selection
+                const totalTickets = Object.values(ticketCounts).reduce((a, b) => a + b, 0);
+                
+                if (totalTickets > selectedSeatsCount) {
+                    // Reset all tickets
+                    for (const type in ticketCounts) {
+                        ticketCounts[type] = 0;
+                        document.getElementById(`${type}-count`).textContent = 0;
+                    }
+                    updateTotalPrice();
+                }
+            }
+            
+            // Function to check if all selected seats have tickets and update button state
+            function checkButtonState() {
+                const checkoutBtn = document.getElementById('checkout-btn');
+                const totalTickets = Object.values(ticketCounts).reduce((a, b) => a + b, 0);
+                
+                if (totalTickets > 0 && totalTickets === selectedSeatsCount) {
+                    checkoutBtn.classList.remove('disabled');
+                    checkoutBtn.classList.add('animated');
+                } else {
+                    checkoutBtn.classList.add('disabled');
+                    checkoutBtn.classList.remove('animated');
+                }
+            }
+            
+            // Complete booking button
+            const checkoutBtn = document.getElementById('checkout-btn');
+            checkoutBtn.addEventListener('click', function() {
+                if (this.classList.contains('disabled')) {
+                    alert('Please select seats and tickets to continue.');
+                    return;
+                }
+                
+                const totalTickets = Object.values(ticketCounts).reduce((a, b) => a + b, 0);
+                if (totalTickets !== selectedSeatsCount) {
+                    alert('Please select tickets for all selected seats.');
+                    return;
+                }
+                
+                alert('Booking completed! Thank you for your purchase.');
+            });
+            
+            // Initial button state check
+            checkButtonState();
+        });
+        
+        // Add styles for the new screen implementation and other necessary styles
+        document.head.insertAdjacentHTML('beforeend', `
+            <style>
+                /* Animation for the checkout button */
+                @keyframes pulse {
+                    0% { transform: scale(1); }
+                    50% { transform: scale(1.03); }
+                    100% { transform: scale(1); }
+                }
+                
+                .checkout-btn.animated {
+                    animation: pulse 1.5s infinite;
+                    background-color: #dd4444;
+                }
+                
+                .checkout-btn.disabled {
+                    background-color: #444444;
+                    cursor: not-allowed;
+                    box-shadow: none;
+                }
+                
+                /* Modern screen styling */
+                .screen-container {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    margin-bottom: 2.5rem;
+                    position: relative;
+                }
+                
+                .screen-label {
+                    font-size: 0.75rem;
+                    color: var(--color-text-secondary);
+                    margin-bottom: 0.75rem;
+                    font-weight: 500;
+                    letter-spacing: 1px;
+                }
+                
+                .screen-line {
+                    width: 80%;
+                    height: 4px;
+                    background-color: #444444;
+                    border-radius: 2px;
+                    position: relative;
+                    overflow: hidden;
+                }
+                
+                .screen-glow {
+                    position: absolute;
+                    top: -4px;
+                    left: 0;
+                    width: 100%;
+                    height: 12px;
+                    background: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 100%);
+                    animation: glow 2s infinite;
+                }
+                
+                @keyframes glow {
+                    0% { opacity: 0.2; }
+                    50% { opacity: 0.8; }
+                    100% { opacity: 0.2; }
+                }
+                
+                /* Fix for bottom padding color */
+                body {
+                    background-color: #171717;
+                    padding-bottom: 80px;
+                }
+            </style>
+        `);
+    </script>
+</body>
+</html>
