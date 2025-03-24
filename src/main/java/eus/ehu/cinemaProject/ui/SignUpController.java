@@ -3,15 +3,11 @@ package eus.ehu.cinemaProject.ui;
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 public class SignUpController {
-
-    @FXML
-    private Button loginButton;
 
     @FXML
     private PasswordField passwordField;
