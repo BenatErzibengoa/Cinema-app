@@ -1,11 +1,17 @@
-module eus.ehu.cinemaproject {
+module eus.ehu.cinemaProject {
     requires javafx.controls;
     requires javafx.fxml;
 
     requires org.kordamp.bootstrapfx.core;
+    requires jakarta.persistence;
+    requires org.hibernate.orm.core;
+    requires org.apache.logging.log4j;
+    requires com.h2database;
 
-    opens eus.ehu.cinemaproject to javafx.fxml;
-    exports eus.ehu.cinemaproject;
-    exports eus.ehu.cinemaproject.ui;
-    opens eus.ehu.cinemaproject.ui to javafx.fxml;
+    opens eus.ehu.cinemaProject.domain to org.hibernate.orm.core;
+    opens eus.ehu.cinemaProject.domain.users to org.hibernate.orm.core;
+    opens eus.ehu.cinemaProject.ui to javafx.fxml;
+
+    exports eus.ehu.cinemaProject.ui;
+
 }

@@ -1,4 +1,4 @@
-package eus.ehu.cinemaproject.ui;
+package eus.ehu.cinemaProject.ui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

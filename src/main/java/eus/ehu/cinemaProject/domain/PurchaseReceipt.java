@@ -1,6 +1,6 @@
-package eus.ehu.cinemaproject.domain;
+package eus.ehu.cinemaProject.domain;
 
-import eus.ehu.cinemaproject.domain.users.Customer;
+import eus.ehu.cinemaProject.domain.users.Customer;
 
 import java.util.Date;
 

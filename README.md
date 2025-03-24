@@ -2,7 +2,7 @@
 * * *
 ### Members of DirtyCode team:
 - Viktoria Andrushkiv
-- Beñat Erzibengoa
+- Beñat Ercibengoa
 - Laura Rodríguez
 - Théo Rolland
 - Ekhi Ugarte
