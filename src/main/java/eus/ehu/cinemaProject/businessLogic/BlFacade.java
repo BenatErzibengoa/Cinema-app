@@ -16,6 +16,7 @@ public interface BlFacade  {
      * @return User if login successful, null otherwise
      */
     User login(String username, String password, String role);
+    void signUp(String email, String password);
 
 
 }

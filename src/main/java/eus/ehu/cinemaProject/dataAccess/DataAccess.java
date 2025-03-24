@@ -101,6 +101,13 @@ public class DataAccess {
         return user;
     }
 
+    public void signUp(String userName, String password){
+        User user = new User(userName, password, "Customer");
+        db.getTransaction().begin();
+        db.persist(user);
+        db.getTransaction().commit();
+    }
+
 
     private void generateTestingData() {
 
