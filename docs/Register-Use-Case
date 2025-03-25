@@ -13,6 +13,7 @@ Main Flow:
 5- The user will be redirected to the login page
 
 
+
 Alternative flows:
 
 2.A- If the credentials are incorrect, the system displays an error message indicating invalid username or password.
