@@ -19,7 +19,6 @@ class Worker{
 }
 
 class Admin{
-    -??
 }
 
 class Cinema{
@@ -125,7 +124,7 @@ ShowTime "*" -- "1" Film: shows >
 Film "1" -- "*" Review: has >
 Film "*" -- "*" Genre : categorized by >
 
-PurchaseReceipt "0..1" -- "0..1" Review: has >
+PurchaseReceipt "1" -- "*" Seat: has >
 PurchaseReceipt "*" -- "1" Film: associated with >
 PurchaseReceipt "*" -- "1" OrderStatus : has >
 PurchaseReceipt "*" -- "*" FoodOrder: has >
