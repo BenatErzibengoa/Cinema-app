@@ -25,14 +25,15 @@ rectangle "Cinema Reservation Manager" {
     (Purchase Ticket Online) as UC4
     (Order Snacks) as UC5
     (Request Cancel Ticket) as UC6
-    (Accept Ticket Cancelation) as UC15
     (Provide Reviews) as UC7
     (See Client Reservations) as UC8
-    (Manage Movies and Show Times) as UC10
-    (Manage Projection Rooms) as UC11
-   ' (Generate Revenue Report) as UC12
-    (Manage Workers) as UC13
-    (Purchase Ticket in Person) as UC14
+    (Manage Movies and Show Times) as UC9
+    (Manage Projection Rooms) as UC10
+   ' (Generate Revenue Report) as UC
+    (Hire Workers) as UC11
+    (Fire Workers) as UC12
+    (Purchase Ticket in Person) as UC13
+    (Accept Ticket Cancelation) as UC14
 
     ' User interactions
     U --> UC2
@@ -46,8 +47,8 @@ rectangle "Cinema Reservation Manager" {
 
     ' Worker interactions
     Worker --> UC8
+    Worker --> UC13
     Worker --> UC14
-    Worker --> UC15
 
     ' Extend relationship for ordering snacks
     UC4 ..> UC5 : <<extends>>
@@ -56,9 +57,9 @@ rectangle "Cinema Reservation Manager" {
     end note
 
     ' Admin interactions
+    Admin --> UC9
     Admin --> UC10
+    Admin --> UC12
     Admin --> UC11
- '   Admin --> UC12
-    Admin --> UC13
 }
 @enduml
