@@ -1,10 +1,9 @@
 
 @startuml
 class User{
-  -id: int
-  -username: String
+  -id: String
+  -name: String
   -email: String
-  -password: String
 
 }
 
@@ -108,10 +107,10 @@ enum SeatType{
 
 User <|-- Customer: is a
 User <|-- Worker: is a
-Worker <|-- Admin: is a
+Worker<|-- Admin: is a
 
 Customer "1" -- "*" PurchaseReceipt: has >
-Cinema "1" -- "1" ScreeningRoom: has >
+Cinema "1" -- "*" ScreeningRoom: has >
 Cinema "1" -- "1" Cinema: singleton
 Cinema "1" -- "1" Admin: has
 
