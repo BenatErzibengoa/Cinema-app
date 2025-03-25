@@ -1,4 +1,4 @@
-package eus.ehu.cinemaproject.domain;
+package eus.ehu.cinemaProject.domain;
 
 import java.util.List;
 

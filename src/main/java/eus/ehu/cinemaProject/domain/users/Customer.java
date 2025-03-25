@@ -1,6 +1,6 @@
-package eus.ehu.cinemaproject.domain.users;
+package eus.ehu.cinemaProject.domain.users;
 
-import eus.ehu.cinemaproject.domain.PurchaseReceipt;
+import eus.ehu.cinemaProject.domain.PurchaseReceipt;
 
 import java.util.List;
 
