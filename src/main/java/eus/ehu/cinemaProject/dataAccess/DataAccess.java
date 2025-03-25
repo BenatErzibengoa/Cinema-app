@@ -85,12 +85,12 @@ public class DataAccess {
         }
     }
 
-    public User login(String userName, String password, String role){
+    public User login(String email, String password, String role){
         User user;
         try{
             this.open();
-            TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.userName = ?1 AND u.password = ?2 and u.role = ?3", User.class);
-            query.setParameter(1, userName);
+            TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.email = ?1 AND u.password = ?2 and u.role = ?3", User.class);
+            query.setParameter(1, email);
             query.setParameter(2, password);
             query.setParameter(3, role);
             user = query.getSingleResult();
@@ -103,6 +103,7 @@ public class DataAccess {
 
 
     private void generateTestingData() {
+        /*
 
         User teacher1 = new User("john.smith", "pass123", "Teacher");
         User teacher2 = new User("mary.jones", "pass456", "Teacher");
@@ -122,7 +123,7 @@ public class DataAccess {
         db.persist(student3);
         db.persist(admin1);
         db.persist(admin2);
-
+        */
     }
 
 

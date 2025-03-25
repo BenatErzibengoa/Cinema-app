@@ -1,5 +1,7 @@
 package eus.ehu.cinemaProject.domain;
 
+import jakarta.persistence.OneToMany;
+
 import java.util.List;
 
 public class Film {
@@ -8,5 +10,6 @@ public class Film {
     private int duration;
     private String description;
     private List<Genre> genre;
+    @OneToMany
     private List<Review> reviews;
 }
