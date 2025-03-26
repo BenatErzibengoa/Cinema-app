@@ -10,13 +10,11 @@ public interface BlFacade  {
 
     /**
      * Attempts to log in a user with the given credentials
-     * @param username the username
+     * @param email the username
      * @param password the password
-     * @param role the role of the user
      * @return User if login successful, null otherwise
      */
-    User login(String username, String password, String role);
-    void signUp(String email, String password);
+    User login(String email, String password);
 
 
 }
