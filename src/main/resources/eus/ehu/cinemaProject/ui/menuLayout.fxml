@@ -7,17 +7,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.paint.LinearGradient?>
-<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <BorderPane fx:id="contentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.MenuController">
    <top>
-      <HBox alignment="CENTER_RIGHT" prefHeight="47.0" prefWidth="600.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER_RIGHT" prefHeight="47.0" prefWidth="600.0" style="-fx-background-color: rgba(0,0,0,0.8);" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="60.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="35.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
@@ -25,36 +22,20 @@
                   <Image url="@logo.png" />
                </image>
             </ImageView>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="CineFlix">
+            <Text fill="#c01530" strokeType="OUTSIDE" strokeWidth="0.0" text=" CineFlix">
                <HBox.margin>
                   <Insets right="295.0" />
                </HBox.margin>
-               <fill>
-                  <LinearGradient endX="0.07575759020718653" endY="1.0" startX="1.0" startY="1.0">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color red="1.0" />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color red="1.0" green="1.0" blue="1.0" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </LinearGradient>
-               </fill>
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Text>
-            <Button mnemonicParsing="false" onAction="#loginPane" text="Login">
+            <Button mnemonicParsing="false" onAction="#loginPane" style="-fx-background-color: rgba(0,0,0,0); -fx-border-color: #aaa; -fx-border-radius: 3px;" text="Login" textFill="WHITE">
                <HBox.margin>
                   <Insets right="30.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#registerPane" text="Register" />
+            <Button mnemonicParsing="false" onAction="#registerPane" style="-fx-background-color: #c01530;" text="Register" textFill="WHITE" />
          </children>
          <padding>
             <Insets left="20.0" right="20.0" />
@@ -62,6 +43,6 @@
       </HBox>
    </top>
    <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #171717;" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>
