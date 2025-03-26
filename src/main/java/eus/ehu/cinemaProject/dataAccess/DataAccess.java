@@ -103,10 +103,16 @@ public class DataAccess {
     }
 
     public void signUp(String email, String password, String name, String surname){
+        this.open();
+
         User user = new Customer(email,password,name,surname);
-        db.getTransaction().begin();
+        if (!db.getTransaction().isActive()) {
+            db.getTransaction().begin();
+        }
         db.persist(user);
         db.getTransaction().commit();
+
+        this.close();
     }
 
 

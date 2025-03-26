@@ -26,7 +26,7 @@ public class SignUpController {
     private PasswordField passwordField2;
 
     @FXML
-    private TextField surenameField;
+    private TextField surnameField;
 
     BlFacadeImplementation bl;
 
@@ -37,7 +37,7 @@ public class SignUpController {
         message.setText("");
         message.setStyle("-fx-text-fill: red; -fx-alignment: center;");
 
-        if(nameField.getText().isEmpty()||surenameField.getText().isEmpty()||emailField.getText().isEmpty()||passwordField.getText().isEmpty()||passwordField2.getText().isEmpty()){
+        if(nameField.getText().isEmpty()||surnameField.getText().isEmpty()||emailField.getText().isEmpty()||passwordField.getText().isEmpty()||passwordField2.getText().isEmpty()){
             message.setText("Fill all fields");
 
         } else if(!validateEmail(emailField.getText())){
@@ -47,12 +47,12 @@ public class SignUpController {
         } else if (!passwordField.getText().equals(passwordField2.getText())) {
             message.setText("Passwords do not match");
 
-        } else if (passwordField.getText().length()<8) {
-            message.setText("Password must be at least 8 characters long");
+        } else if (passwordField.getText().length()<5) {
+            message.setText("Password must be at least 5 characters long");
 
         }else {
-            bl.signUp(nameField.getText(), surenameField.getText(), emailField.getText(), passwordField.getText());
-            message.setText("You've successfully registered! Welcome "+nameField.getText()+"!");
+            bl.signUp(emailField.getText(), passwordField.getText(), nameField.getText(), surnameField.getText());
+            message.setText("You've successfully registered! Welcome, "+nameField.getText()+"!");
             message.setStyle("-fx-text-fill: green; -fx-alignment: center;");
         }
 

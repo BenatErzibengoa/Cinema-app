@@ -11,6 +11,15 @@
         <property name="hibernate.physical_naming_strategy">org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl</property>
         <!-- mapping class="eus.ehu.template.domain.Access"/ -->
         <mapping class="eus.ehu.cinemaProject.domain.users.User"/>
+        <mapping class="eus.ehu.cinemaProject.domain.users.Customer"/>
+        <mapping class="eus.ehu.cinemaProject.domain.users.Worker"/>
+
+        <mapping class="eus.ehu.cinemaProject.domain.Cinema"/>
+        <mapping class="eus.ehu.cinemaProject.domain.Film"/>
+        <mapping class="eus.ehu.cinemaProject.domain.PurchaseReceipt"/>
+        <mapping class="eus.ehu.cinemaProject.domain.Review"/>
+
+
 
 
     </session-factory>
