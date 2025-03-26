@@ -1,9 +1,16 @@
 package eus.ehu.cinemaProject.domain;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "seats")
+
 public class Seat {
-    private ScreeningRoom room;
+    @Id
     private String seatId;
     private double price;
+    @OneToMany (mappedBy = "seats")
+    private ShowTime showTime;
     private SeatType type;
 
     private void setPrice(){
@@ -14,8 +21,8 @@ public class Seat {
         }
     }
 
-    public Seat(ScreeningRoom room, String seatId, SeatType type){
-        this.room = room;
+    public Seat(ShowTime showTime, String seatId, SeatType type){
+        this.showTime = showTime;
         this.seatId = seatId;
         this.type = type;
         setPrice();

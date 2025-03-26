@@ -85,17 +85,17 @@ public class DataAccess {
         }
     }
 
-    public User login(String userName, String password, String role){
+    public User login(String email, String password){
         User user;
         try{
             this.open();
-            TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.userName = ?1 AND u.password = ?2 and u.role = ?3", User.class);
-            query.setParameter(1, userName);
+            TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.email = ?1 AND u.password = ?2", User.class);
+            query.setParameter(1, email);
             query.setParameter(2, password);
-            query.setParameter(3, role);
             user = query.getSingleResult();
             this.close();
         }catch(NoResultException e){
+            System.out.println(String.format("There are no results with %s %s email and password", email, password));
             user = null;
         }
         return user;
@@ -103,6 +103,22 @@ public class DataAccess {
 
 
     private void generateTestingData() {
+        User user1 = new User("bercibengoa001@ikasle.ehu.eus", "12345678", "Beñat", "Ercibengoa");
+        User user2 = new User("vandrushkiv001@ikasle.ehu.eus", "87654321", "Viktoria", "Andrushkiv ");
+        User user3 = new User("trolland001@ikasle.ehu.eus", "abcdefghi", "Théo", "Rolland");
+        User user4 = new User("lrodriguez154@ikasle.ehu.eus", "12345678", "Laura", "Rodríguez");
+        User user5 = new User("ekhi100@ikasle.ehu.eus", "111222333g", "Ekhi", "?");
+
+        db.persist(user1);
+        db.persist(user2);
+        db.persist(user3);
+        db.persist(user4);
+        db.persist(user5);
+
+
+        /*
+
+        User user = new User("bengoaerzi@gmail.com", "12345678", "Beñat", "Erzibengoa");
 
         User teacher1 = new User("john.smith", "pass123", "Teacher");
         User teacher2 = new User("mary.jones", "pass456", "Teacher");
@@ -122,7 +138,7 @@ public class DataAccess {
         db.persist(student3);
         db.persist(admin1);
         db.persist(admin2);
-
+        */
     }
 
 

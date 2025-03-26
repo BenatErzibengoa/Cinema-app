@@ -11,11 +11,10 @@ public class SignInController {
     @FXML
     private Button loginButton;
     @FXML
-    private TextField usernameField;
+    private TextField emailField;
     @FXML
     private TextField passwordField;
-    @FXML
-    private ComboBox<String> roleCombo;
+
     @FXML
     private Label outputText;
 
@@ -23,7 +22,6 @@ public class SignInController {
 
     @FXML
     void initialize(){
-        roleCombo.getItems().addAll("Teacher", "Student", "Administrative");
         bl = BlFacadeImplementation.getInstance();
         outputText.setVisible(false);
     }
@@ -32,8 +30,8 @@ public class SignInController {
     @FXML
     void login(){
         if(checkLogin()) {
-            if(bl.login(usernameField.getText(), passwordField.getText(), roleCombo.getValue()) != null){
-                outputText.setText("Login successful! Welcome %s".formatted(usernameField.getText()));
+            if(bl.login(emailField.getText(), passwordField.getText()) != null){
+                outputText.setText("Login successful! Welcome %s".formatted(emailField.getText()));
                 outputText.setStyle("-fx-text-fill: green;");
             }
             else{
@@ -50,6 +48,6 @@ public class SignInController {
 
 
     public boolean checkLogin(){
-        return !usernameField.getText().isEmpty()  && !passwordField.getText().isEmpty() && roleCombo.getValue() != null;
+        return !emailField.getText().isEmpty()  && !passwordField.getText().isEmpty();
     }
 }
