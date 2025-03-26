@@ -30,9 +30,9 @@ rectangle "Cinema Reservation Manager" {
     (Manage Movies and Show Times) as UC9
     (Manage Projection Rooms) as UC10
    ' (Generate Revenue Report) as UC
-    (Hire Workers) as UC11
-    (Fire Workers) as UC12
-    (Purchase Ticket in Person) as UC13
+    (Hire Worker) as UC11
+    (Fire Worker) as UC12
+    (Sell Ticket in Person) as UC13
     (Accept Ticket Cancelation) as UC14
 
     ' User interactions
