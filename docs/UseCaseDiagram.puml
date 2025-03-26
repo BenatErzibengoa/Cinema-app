@@ -2,47 +2,64 @@
 skinparam actorStyle awesome
 left to right direction
 
-actor User
+' Define all actors
+actor User as U
 actor Customer
 actor Worker
 actor Admin
 
-Customer --|> User
-Worker --|> User
+' Move "User" behind other actors
+U -[hidden]-> Customer
+U -[hidden]-> Worker
+U -[hidden]-> Admin
+
+' Define generalizations
+Customer --|> U
+Worker --|> U
 Admin --|> Worker
 
 rectangle "Cinema Reservation Manager" {
     (Register) as UC1
     (Login) as UC2
     (Browse Movies) as UC3
-    (Purchase Ticket) as UC4
+    (Purchase Ticket Online) as UC4
     (Order Snacks) as UC5
-    (Cancel Ticket) as UC6
+    (Request Cancel Ticket) as UC6
     (Provide Reviews) as UC7
     (See Client Reservations) as UC8
-    (Manage Movies and Show Times) as UC10
-    (Manage Projection Rooms) as UC11
-    (Generate Revenue Report) as UC12
-    (Track Food Inventory) as UC13
-    (Handle Ticket Purchase) as UC14
+    (Manage Movies and Show Times) as UC9
+    (Manage Projection Rooms) as UC10
+   ' (Generate Revenue Report) as UC
+    (Hire Workers) as UC11
+    (Fire Workers) as UC12
+    (Purchase Ticket in Person) as UC13
+    (Accept Ticket Cancelation) as UC14
 
-    User --> UC1
-    User --> UC2
+    ' User interactions
+    U --> UC2
 
-    Customer --> UC6
-    Customer --> UC7
+    ' Customer interactions
+    Customer --> UC1
     Customer --> UC3
     Customer --> UC4
+    Customer --> UC6
+    Customer --> UC7
 
-    Worker --> UC6
+    ' Worker interactions
     Worker --> UC8
-    Worker --> UC5
+    Worker --> UC13
     Worker --> UC14
-    UC5 ..> UC4 : <<extends>>
 
+    ' Extend relationship for ordering snacks
+    UC4 ..> UC5 : <<extends>>
+    note on link
+       Customer has the option to order snacks
+    end note
+
+    ' Admin interactions
+    Admin --> UC9
     Admin --> UC10
-    Admin --> UC11
     Admin --> UC12
-    Admin --> UC13
+    Admin --> UC11
 }
 @enduml
