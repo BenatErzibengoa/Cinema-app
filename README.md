@@ -20,6 +20,7 @@ Then, we divided the project into tasks and assigned them to each member; as som
 were more demanding than others, we tried to balance the workload by assigning two members to those tasks.
 
 All of us worked concurrently on the requirements' analysis and gave feedback to each other via GitHub's
-project issues. After being on the same page, we started coding the first prototype of the main menu.
+project issues. After being on the same page, we started coding the first prototype of the main menu with a 
+BorderLayout, and gave it a style, as well as putting the attributes of the classes that we had defined.
 
 
