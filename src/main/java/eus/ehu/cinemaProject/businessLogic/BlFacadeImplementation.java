@@ -27,8 +27,8 @@ public class BlFacadeImplementation implements BlFacade {
             dbManager.initializeDB();
     }
 
-    public User login(String name, String password, String role){
-        return dbManager.login(name, password, role);
+    public User login(String name, String password){
+        return dbManager.login(name, password);
     }
 
 }

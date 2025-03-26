@@ -85,14 +85,13 @@ public class DataAccess {
         }
     }
 
-    public User login(String userName, String password, String role){
+    public User login(String userName, String password){
         User user;
         try{
             this.open();
-            TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.userName = ?1 AND u.password = ?2 and u.role = ?3", User.class);
+            TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.userName = ?1 AND u.password = ?2", User.class);
             query.setParameter(1, userName);
             query.setParameter(2, password);
-            query.setParameter(3, role);
             user = query.getSingleResult();
             this.close();
         }catch(NoResultException e){
@@ -104,15 +103,15 @@ public class DataAccess {
 
     private void generateTestingData() {
 
-        User teacher1 = new User("john.smith", "pass123", "Teacher");
-        User teacher2 = new User("mary.jones", "pass456", "Teacher");
+        User teacher1 = new User("john.smith", "pass123");
+        User teacher2 = new User("mary.jones", "pass456");
 
-        User student1 = new User("alex.brown", "student123", "Student");
-        User student2 = new User("sarah.wilson", "student456", "Student");
-        User student3 = new User("mike.davis", "student789", "Student");
+        User student1 = new User("alex.brown", "student123");
+        User student2 = new User("sarah.wilson", "student456");
+        User student3 = new User("mike.davis", "student789");
 
-        User admin1 = new User("admin.main", "admin123", "Administrative");
-        User admin2 = new User("jane.doe", "admin456", "Administrative");
+        User admin1 = new User("admin.main", "admin123");
+        User admin2 = new User("jane.doe", "admin456");
 
 
         db.persist(teacher1);

@@ -16,13 +16,13 @@ public class MenuController {
 
     @FXML
     void loginPane(ActionEvent event) {
-        loadContent("signin.fxml");
+        loadContent("sign_in.fxml");
 
     }
 
     @FXML
     void registerPane(ActionEvent event) {
-        loadContent("signup.fxml");
+        loadContent("sign_up.fxml");
     }
 
     private Map<String, AnchorPane> contentCache = new HashMap<>();

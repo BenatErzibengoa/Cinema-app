@@ -3,7 +3,6 @@ package eus.ehu.cinemaProject.ui;
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -15,15 +14,12 @@ public class SignInController {
     @FXML
     private TextField passwordField;
     @FXML
-    private ComboBox<String> roleCombo;
-    @FXML
     private Label outputText;
 
     BlFacadeImplementation bl;
 
     @FXML
     void initialize(){
-        roleCombo.getItems().addAll("Teacher", "Student", "Administrative");
         bl = BlFacadeImplementation.getInstance();
         outputText.setVisible(false);
     }
@@ -32,7 +28,7 @@ public class SignInController {
     @FXML
     void login(){
         if(checkLogin()) {
-            if(bl.login(usernameField.getText(), passwordField.getText(), roleCombo.getValue()) != null){
+            if(bl.login(usernameField.getText(), passwordField.getText()) != null){
                 outputText.setText("Login successful! Welcome %s".formatted(usernameField.getText()));
                 outputText.setStyle("-fx-text-fill: green;");
             }
@@ -50,6 +46,6 @@ public class SignInController {
 
 
     public boolean checkLogin(){
-        return !usernameField.getText().isEmpty()  && !passwordField.getText().isEmpty() && roleCombo.getValue() != null;
+        return !usernameField.getText().isEmpty()  && !passwordField.getText().isEmpty();
     }
 }

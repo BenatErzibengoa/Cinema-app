@@ -12,6 +12,5 @@
         <!-- mapping class="eus.ehu.template.domain.Access"/ -->
         <mapping class="eus.ehu.cinemaProject.domain.users.User"/>
 
-
     </session-factory>
 </hibernate-configuration>

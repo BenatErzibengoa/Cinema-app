@@ -19,7 +19,6 @@ class Worker{
 }
 
 class Admin{
-    -??
 }
 
 class Cinema{
@@ -55,12 +54,14 @@ class Film{
 }
 
 class Review{
+  -reviewId: int
   -opinion: String
   -rating: int
 }
 
 class Seat{
-  -seatId: String
+  -row: int
+  -seatNum: int
   -price: double
 }
 

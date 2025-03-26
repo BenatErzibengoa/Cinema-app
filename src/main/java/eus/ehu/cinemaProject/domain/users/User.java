@@ -3,7 +3,8 @@ import jakarta.persistence.*;
 
 
 @Entity
-@Table(name = "users")
+@Table(name = "USERS")
+//@DiscriminatorColumn(name = "USER_TYPE", discriminatorType = DiscriminatorType.STRING)
 public class User {
 
 
@@ -20,9 +21,6 @@ public class User {
         private String password;
 
 
-        @Column(nullable = false)
-        private String role;
-
 
         // Default constructor
         public User() {
@@ -30,10 +28,9 @@ public class User {
 
 
         // Constructor with fields
-        public User(String userName, String password, String role) {
+        public User(String userName, String password) {
                 this.userName = userName;
                 this.password = password;
-                this.role = role;
         }
 
 
@@ -68,22 +65,12 @@ public class User {
         }
 
 
-        public String getRole() {
-                return role;
-        }
-
-
-        public void setRole(String role) {
-                this.role = role;
-        }
-
 
         @Override
         public String toString() {
                 return "User{" +
                         "id=" + id +
                         ", userName='" + userName + '\'' +
-                        ", role='" + role + '\'' +
                         '}';
         }
 }
