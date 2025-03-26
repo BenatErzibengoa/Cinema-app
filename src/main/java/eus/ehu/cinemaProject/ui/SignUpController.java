@@ -14,9 +14,6 @@ public class SignUpController {
     private TextField emailField;
 
     @FXML
-    private Button loginButton;
-
-    @FXML
     private Label message;
 
     @FXML
@@ -54,8 +51,8 @@ public class SignUpController {
             message.setText("Password must be at least 8 characters long");
 
         }else {
-           // bl.signUp(nameField.getText(), surenameField.getText(), emailField.getText(), passwordField.getText());
-            message.setText("You've successfully registered!");
+            bl.signUp(nameField.getText(), surenameField.getText(), emailField.getText(), passwordField.getText());
+            message.setText("You've successfully registered! Welcome "+nameField.getText()+"!");
             message.setStyle("-fx-text-fill: green; -fx-alignment: center;");
         }
 

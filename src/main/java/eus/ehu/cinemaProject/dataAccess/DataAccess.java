@@ -1,6 +1,7 @@
 package eus.ehu.cinemaProject.dataAccess;
 
 import eus.ehu.cinemaProject.configuration.Config;
+import eus.ehu.cinemaProject.domain.users.Customer;
 import eus.ehu.cinemaProject.domain.users.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -101,8 +102,8 @@ public class DataAccess {
         return user;
     }
 
-    public void signUp(String userName, String password){
-        User user = new User(userName, password, "Customer");
+    public void signUp(String email, String password, String name, String surname){
+        User user = new Customer(email,password,name,surname);
         db.getTransaction().begin();
         db.persist(user);
         db.getTransaction().commit();
