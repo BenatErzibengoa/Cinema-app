@@ -1,12 +1,16 @@
 package eus.ehu.cinemaProject.domain;
 
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "seats")
 
 public class Seat {
-    @OneToMany (mappedBy = "seats")
-    private ShowTime showTime;
+    @Id
     private String seatId;
     private double price;
+    @OneToMany (mappedBy = "seats")
+    private ShowTime showTime;
     private SeatType type;
 
     private void setPrice(){

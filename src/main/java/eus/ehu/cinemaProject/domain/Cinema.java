@@ -3,10 +3,10 @@ package eus.ehu.cinemaProject.domain;
 import eus.ehu.cinemaProject.domain.users.Admin;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-
 import java.util.List;
 
 public class Cinema {
+
     private String name;
     private String address;
     private int phoneNumber;

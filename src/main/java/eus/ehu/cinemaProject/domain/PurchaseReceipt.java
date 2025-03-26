@@ -1,11 +1,15 @@
 package eus.ehu.cinemaProject.domain;
 
 import eus.ehu.cinemaProject.domain.users.Customer;
-import jakarta.persistence.ManyToOne;
-
+import jakarta.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table(name = "purchasereceipts")
 public class PurchaseReceipt {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Date orderDate;
     private double totalAmount;
     @ManyToOne
