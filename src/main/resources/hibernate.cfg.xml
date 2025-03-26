@@ -20,7 +20,5 @@
         <mapping class="eus.ehu.cinemaProject.domain.Review"/>
 
 
-
-
     </session-factory>
 </hibernate-configuration>
