@@ -3,7 +3,9 @@ import jakarta.persistence.*;
 
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "users")
+@DiscriminatorColumn(name = "ROLE", discriminatorType = DiscriminatorType.STRING)
 public class User {
 
         @Id
