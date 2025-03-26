@@ -1,4 +1,5 @@
 package eus.ehu.cinemaProject.ui;
+import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,10 +15,17 @@ public class MenuController {
     @FXML
     private BorderPane contentPane;
 
+    BlFacadeImplementation bl;
+
+
+    @FXML void initialize(){
+        bl = BlFacadeImplementation.getInstance();
+    }
+
+
     @FXML
     void loginPane(ActionEvent event) {
         loadContent("signin.fxml");
-
     }
 
     @FXML
