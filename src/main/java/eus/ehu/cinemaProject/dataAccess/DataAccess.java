@@ -1,8 +1,14 @@
 package eus.ehu.cinemaProject.dataAccess;
 
 import eus.ehu.cinemaProject.configuration.Config;
+import eus.ehu.cinemaProject.domain.Cinema;
+import eus.ehu.cinemaProject.domain.Film;
+import eus.ehu.cinemaProject.domain.Genre;
+import eus.ehu.cinemaProject.domain.PurchaseReceipt;
+import eus.ehu.cinemaProject.domain.users.Admin;
 import eus.ehu.cinemaProject.domain.users.Customer;
 import eus.ehu.cinemaProject.domain.users.User;
+import eus.ehu.cinemaProject.domain.users.Worker;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
@@ -11,6 +17,9 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 public class DataAccess {
@@ -117,6 +126,67 @@ public class DataAccess {
 
 
     private void generateTestingData() {
+
+        Cinema cinema = new Cinema("Cineflix", "Bilbo", 688861291);
+
+        Admin admin = new Admin("juanan.pereira@ehu.eus", "admin1234", "Juanan", "Pereira", 2500);
+
+        Worker worker1 = new Worker("bercibengoa001@ikasle.ehu.eus", "12345678", "Beñat", "Ercibengoa", 2000);
+        Worker worker2 = new Worker("vandrushkiv001@ikasle.ehu.eus", "87654321", "Viktoria", "Andrushkiv", 2000);
+        Worker worker3 = new Worker("trolland001@ikasle.ehu.eus", "abcdefghi", "Théo", "Rolland", 2000);
+        Worker worker4 = new Worker("lrodriguez154@ikasle.ehu.eus", "12345678", "Laura", "Rodríguez", 2000);
+        Worker worker5 = new Worker("eugarte001@ikasle.ehu.eus", "111222333g", "Ekhi", "Ugarte", 2000);
+
+        Customer customer1 = new Customer("aitor@gmail.com", "11111", "Aitor", "Elizondo");
+        Customer customer2 = new Customer("amaia@gmail.com", "22222", "Amaia", "Susperregi");
+        Customer customer3 = new Customer("uxue@gmail.com", "33333", "Uxue", "Etxebeste");
+
+        List<Genre> genreList1 = new ArrayList<>();
+        genreList1.add(Genre.DRAMA);
+        Film film1 = new Film("The Godfather", "Francis Ford Coppola", 1972,
+                "A cinematic masterpiece directed by Francis Ford Coppola",
+                genreList1);
+
+        List<Genre> genreList2 = new ArrayList<>();
+        genreList2.add(Genre.ACTION);
+        genreList2.add(Genre.ADVENTURE);
+        Film film2 = new Film("Die Hard", "John McTiernan", 1988,
+                "An action-packed thriller directed by John McTiernan",
+                genreList2);
+
+
+
+        PurchaseReceipt purchaseReceipt1 = new PurchaseReceipt(new Date(), 75, 100.5, customer1, film1);
+        PurchaseReceipt purchaseReceipt2 = new PurchaseReceipt(new Date(), 17, 100.5, customer1, film2);
+        PurchaseReceipt purchaseReceipt3 = new PurchaseReceipt(new Date(), 23, 100.5, customer2, film2);
+        PurchaseReceipt purchaseReceipt4 = new PurchaseReceipt(new Date(), 11, 100.5, customer3, film2);
+
+
+
+        db.persist(cinema);
+        db.persist(admin);
+
+        db.persist(admin);
+
+        db.persist(worker1);
+        db.persist(worker2);
+        db.persist(worker3);
+        db.persist(worker4);
+        db.persist(worker5);
+
+        db.persist(customer1);
+        db.persist(customer2);
+        db.persist(customer3);
+
+        db.persist(film1);
+        db.persist(film2);
+
+        db.persist(purchaseReceipt1);
+        db.persist(purchaseReceipt2);
+        db.persist(purchaseReceipt3);
+
+        /*
+
         User user1 = new User("bercibengoa001@ikasle.ehu.eus", "12345678", "Beñat", "Ercibengoa");
         User user2 = new User("vandrushkiv001@ikasle.ehu.eus", "87654321", "Viktoria", "Andrushkiv ");
         User user3 = new User("trolland001@ikasle.ehu.eus", "abcdefghi", "Théo", "Rolland");
