@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "screeningrooms")
@@ -12,9 +11,13 @@ import java.util.Set;
 public class ScreeningRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int roomNumber;
-    @ManyToMany
-    private List<ShowTime> screenings;
+    private long id;
+
+    @OneToMany
+    private List<ShowTime> screening;
+
+    @ManyToOne
+    private Cinema cinema;
     private Date openingTime;
     private Date closingTime;
 }

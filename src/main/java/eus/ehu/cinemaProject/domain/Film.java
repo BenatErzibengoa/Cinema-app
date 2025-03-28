@@ -15,4 +15,14 @@ public class Film {
     private List<Genre> genre;
     @OneToMany (mappedBy = "reviewedFilm")
     private List<Review> reviews;
+
+    public Film(String title, String director, int duration, String description, List<Genre> genre) {
+        this.title = title;
+        this.director = director;
+        this.duration = duration;
+        this.description = description;
+        this.genre = genre;
+    }
+    public Film(){}
+
 }

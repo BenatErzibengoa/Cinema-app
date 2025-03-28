@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "customers")
-@DiscriminatorValue("CUSTOMER")
+@DiscriminatorValue("Customer")
 public class Customer extends User {
     private int points;
     private double totalBalance;

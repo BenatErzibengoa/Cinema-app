@@ -9,7 +9,7 @@ public class Seat {
     @Id
     private String seatId;
     private double price;
-    @OneToMany (mappedBy = "seats")
+    @ManyToOne
     private ShowTime showTime;
     private SeatType type;
 
@@ -21,10 +21,13 @@ public class Seat {
         }
     }
 
+
     public Seat(ShowTime showTime, String seatId, SeatType type){
         this.showTime = showTime;
         this.seatId = seatId;
         this.type = type;
         setPrice();
     }
+    public Seat(){}
+
 }

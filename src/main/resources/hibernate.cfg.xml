@@ -7,17 +7,23 @@
         <property name="hibernate.connection.driver_class">org.h2.Driver</property>
         <property name="hibernate.connection.url">jdbc:h2:~/db;AUTO_SERVER=TRUE;</property>
         <property name="hibernate.show_sql">true</property>
-        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.hbm2ddl.auto">create</property>
         <property name="hibernate.physical_naming_strategy">org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl</property>
         <!-- mapping class="eus.ehu.template.domain.Access"/ -->
         <mapping class="eus.ehu.cinemaProject.domain.users.User"/>
         <mapping class="eus.ehu.cinemaProject.domain.users.Customer"/>
         <mapping class="eus.ehu.cinemaProject.domain.users.Worker"/>
+        <mapping class="eus.ehu.cinemaProject.domain.users.Admin"/>
 
         <mapping class="eus.ehu.cinemaProject.domain.Cinema"/>
+        <mapping class="eus.ehu.cinemaProject.domain.ScreeningRoom"/>
+        <mapping class="eus.ehu.cinemaProject.domain.ShowTime"/>
         <mapping class="eus.ehu.cinemaProject.domain.Film"/>
         <mapping class="eus.ehu.cinemaProject.domain.PurchaseReceipt"/>
         <mapping class="eus.ehu.cinemaProject.domain.Review"/>
+        <mapping class="eus.ehu.cinemaProject.domain.Seat"/>
+
+
 
 
     </session-factory>
