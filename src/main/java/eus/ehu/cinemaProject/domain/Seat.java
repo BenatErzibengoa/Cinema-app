@@ -11,6 +11,9 @@ public class Seat {
     private double price;
     @ManyToOne
     private ShowTime showTime;
+
+    @ManyToOne
+    private ScreeningRoom screeningRoom;
     private SeatType type;
 
     private void setPrice(){
@@ -22,11 +25,12 @@ public class Seat {
     }
 
 
-    public Seat(ShowTime showTime, String seatId, SeatType type){
-        this.showTime = showTime;
+    public Seat(ScreeningRoom screeningRoom, String seatId, SeatType type){
+        this.screeningRoom = screeningRoom;
         this.seatId = seatId;
         this.type = type;
         setPrice();
+
     }
     public Seat(){}
 

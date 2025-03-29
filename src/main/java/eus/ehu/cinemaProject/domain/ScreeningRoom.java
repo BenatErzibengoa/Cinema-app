@@ -2,6 +2,7 @@ package eus.ehu.cinemaProject.domain;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,14 +11,44 @@ import java.util.List;
 
 public class ScreeningRoom {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long roomNumber;
 
     @OneToMany
     private List<ShowTime> screening;
 
+    @OneToMany (mappedBy = "screeningRoom")
+    private List<Seat> seats = new ArrayList<Seat>();
+
+
     @ManyToOne
     private Cinema cinema;
-    private Date openingTime;
-    private Date closingTime;
+
+    public List<Seat> getSeats() {
+        return seats;
+    }
+
+
+    public ScreeningRoom(Cinema cinema, int roomNumber){
+        this.cinema = cinema;
+        this.roomNumber = roomNumber;
+        //Room.Row.Seat
+        for(int i = 1; i <= 10; i++){
+            Seat seat = new Seat(this, String.format("%s.%s.%s", roomNumber, 1, i), SeatType.NORMAL);
+            seats.add(seat);
+        }
+        for(int i = 11; i <= 20; i++){
+            Seat seat = new Seat(this, String.format("%s.%s.%s", roomNumber, 2, i), SeatType.NORMAL);
+            seats.add(seat);
+        }
+        for(int i = 21; i <= 30; i++){
+            Seat seat = new Seat(this, String.format("%s.%s.%s", roomNumber, 3, i), SeatType.COMFORTABLE);
+            seats.add(seat);
+        }
+        for(int i = 31; i <= 40; i++){
+            Seat seat = new Seat(this, String.format("%s.%s.%s", roomNumber, 4, i), SeatType.PREMIUM);
+            seats.add(seat);
+        }
+    }
+
+    public ScreeningRoom() {}
 }
