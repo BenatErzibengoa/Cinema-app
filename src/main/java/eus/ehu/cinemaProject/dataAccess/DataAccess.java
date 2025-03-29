@@ -1,10 +1,7 @@
 package eus.ehu.cinemaProject.dataAccess;
 
 import eus.ehu.cinemaProject.configuration.Config;
-import eus.ehu.cinemaProject.domain.Cinema;
-import eus.ehu.cinemaProject.domain.Film;
-import eus.ehu.cinemaProject.domain.Genre;
-import eus.ehu.cinemaProject.domain.PurchaseReceipt;
+import eus.ehu.cinemaProject.domain.*;
 import eus.ehu.cinemaProject.domain.users.Admin;
 import eus.ehu.cinemaProject.domain.users.Customer;
 import eus.ehu.cinemaProject.domain.users.User;
@@ -127,7 +124,7 @@ public class DataAccess {
 
     private void generateTestingData() {
 
-        Cinema cinema = new Cinema("Cineflix", "Bilbo", 688861291);
+        Cinema cinema = new Cinema("Cineflix", "Bilbo", 688861291, new Date(), new Date());
 
         Admin admin = new Admin("juanan.pereira@ehu.eus", "admin1234", "Juanan", "Pereira", 2500);
 
@@ -154,13 +151,13 @@ public class DataAccess {
                 "An action-packed thriller directed by John McTiernan",
                 genreList2);
 
+        ScreeningRoom screeningRoom1 = new ScreeningRoom(cinema,1);
 
 
         PurchaseReceipt purchaseReceipt1 = new PurchaseReceipt(new Date(), 75, 100.5, customer1, film1);
         PurchaseReceipt purchaseReceipt2 = new PurchaseReceipt(new Date(), 17, 100.5, customer1, film2);
         PurchaseReceipt purchaseReceipt3 = new PurchaseReceipt(new Date(), 23, 100.5, customer2, film2);
         PurchaseReceipt purchaseReceipt4 = new PurchaseReceipt(new Date(), 11, 100.5, customer3, film2);
-
 
 
         db.persist(cinema);
@@ -184,47 +181,14 @@ public class DataAccess {
         db.persist(purchaseReceipt1);
         db.persist(purchaseReceipt2);
         db.persist(purchaseReceipt3);
+        db.persist(purchaseReceipt4);
 
-        /*
+        db.persist(screeningRoom1);
+        for(Seat seat: screeningRoom1.getSeats()){
+            db.persist(seat);
+        }
 
-        User user1 = new User("bercibengoa001@ikasle.ehu.eus", "12345678", "Beñat", "Ercibengoa");
-        User user2 = new User("vandrushkiv001@ikasle.ehu.eus", "87654321", "Viktoria", "Andrushkiv ");
-        User user3 = new User("trolland001@ikasle.ehu.eus", "abcdefghi", "Théo", "Rolland");
-        User user4 = new User("lrodriguez154@ikasle.ehu.eus", "12345678", "Laura", "Rodríguez");
-        User user5 = new User("ekhi100@ikasle.ehu.eus", "111222333g", "Ekhi", "?");
-
-        db.persist(user1);
-        db.persist(user2);
-        db.persist(user3);
-        db.persist(user4);
-        db.persist(user5);
-
-
-        /*
-
-        User user = new User("bengoaerzi@gmail.com", "12345678", "Beñat", "Erzibengoa");
-
-        User teacher1 = new User("john.smith", "pass123", "Teacher");
-        User teacher2 = new User("mary.jones", "pass456", "Teacher");
-
-        User student1 = new User("alex.brown", "student123", "Student");
-        User student2 = new User("sarah.wilson", "student456", "Student");
-        User student3 = new User("mike.davis", "student789", "Student");
-
-        User admin1 = new User("admin.main", "admin123", "Administrative");
-        User admin2 = new User("jane.doe", "admin456", "Administrative");
-
-
-        db.persist(teacher1);
-        db.persist(teacher2);
-        db.persist(student1);
-        db.persist(student2);
-        db.persist(student3);
-        db.persist(admin1);
-        db.persist(admin2);
-        */
     }
-
 
 
     public void close() {
