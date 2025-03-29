@@ -153,11 +153,30 @@ public class DataAccess {
 
         ScreeningRoom screeningRoom1 = new ScreeningRoom(cinema,1);
 
+        List<Seat> seatSelection1 = new ArrayList<>();
+        List<Seat> seatSelection2 = new ArrayList<>();
+        List<Seat> seatSelection3 = new ArrayList<>();
+        List<Seat> seatSelection4 = new ArrayList<>();
 
-        PurchaseReceipt purchaseReceipt1 = new PurchaseReceipt(new Date(), 75, 100.5, customer1, film1);
-        PurchaseReceipt purchaseReceipt2 = new PurchaseReceipt(new Date(), 17, 100.5, customer1, film2);
-        PurchaseReceipt purchaseReceipt3 = new PurchaseReceipt(new Date(), 23, 100.5, customer2, film2);
-        PurchaseReceipt purchaseReceipt4 = new PurchaseReceipt(new Date(), 11, 100.5, customer3, film2);
+        for(int i = 0; i < 3; i++){
+            seatSelection1.add(screeningRoom1.getSeats().get(i));
+        }
+        for(int i = 21; i < 25; i++){
+            seatSelection2.add(screeningRoom1.getSeats().get(i));
+        }
+        for(int i = 28; i < 35; i++){
+            seatSelection3.add(screeningRoom1.getSeats().get(i));
+        }
+        for(int i = 37; i < 38; i++){
+            seatSelection4.add(screeningRoom1.getSeats().get(i));
+        }
+
+
+
+        PurchaseReceipt purchaseReceipt1 = new PurchaseReceipt(new Date(),   customer1, film1, seatSelection1);
+        PurchaseReceipt purchaseReceipt2 = new PurchaseReceipt(new Date(),  customer1, film2, seatSelection2);
+        PurchaseReceipt purchaseReceipt3 = new PurchaseReceipt(new Date(),  customer2, film2, seatSelection3);
+        PurchaseReceipt purchaseReceipt4 = new PurchaseReceipt(new Date(),  customer3, film2, seatSelection4);
 
 
         db.persist(cinema);
