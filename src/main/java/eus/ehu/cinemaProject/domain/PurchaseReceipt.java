@@ -2,7 +2,10 @@ package eus.ehu.cinemaProject.domain;
 
 import eus.ehu.cinemaProject.domain.users.Customer;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "purchasereceipts")
@@ -19,23 +22,34 @@ public class PurchaseReceipt {
     private OrderStatus status = OrderStatus.RESERVED;
     @ManyToOne
     private Review review;
+    @OneToMany
+    private List<Seat> bookedSeats = new ArrayList<>();
 
-    public PurchaseReceipt(Date orderDate, double totalAmount, Customer customer, Film film) {
+    public PurchaseReceipt(Date orderDate, Customer customer, Film film, List<Seat> bookedSeats) {
         this.orderDate = orderDate;
-        this.totalAmount = totalAmount;
         this.customer = customer;
         this.film = film;
         this.status = OrderStatus.RESERVED;
+        this.bookedSeats = bookedSeats;
+        this.totalAmount = getSeatAmount() + getFoodAmount();
     }
 
     public PurchaseReceipt(){}
 
-    public PurchaseReceipt(Date date, int i, double v, Customer customer1, Film film1) {
-        this(date, v, customer1, film1);
+    public double getSeatAmount(){
+        double amount = 0;
+        for(Seat bookedSeat : bookedSeats){
+            amount += bookedSeat.getPrice();
+        }
+        return amount;
     }
 
     /*
     TODO: Implement FoodOrder and Quantity
      */
+
+    public double getFoodAmount(){
+        return 0;
+    }
 
 }
