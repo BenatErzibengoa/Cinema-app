@@ -9,8 +9,8 @@ public class Seat {
     @Id
     private String seatId;
     private double price;
-    @ManyToOne
-    private ShowTime showTime;
+
+
 
     @ManyToOne
     private ScreeningRoom screeningRoom;
