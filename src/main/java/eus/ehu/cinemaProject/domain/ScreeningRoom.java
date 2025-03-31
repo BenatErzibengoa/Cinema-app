@@ -19,6 +19,9 @@ public class ScreeningRoom {
     @OneToMany (mappedBy = "screeningRoom")
     private List<Seat> seats = new ArrayList<Seat>();
 
+    @OneToMany (mappedBy = "screeningRoom")
+    private List<ShowTime> showTimes;
+
 
     @ManyToOne
     private Cinema cinema;
