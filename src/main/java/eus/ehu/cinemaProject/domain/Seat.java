@@ -7,9 +7,10 @@ import jakarta.persistence.*;
 
 public class Seat {
     @Id
-    @Column(nullable = false, unique = true)
     private String seatId;
     private double price;
+
+
 
     @ManyToOne
     private ScreeningRoom screeningRoom;

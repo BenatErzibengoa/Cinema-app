@@ -158,8 +158,8 @@ public class DataAccess {
         ScreeningRoom screeningRoom1 = new ScreeningRoom(cinema,1);
         ScreeningRoom screeningRoom2 = new ScreeningRoom(cinema,2);
 
-        ShowTime showTime1 = new ShowTime(new Date(), screeningRoom1, film1);
-        ShowTime showTime2 = new ShowTime(new Date(), screeningRoom2, film2);
+        ShowTime showTime1 = new ShowTime(screeningRoom1, new Date(), film1);
+        ShowTime showTime2 = new ShowTime(screeningRoom2, new Date(), film2);
 
         List<Seat> seatSelection1 = new ArrayList<>();
         List<Seat> seatSelection2 = new ArrayList<>();
@@ -213,8 +213,8 @@ public class DataAccess {
             db.persist(seat);
         }
 
-        //db.persist(showTime1);
-        //db.persist(showTime2);
+        db.persist(showTime1);
+        db.persist(showTime2);
 
 
         db.persist(purchaseReceipt1);

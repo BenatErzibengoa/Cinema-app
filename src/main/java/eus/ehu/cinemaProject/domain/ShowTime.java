@@ -8,35 +8,34 @@ import java.util.Set;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "seats")
+@Table(name = "showtimes")
 
 public class ShowTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @ManyToOne
+    private ScreeningRoom screeningRoom;
+
     private Date screeningTime;
     @OneToMany
     private Set<Seat> bookedSeats;
-    @ManyToOne
-    private ScreeningRoom screeningRoom;
+
     @ManyToOne
     private Film film;
 
-    public ShowTime(Date date, ScreeningRoom screeningRoom, Film film){
-        this.screeningTime = date;
+    public ShowTime(ScreeningRoom screeningRoom, Date screeningTime, Film film){
         this.screeningRoom = screeningRoom;
+        this.screeningTime = screeningTime;
         this.film = film;
         this.bookedSeats = new HashSet<>();
     }
 
-    public ShowTime(){}
-
-    public void bookSeats(List<Seat> seats){
-        for(Seat seat: seats){
-            bookedSeats.add(seat);
-        }
+    public void bookSeats(List<Seat> seatsToBook){
+        bookedSeats.addAll(seatsToBook);
     }
 
+    public ShowTime(){}
 
 }
