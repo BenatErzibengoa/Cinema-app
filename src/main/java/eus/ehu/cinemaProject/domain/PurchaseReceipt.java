@@ -18,20 +18,22 @@ public class PurchaseReceipt {
     @ManyToOne
     private Customer customer;
     @ManyToOne
-    private Film film;
+    private ShowTime showtime;
     private OrderStatus status = OrderStatus.RESERVED;
     @ManyToOne
     private Review review;
     @OneToMany
     private List<Seat> bookedSeats = new ArrayList<>();
 
-    public PurchaseReceipt(Date orderDate, Customer customer, Film film, List<Seat> bookedSeats) {
+    public PurchaseReceipt(Date orderDate, Customer customer, ShowTime showtime, List<Seat> bookedSeats) {
         this.orderDate = orderDate;
         this.customer = customer;
-        this.film = film;
+        this.showtime = showtime;
         this.status = OrderStatus.RESERVED;
         this.bookedSeats = bookedSeats;
         this.totalAmount = getSeatAmount() + getFoodAmount();
+        //Book the seats
+        this.showtime.bookSeats(bookedSeats);
     }
 
     public PurchaseReceipt(){}
@@ -43,6 +45,7 @@ public class PurchaseReceipt {
         }
         return amount;
     }
+
 
     /*
     TODO: Implement FoodOrder and Quantity

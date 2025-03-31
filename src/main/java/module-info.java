@@ -5,8 +5,10 @@ module eus.ehu.cinemaProject {
     requires org.kordamp.bootstrapfx.core;
     requires jakarta.persistence;
     requires org.hibernate.orm.core;
-    requires org.apache.logging.log4j;
     requires com.h2database;
+    requires org.apache.logging.log4j.core;
+    requires org.apache.logging.log4j;
+
 
     opens eus.ehu.cinemaProject.domain to org.hibernate.orm.core;
     opens eus.ehu.cinemaProject.domain.users to org.hibernate.orm.core;
