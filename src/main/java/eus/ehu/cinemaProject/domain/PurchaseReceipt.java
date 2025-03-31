@@ -18,20 +18,22 @@ public class PurchaseReceipt {
     @ManyToOne
     private Customer customer;
     @ManyToOne
-    private Film film;
+    private ShowTime showTime;
+
     private OrderStatus status = OrderStatus.RESERVED;
     @ManyToOne
     private Review review;
     @OneToMany
     private List<Seat> bookedSeats = new ArrayList<>();
 
-    public PurchaseReceipt(Date orderDate, Customer customer, Film film, List<Seat> bookedSeats) {
+    public PurchaseReceipt(Date orderDate, Customer customer, ShowTime showTime, List<Seat> bookedSeats) {
         this.orderDate = orderDate;
         this.customer = customer;
-        this.film = film;
+        this.showTime = showTime;
         this.status = OrderStatus.RESERVED;
         this.bookedSeats = bookedSeats;
         this.totalAmount = getSeatAmount() + getFoodAmount();
+        this.showTime.bookSeats(bookedSeats);
     }
 
     public PurchaseReceipt(){}
