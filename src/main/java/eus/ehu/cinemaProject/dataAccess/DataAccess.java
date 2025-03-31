@@ -13,14 +13,18 @@ import jakarta.persistence.TypedQuery;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 
+
+
 public class DataAccess {
 
+    private static final Logger logger = LogManager.getLogger(DataAccess.class);
     protected EntityManager db;
     protected EntityManagerFactory emf;
 
@@ -39,17 +43,17 @@ public class DataAccess {
 
         Config config = Config.getInstance();
 
-        System.out.println("Opening DataAccess instance => isDatabaseLocal: " +
+        logger.info("Opening DataAccess instance => isDatabaseLocal: " +
                 config.isDataAccessLocal() + " getDatabBaseOpenMode: " + config.getDataBaseOpenMode());
 
         String fileName = config.getDatabaseName();
         if (initializeMode) {
             fileName = fileName + ";drop";
-            System.out.println("Deleting the DataBase");
+            logger.info("Deleting the DataBase");
         }
 
         if (config.isDataAccessLocal()) {
-            System.out.println("Loading Hibernate configuration...");
+            logger.info("Loading Hibernate configuration...");
             final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                     .configure() // configures settings from hibernate.cfg.xml
                     .build();
@@ -63,7 +67,7 @@ public class DataAccess {
             }
 
             db = emf.createEntityManager();
-            System.out.println("DataBase opened");
+            logger.info("DataBase opened");
         }
     }
 
@@ -84,7 +88,7 @@ public class DataAccess {
             generateTestingData();
 
             db.getTransaction().commit();
-            System.out.println("The database has been initialized");
+            logger.info("The database has been initialized");
 
 
         } catch (Exception e) {
@@ -100,11 +104,11 @@ public class DataAccess {
             query.setParameter(1, email);
             query.setParameter(2, password);
             user = query.getSingleResult();
-            this.close();
         }catch(NoResultException e){
-            System.out.println(String.format("There are no results with %s %s email and password", email, password));
+            logger.info(String.format("There are no results with %s %s email and password", email, password));
             user = null;
         }
+        this.close();
         return user;
     }
 
@@ -152,6 +156,10 @@ public class DataAccess {
                 genreList2);
 
         ScreeningRoom screeningRoom1 = new ScreeningRoom(cinema,1);
+        ScreeningRoom screeningRoom2 = new ScreeningRoom(cinema,2);
+
+        ShowTime showTime1 = new ShowTime(screeningRoom1, new Date(), film1);
+        ShowTime showTime2 = new ShowTime(screeningRoom2, new Date(), film2);
 
         List<Seat> seatSelection1 = new ArrayList<>();
         List<Seat> seatSelection2 = new ArrayList<>();
@@ -171,12 +179,10 @@ public class DataAccess {
             seatSelection4.add(screeningRoom1.getSeats().get(i));
         }
 
-
-
-        PurchaseReceipt purchaseReceipt1 = new PurchaseReceipt(new Date(),   customer1, film1, seatSelection1);
-        PurchaseReceipt purchaseReceipt2 = new PurchaseReceipt(new Date(),  customer1, film2, seatSelection2);
-        PurchaseReceipt purchaseReceipt3 = new PurchaseReceipt(new Date(),  customer2, film2, seatSelection3);
-        PurchaseReceipt purchaseReceipt4 = new PurchaseReceipt(new Date(),  customer3, film2, seatSelection4);
+        PurchaseReceipt purchaseReceipt1 = new PurchaseReceipt(new Date(),   customer1, showTime1, seatSelection1);
+        PurchaseReceipt purchaseReceipt2 = new PurchaseReceipt(new Date(),  customer1, showTime2, seatSelection2);
+        PurchaseReceipt purchaseReceipt3 = new PurchaseReceipt(new Date(),  customer2, showTime2, seatSelection3);
+        PurchaseReceipt purchaseReceipt4 = new PurchaseReceipt(new Date(),  customer3, showTime2, seatSelection4);
 
 
         db.persist(cinema);
@@ -197,22 +203,35 @@ public class DataAccess {
         db.persist(film1);
         db.persist(film2);
 
+        db.persist(screeningRoom1);
+        db.persist(screeningRoom2);
+
+        for(Seat seat: screeningRoom1.getSeats()){
+            db.persist(seat);
+        }
+        for(Seat seat: screeningRoom1.getSeats()){
+            db.persist(seat);
+        }
+
+        db.persist(showTime1);
+        db.persist(showTime2);
+
+
         db.persist(purchaseReceipt1);
         db.persist(purchaseReceipt2);
         db.persist(purchaseReceipt3);
         db.persist(purchaseReceipt4);
 
-        db.persist(screeningRoom1);
-        for(Seat seat: screeningRoom1.getSeats()){
-            db.persist(seat);
-        }
+
+
+
 
     }
 
 
     public void close() {
         db.close();
-        System.out.println("DataBase is closed");
+        logger.info("DataBase is closed");
     }
 
 }
