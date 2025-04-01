@@ -50,7 +50,9 @@ public class Schedule {
     public Schedule(){}
 
     //Given a film starting time and the film duration, if it is possible, it will set the film in the schedule of the ScreeningRoom
-    public void setShowTime(LocalTime filmStartingTime, LocalTime duration){
+    public void setShowTime(ShowTime showtime){
+        LocalTime filmStartingTime = showtime.getScreeningTime();
+        LocalTime duration = showtime.getFilm().getDuration();
         if(isFilmInBounds(filmStartingTime, duration) && isBetweenBoundsFree(filmStartingTime, duration) ){
             int bound1 = filmStartTimeScheduleIndex(filmStartingTime);
             int bound2 = filmEndTimeScheduleIndex(bound1, duration);
