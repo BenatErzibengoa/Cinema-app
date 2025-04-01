@@ -1,21 +1,20 @@
-//WORKS
 package eus.ehu.cinemaProject.domain;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class Schedule {
 
     private LocalTime openingTime;
-    private LocalTime endingTime;
+    private LocalTime closingTime;
     private int size;
     private boolean schedule[];
 
 
     public static void main(String[] args) {
-        Schedule schedule = new Schedule(LocalTime.of(16, 00), LocalTime.of(23, 59));
+        Schedule schedule = new Schedule(LocalTime.of(16, 00), LocalTime.of(01, 30));
         schedule.setFilm(LocalTime.of(12,30), LocalTime.of(2,15));
         schedule.setFilm(LocalTime.of(16,00), LocalTime.of(2,15));
         schedule.setFilm(LocalTime.of(18,45), LocalTime.of(4,22));
@@ -23,17 +22,30 @@ public class Schedule {
     }
 
 
-    public Schedule(LocalTime openingTime, LocalTime endingTime) {
+    public Schedule(LocalTime openingTime, LocalTime closingTime) {
         this.openingTime = openingTime;
-        this.endingTime = endingTime;
-        Duration duration = Duration.between(openingTime, endingTime);
-        this.size = (int)duration.toHours() * 4 + duration.toMinutesPart()/15;
+        this.closingTime = closingTime;
+        //The date will be made up. We don't care about what day is it, we will only use it to treat the case in which closingTime passes 23:59
+        LocalDateTime openingDateTime;
+        LocalDateTime closingDateTime;
+
+        openingDateTime = LocalDateTime.of(2025, 1, 1, openingTime.getHour(), openingTime.getMinute());
+        //If closingTime is after 23:59, add a day to closingTime
+        if(closingTime.isBefore(openingTime)){
+            closingDateTime = LocalDateTime.of(2025, 1, 2, closingTime.getHour(), closingTime.getMinute());
+        }
+        else{
+            closingDateTime = LocalDateTime.of(2025, 1, 1, closingTime.getHour(), closingTime.getMinute());
+        }
+        Duration openDuration = Duration.between(openingDateTime, closingDateTime);
+        this.size = (int) openDuration.toMinutes() / 15;
         schedule = new boolean[size];
         setAllFree();
     }
 
+    //Given a film starting time and the film duration, if it is possible, it will set the film in the schedule of the ScreeningRoom
     public void setFilm(LocalTime filmStartingTime, LocalTime duration){
-        if(isFilmInBounds(filmStartingTime, duration) && isBoundFree(filmStartingTime, duration) ){
+        if(isFilmInBounds(filmStartingTime, duration) && isBetweenBoundsFree(filmStartingTime, duration) ){
             int bound1 = filmStartTimeScheduleIndex(filmStartingTime);
             int bound2 = filmEndTimeScheduleIndex(bound1, duration);
             bookBetweenBounds(bound1, bound2);
@@ -43,17 +55,22 @@ public class Schedule {
         }
     }
 
+    //Given a film starting time and the film duration, it will determine if the film is between openingTime and closingTime
     public boolean isFilmInBounds(LocalTime filmStartingTime, LocalTime duration){
         int filmEndingTimeInMinutes = filmStartingTime.toSecondOfDay() / 60 + duration.toSecondOfDay() / 60;
-        int closingTimeInMinutes = endingTime.toSecondOfDay() / 60;
-
+        int closingTimeInMinutes = closingTime.toSecondOfDay() / 60;
+        // If closingTime is after 23:59, then add 1440 minutes (one day)
+        if(closingTime.isBefore(openingTime)){
+            closingTimeInMinutes += 1440;
+        }
         LocalTime filmEndingTime = LocalTime.of((filmEndingTimeInMinutes / 60) % 24, filmEndingTimeInMinutes % 60); //Only for debugging
         System.out.println(String.format("Film starting time: %s, Film ending time: %s", filmStartingTime.toString(), filmEndingTime.toString())); //Only for debugging
         //Ending time is treated differently to catch the cases in which time exceeds the day (>23:59)
-        return areOrdered(openingTime, filmStartingTime) && filmEndingTimeInMinutes < closingTimeInMinutes;
+        return openingTime.isBefore(filmStartingTime) && filmEndingTimeInMinutes < closingTimeInMinutes;
     }
 
-    public boolean isBoundFree(LocalTime filmStartingTime, LocalTime duration){
+    //Given a film and the film duration, it will determine if there are no other films set at the same time
+    public boolean isBetweenBoundsFree(LocalTime filmStartingTime, LocalTime duration){
         int startingIndex = filmStartTimeScheduleIndex(filmStartingTime);
         int endingIndex = filmEndTimeScheduleIndex(startingIndex, duration);
         for(int i = startingIndex; i < endingIndex + 1; i++){
@@ -64,6 +81,7 @@ public class Schedule {
         return true;
     }
 
+    //Given a startingIndex and endingIndex, it will book every 15 minutes frame between those bounds
     //If a film finishes at 17:00, we will book also 17:00 in order to have a minimum of 15 minutes between film and film
     public void bookBetweenBounds(int startingIndex, int endingIndex){
         for (int i = startingIndex; i < endingIndex + 1; i++) {
@@ -71,28 +89,27 @@ public class Schedule {
         }
     }
 
+    //Given a film starting time, it will determine which index represents that starting time
     public int filmStartTimeScheduleIndex(LocalTime filmStartingTime){
         int differenceInMinutes = (filmStartingTime.toSecondOfDay() / 60) - (openingTime.toSecondOfDay()/60); //Difference between cinema opening time and film starting time
         int startingTimeIndex = (int)Math.ceil(differenceInMinutes / 15.0); //Number of schedule[] index
         return startingTimeIndex;
     }
 
+    //Given a film starting time index and the film duration, it will determine which index represents the finishing time
     public int filmEndTimeScheduleIndex(int startingTimeIndex, LocalTime duration){
         int indexesToJump = (int)Math.ceil((duration.toSecondOfDay() /60 )/ 15.0);
         return startingTimeIndex + indexesToJump;
     }
 
-
-    public boolean areOrdered(LocalTime time1, LocalTime time2){
-        return Duration.between(time1,time2).toMinutes() >= 0;
-    }
-
+    //It sets every 15 minutes frame as free
     public void setAllFree() {
         for (int i = 0; i < size; i++) {
             schedule[i] = false;
         }
     }
 
+    //It prints weather every 15 minutes frame is free or not: false --> free
     public void printAllReserves(){
         LocalTime time = openingTime;
         for(Boolean isReserved: schedule){
