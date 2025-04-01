@@ -1,22 +1,24 @@
 package eus.ehu.cinemaProject.domain;
 
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.List;
 
 @Entity
+@Table(name = "schedules")
 public class Schedule {
 
     @EmbeddedId
     private ScheduleId id;
 
-    @ManyToOne
-    private ScreeningRoom screeningRoom;
+
+    @OneToMany
+    private List<ShowTime> showTimes;
 
     private LocalTime openingTime;
     private LocalTime closingTime;
@@ -24,10 +26,8 @@ public class Schedule {
     private boolean schedule[];
 
 
-
-    public Schedule(Date date, ScreeningRoom screeningRoom) {
+    public Schedule(LocalDate date, ScreeningRoom screeningRoom) {
         this.id = new ScheduleId(date, screeningRoom);
-        this.screeningRoom = screeningRoom;
         this.openingTime = screeningRoom.getCinema().getOpeningTime();
         this.closingTime = screeningRoom.getCinema().getClosingTime();
 
@@ -50,7 +50,7 @@ public class Schedule {
     public Schedule(){}
 
     //Given a film starting time and the film duration, if it is possible, it will set the film in the schedule of the ScreeningRoom
-    public void setFilm(LocalTime filmStartingTime, LocalTime duration){
+    public void setShowTime(LocalTime filmStartingTime, LocalTime duration){
         if(isFilmInBounds(filmStartingTime, duration) && isBetweenBoundsFree(filmStartingTime, duration) ){
             int bound1 = filmStartTimeScheduleIndex(filmStartingTime);
             int bound2 = filmEndTimeScheduleIndex(bound1, duration);
@@ -122,6 +122,10 @@ public class Schedule {
             System.out.println(time + ": " + isReserved);
             time = time.plusMinutes(15);
         }
+    }
+
+    public LocalDate getDate(){
+        return id.getDate();
     }
 
 }
