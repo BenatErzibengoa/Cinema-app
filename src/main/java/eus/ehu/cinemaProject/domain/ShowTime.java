@@ -22,6 +22,7 @@ public class ShowTime {
 
     private LocalDate screeningDate;
     private LocalTime screeningTime;
+
     @OneToMany
     private Set<Seat> bookedSeats;  //It is a set because we will not fetch any specific seat from this set, it will only be used for .contains(seat) by a controller
 
@@ -45,5 +46,8 @@ public class ShowTime {
     }
 
     public ShowTime(){}
+
+    public LocalTime getScreeningTime(){return this.screeningTime;}
+    public Film getFilm(){return film;}
 
 }
