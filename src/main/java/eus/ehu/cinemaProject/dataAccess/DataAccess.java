@@ -168,6 +168,10 @@ public class DataAccess {
         ShowTime showTime1 = new ShowTime(screeningRoom1, schedule1, LocalTime.of(17, 00), film1);
         ShowTime showTime2 = new ShowTime(screeningRoom2, schedule2, LocalTime.of(18, 30), film2);
 
+
+        schedule1.setShowTime(showTime1);
+        schedule2.setShowTime(showTime2);
+
         List<Seat> seatSelection1 = new ArrayList<>();
         List<Seat> seatSelection2 = new ArrayList<>();
         List<Seat> seatSelection3 = new ArrayList<>();
