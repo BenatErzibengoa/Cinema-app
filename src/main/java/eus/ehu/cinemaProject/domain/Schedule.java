@@ -1,11 +1,22 @@
 package eus.ehu.cinemaProject.domain;
 
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Date;
 
-
+@Entity
 public class Schedule {
+
+    @EmbeddedId
+    private ScheduleId id;
+
+    @ManyToOne
+    private ScreeningRoom screeningRoom;
 
     private LocalTime openingTime;
     private LocalTime closingTime;
@@ -13,23 +24,16 @@ public class Schedule {
     private boolean schedule[];
 
 
-    public static void main(String[] args) {
-        Schedule schedule = new Schedule(LocalTime.of(16, 00), LocalTime.of(01, 30));
-        schedule.setFilm(LocalTime.of(12,30), LocalTime.of(2,15));
-        schedule.setFilm(LocalTime.of(16,00), LocalTime.of(2,15));
-        schedule.setFilm(LocalTime.of(18,45), LocalTime.of(4,22));
-        schedule.printAllReserves();
-    }
 
+    public Schedule(Date date, ScreeningRoom screeningRoom) {
+        this.id = new ScheduleId(date, screeningRoom);
+        this.screeningRoom = screeningRoom;
+        this.openingTime = screeningRoom.getCinema().getOpeningTime();
+        this.closingTime = screeningRoom.getCinema().getClosingTime();
 
-    public Schedule(LocalTime openingTime, LocalTime closingTime) {
-        this.openingTime = openingTime;
-        this.closingTime = closingTime;
         //The date will be made up. We don't care about what day is it, we will only use it to treat the case in which closingTime passes 23:59
-        LocalDateTime openingDateTime;
+        LocalDateTime openingDateTime = LocalDateTime.of(2025, 1, 1, openingTime.getHour(), openingTime.getMinute());
         LocalDateTime closingDateTime;
-
-        openingDateTime = LocalDateTime.of(2025, 1, 1, openingTime.getHour(), openingTime.getMinute());
         //If closingTime is after 23:59, add a day to closingTime
         if(closingTime.isBefore(openingTime)){
             closingDateTime = LocalDateTime.of(2025, 1, 2, closingTime.getHour(), closingTime.getMinute());
@@ -42,6 +46,8 @@ public class Schedule {
         schedule = new boolean[size];
         setAllFree();
     }
+
+    public Schedule(){}
 
     //Given a film starting time and the film duration, if it is possible, it will set the film in the schedule of the ScreeningRoom
     public void setFilm(LocalTime filmStartingTime, LocalTime duration){
