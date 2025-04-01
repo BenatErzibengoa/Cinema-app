@@ -53,11 +53,13 @@ public class Schedule {
     public void setShowTime(ShowTime showtime){
         LocalTime filmStartingTime = showtime.getScreeningTime();
         LocalTime duration = showtime.getFilm().getDuration();
-        if(isFilmInBounds(filmStartingTime, duration) && isBetweenBoundsFree(filmStartingTime, duration) ){
+        if(isFilmInBounds(filmStartingTime, duration)){
             if(isBetweenBoundsFree(filmStartingTime, duration)){
                 int bound1 = filmStartTimeScheduleIndex(filmStartingTime);
                 int bound2 = filmEndTimeScheduleIndex(bound1, duration);
                 bookBetweenBounds(bound1, bound2);
+                System.out.println("Successfully reserved at: " + filmStartingTime + " - " + filmStartingTime.plusMinutes(duration.toSecondOfDay() / 60));
+                printAllReserves();
             }
             else{
                 System.out.println("This ScreeningRoom is not empty between " + filmStartingTime + " - " + filmStartingTime.plusMinutes(duration.toSecondOfDay() / 60));
