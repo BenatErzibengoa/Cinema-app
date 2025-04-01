@@ -1,14 +1,16 @@
 package eus.ehu.cinemaProject.domain;
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.ManyToOne;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
 @Embeddable
 public class ScheduleId implements Serializable {
 
-    private Date date;
+    private LocalDate date;
 
     @ManyToOne
     private ScreeningRoom screeningRoom;
@@ -17,13 +19,13 @@ public class ScheduleId implements Serializable {
     public ScheduleId() {}
 
 
-    public ScheduleId(Date date, ScreeningRoom screeningRoom) {
+    public ScheduleId(LocalDate date, ScreeningRoom screeningRoom) {
         this.date = date;
         this.screeningRoom = screeningRoom;
     }
 
-    public Date getDate() { return date; }
-    public void setDate(Date date) { this.date = date; }
+    public LocalDate getDate() { return date; }
+    public void setDate(LocalDate date) { this.date = date; }
 
     public ScreeningRoom getScreeningRoom() { return screeningRoom; }
     public void setScreeningRoom(ScreeningRoom screeningRoom) { this.screeningRoom = screeningRoom; }
