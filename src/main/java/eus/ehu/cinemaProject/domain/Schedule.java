@@ -54,12 +54,21 @@ public class Schedule {
         LocalTime filmStartingTime = showtime.getScreeningTime();
         LocalTime duration = showtime.getFilm().getDuration();
         if(isFilmInBounds(filmStartingTime, duration) && isBetweenBoundsFree(filmStartingTime, duration) ){
-            int bound1 = filmStartTimeScheduleIndex(filmStartingTime);
-            int bound2 = filmEndTimeScheduleIndex(bound1, duration);
-            bookBetweenBounds(bound1, bound2);
+            if(isBetweenBoundsFree(filmStartingTime, duration)){
+                int bound1 = filmStartTimeScheduleIndex(filmStartingTime);
+                int bound2 = filmEndTimeScheduleIndex(bound1, duration);
+                bookBetweenBounds(bound1, bound2);
+            }
+            else{
+                System.out.println("This ScreeningRoom is not empty between " + filmStartingTime + " - " + filmStartingTime.plusMinutes(duration.toSecondOfDay() / 60));
+                System.out.println("This is the availability of the ScreeningRoom in " + id.getDate() + ":");
+                printAllReserves();
+            }
         }
         else{
-            System.out.println("Film starting time: " + filmStartingTime + " or duration: " + duration +" are not valid");
+            System.out.println("Film starting time: " + filmStartingTime + " or/and duration: " + duration + " are not valid. Try to match this schedule:");
+            System.out.println("Opening Time: " + openingTime);
+            System.out.println("Closing Time: " + closingTime);
         }
     }
 
