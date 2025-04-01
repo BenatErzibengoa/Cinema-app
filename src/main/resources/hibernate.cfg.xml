@@ -22,6 +22,8 @@
         <mapping class="eus.ehu.cinemaProject.domain.PurchaseReceipt"/>
         <mapping class="eus.ehu.cinemaProject.domain.Review"/>
         <mapping class="eus.ehu.cinemaProject.domain.Seat"/>
+        <mapping class="eus.ehu.cinemaProject.domain.Schedule"/>
+
 
 
 
