@@ -147,14 +147,14 @@ public class DataAccess {
 
         List<Genre> genreList1 = new ArrayList<>();
         genreList1.add(Genre.DRAMA);
-        Film film1 = new Film("The Godfather", "Francis Ford Coppola", 1972,
+        Film film1 = new Film("The Godfather", "Francis Ford Coppola", LocalTime.of(2, 55),
                 "A cinematic masterpiece directed by Francis Ford Coppola",
                 genreList1);
 
         List<Genre> genreList2 = new ArrayList<>();
         genreList2.add(Genre.ACTION);
         genreList2.add(Genre.ADVENTURE);
-        Film film2 = new Film("Die Hard", "John McTiernan", 1988,
+        Film film2 = new Film("Die Hard", "John McTiernan", LocalTime.of(2, 11),
                 "An action-packed thriller directed by John McTiernan",
                 genreList2);
 
