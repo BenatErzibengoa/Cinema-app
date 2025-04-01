@@ -15,6 +15,8 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -159,8 +161,12 @@ public class DataAccess {
         ScreeningRoom screeningRoom1 = new ScreeningRoom(cinema,1);
         ScreeningRoom screeningRoom2 = new ScreeningRoom(cinema,2);
 
-        ShowTime showTime1 = new ShowTime(screeningRoom1, new Date(), film1);
-        ShowTime showTime2 = new ShowTime(screeningRoom2, new Date(), film2);
+        Schedule schedule1 = new Schedule(LocalDate.of(2025, 4, 1), screeningRoom1);
+        Schedule schedule2 = new Schedule(LocalDate.of(2025, 4, 1), screeningRoom2);
+
+
+        ShowTime showTime1 = new ShowTime(screeningRoom1, schedule1, LocalTime.of(17, 00), film1);
+        ShowTime showTime2 = new ShowTime(screeningRoom2, schedule2, LocalTime.of(18, 30), film2);
 
         List<Seat> seatSelection1 = new ArrayList<>();
         List<Seat> seatSelection2 = new ArrayList<>();
@@ -206,6 +212,9 @@ public class DataAccess {
 
         db.persist(screeningRoom1);
         db.persist(screeningRoom2);
+
+        db.persist(schedule1);
+        db.persist(schedule2);
 
         for(Seat seat: screeningRoom1.getSeats()){
             db.persist(seat);
