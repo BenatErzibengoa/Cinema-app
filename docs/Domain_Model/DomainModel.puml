@@ -127,7 +127,7 @@ Film "1" -- "*" Review: has >
 Film "*" -- "*" Genre : categorized by >
 
 PurchaseReceipt "1" -- "*" Seat: has >
-PurchaseReceipt "*" -- "1" Film: associated with >
+PurchaseReceipt "*" -- "1" ShowTime: associated with >
 PurchaseReceipt "*" -- "1" OrderStatus : has >
 PurchaseReceipt "*" -- "*" FoodOrder: has >
 
