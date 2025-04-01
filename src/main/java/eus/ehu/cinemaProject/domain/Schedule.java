@@ -49,7 +49,7 @@ public class Schedule {
 
     public Schedule(){}
 
-    //Given a film starting time and the film duration, if it is possible, it will set the film in the schedule of the ScreeningRoom
+    //Given a showtime if it is possible, it will set the showtime in the schedule of the ScreeningRoom
     public void setShowTime(ShowTime showtime){
         LocalTime filmStartingTime = showtime.getScreeningTime();
         LocalTime duration = showtime.getFilm().getDuration();
