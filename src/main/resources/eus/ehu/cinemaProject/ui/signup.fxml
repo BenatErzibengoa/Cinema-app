@@ -24,6 +24,6 @@
       <Label layoutX="52.0" layoutY="83.0" text="Name and Surname" textFill="WHITE" />
       <Label layoutX="52.0" layoutY="200.0" text="Email Address" textFill="WHITE" />
       <Label layoutX="51.0" layoutY="265.0" text="Password" textFill="WHITE" />
-      <Label fx:id="message" layoutX="49.0" layoutY="444.0" prefHeight="17.0" prefWidth="270.0" />
+      <Label fx:id="message" alignment="TOP_CENTER" layoutX="49.0" layoutY="444.0" prefHeight="44.0" prefWidth="270.0" wrapText="true" />
    </children>
 </AnchorPane>

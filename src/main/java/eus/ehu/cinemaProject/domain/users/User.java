@@ -25,11 +25,9 @@ public class User {
         private String surname;
 
 
-
         // Default constructor
         public User() {
         }
-
 
         // Constructor with fields
         public User(String email, String password, String name, String surname) {
@@ -61,7 +59,6 @@ public class User {
                 return password;
         }
 
-
         public void setPassword(String password) {
                 this.password = password;
         }
@@ -81,8 +78,6 @@ public class User {
         public void setSurname(String surname) {
                 this.surname = surname;
         }
-
-
 
 
         @Override
