@@ -25,7 +25,7 @@ public class SignInController {
 
     @FXML
     void login(){
-        if(checkLogin()) {
+        if(!(emailField.getText().isEmpty() || passwordField.getText().isEmpty())){
             if(bl.login(emailField.getText(), passwordField.getText()) != null){
                 outputText.setText("Login successful! Welcome %s".formatted(emailField.getText()));
                 outputText.setStyle("-fx-text-fill: green;");
@@ -40,10 +40,5 @@ public class SignInController {
             outputText.setStyle("-fx-text-fill: grey;");
         }
         outputText.setVisible(true);
-    }
-
-
-    public boolean checkLogin(){
-        return !emailField.getText().isEmpty()  && !passwordField.getText().isEmpty();
     }
 }
