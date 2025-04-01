@@ -22,6 +22,9 @@ public class ScreeningRoom {
     @OneToMany (mappedBy = "screeningRoom")
     private List<ShowTime> showTimes;
 
+    @OneToMany(mappedBy = "id.screeningRoom")
+    private List<Schedule> schedules;
+
 
     @ManyToOne
     private Cinema cinema;
@@ -54,4 +57,8 @@ public class ScreeningRoom {
     }
 
     public ScreeningRoom() {}
+
+    public Cinema getCinema(){
+        return this.cinema;
+    }
 }
