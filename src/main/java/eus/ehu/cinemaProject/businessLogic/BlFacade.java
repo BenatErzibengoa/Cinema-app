@@ -18,6 +18,13 @@ public interface BlFacade {
     User login(String email, String password);
 
     /**
+     * Returns the user related to the given email
+     *
+     * @param email     the email
+     */
+    User getUserByEmail(String email);
+
+    /**
      * Registers a customer with the given credentials and personal data
      *
      * @param email    the email
@@ -26,5 +33,7 @@ public interface BlFacade {
      * @param surname  the surname
      */
     void signUp(String email, String password, String name, String surname);
+
+
 
 }

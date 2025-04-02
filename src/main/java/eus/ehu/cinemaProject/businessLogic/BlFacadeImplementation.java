@@ -31,8 +31,11 @@ public class BlFacadeImplementation implements BlFacade {
         return dbManager.login(email, password);
     }
 
+    public User getUserByEmail(String email){ return dbManager.getUserByEmail(email);}
+
     public void signUp(String email, String password, String name, String surname){
         dbManager.signUp(email,password,name,surname);
     }
+
 }
 
