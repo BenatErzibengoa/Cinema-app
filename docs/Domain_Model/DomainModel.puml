@@ -25,6 +25,8 @@ class Cinema{
     -name: String
     -address: String
     -phoneNumber: int
+    -openingTime: LocalTime
+    -closingTime: LocalTime
 }
 
 class PurchaseReceipt{
@@ -46,18 +48,17 @@ class FoodOrder{
 
 class ScreeningRoom{
   -roomNumber: int
-  -openingTime: Date
-  -closingTime: Date
 }
 
 class ShowTime{
-  -screeningTime: Date
+  -screeningDate: LocalDate
+  -screeningTime: LocalTime
 }
 
 class Film{
   -title: String
   -director: String
-  -duration: int
+  -duration: LocalTime
   -description: String
 }
 
@@ -122,7 +123,6 @@ Worker<|-- Admin: is a
 
 Customer "1" -- "*" PurchaseReceipt: has >
 Cinema "1" -- "*" ScreeningRoom: has >
-Cinema "1" -- "1" Cinema: singleton
 Cinema "1" -- "1" Admin: has
 Cinema "1" -- "*" Worker: has >
 
