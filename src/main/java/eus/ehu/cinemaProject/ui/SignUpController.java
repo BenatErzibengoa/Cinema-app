@@ -50,7 +50,7 @@ public class SignUpController {
         } else if (passwordField.getText().length()<5) {
             message.setText("Password must be at least 5 characters long");
 
-        } else if(bl.login(emailField.getText(), passwordField.getText()) != null){
+        } else if(bl.getUserByEmail(emailField.getText()) != null){
             message.setText("There is already an account related to "+emailField.getText());
 
         }else {
