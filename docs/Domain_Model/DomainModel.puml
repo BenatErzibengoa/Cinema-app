@@ -29,7 +29,15 @@ class Cinema{
 
 class PurchaseReceipt{
   -orderDate: Date
-  -totalAmount: double
+  -/totalAmount: double
+}
+
+class Schedule{
+  -date: LocalDate
+  -/openingTime: LocalTime
+  -/closingTime: LocalTime
+  -size: int
+  -schedule: boolean[]
 }
 
 class FoodOrder{
@@ -118,8 +126,9 @@ Cinema "1" -- "1" Cinema: singleton
 Cinema "1" -- "1" Admin: has
 Cinema "1" -- "*" Worker: has >
 
-ScreeningRoom "*" -- "*" ShowTime: has >
+ScreeningRoom "1" -- "*" Schedule
 ShowTime "1" -- "*" Seat: has >
+ShowTime "*" -- "1" Schedule
 
 Seat "*" -- "1" SeatType: of >
 ShowTime "*" -- "1" Film: shows >
