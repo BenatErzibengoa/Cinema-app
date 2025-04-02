@@ -114,7 +114,19 @@ public class DataAccess {
         }
         db.persist(user);
         db.getTransaction().commit();
+    }
 
+    public User getUserByEmail(String email){
+        User user;
+        try{
+            TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.email = ?1", User.class);
+            query.setParameter(1, email);
+            user = query.getSingleResult();
+        }catch(NoResultException e){
+            logger.info(String.format("There are no results with %s email", email));
+            user = null;
+        }
+        return user;
     }
 
 
