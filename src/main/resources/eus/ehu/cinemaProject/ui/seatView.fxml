@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<?import javafx.scene.shape.Rectangle?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="eus.ehu.cinemaProject.ui.SeatViewController"
+      spacing="15"
+      stylesheets="@styles.css"
+      prefWidth="800"
+      prefHeight="600"
+      style="-fx-background-color: #212121;">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20" />
+    </padding>
+
+    <children>
+        <!-- Title Section -->
+        <HBox alignment="CENTER">
+            <Label text="Select Seats" styleClass="title-label"/>
+        </HBox>
+
+        <!-- Main Content Area -->
+        <VBox spacing="10" VBox.vgrow="ALWAYS" alignment="CENTER">
+            <!-- Screen Area -->
+            <Label fx:id="screenLabel" text="SCREEN" styleClass="screen-label" />
+
+            <Rectangle height="2" width="600" styleClass="screen-line" />
+
+            <!-- Seats Grid -->
+            <ScrollPane fitToWidth="true" styleClass="seat-scroll-pane">
+                <GridPane fx:id="seatGrid" alignment="CENTER" hgap="5" vgap="5">
+                    <!-- Seats will be populated dynamically from the controller -->
+                </GridPane>
+            </ScrollPane>
+        </VBox>
+
+        <!-- Legend Section -->
+        <HBox spacing="20" alignment="CENTER">
+            <children>
+                <HBox spacing="5" alignment="CENTER_LEFT">
+                    <Button styleClass="seat-button, regular-seat" disable="true" />
+                    <Label text="Regular" styleClass="legend-label" />
+                </HBox>
+                <HBox spacing="5" alignment="CENTER_LEFT">
+                    <Button styleClass="seat-button, premium-seat" disable="true" />
+                    <Label text="Premium" styleClass="legend-label" />
+                </HBox>
+                <HBox spacing="5" alignment="CENTER_LEFT">
+                    <Button styleClass="seat-button, vip-seat" disable="true" />
+                    <Label text="VIP" styleClass="legend-label" />
+                </HBox>
+                <HBox spacing="5" alignment="CENTER_LEFT">
+                    <Button styleClass="seat-button, occupied-seat" disable="true" />
+                    <Label text="Occupied" styleClass="legend-label" />
+                </HBox>
+                <HBox spacing="5" alignment="CENTER_LEFT">
+                    <Button styleClass="seat-button, selected-seat" disable="true" />
+                    <Label text="Selected" styleClass="legend-label" />
+                </HBox>
+            </children>
+        </HBox>
+
+        <!-- Info and Booking Section -->
+        <HBox spacing="10" alignment="CENTER">
+            <VBox spacing="5">
+                <Label fx:id="selectionInfoLabel" text="Selected: None" />
+                <Label fx:id="totalPriceLabel" text="Total: $0.00" />
+            </VBox>
+            <Button fx:id="confirmButton" text="Confirm Reservation" styleClass="confirm-button" />
+        </HBox>
+    </children>
+</VBox>

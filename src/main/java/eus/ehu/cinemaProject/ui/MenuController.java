@@ -20,6 +20,7 @@ public class MenuController {
 
     @FXML void initialize(){
         bl = BlFacadeImplementation.getInstance();
+        loadContent("seatView.fxml");
     }
 
 

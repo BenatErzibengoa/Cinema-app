@@ -37,4 +37,6 @@ public class Seat {
     public double getPrice() {
         return price;
     }
+
+
 }
