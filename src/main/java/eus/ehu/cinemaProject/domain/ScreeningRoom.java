@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ScreeningRoom {
     @Id
-    private long roomNumber;
+    private int roomNumber;
 
     @OneToMany
     private List<ShowTime> screening;
@@ -57,8 +57,6 @@ public class ScreeningRoom {
     }
 
     public ScreeningRoom() {}
-
-    public Cinema getCinema(){
-        return this.cinema;
-    }
+    public int getRoomNumber(){return this.roomNumber;}
+    public Cinema getCinema(){return this.cinema;}
 }
