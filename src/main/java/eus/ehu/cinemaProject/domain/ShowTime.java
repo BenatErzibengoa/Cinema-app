@@ -51,4 +51,9 @@ public class ShowTime {
     public LocalTime getScreeningTime(){return this.screeningTime;}
     public Film getFilm(){return film;}
 
+    @Override
+    public String toString() {
+        return String.format("Room Number: %s, Date: %s, Time: %s, Film: %s", screeningRoom.getRoomNumber(), screeningDate, screeningTime, film.getTitle());
+    }
+
 }
