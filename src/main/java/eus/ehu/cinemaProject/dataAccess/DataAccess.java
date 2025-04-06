@@ -10,6 +10,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
+import javafx.concurrent.Task;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -259,6 +260,27 @@ public class DataAccess {
         db.persist(purchaseReceipt2);
         db.persist(purchaseReceipt3);
         db.persist(purchaseReceipt4);
+
+
+
+        //This is made to assure we do the queries before persisting data
+        //If not it attempts to print this before finishing persisting some data
+        Task<Void> task = new Task<Void>(){
+            protected Void call() throws Exception{
+                Thread.sleep(500);
+                logger.info("Query testing:");
+                logger.info("Showtimes with date(yyyy/mm/dd) 2025/04/01:");
+                for(ShowTime showtime: getShowTimesByDate(LocalDate.of(2025, 4, 1)) ) {
+                    logger.info(showtime);
+                }
+                logger.info("Showtimes with date(yyyy/mm/dd) 2025/04/01 and film:");
+                for(ShowTime showtime: getShowTimesByDateAndFilm(LocalDate.of(2025, 4, 1), film1) ) {
+                    logger.info(showtime);
+                }
+                return null;
+            }
+        };
+        new Thread(task).start();
 
 
 
