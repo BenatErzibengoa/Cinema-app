@@ -47,6 +47,7 @@ public class ShowTime {
 
     public ShowTime(){}
 
+    public long getId(){return this.id;}
     public LocalTime getScreeningTime(){return this.screeningTime;}
     public Film getFilm(){return film;}
 
