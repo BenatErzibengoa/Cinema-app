@@ -1,8 +1,15 @@
 package eus.ehu.cinemaProject.businessLogic;
+import eus.ehu.cinemaProject.domain.Film;
+import eus.ehu.cinemaProject.domain.Seat;
+import eus.ehu.cinemaProject.domain.ShowTime;
 import eus.ehu.cinemaProject.domain.users.User;
 
 import eus.ehu.cinemaProject.configuration.Config;
 import eus.ehu.cinemaProject.dataAccess.DataAccess;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -36,6 +43,14 @@ public class BlFacadeImplementation implements BlFacade {
     public void signUp(String email, String password, String name, String surname){
         dbManager.signUp(email,password,name,surname);
     }
+
+    public List<ShowTime> getShowTimesByDate(LocalDate date){
+        return null;
+    }
+
+
+    public List<ShowTime> getShowTimesByDateAndFilm(LocalDate date, Film film){return null;}
+
 
 }
 
