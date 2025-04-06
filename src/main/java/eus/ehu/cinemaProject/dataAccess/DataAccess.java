@@ -157,6 +157,14 @@ public class DataAccess {
         return showtimes;
     }
 
+    public void createPurchaseReceipt(Customer customer, ShowTime showTime, List<Seat> seats){
+        PurchaseReceipt purchaseReceipt = new PurchaseReceipt(new Date(), customer, showTime, seats);
+        if (!db.getTransaction().isActive()) {
+            db.getTransaction().begin();
+        }
+        db.persist(purchaseReceipt);
+        db.getTransaction().commit();
+    }
 
 
     public void close() {
@@ -203,6 +211,8 @@ public class DataAccess {
 
         ShowTime showTime1 = new ShowTime(screeningRoom1, schedule1, LocalTime.of(17, 00), film1);
         ShowTime showTime2 = new ShowTime(screeningRoom2, schedule2, LocalTime.of(18, 30), film2);
+        ShowTime showTime3 = new ShowTime(screeningRoom1, schedule2, LocalTime.of(16, 00), film2);
+
 
 
         schedule1.setShowTime(showTime1);
@@ -226,11 +236,12 @@ public class DataAccess {
             seatSelection4.add(screeningRoom1.getSeats().get(i));
         }
 
+        /*
         PurchaseReceipt purchaseReceipt1 = new PurchaseReceipt(new Date(),   customer1, showTime1, seatSelection1);
         PurchaseReceipt purchaseReceipt2 = new PurchaseReceipt(new Date(),  customer1, showTime2, seatSelection2);
         PurchaseReceipt purchaseReceipt3 = new PurchaseReceipt(new Date(),  customer2, showTime2, seatSelection3);
         PurchaseReceipt purchaseReceipt4 = new PurchaseReceipt(new Date(),  customer3, showTime2, seatSelection4);
-
+        */
 
         db.persist(cinema);
         db.persist(admin);
@@ -256,11 +267,13 @@ public class DataAccess {
         }
         db.persist(showTime1);
         db.persist(showTime2);
+        db.persist(showTime3);
+        /*
         db.persist(purchaseReceipt1);
         db.persist(purchaseReceipt2);
         db.persist(purchaseReceipt3);
         db.persist(purchaseReceipt4);
-
+        */
 
 
         //This is made to assure we do the queries before persisting data
@@ -277,6 +290,10 @@ public class DataAccess {
                 for(ShowTime showtime: getShowTimesByDateAndFilm(LocalDate.of(2025, 4, 1), film1) ) {
                     logger.info(showtime);
                 }
+
+                createPurchaseReceipt(customer1, showTime1, seatSelection1);
+                createPurchaseReceipt(customer1, showTime3, seatSelection1);
+
                 return null;
             }
         };

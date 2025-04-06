@@ -2,6 +2,7 @@ package eus.ehu.cinemaProject.businessLogic;
 import eus.ehu.cinemaProject.domain.Film;
 import eus.ehu.cinemaProject.domain.Seat;
 import eus.ehu.cinemaProject.domain.ShowTime;
+import eus.ehu.cinemaProject.domain.users.Customer;
 import eus.ehu.cinemaProject.domain.users.User;
 
 import eus.ehu.cinemaProject.configuration.Config;
@@ -45,11 +46,16 @@ public class BlFacadeImplementation implements BlFacade {
     }
 
     public List<ShowTime> getShowTimesByDate(LocalDate date){
-        return null;
+        return dbManager.getShowTimesByDate(date);
     }
 
+    public List<ShowTime> getShowTimesByDateAndFilm(LocalDate date, Film film){
+        return dbManager.getShowTimesByDateAndFilm(date, film);
+    }
 
-    public List<ShowTime> getShowTimesByDateAndFilm(LocalDate date, Film film){return null;}
+    public void createPurchaseReceipt(Customer customer, ShowTime showTime, List<Seat> seats){
+        dbManager.createPurchaseReceipt(customer, showTime, seats);
+    }
 
 
 }

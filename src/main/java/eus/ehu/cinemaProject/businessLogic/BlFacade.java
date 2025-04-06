@@ -2,6 +2,7 @@ package eus.ehu.cinemaProject.businessLogic;
 import eus.ehu.cinemaProject.domain.Film;
 import eus.ehu.cinemaProject.domain.Seat;
 import eus.ehu.cinemaProject.domain.ShowTime;
+import eus.ehu.cinemaProject.domain.users.Customer;
 import eus.ehu.cinemaProject.domain.users.User;
 
 import java.time.LocalDate;
@@ -55,6 +56,16 @@ public interface BlFacade {
      * @param film    the film
      */
     List<ShowTime> getShowTimesByDateAndFilm(LocalDate date, Film film);
+
+    /**
+     * Creates a PurchaseReceipt for a customer
+     *
+     * @param customer    the date
+     * @param showTime    the showtime
+     * @param seats       the booked seats
+     * TODO: Food
+     */
+    void createPurchaseReceipt(Customer customer, ShowTime showTime, List<Seat> seats);
 
 
 
