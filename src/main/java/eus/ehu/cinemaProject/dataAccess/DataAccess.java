@@ -20,8 +20,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-
+import java.util.Set;
 
 
 public class DataAccess {
@@ -123,11 +122,40 @@ public class DataAccess {
             query.setParameter(1, email);
             user = query.getSingleResult();
         }catch(NoResultException e){
-            logger.info(String.format("There are no results with %s email", email));
+            logger.info(String.format("There are no results related with %s email", email));
             user = null;
         }
         return user;
     }
+
+    public List<ShowTime> getShowTimesByDate(LocalDate date){
+        List<ShowTime> showtimes;
+        try{
+            TypedQuery<ShowTime> query = db.createQuery("SELECT s FROM ShowTime s WHERE s.screeningDate = ?1", ShowTime.class);
+            query.setParameter(1, date);
+            showtimes = query.getResultList();
+        }catch(NoResultException e){
+            logger.info(String.format("There are no results related with '%s' date", date));
+            showtimes = null;
+        }
+        return showtimes;
+    }
+
+
+    public List<ShowTime> getShowTimesByDateAndFilm(LocalDate date, Film film){
+        List<ShowTime> showtimes;
+        try{
+            TypedQuery<ShowTime> query = db.createQuery("SELECT s FROM ShowTime s WHERE s.screeningDate = ?1 AND s.film = ?2", ShowTime.class);
+            query.setParameter(1, date);
+            query.setParameter(2, film);
+            showtimes = query.getResultList();
+        }catch(NoResultException e){
+            logger.info(String.format("There are no results related with '%s' date and '%s' film", date, film));
+            showtimes = null;
+        }
+        return showtimes;
+    }
+
 
 
     public void close() {
@@ -231,6 +259,9 @@ public class DataAccess {
         db.persist(purchaseReceipt2);
         db.persist(purchaseReceipt3);
         db.persist(purchaseReceipt4);
+
+
+
     }
 
 
