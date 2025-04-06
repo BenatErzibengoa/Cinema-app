@@ -127,7 +127,7 @@ Cinema "1" -- "1" Admin: has
 Cinema "1" -- "*" Worker: has >
 
 ScreeningRoom "1" -- "*" Schedule
-ShowTime "1" -- "*" Seat: has >
+ShowTime "*" -- "*" Seat: has >
 ShowTime "*" -- "1" Schedule
 
 Seat "*" -- "1" SeatType: of >
@@ -135,7 +135,7 @@ ShowTime "*" -- "1" Film: shows >
 Film "1" -- "*" Review: has >
 Film "*" -- "*" Genre : categorized by >
 
-PurchaseReceipt "1" -- "*" Seat: has >
+PurchaseReceipt "*" -- "*" Seat: has >
 PurchaseReceipt "*" -- "1" ShowTime: associated with >
 PurchaseReceipt "*" -- "1" OrderStatus : has >
 PurchaseReceipt "*" -- "*" FoodOrder: has >
