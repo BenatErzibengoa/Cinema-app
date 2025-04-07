@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="597.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.ShowTimeController">
+    <children>
+        <TilePane fx:id="showtimesPane" layoutX="45.0" layoutY="285.0" prefHeight="82.0" prefWidth="509.0" />
+        <Label layoutX="46.0" layoutY="259.0" text="Select Showtime" />
+        <StackPane layoutX="45.0" layoutY="58.0" prefHeight="177.0" prefWidth="509.0">
+            <children>
+                <ImageView fx:id="movieImage" fitHeight="150.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER_LEFT">
+                    <StackPane.margin>
+                        <Insets left="15.0" />
+                    </StackPane.margin>
+                </ImageView>
+                <Label fx:id="movieTitle" prefHeight="27.0" prefWidth="345.0" text="Title" StackPane.alignment="TOP_LEFT">
+                    <StackPane.margin>
+                        <Insets left="140.0" top="20.0" />
+                    </StackPane.margin>
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Label>
+                <Label fx:id="movieGenre" prefHeight="17.0" prefWidth="66.0" text="Action" StackPane.alignment="CENTER_LEFT">
+                    <StackPane.margin>
+                        <Insets bottom="60.0" left="140.0" />
+                    </StackPane.margin>
+                </Label>
+                <Label fx:id="movieDuration" prefHeight="17.0" prefWidth="66.0" text="115 min">
+                    <StackPane.margin>
+                        <Insets bottom="60.0" right="30.0" />
+                    </StackPane.margin>
+                </Label>
+                <Label fx:id="movieDescription" prefHeight="75.0" prefWidth="347.0" text="Label" StackPane.alignment="CENTER_LEFT">
+                    <StackPane.margin>
+                        <Insets left="140.0" top="50.0" />
+                    </StackPane.margin>
+                </Label>
+            </children>
+        </StackPane>
+        <Label layoutX="45.0" layoutY="34.0" text="Your Movie" />
+    </children>
+</AnchorPane>
