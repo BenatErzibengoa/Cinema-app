@@ -23,7 +23,7 @@ public class ShowTime {
     private LocalDate screeningDate;
     private LocalTime screeningTime;
 
-    @OneToMany
+    @ManyToMany
     private Set<Seat> bookedSeats;  //It is a set because we will not fetch any specific seat from this set, it will only be used for .contains(seat) by a controller
 
     @ManyToOne
@@ -47,7 +47,13 @@ public class ShowTime {
 
     public ShowTime(){}
 
+    public long getId(){return this.id;}
     public LocalTime getScreeningTime(){return this.screeningTime;}
     public Film getFilm(){return film;}
+
+    @Override
+    public String toString() {
+        return String.format("Room Number: %s, Date: %s, Time: %s, Film: %s", screeningRoom.getRoomNumber(), screeningDate, screeningTime, film.getTitle());
+    }
 
 }

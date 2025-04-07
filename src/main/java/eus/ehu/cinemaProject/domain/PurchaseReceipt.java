@@ -19,11 +19,10 @@ public class PurchaseReceipt {
     private Customer customer;
     @ManyToOne
     private ShowTime showTime;
-
     private OrderStatus status = OrderStatus.RESERVED;
     @ManyToOne
     private Review review;
-    @OneToMany
+    @ManyToMany
     private List<Seat> bookedSeats = new ArrayList<>();
 
     public PurchaseReceipt(Date orderDate, Customer customer, ShowTime showTime, List<Seat> bookedSeats) {

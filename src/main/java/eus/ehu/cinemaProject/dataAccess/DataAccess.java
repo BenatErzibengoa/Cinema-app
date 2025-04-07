@@ -10,6 +10,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
+import javafx.concurrent.Task;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -20,7 +23,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 
 
 
@@ -37,6 +39,7 @@ public class DataAccess {
             System.out.println("Shutting down database connection...");
             this.close();
         }));
+        Configurator.setLevel(logger.getName(), Level.INFO);
     }
 
     public void open() {
@@ -101,7 +104,7 @@ public class DataAccess {
             query.setParameter(2, password);
             user = query.getSingleResult();
         }catch(NoResultException e){
-            logger.info(String.format("There are no results with %s %s email and password", email, password));
+            logger.error(String.format("There are no results with %s %s email and password", email, password));
             user = null;
         }
         return user;
@@ -123,10 +126,85 @@ public class DataAccess {
             query.setParameter(1, email);
             user = query.getSingleResult();
         }catch(NoResultException e){
-            logger.info(String.format("There are no results with %s email", email));
+            logger.error(String.format("There are no results related with %s email", email));
             user = null;
         }
         return user;
+    }
+
+    public List<ShowTime> getShowTimesByDate(LocalDate date){
+        List<ShowTime> showtimes;
+        try{
+            TypedQuery<ShowTime> query = db.createQuery("SELECT s FROM ShowTime s WHERE s.screeningDate = ?1", ShowTime.class);
+            query.setParameter(1, date);
+            showtimes = query.getResultList();
+        }catch(NoResultException e){
+            logger.error(String.format("There are no results related with '%s' date", date));
+            showtimes = null;
+        }
+        return showtimes;
+    }
+
+
+    public List<ShowTime> getShowTimesByDateAndFilm(LocalDate date, Film film){
+        List<ShowTime> showtimes;
+        try{
+            TypedQuery<ShowTime> query = db.createQuery("SELECT s FROM ShowTime s WHERE s.screeningDate = ?1 AND s.film = ?2", ShowTime.class);
+            query.setParameter(1, date);
+            query.setParameter(2, film);
+            showtimes = query.getResultList();
+        }catch(NoResultException e){
+            logger.error(String.format("There are no results related with '%s' date and '%s' film", date, film));
+            showtimes = null;
+        }
+        return showtimes;
+    }
+
+    /*
+    TODO: It gives errors when compiling but it works, so we have to find a way to solve the compile error
+    public Schedule getScheduleByRoomAndDate(LocalDate date, ScreeningRoom screeningRoom) {
+        Schedule schedule;
+        try {
+            TypedQuery<Schedule> query = db.createQuery(
+                    "SELECT s FROM Schedule s WHERE s.id.date = :date AND s.id.screeningRoom = :room", Schedule.class);
+            query.setParameter("date", date);
+            query.setParameter("room", screeningRoom);
+
+            schedule = query.getSingleResult();
+        } catch (NoResultException e) {
+            logger.error(String.format("There are no results related with %s screeningRoom and %s date", screeningRoom.getRoomNumber(), date.toString()));
+            schedule = null;
+        }
+        return schedule;
+    }
+     */
+
+    public void createSchedule(LocalDate date, ScreeningRoom screeningRoom){
+        Schedule schedule = new Schedule(date, screeningRoom);
+        if (!db.getTransaction().isActive()) {
+            db.getTransaction().begin();
+        }
+        db.persist(schedule);
+        db.getTransaction().commit();
+    }
+
+    public void createShowTime(ScreeningRoom screeningRoom, Schedule schedule, LocalTime screeningTime, Film film){
+        ShowTime showTime = new ShowTime(screeningRoom, schedule, screeningTime, film);
+        if (!db.getTransaction().isActive()) {
+            db.getTransaction().begin();
+        }
+        db.persist(showTime);
+        db.getTransaction().commit();
+    }
+
+
+    public void createPurchaseReceipt(Customer customer, ShowTime showTime, List<Seat> seats){
+        PurchaseReceipt purchaseReceipt = new PurchaseReceipt(new Date(), customer, showTime, seats);
+        if (!db.getTransaction().isActive()) {
+            db.getTransaction().begin();
+        }
+        db.persist(purchaseReceipt);
+        db.getTransaction().commit();
     }
 
 
@@ -168,12 +246,15 @@ public class DataAccess {
         ScreeningRoom screeningRoom1 = new ScreeningRoom(cinema,1);
         ScreeningRoom screeningRoom2 = new ScreeningRoom(cinema,2);
 
+
         Schedule schedule1 = new Schedule(LocalDate.of(2025, 4, 1), screeningRoom1);
         Schedule schedule2 = new Schedule(LocalDate.of(2025, 4, 1), screeningRoom2);
 
 
         ShowTime showTime1 = new ShowTime(screeningRoom1, schedule1, LocalTime.of(17, 00), film1);
         ShowTime showTime2 = new ShowTime(screeningRoom2, schedule2, LocalTime.of(18, 30), film2);
+        ShowTime showTime3 = new ShowTime(screeningRoom1, schedule2, LocalTime.of(16, 00), film2);
+
 
 
         schedule1.setShowTime(showTime1);
@@ -197,11 +278,12 @@ public class DataAccess {
             seatSelection4.add(screeningRoom1.getSeats().get(i));
         }
 
+        /*
         PurchaseReceipt purchaseReceipt1 = new PurchaseReceipt(new Date(),   customer1, showTime1, seatSelection1);
         PurchaseReceipt purchaseReceipt2 = new PurchaseReceipt(new Date(),  customer1, showTime2, seatSelection2);
         PurchaseReceipt purchaseReceipt3 = new PurchaseReceipt(new Date(),  customer2, showTime2, seatSelection3);
         PurchaseReceipt purchaseReceipt4 = new PurchaseReceipt(new Date(),  customer3, showTime2, seatSelection4);
-
+        */
 
         db.persist(cinema);
         db.persist(admin);
@@ -227,10 +309,51 @@ public class DataAccess {
         }
         db.persist(showTime1);
         db.persist(showTime2);
+        db.persist(showTime3);
+        /*
         db.persist(purchaseReceipt1);
         db.persist(purchaseReceipt2);
         db.persist(purchaseReceipt3);
         db.persist(purchaseReceipt4);
+        */
+
+
+        //This is made to assure we do the queries before persisting data
+        //If not it attempts to print this before finishing persisting some data
+        Task<Void> task = new Task<Void>(){
+            protected Void call() throws Exception{
+                Thread.sleep(500);
+                logger.debug("Query testing:");
+                logger.debug("Showtimes with date(yyyy/mm/dd) 2025/04/01:");
+                for(ShowTime showtime: getShowTimesByDate(LocalDate.of(2025, 4, 1)) ) {
+                    logger.debug(showtime);
+                }
+                logger.debug("Showtimes with date(yyyy/mm/dd) 2025/04/01 and film:");
+                for(ShowTime showtime: getShowTimesByDateAndFilm(LocalDate.of(2025, 4, 1), film1) ) {
+                    logger.debug(showtime);
+                }
+
+                createPurchaseReceipt(customer1, showTime1, seatSelection1);
+                createPurchaseReceipt(customer1, showTime1, seatSelection1);
+                createPurchaseReceipt(customer1, showTime3, seatSelection1);
+
+                createSchedule(LocalDate.of(2025, 4, 8), screeningRoom1);
+                createSchedule(LocalDate.of(2025, 4, 8), screeningRoom2);
+                logger.debug("Schedules created");
+
+                /*
+                logger.info(getScheduleByRoomAndDate(LocalDate.of(2025, 4, 8), screeningRoom1));
+                createShowTime(screeningRoom1, getScheduleByRoomAndDate(LocalDate.of(2025, 4, 8), screeningRoom1), LocalTime.of(17, 00), film1);
+                logger.info("showtime created successfully");
+                 */
+
+                return null;
+            }
+        };
+        new Thread(task).start();
+
+
+
     }
 
 

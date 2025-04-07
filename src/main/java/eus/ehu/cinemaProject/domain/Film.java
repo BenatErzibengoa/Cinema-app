@@ -27,5 +27,6 @@ public class Film {
     }
     public Film(){}
 
+    public String getTitle(){return this.title;}
     public LocalTime getDuration(){return duration;}
 }
