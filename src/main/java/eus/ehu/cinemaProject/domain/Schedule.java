@@ -30,7 +30,14 @@ public class Schedule {
         this.id = new ScheduleId(date, screeningRoom);
         this.openingTime = screeningRoom.getCinema().getOpeningTime();
         this.closingTime = screeningRoom.getCinema().getClosingTime();
+        setSize();
+        schedule = new boolean[size];
+        setAllFree();
+    }
 
+    public Schedule(){}
+
+    public void setSize(){
         //The date will be made up. We don't care about what day is it, we will only use it to treat the case in which closingTime passes 23:59
         LocalDateTime openingDateTime = LocalDateTime.of(2025, 1, 1, openingTime.getHour(), openingTime.getMinute());
         LocalDateTime closingDateTime;
@@ -43,11 +50,7 @@ public class Schedule {
         }
         Duration openDuration = Duration.between(openingDateTime, closingDateTime);
         this.size = (int) openDuration.toMinutes() / 15;
-        schedule = new boolean[size];
-        setAllFree();
     }
-
-    public Schedule(){}
 
     //Given a showtime if it is possible, it will set the showtime in the schedule of the ScreeningRoom
     public void setShowTime(ShowTime showtime){
