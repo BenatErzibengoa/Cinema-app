@@ -12,7 +12,7 @@ import java.util.List;
 public class Customer extends User {
     private int points;
     private double totalBalance;
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "customer")
     private List<PurchaseReceipt> purchaseHistory;
 
     public Customer(String email, String password, String name, String surname) {
@@ -23,4 +23,6 @@ public class Customer extends User {
     }
 
     public Customer(){}
+
+    public void addReceipt(PurchaseReceipt purchaseReceipt){purchaseHistory.add(purchaseReceipt);}
 }
