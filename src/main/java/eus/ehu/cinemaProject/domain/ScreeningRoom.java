@@ -19,8 +19,6 @@ public class ScreeningRoom {
     @OneToMany(mappedBy = "screeningRoom", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Seat> seats = new ArrayList<Seat>();
 
-    @OneToMany (mappedBy = "screeningRoom")
-    private List<ShowTime> showTimes;
 
     @OneToMany(mappedBy = "id.screeningRoom")
     private List<Schedule> schedules;

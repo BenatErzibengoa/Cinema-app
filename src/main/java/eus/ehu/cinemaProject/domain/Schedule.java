@@ -143,5 +143,6 @@ public class Schedule {
     public LocalDate getDate(){
         return id.getDate();
     }
+    public ScreeningRoom getScreeningRoom(){return id.getScreeningRoom();}
 
 }
