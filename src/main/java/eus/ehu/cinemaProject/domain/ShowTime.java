@@ -17,9 +17,6 @@ public class ShowTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
-    private ScreeningRoom screeningRoom;
-
     private LocalDate screeningDate;
     private LocalTime screeningTime;
 
@@ -32,28 +29,26 @@ public class ShowTime {
     @ManyToOne
     private Film film;
 
-    public ShowTime(ScreeningRoom screeningRoom, Schedule schedule, LocalTime screeningTime, Film film){
-        this.screeningRoom = screeningRoom;
+    public ShowTime(Schedule schedule, LocalTime screeningTime, Film film){
         this.schedule = schedule;
         this.screeningDate = schedule.getDate(); // We get Date from the Schedule associated
         this.screeningTime = screeningTime;      // We get Time from parameters
         this.film = film;
         this.bookedSeats = new HashSet<>();
     }
+    public ShowTime(){}
 
     public void bookSeats(List<Seat> seatsToBook){
         bookedSeats.addAll(seatsToBook);
     }
-
-    public ShowTime(){}
-
+    public Set<Seat> getBookedSeats(){return bookedSeats;}
     public long getId(){return this.id;}
     public LocalTime getScreeningTime(){return this.screeningTime;}
     public Film getFilm(){return film;}
 
     @Override
     public String toString() {
-        return String.format("Room Number: %s, Date: %s, Time: %s, Film: %s", screeningRoom.getRoomNumber(), screeningDate, screeningTime, film.getTitle());
+        return String.format("Room Number: %s, Date: %s, Time: %s, Film: %s", schedule.getScreeningRoom().getRoomNumber(), screeningDate, screeningTime, film.getTitle());
     }
 
 }
