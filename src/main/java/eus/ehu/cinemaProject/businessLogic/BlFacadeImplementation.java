@@ -1,8 +1,12 @@
 package eus.ehu.cinemaProject.businessLogic;
+import eus.ehu.cinemaProject.domain.ScreeningRoom;
 import eus.ehu.cinemaProject.domain.users.User;
 
 import eus.ehu.cinemaProject.configuration.Config;
 import eus.ehu.cinemaProject.dataAccess.DataAccess;
+
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -37,5 +41,8 @@ public class BlFacadeImplementation implements BlFacade {
         dbManager.signUp(email,password,name,surname);
     }
 
+    public List<ScreeningRoom> getScreeningRooms() {
+        return dbManager.getScreeningRooms();
+    }
 }
 

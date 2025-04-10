@@ -39,4 +39,7 @@ public class Seat {
     }
 
 
+    public String getSeatId() { return seatId; }
+
+    public SeatType getType() { return type; }
 }
