@@ -38,22 +38,10 @@ public class ScreeningRoom {
         this.cinema = cinema;
         this.roomNumber = roomNumber;
         //Room.Row.Seat
-        for(int i = 1; i <= 10; i++){
-            Seat seat = new Seat(this, String.format("%s.%s.%s", roomNumber, 1, i), SeatType.NORMAL);
-            seats.add(seat);
-        }
-        for(int i = 11; i <= 20; i++){
-            Seat seat = new Seat(this, String.format("%s.%s.%s", roomNumber, 2, i), SeatType.NORMAL);
-            seats.add(seat);
-        }
-        for(int i = 21; i <= 30; i++){
-            Seat seat = new Seat(this, String.format("%s.%s.%s", roomNumber, 3, i), SeatType.COMFORTABLE);
-            seats.add(seat);
-        }
-        for(int i = 31; i <= 40; i++){
-            Seat seat = new Seat(this, String.format("%s.%s.%s", roomNumber, 4, i), SeatType.PREMIUM);
-            seats.add(seat);
-        }
+        for(int i=1; i<5; i++)
+            for (int j=1; j<11; j++)
+                seats.add( new Seat(this, String.format("%s.%s.%s", roomNumber, i, j), SeatType.values()[(i-1)%3]));
+
     }
 
     public ScreeningRoom() {}

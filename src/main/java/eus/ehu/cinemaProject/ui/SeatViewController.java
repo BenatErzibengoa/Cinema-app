@@ -1,9 +1,7 @@
 package eus.ehu.cinemaProject.ui;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.lang.reflect.Array;
+import java.util.*;
 
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
 import eus.ehu.cinemaProject.domain.ScreeningRoom;
@@ -13,32 +11,49 @@ import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 
 public class SeatViewController {
     @FXML
+    private Label roomNumberLabel;
+
+    @FXML
     private GridPane seatGrid;
 
-    private Map<String, Button> seatButtons = new HashMap<>();
+    @FXML
+    private Label totalPriceLabel;
+
+    private Map<ToggleButton, Seat> seatMap = new HashMap<>();
+
     private BlFacadeImplementation bl;
-
-    private int seatsPerRow = 10, seatsPerColumn = 4;
-
+    private int seatsPerRow = 10, seatsPerColumn = 4; // this is an example, it should get it from the ShowRoom settings
+    private ArrayList<Seat> selectedSeats = new ArrayList<>();
 
     @FXML
     public void initialize() {
         bl = BlFacadeImplementation.getInstance();
         ScreeningRoom screeningRoom = bl.getScreeningRooms().get(0); // Get the first screening room for demonstration
+        for( int r=0; r<seatsPerRow; r++) seatGrid.getColumnConstraints().add(new ColumnConstraints());
+        for( int c=0; c<seatsPerColumn; c++) seatGrid.getRowConstraints().add(new RowConstraints());
+
         int index =0;
+        String id;
 
         for (Seat seat : screeningRoom.getSeats()) {
-            ToggleButton seatButton = new ToggleButton(seat.getSeatId());
+            id= seat.getSeatId().substring(2);
+            ToggleButton seatButton = new ToggleButton(id);
+            seatMap.put(seatButton, seat);
             seatButton.setStyle(seat.getType().getStyle());
             seatButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue) {
+                    selectedSeats.add(seatMap.get(seatButton));
                     seatButton.setOpacity(0.5); // Set opacity to 50% when selected
                 } else {
+                    selectedSeats.remove(seatMap.get(seatButton));
                     seatButton.setOpacity(1.0); // Restore opacity to 100% when unselected
                 }
             });
@@ -48,11 +63,10 @@ public class SeatViewController {
         }
     }
 
-    public void goBack(ActionEvent actionEvent) {
-    }
 
-    public void goToConfirmation(ActionEvent actionEvent) {
-    }
+    @FXML
+    void buyTickets(ActionEvent event) {
 
+    }
 }
 
