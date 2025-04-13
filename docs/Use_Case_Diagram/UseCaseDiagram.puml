@@ -36,10 +36,10 @@ rectangle "Cinema Reservation Manager" {
     (Accept Ticket Cancelation) as UC14
 
     ' User interactions
+    U --> UC1
     U --> UC2
 
     ' Customer interactions
-    Customer --> UC1
     Customer --> UC3
     Customer --> UC4
     Customer --> UC6

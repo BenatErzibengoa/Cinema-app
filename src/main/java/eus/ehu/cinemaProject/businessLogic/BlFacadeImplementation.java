@@ -1,12 +1,12 @@
 package eus.ehu.cinemaProject.businessLogic;
-import eus.ehu.cinemaProject.domain.ScreeningRoom;
-import eus.ehu.cinemaProject.domain.Seat;
-import eus.ehu.cinemaProject.domain.ShowTime;
-import eus.ehu.cinemaProject.domain.users.Customer;
 import eus.ehu.cinemaProject.domain.users.User;
 
 import eus.ehu.cinemaProject.configuration.Config;
 import eus.ehu.cinemaProject.dataAccess.DataAccess;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +48,19 @@ public class BlFacadeImplementation implements BlFacade {
     public List<ScreeningRoom> getScreeningRooms() {
         return dbManager.getScreeningRooms();
     }
+
+    public List<ShowTime> getShowTimesByDate(LocalDate date){
+        return dbManager.getShowTimesByDate(date);
+    }
+
+    public List<ShowTime> getShowTimesByDateAndFilm(LocalDate date, Film film){
+        return dbManager.getShowTimesByDateAndFilm(date, film);
+    }
+
+    public void createPurchaseReceipt(Customer customer, ShowTime showTime, List<Seat> seats){
+        dbManager.createPurchaseReceipt(customer, showTime, seats);
+    }
+
 
 }
 
