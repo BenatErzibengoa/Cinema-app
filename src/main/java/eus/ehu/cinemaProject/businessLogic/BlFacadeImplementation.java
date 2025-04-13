@@ -49,8 +49,5 @@ public class BlFacadeImplementation implements BlFacade {
         return dbManager.getScreeningRooms();
     }
 
-    public String buyTickets(ArrayList<Seat> selectedSeats, Customer customer, ShowTime showTime) {
-        return dbManager.buyTickets(selectedSeats, customer, showTime);
-    }
 }
 

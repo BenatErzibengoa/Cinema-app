@@ -74,13 +74,12 @@ public class SeatViewController {
 
     @FXML
     void buyTickets(ActionEvent event) {
-        int result = bl.buyTickets(selectedSeats, customer, showTime);
+        int result = bl.createPurchaseReceipt(selectedSeats, customer, showTime);
         if(result != -1){
             totalPriceLabel.setText(String.valueOf(result));
 
         }else
             totalPriceLabel.setText("Sorry, there's been an error. Try again.");
-
     }
 }
 
