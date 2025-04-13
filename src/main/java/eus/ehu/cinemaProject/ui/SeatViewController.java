@@ -74,7 +74,7 @@ public class SeatViewController {
 
     @FXML
     void buyTickets(ActionEvent event) {
-        int result = bl.createPurchaseReceipt(selectedSeats, customer, showTime);
+        int result = bl.createPurchaseReceipt(customer, showTime, selectedSeats);
         if(result != -1){
             totalPriceLabel.setText(String.valueOf(result));
 

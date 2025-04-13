@@ -1,4 +1,9 @@
 package eus.ehu.cinemaProject.businessLogic;
+import eus.ehu.cinemaProject.domain.Film;
+import eus.ehu.cinemaProject.domain.ScreeningRoom;
+import eus.ehu.cinemaProject.domain.Seat;
+import eus.ehu.cinemaProject.domain.ShowTime;
+import eus.ehu.cinemaProject.domain.users.Customer;
 import eus.ehu.cinemaProject.domain.users.User;
 
 import eus.ehu.cinemaProject.configuration.Config;

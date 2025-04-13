@@ -31,7 +31,7 @@ public class ScreeningRoom {
         return seats;
     }
 
-
+    //TODO: Refine the row and seat numbers to vary depending on the characteristics of the room. Add possibility of changing dimensions
     public ScreeningRoom(Cinema cinema, int roomNumber){
         this.cinema = cinema;
         this.roomNumber = roomNumber;
