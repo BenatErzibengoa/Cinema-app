@@ -33,6 +33,12 @@ public class SeatViewController {
     private int seatsPerRow = 10, seatsPerColumn = 4; // this is an example, it should get it from the ShowRoom settings
     private ArrayList<Seat> selectedSeats = new ArrayList<>();
 
+    /* This controller needs to track the previous controllers' parameters: customer, ShowTime/ScreeningRoom
+    * Customer is needed just to create the PurchaseReceipt
+    * The ShowTime -> ScreeningRoom -> Seat is needed to create the button/seat selection.
+    * It is important to know the dimensions - row x column - of the room to create the grid. Another solution could be to divide the total number of seats by a fixed number of rows.
+    * */
+
     @FXML
     public void initialize() {
         bl = BlFacadeImplementation.getInstance();
@@ -48,6 +54,7 @@ public class SeatViewController {
             ToggleButton seatButton = new ToggleButton(id);
             seatMap.put(seatButton, seat);
             seatButton.setStyle(seat.getType().getStyle());
+
             seatButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue) {
                     selectedSeats.add(seatMap.get(seatButton));
@@ -57,6 +64,7 @@ public class SeatViewController {
                     seatButton.setOpacity(1.0); // Restore opacity to 100% when unselected
                 }
             });
+
             seatGrid.add(seatButton, index % seatsPerRow, index / seatsPerRow);
             GridPane.setHalignment(seatButton, HPos.CENTER);
             index++;
@@ -66,6 +74,12 @@ public class SeatViewController {
 
     @FXML
     void buyTickets(ActionEvent event) {
+        int result = bl.buyTickets(selectedSeats, customer, showTime);
+        if(result != -1){
+            totalPriceLabel.setText(String.valueOf(result));
+
+        }else
+            totalPriceLabel.setText("Sorry, there's been an error. Try again.");
 
     }
 }

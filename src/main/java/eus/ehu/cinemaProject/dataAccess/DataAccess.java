@@ -243,4 +243,11 @@ public class DataAccess {
             return null;
         }
     }
+
+    public String buyTickets(ArrayList<Seat> selectedSeats, Customer customer, ShowTime showTime) {
+        PurchaseReceipt pr = new PurchaseReceipt(new Date(), customer, showTime, selectedSeats);
+
+
+        return null;
+    }
 }
