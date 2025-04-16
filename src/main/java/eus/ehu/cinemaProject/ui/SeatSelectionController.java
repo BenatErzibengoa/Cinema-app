@@ -68,7 +68,7 @@ public class SeatSelectionController {
         }
     }
 
-
+    // provisional
     @FXML
     void buyTickets(ActionEvent event) {
         int result = bl.createPurchaseReceipt(customer, showTime, selectedSeats);
