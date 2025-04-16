@@ -1,6 +1,5 @@
 package eus.ehu.cinemaProject.ui;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
@@ -9,15 +8,13 @@ import eus.ehu.cinemaProject.domain.Seat;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 
-public class SeatViewController {
+public class SeatSelectionController {
     @FXML
     private Label roomNumberLabel;
 

@@ -10,8 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.SeatSelectionController">
    <center>
       <GridPane fx:id="seatGrid" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -34,11 +33,11 @@
       </HBox>
    </top>
    <bottom>
-      <AnchorPane prefHeight="60.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="73.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <Button alignment="CENTER" layoutX="214.0" layoutY="31.0" mnemonicParsing="false" onAction="#buyTickets" text="Buy Selected Tickets" />
-            <Label layoutX="177.0" layoutY="6.0" text="Complete Booking" />
-            <Label fx:id="totalPriceLabel" layoutX="286.0" layoutY="6.0" />
+            <Button alignment="CENTER" layoutX="238.0" layoutY="37.0" mnemonicParsing="false" onAction="#buyTickets" text="Buy Selected Tickets" />
+            <Label layoutX="177.0" layoutY="6.0" text="Selectet seats' price:" />
+            <Label fx:id="totalPriceLabel" layoutX="289.0" layoutY="5.0" prefHeight="18.0" prefWidth="0.0" />
          </children>
       </AnchorPane>
    </bottom>
