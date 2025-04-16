@@ -34,6 +34,8 @@ public class ShowTimeController {
 
     BlFacadeImplementation bl;
 
+    private final UIState uiState = UIState.getInstance();
+
 
     //THESE ARE TEMPORARY ATTRIBUTES, just to ensure  buttons are created correctly (The showtimes and the movie will be passed as parameters to the controller)
     private List<LocalTime> showTimes=List.of(LocalTime.of(10, 0), LocalTime.of(12, 30), LocalTime.of(15, 0), LocalTime.of(17, 30), LocalTime.of(20, 0));
@@ -77,7 +79,6 @@ public class ShowTimeController {
 
     private void handleShowTimeClick(LocalTime showTime) {
         //TODO:when user clicks on a showtime button, the seatView will load, and we will pass the selected showtime to the seatView controller
-
     }
 
 
