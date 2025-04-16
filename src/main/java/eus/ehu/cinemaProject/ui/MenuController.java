@@ -24,6 +24,7 @@ public class MenuController {
             loadContent(newView);
         });
         bl = BlFacadeImplementation.getInstance();
+        loadContent("seatSelection.fxml");
     }
 
 

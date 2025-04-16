@@ -37,4 +37,9 @@ public class Seat {
     public double getPrice() {
         return price;
     }
+
+
+    public String getSeatId() { return seatId; }
+
+    public SeatType getType() { return type; }
 }

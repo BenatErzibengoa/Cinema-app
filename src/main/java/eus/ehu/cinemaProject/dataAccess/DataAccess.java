@@ -357,4 +357,14 @@ public class DataAccess {
     }
 
 
+    public List<ScreeningRoom> getScreeningRooms() {
+        try{
+            TypedQuery<ScreeningRoom> query = db.createQuery("SELECT c.screeningRooms FROM Cinema c", ScreeningRoom.class);
+            return query.getResultList();
+        }catch (NoResultException e){
+            logger.info("There are no results with the query");
+            return null;
+        }
+    }
+
 }
