@@ -16,6 +16,9 @@ public class SignInController {
 
     BlFacadeImplementation bl;
 
+    // Reference to the UIState
+    private final UIState uiState = UIState.getInstance();
+
     @FXML
     void initialize(){
         bl = BlFacadeImplementation.getInstance();
@@ -29,6 +32,9 @@ public class SignInController {
             if(bl.login(emailField.getText(), passwordField.getText()) != null){
                 outputText.setText("Login successful! Welcome %s".formatted(emailField.getText()));
                 outputText.setStyle("-fx-text-fill: green;");
+
+                //Pass the email to the UIState
+                uiState.setEmail(emailField.getText());
             }
             else{
                 outputText.setText("Invalid credentials. Please try again");
