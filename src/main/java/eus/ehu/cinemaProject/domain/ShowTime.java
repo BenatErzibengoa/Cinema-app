@@ -45,6 +45,7 @@ public class ShowTime {
     public long getId(){return this.id;}
     public LocalTime getScreeningTime(){return this.screeningTime;}
     public Film getFilm(){return film;}
+    public Schedule getSchedule(){return schedule;}
 
     @Override
     public String toString() {

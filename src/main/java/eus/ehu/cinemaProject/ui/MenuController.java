@@ -44,7 +44,7 @@ public class MenuController {
 
     private Map<String, AnchorPane> contentCache = new HashMap<>();
 
-    private void loadContent(String fxmlFile) {
+    protected void loadContent(String fxmlFile) {
         try {
             // Check if content is already cached
             AnchorPane content = contentCache.get(fxmlFile);

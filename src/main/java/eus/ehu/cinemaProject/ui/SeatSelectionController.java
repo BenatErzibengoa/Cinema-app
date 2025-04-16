@@ -5,6 +5,8 @@ import java.util.*;
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
 import eus.ehu.cinemaProject.domain.ScreeningRoom;
 import eus.ehu.cinemaProject.domain.Seat;
+import eus.ehu.cinemaProject.domain.users.Customer;
+import eus.ehu.cinemaProject.domain.users.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
@@ -25,6 +27,7 @@ public class SeatSelectionController {
     private Label totalPriceLabel;
 
     private Map<ToggleButton, Seat> seatMap = new HashMap<>();
+    private UIState uiState = UIState.getInstance();
 
     private BlFacadeImplementation bl;
     private int seatsPerRow = 10, seatsPerColumn = 4; // this is an example, it should get it from the ShowRoom settings
@@ -39,7 +42,7 @@ public class SeatSelectionController {
     @FXML
     public void initialize() {
         bl = BlFacadeImplementation.getInstance();
-        ScreeningRoom screeningRoom = bl.getScreeningRooms().get(0); // Get the first screening room for demonstration
+        ScreeningRoom screeningRoom = uiState.getSelectedShowtime().getSchedule().getScreeningRoom(); // Get the first screening room for demonstration
         for( int r=0; r<seatsPerRow; r++) seatGrid.getColumnConstraints().add(new ColumnConstraints());
         for( int c=0; c<seatsPerColumn; c++) seatGrid.getRowConstraints().add(new RowConstraints());
 
@@ -71,12 +74,11 @@ public class SeatSelectionController {
     // provisional
     @FXML
     void buyTickets(ActionEvent event) {
-        int result = bl.createPurchaseReceipt(customer, showTime, selectedSeats);
-        if(result != -1){
-            totalPriceLabel.setText(String.valueOf(result));
+        User customer = bl.getUserByEmail(uiState.getEmail());
 
-        }else
-            totalPriceLabel.setText("Sorry, there's been an error. Try again.");
+        bl.createPurchaseReceipt((Customer)customer, uiState.getSelectedShowtime(), selectedSeats);
+        //TODO: when Ekhi finishes his fxml, update the String of the view
+        uiState.setCurrentView("buyFood.fxml");
     }
 }
 

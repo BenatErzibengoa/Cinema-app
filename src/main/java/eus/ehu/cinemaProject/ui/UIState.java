@@ -1,6 +1,7 @@
 package eus.ehu.cinemaProject.ui;
 
 import eus.ehu.cinemaProject.domain.Film;
+import eus.ehu.cinemaProject.domain.Seat;
 import eus.ehu.cinemaProject.domain.ShowTime;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -43,10 +44,9 @@ public class UIState {
 
     //Attributes to share between different view controllers (we have to add more!!!)
     private String email;
-
-    private Film film;
-
-    private List<ShowTime> showtimes;
+    private Film selectedFilm;
+    private ShowTime selectedShowtime;
+    private List<Seat> selectedSeats;
 
     //Corresponding getters and setters to interchange data between controllers
     public String getEmail() {
@@ -55,18 +55,19 @@ public class UIState {
     public void setEmail(String email) {
         this.email = email;
     }
+
     public Film getFilm() {
-        return film;
+        return selectedFilm;
     }
     public void setFilm(Film film) {
-        this.film = film;
+        this.selectedFilm = film;
     }
-    public List<ShowTime> getShowtimes() {
-        return showtimes;
-    }
-    public void setShowtimes(List<ShowTime> showtimes) {
-        this.showtimes = showtimes;
-    }
+
+    public ShowTime getSelectedShowtime() { return selectedShowtime; }
+    public void setSelectedShowtime(ShowTime selectedShowtime) { this.selectedShowtime = selectedShowtime; }
+
+    public List<Seat> getSelectedSeats() { return selectedSeats; }
+    public void setSelectedSeats(List<Seat> selectedSeats) { this.selectedSeats = selectedSeats; }
 
 
 }

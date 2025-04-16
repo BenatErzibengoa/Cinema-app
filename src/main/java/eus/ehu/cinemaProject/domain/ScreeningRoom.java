@@ -13,7 +13,7 @@ public class ScreeningRoom {
     @Id
     private int roomNumber;
 
-    @OneToMany
+    @OneToMany (mappedBy = "screeningRoom", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ShowTime> screening;
 
     @OneToMany(mappedBy = "screeningRoom", cascade = CascadeType.ALL, orphanRemoval = true)
