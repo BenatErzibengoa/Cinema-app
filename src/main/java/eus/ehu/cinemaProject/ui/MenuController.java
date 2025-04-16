@@ -19,6 +19,10 @@ public class MenuController {
 
 
     @FXML void initialize(){
+        // Load the initial content and it changes when the view changes
+        uiState.currentViewProperty().addListener((obs, oldView, newView) -> {
+            loadContent(newView);
+        });
         bl = BlFacadeImplementation.getInstance();
         loadContent("seatSelection.fxml");
     }
@@ -26,13 +30,17 @@ public class MenuController {
 
     @FXML
     void loginPane(ActionEvent event) {
-        loadContent("signin.fxml");
+        uiState.setCurrentView("signin.fxml");
     }
 
     @FXML
     void registerPane(ActionEvent event) {
-        loadContent("signup.fxml");
+
+        uiState.setCurrentView("signup.fxml");
     }
+
+    // Reference to the UIState
+    private final UIState uiState = UIState.getInstance();
 
     private Map<String, AnchorPane> contentCache = new HashMap<>();
 
