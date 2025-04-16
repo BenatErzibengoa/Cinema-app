@@ -16,6 +16,9 @@ public class SignInController {
 
     BlFacadeImplementation bl;
 
+    // Reference to the UIState
+    private final UIState uiState = UIState.getInstance();
+
     @FXML
     void initialize(){
         bl = BlFacadeImplementation.getInstance();

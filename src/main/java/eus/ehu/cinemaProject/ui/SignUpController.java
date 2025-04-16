@@ -30,6 +30,8 @@ public class SignUpController {
 
     BlFacadeImplementation bl;
 
+    // Reference to the UIState
+    private final UIState uiState = UIState.getInstance();
 
 
     @FXML
