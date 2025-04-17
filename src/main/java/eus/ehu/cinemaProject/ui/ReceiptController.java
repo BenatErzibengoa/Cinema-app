@@ -52,6 +52,5 @@ public class ReceiptController {
         totalSnacks = snackPrice;
     }
 
-    // Si querés después sumar el precio de las entradas, podés usar totalSnacks + seatTotal
 }
 
