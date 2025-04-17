@@ -1,5 +1,6 @@
 package eus.ehu.cinemaProject.businessLogic;
 import eus.ehu.cinemaProject.domain.Film;
+import eus.ehu.cinemaProject.domain.PurchaseReceipt;
 import eus.ehu.cinemaProject.domain.Seat;
 import eus.ehu.cinemaProject.domain.ShowTime;
 import eus.ehu.cinemaProject.domain.users.Customer;
@@ -67,7 +68,12 @@ public interface BlFacade {
      */
     void createPurchaseReceipt(Customer customer, ShowTime showTime, List<Seat> seats);
 
-
+    /**
+     * Returns all PurchaseReceipts that matches with the provided customer
+     *
+     * @param customer    the customer
+     */
+    List<PurchaseReceipt> getPurchaseReceiptsByUser(Customer customer);
 
 
 

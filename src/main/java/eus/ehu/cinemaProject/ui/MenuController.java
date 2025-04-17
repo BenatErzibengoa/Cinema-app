@@ -35,8 +35,12 @@ public class MenuController {
 
     @FXML
     void registerPane(ActionEvent event) {
-
         uiState.setCurrentView("signup.fxml");
+    }
+
+    @FXML
+    void receiptsPane(ActionEvent event) {
+        uiState.setCurrentView("receipts.fxml");
     }
 
     // Reference to the UIState

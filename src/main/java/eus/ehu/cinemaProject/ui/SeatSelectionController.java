@@ -68,6 +68,7 @@ public class SeatSelectionController {
         }
     }
 
+    /*
     // provisional
     @FXML
     void buyTickets(ActionEvent event) {
@@ -78,5 +79,6 @@ public class SeatSelectionController {
         }else
             totalPriceLabel.setText("Sorry, there's been an error. Try again.");
     }
+     */
 }
 

@@ -7,10 +7,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class Menu extends Application {
+public class Launcher extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Menu.class.getResource("menuLayout.fxml")); //Menu --> SignIn
+        FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("menuLayout.fxml")); //Menu --> SignIn
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("CineFlix");
         stage.setScene(scene);
