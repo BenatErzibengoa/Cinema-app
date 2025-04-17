@@ -45,6 +45,13 @@ public class PurchaseReceipt {
         return amount;
     }
 
+    public double getId(){return id;}
+    public Date getOrderDate(){return orderDate;}
+    public ShowTime getShowTime(){return showTime;}
+    public String getBookedSeats(){return bookedSeats.toString();}
+    public double getTotalAmount(){return totalAmount;}
+
+
     /*
     TODO: Implement FoodOrder and Quantity
      */
@@ -52,5 +59,7 @@ public class PurchaseReceipt {
     public double getFoodAmount(){
         return 0;
     }
+
+
 
 }

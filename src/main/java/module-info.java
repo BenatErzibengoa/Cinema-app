@@ -9,8 +9,8 @@ module eus.ehu.cinemaProject {
     requires org.apache.logging.log4j.core;
     requires org.apache.logging.log4j;
 
+    opens eus.ehu.cinemaProject.domain to javafx.base, org.hibernate.orm.core;
 
-    opens eus.ehu.cinemaProject.domain to org.hibernate.orm.core;
     opens eus.ehu.cinemaProject.domain.users to org.hibernate.orm.core;
     opens eus.ehu.cinemaProject.ui to javafx.fxml;
 

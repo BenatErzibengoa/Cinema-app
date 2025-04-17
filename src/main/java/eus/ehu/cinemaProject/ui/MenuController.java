@@ -3,6 +3,7 @@ import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
@@ -15,6 +16,18 @@ public class MenuController {
     @FXML
     private BorderPane contentPane;
 
+    @FXML
+    private Button receiptsButton;
+
+    @FXML
+    private Button loginButton;
+
+    @FXML
+    private Button registerButton;
+
+
+
+
     BlFacadeImplementation bl;
 
 
@@ -23,6 +36,19 @@ public class MenuController {
         uiState.currentViewProperty().addListener((obs, oldView, newView) -> {
             loadContent(newView);
         });
+
+        uiState.loggedInProperty().addListener((obs, wasLoggedIn, isNowLoggedIn) -> {
+            if (isNowLoggedIn) {
+                loginButton.setVisible(false);
+                registerButton.setVisible(false);
+                receiptsButton.setVisible(true);
+            } else {
+                loginButton.setVisible(true);
+                registerButton.setVisible(true);
+                receiptsButton.setVisible(false);
+            }
+        });
+
         bl = BlFacadeImplementation.getInstance();
         loadContent("seatSelection.fxml");
     }
@@ -35,8 +61,12 @@ public class MenuController {
 
     @FXML
     void registerPane(ActionEvent event) {
-
         uiState.setCurrentView("signup.fxml");
+    }
+
+    @FXML
+    void receiptsPane(ActionEvent event) {
+        uiState.setCurrentView("receipts.fxml");
     }
 
     // Reference to the UIState

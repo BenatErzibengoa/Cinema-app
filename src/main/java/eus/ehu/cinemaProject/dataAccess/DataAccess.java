@@ -160,8 +160,20 @@ public class DataAccess {
         return showtimes;
     }
 
-    /*
-    //TODO: It gives errors when compiling but it works, so we have to find a way to solve the compile error
+    public List<PurchaseReceipt> getPurchaseReceiptsByUser(Customer customer){
+        List<PurchaseReceipt> purchaseReceipts;
+        try{
+            TypedQuery<PurchaseReceipt> query = db.createQuery("SELECT p FROM PurchaseReceipt p WHERE p.customer = ?1", PurchaseReceipt.class);
+            query.setParameter(1, customer);
+            purchaseReceipts = query.getResultList();
+        }catch(NoResultException e){
+            logger.info(String.format("There are no results related with '%s' customer", customer.getEmail()));
+            purchaseReceipts = null;
+        }
+        return purchaseReceipts;
+    }
+
+
     public Schedule getScheduleByRoomAndDate(LocalDate date, ScreeningRoom screeningRoom) {
         Schedule schedule;
         try {
@@ -177,7 +189,7 @@ public class DataAccess {
         }
         return schedule;
     }
-    */
+
 
     public void createSchedule(LocalDate date, ScreeningRoom screeningRoom){
         Schedule schedule = new Schedule(date, screeningRoom);
@@ -214,6 +226,16 @@ public class DataAccess {
         logger.info("DataBase is closed.");
     }
 
+    public List<ScreeningRoom> getScreeningRooms() {
+        try{
+            TypedQuery<ScreeningRoom> query = db.createQuery("SELECT c.screeningRooms FROM Cinema c", ScreeningRoom.class);
+            return query.getResultList();
+        }catch (NoResultException e){
+            logger.info("There are no results with the query");
+            return null;
+        }
+    }
+
     private void generateTestingData() {
 
         Cinema cinema = new Cinema("Cineflix", "Bilbo", 688861291, LocalTime.of(15, 30), LocalTime.of(01, 00));
@@ -226,9 +248,9 @@ public class DataAccess {
         Worker worker4 = new Worker("lrodriguez154@ikasle.ehu.eus", "12345678", "Laura", "Rodríguez", 2000);
         Worker worker5 = new Worker("eugarte001@ikasle.ehu.eus", "111222333g", "Ekhi", "Ugarte", 2000);
 
-        Customer customer1 = new Customer("aitor@gmail.com", "11111", "Aitor", "Elizondo");
-        Customer customer2 = new Customer("amaia@gmail.com", "22222", "Amaia", "Susperregi");
-        Customer customer3 = new Customer("uxue@gmail.com", "33333", "Uxue", "Etxebeste");
+        Customer customer1 = new Customer("aitor@gmail.com", "12345", "Aitor", "Elizondo");
+        Customer customer2 = new Customer("amaia@gmail.com", "12345", "Amaia", "Susperregi");
+        Customer customer3 = new Customer("uxue@gmail.com", "12345", "Uxue", "Etxebeste");
 
         List<Genre> genreList1 = new ArrayList<>();
         genreList1.add(Genre.DRAMA);
@@ -278,12 +300,6 @@ public class DataAccess {
             seatSelection4.add(screeningRoom1.getSeats().get(i));
         }
 
-        /*
-        PurchaseReceipt purchaseReceipt1 = new PurchaseReceipt(new Date(),   customer1, showTime1, seatSelection1);
-        PurchaseReceipt purchaseReceipt2 = new PurchaseReceipt(new Date(),  customer1, showTime2, seatSelection2);
-        PurchaseReceipt purchaseReceipt3 = new PurchaseReceipt(new Date(),  customer2, showTime2, seatSelection3);
-        PurchaseReceipt purchaseReceipt4 = new PurchaseReceipt(new Date(),  customer3, showTime2, seatSelection4);
-        */
 
         db.persist(cinema);
         db.persist(admin);
@@ -310,12 +326,20 @@ public class DataAccess {
         db.persist(showTime1);
         db.persist(showTime2);
         db.persist(showTime3);
-        /*
-        db.persist(purchaseReceipt1);
-        db.persist(purchaseReceipt2);
-        db.persist(purchaseReceipt3);
-        db.persist(purchaseReceipt4);
-        */
+
+
+        createPurchaseReceipt(customer1, showTime1, seatSelection1);
+        createPurchaseReceipt(customer1, showTime1, seatSelection1);
+        createPurchaseReceipt(customer2, showTime3, seatSelection1);
+
+        createSchedule(LocalDate.of(2025, 4, 8), screeningRoom1);
+        createSchedule(LocalDate.of(2025, 4, 8), screeningRoom2);
+        logger.debug("Schedules created");
+
+
+        logger.info(getScheduleByRoomAndDate(LocalDate.of(2025, 4, 8), screeningRoom1));
+        createShowTime(getScheduleByRoomAndDate(LocalDate.of(2025, 4, 8), screeningRoom1), LocalTime.of(17, 00), film1);
+        logger.info("showtime created successfully");
 
 
         //This is made to assure we do the queries before persisting data
@@ -332,21 +356,6 @@ public class DataAccess {
                 for(ShowTime showtime: getShowTimesByDateAndFilm(LocalDate.of(2025, 4, 1), film1) ) {
                     logger.debug(showtime);
                 }
-
-                createPurchaseReceipt(customer1, showTime1, seatSelection1);
-                createPurchaseReceipt(customer1, showTime1, seatSelection1);
-                createPurchaseReceipt(customer1, showTime3, seatSelection1);
-
-                createSchedule(LocalDate.of(2025, 4, 8), screeningRoom1);
-                createSchedule(LocalDate.of(2025, 4, 8), screeningRoom2);
-                logger.debug("Schedules created");
-
-
-                //logger.info(getScheduleByRoomAndDate(LocalDate.of(2025, 4, 8), screeningRoom1));
-                //createShowTime(getScheduleByRoomAndDate(LocalDate.of(2025, 4, 8), screeningRoom1), LocalTime.of(17, 00), film1);
-                //logger.info("showtime created successfully");
-
-
                 return null;
             }
         };
@@ -356,15 +365,5 @@ public class DataAccess {
 
     }
 
-
-    public List<ScreeningRoom> getScreeningRooms() {
-        try{
-            TypedQuery<ScreeningRoom> query = db.createQuery("SELECT c.screeningRooms FROM Cinema c", ScreeningRoom.class);
-            return query.getResultList();
-        }catch (NoResultException e){
-            logger.info("There are no results with the query");
-            return null;
-        }
-    }
 
 }

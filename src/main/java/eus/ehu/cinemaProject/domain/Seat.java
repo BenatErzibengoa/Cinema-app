@@ -30,7 +30,6 @@ public class Seat {
         this.seatId = seatId;
         this.type = type;
         setPrice();
-
     }
     public Seat(){}
 
@@ -42,4 +41,9 @@ public class Seat {
     public String getSeatId() { return seatId; }
 
     public SeatType getType() { return type; }
+
+    @Override
+    public String toString(){
+        return this.seatId;
+    }
 }

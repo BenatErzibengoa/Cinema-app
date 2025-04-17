@@ -2,6 +2,8 @@ package eus.ehu.cinemaProject.ui;
 
 import eus.ehu.cinemaProject.domain.Film;
 import eus.ehu.cinemaProject.domain.ShowTime;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -17,6 +19,9 @@ public class UIState {
 
     // The current view property that will be bound to UI elements
     private final StringProperty currentView = new SimpleStringProperty();
+
+    private final BooleanProperty loggedIn = new SimpleBooleanProperty(false);
+
 
     private UIState() {
         // Private constructor for singleton
@@ -39,6 +44,19 @@ public class UIState {
     // Convenience setter for the current view value
     public void setCurrentView(String view) {
         currentView.set(view);
+    }
+
+    // Login state property
+    public BooleanProperty loggedInProperty() {
+        return loggedIn;
+    }
+
+    public boolean isLoggedIn() {
+        return loggedIn.get();
+    }
+
+    public void setLoggedIn(boolean value) {
+        loggedIn.set(value);
     }
 
     //Attributes to share between different view controllers (we have to add more!!!)

@@ -1,8 +1,5 @@
 package eus.ehu.cinemaProject.businessLogic;
-import eus.ehu.cinemaProject.domain.Film;
-import eus.ehu.cinemaProject.domain.ScreeningRoom;
-import eus.ehu.cinemaProject.domain.Seat;
-import eus.ehu.cinemaProject.domain.ShowTime;
+import eus.ehu.cinemaProject.domain.*;
 import eus.ehu.cinemaProject.domain.users.Customer;
 import eus.ehu.cinemaProject.domain.users.User;
 
@@ -11,12 +8,6 @@ import eus.ehu.cinemaProject.dataAccess.DataAccess;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 
 /**
  * Implements the business logic as a web service.
@@ -65,6 +56,12 @@ public class BlFacadeImplementation implements BlFacade {
     public void createPurchaseReceipt(Customer customer, ShowTime showTime, List<Seat> seats){
         dbManager.createPurchaseReceipt(customer, showTime, seats);
     }
+
+    public List<PurchaseReceipt> getPurchaseReceiptsByUser(Customer customer){
+        return dbManager.getPurchaseReceiptsByUser(customer);
+    }
+
+
 
 
 }
