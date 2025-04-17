@@ -2,8 +2,15 @@ package eus.ehu.cinemaProject.ui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ReceiptController {
 
@@ -25,6 +32,7 @@ public class ReceiptController {
     @FXML
     private TextField totalPrize;
 
+
     @FXML
     void goToSeatSelect(ActionEvent event) {
         System.out.println("goToSeatSelect");
@@ -39,6 +47,8 @@ public class ReceiptController {
     void proceedPaymentButton(ActionEvent event) {
         System.out.println("proceedPaymentButton");
     }
+
+
 
 
 }
