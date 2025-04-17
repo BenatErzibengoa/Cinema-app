@@ -65,7 +65,7 @@ public class ReceiptController {
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("totalAmount"));
 
         purchaseReceipts = FXCollections.observableArrayList();
-        purchaseReceipts.addAll(bl.getPurchaseReceiptsByUser((Customer) bl.getUserByEmail(uiState.getEmail())));
+        purchaseReceipts.addAll(bl.getPurchaseReceiptsByUser((Customer) uiState.getUser()));
         tablePurchaseReceipts.setItems(purchaseReceipts);
 
     }
