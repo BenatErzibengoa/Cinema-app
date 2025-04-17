@@ -15,4 +15,6 @@ public enum SeatType {
     public String getStyle() {
         return style;
     }
+
+
 }

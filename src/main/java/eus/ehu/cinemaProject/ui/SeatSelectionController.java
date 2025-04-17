@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -30,7 +31,6 @@ public class SeatSelectionController {
     private UIState uiState = UIState.getInstance();
 
     private BlFacadeImplementation bl;
-    private int seatsPerRow = 10, seatsPerColumn = 4; // this is an example, it should get it from the ShowRoom settings
     private ArrayList<Seat> selectedSeats = new ArrayList<>();
 
     /* This controller needs to track the previous controllers' parameters: customer, ShowTime/ScreeningRoom
@@ -41,19 +41,25 @@ public class SeatSelectionController {
 
     @FXML
     public void initialize() {
-        bl = BlFacadeImplementation.getInstance();
-        ScreeningRoom screeningRoom = uiState.getSelectedShowtime().getSchedule().getScreeningRoom(); // Get the first screening room for demonstration
-        for( int r=0; r<seatsPerRow; r++) seatGrid.getColumnConstraints().add(new ColumnConstraints());
-        for( int c=0; c<seatsPerColumn; c++) seatGrid.getRowConstraints().add(new RowConstraints());
-
-        int index =0;
+        int index =0, seatsPerRow;
         String id;
 
-        for (Seat seat : screeningRoom.getSeats()) {
+        bl = BlFacadeImplementation.getInstance();
+        ScreeningRoom room = uiState.getSelectedShowtime().getSchedule().getScreeningRoom(); // Get the first screening room for demonstration
+        roomNumberLabel.setText(String.valueOf(room.getRoomNumber()));
+        seatsPerRow = room.getMAX_SEATS_PER_ROW();
+
+        // Create column and row constraints for the grid
+        for( int r=0; r<=room.getMAX_ROWS(); r++) seatGrid.getColumnConstraints().add(new ColumnConstraints());
+        for( int c=0; c<=seatsPerRow; c++) seatGrid.getRowConstraints().add(new RowConstraints());
+
+        // Create ToggleButton for each seat, each has a listener that changes opacity and adds/removes the seat from the selectedSeats list
+        for (Seat seat : room.getSeats()) {
             id= seat.getSeatId().substring(2);
             ToggleButton seatButton = new ToggleButton(id);
             seatMap.put(seatButton, seat);
             seatButton.setStyle(seat.getType().getStyle());
+            seatButton.setGraphic(new ImageView(seat.getImage()));
 
             seatButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue) {
