@@ -248,9 +248,9 @@ public class DataAccess {
         Worker worker4 = new Worker("lrodriguez154@ikasle.ehu.eus", "12345678", "Laura", "Rodríguez", 2000);
         Worker worker5 = new Worker("eugarte001@ikasle.ehu.eus", "111222333g", "Ekhi", "Ugarte", 2000);
 
-        Customer customer1 = new Customer("aitor@gmail.com", "11111", "Aitor", "Elizondo");
-        Customer customer2 = new Customer("amaia@gmail.com", "22222", "Amaia", "Susperregi");
-        Customer customer3 = new Customer("uxue@gmail.com", "33333", "Uxue", "Etxebeste");
+        Customer customer1 = new Customer("aitor@gmail.com", "12345", "Aitor", "Elizondo");
+        Customer customer2 = new Customer("amaia@gmail.com", "12345", "Amaia", "Susperregi");
+        Customer customer3 = new Customer("uxue@gmail.com", "12345", "Uxue", "Etxebeste");
 
         List<Genre> genreList1 = new ArrayList<>();
         genreList1.add(Genre.DRAMA);
@@ -300,12 +300,6 @@ public class DataAccess {
             seatSelection4.add(screeningRoom1.getSeats().get(i));
         }
 
-        /*
-        PurchaseReceipt purchaseReceipt1 = new PurchaseReceipt(new Date(),   customer1, showTime1, seatSelection1);
-        PurchaseReceipt purchaseReceipt2 = new PurchaseReceipt(new Date(),  customer1, showTime2, seatSelection2);
-        PurchaseReceipt purchaseReceipt3 = new PurchaseReceipt(new Date(),  customer2, showTime2, seatSelection3);
-        PurchaseReceipt purchaseReceipt4 = new PurchaseReceipt(new Date(),  customer3, showTime2, seatSelection4);
-        */
 
         db.persist(cinema);
         db.persist(admin);
@@ -332,12 +326,20 @@ public class DataAccess {
         db.persist(showTime1);
         db.persist(showTime2);
         db.persist(showTime3);
-        /*
-        db.persist(purchaseReceipt1);
-        db.persist(purchaseReceipt2);
-        db.persist(purchaseReceipt3);
-        db.persist(purchaseReceipt4);
-        */
+
+
+        createPurchaseReceipt(customer1, showTime1, seatSelection1);
+        createPurchaseReceipt(customer1, showTime1, seatSelection1);
+        createPurchaseReceipt(customer2, showTime3, seatSelection1);
+
+        createSchedule(LocalDate.of(2025, 4, 8), screeningRoom1);
+        createSchedule(LocalDate.of(2025, 4, 8), screeningRoom2);
+        logger.debug("Schedules created");
+
+
+        logger.info(getScheduleByRoomAndDate(LocalDate.of(2025, 4, 8), screeningRoom1));
+        createShowTime(getScheduleByRoomAndDate(LocalDate.of(2025, 4, 8), screeningRoom1), LocalTime.of(17, 00), film1);
+        logger.info("showtime created successfully");
 
 
         //This is made to assure we do the queries before persisting data
@@ -354,21 +356,6 @@ public class DataAccess {
                 for(ShowTime showtime: getShowTimesByDateAndFilm(LocalDate.of(2025, 4, 1), film1) ) {
                     logger.debug(showtime);
                 }
-
-                createPurchaseReceipt(customer1, showTime1, seatSelection1);
-                createPurchaseReceipt(customer1, showTime1, seatSelection1);
-                createPurchaseReceipt(customer1, showTime3, seatSelection1);
-
-                createSchedule(LocalDate.of(2025, 4, 8), screeningRoom1);
-                createSchedule(LocalDate.of(2025, 4, 8), screeningRoom2);
-                logger.debug("Schedules created");
-
-
-                logger.info(getScheduleByRoomAndDate(LocalDate.of(2025, 4, 8), screeningRoom1));
-                createShowTime(getScheduleByRoomAndDate(LocalDate.of(2025, 4, 8), screeningRoom1), LocalTime.of(17, 00), film1);
-                logger.info("showtime created successfully");
-
-
                 return null;
             }
         };

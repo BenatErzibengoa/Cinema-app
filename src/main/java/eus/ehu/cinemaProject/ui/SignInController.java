@@ -35,6 +35,10 @@ public class SignInController {
 
                 //Pass the email to the UIState
                 uiState.setEmail(emailField.getText());
+                uiState.setLoggedIn(true);
+
+                //Remove next comment when Theo finishes his work
+                //uiState.setCurrentView("films.fxml");
             }
             else{
                 outputText.setText("Invalid credentials. Please try again");

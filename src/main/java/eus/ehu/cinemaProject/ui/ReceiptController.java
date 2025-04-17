@@ -42,17 +42,17 @@ public class ReceiptController {
     @FXML
     private TableColumn<PurchaseReceipt, Double> priceColumn;
 
-
-
     private ObservableList<PurchaseReceipt> purchaseReceipts;
 
     private BlFacadeImplementation bl;
 
-    // initialize the list with some drivers
+    private final UIState uiState = UIState.getInstance();
+
+
     @FXML
     public void initialize() {
+
         bl = BlFacadeImplementation.getInstance();
-        //bind each value to the corresponding column
         showTimeIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 
 
@@ -65,10 +65,8 @@ public class ReceiptController {
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("totalAmount"));
 
         purchaseReceipts = FXCollections.observableArrayList();
-        purchaseReceipts.addAll(bl.getPurchaseReceiptsByUser((Customer) bl.getUserByEmail("aitor@gmail.com")));
-        tablePurchaseReceipts.setItems(purchaseReceipts); //Assign the UI table a reference to the observable list (UI <--> Data)
-
-
+        purchaseReceipts.addAll(bl.getPurchaseReceiptsByUser((Customer) bl.getUserByEmail(uiState.getEmail())));
+        tablePurchaseReceipts.setItems(purchaseReceipts);
 
     }
 }
