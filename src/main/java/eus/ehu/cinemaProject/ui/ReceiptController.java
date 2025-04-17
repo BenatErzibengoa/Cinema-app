@@ -3,52 +3,55 @@ package eus.ehu.cinemaProject.ui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import javafx.scene.Node;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ReceiptController {
 
-    @FXML
-    private Button goBack;
+    @FXML private TextField movieInfo;
+    @FXML private TextField receipt;
+    @FXML private TextField totalPrize;
+
+    private double totalSnacks = 0.0;
 
     @FXML
-    private TextField movieInfo;
+    private void goToSnacksSelect(javafx.event.ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("orderfood.fxml"));
+            Parent root = loader.load();
 
-    @FXML
-    private Button orderSnacks;
+            OrderFoodController controller = loader.getController();
+            controller.setReceiptController(this);
 
-    @FXML
-    private Button proceedPayment;
-
-    @FXML
-    private TextField receipt;
-
-    @FXML
-    private TextField totalPrize;
-
-
-    @FXML
-    void goToSeatSelect(ActionEvent event) {
-        System.out.println("goToSeatSelect");
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
-    void goToSnacksSelect(ActionEvent event) {
-        System.out.println("goToSnacksSelect");
+    private void goToSeatSelect(ActionEvent event){
+        System.out.println("Going to seat selection");
     }
 
     @FXML
-    void proceedPaymentButton(ActionEvent event) {
-        System.out.println("proceedPaymentButton");
+    private void proceedPaymentButton(ActionEvent event){
+        System.out.println("proceed");
     }
 
+    public void setSnackData(String snackSummary, double snackPrice) {
+        receipt.setText(snackSummary);
+        totalPrize.setText(String.format("€%.2f", snackPrice));
+        totalSnacks = snackPrice;
+    }
 
-
-
+    // Si querés después sumar el precio de las entradas, podés usar totalSnacks + seatTotal
 }
+
