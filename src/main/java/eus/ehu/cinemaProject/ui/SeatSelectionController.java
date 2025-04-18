@@ -30,7 +30,7 @@ public class SeatSelectionController {
     private Map<ToggleButton, Seat> seatMap = new HashMap<>();
     private UIState uiState = UIState.getInstance();
 
-    private BlFacadeImplementation bl;
+    private BlFacadeImplementation bl = BlFacadeImplementation.getInstance();;
     private ArrayList<Seat> selectedSeats = new ArrayList<>();
 
     /* This controller needs to track the previous controllers' parameters: customer, ShowTime/ScreeningRoom
@@ -43,9 +43,7 @@ public class SeatSelectionController {
     public void initialize() {
         int index =0, seatsPerRow;
         String id;
-
-        bl = BlFacadeImplementation.getInstance();
-        ScreeningRoom room = uiState.getSelectedShowtime().getSchedule().getScreeningRoom(); // Get the first screening room for demonstration
+        ScreeningRoom room = uiState.getSelectedShowtime().getSchedule().getScreeningRoom();
         roomNumberLabel.setText(String.valueOf(room.getRoomNumber()));
         seatsPerRow = room.getMAX_SEATS_PER_ROW();
 
@@ -75,16 +73,24 @@ public class SeatSelectionController {
             GridPane.setHalignment(seatButton, HPos.CENTER);
             index++;
         }
+
+        totalPriceLabel.textProperty().addListener(observable -> {
+                    double totalPrice = 0;
+                    for (Seat selectedSeat : selectedSeats) {
+                        totalPrice += selectedSeat.getPrice();
+                    }
+                    totalPriceLabel.setText(String.valueOf(totalPrice));
+                }
+        );
     }
 
     // provisional
     @FXML
     void buyTickets(ActionEvent event) {
         User customer = bl.getUserByEmail(uiState.getEmail());
-
+        uiState.setSelectedSeats(selectedSeats);
         bl.createPurchaseReceipt((Customer)customer, uiState.getSelectedShowtime(), selectedSeats);
-        //TODO: when Ekhi finishes his fxml, update the String of the view
-        uiState.setCurrentView("buyFood.fxml");
+        uiState.setCurrentView("signin.fxml");
     }
 }
 

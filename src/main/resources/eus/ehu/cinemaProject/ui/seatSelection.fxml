@@ -12,12 +12,12 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.SeatSelectionController">
    <center>
-      <GridPane fx:id="seatGrid" BorderPane.alignment="CENTER">
+      <GridPane fx:id="seatGrid" alignment="TOP_CENTER" BorderPane.alignment="CENTER">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints vgrow="SOMETIMES" />
         </rowConstraints>
       </GridPane>
    </center>
