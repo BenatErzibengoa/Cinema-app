@@ -5,11 +5,14 @@ import java.util.*;
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
 import eus.ehu.cinemaProject.domain.ScreeningRoom;
 import eus.ehu.cinemaProject.domain.Seat;
+import eus.ehu.cinemaProject.domain.users.Customer;
+import eus.ehu.cinemaProject.domain.users.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -25,9 +28,9 @@ public class SeatSelectionController {
     private Label totalPriceLabel;
 
     private Map<ToggleButton, Seat> seatMap = new HashMap<>();
+    private UIState uiState = UIState.getInstance();
 
-    private BlFacadeImplementation bl;
-    private int seatsPerRow = 10, seatsPerColumn = 4; // this is an example, it should get it from the ShowRoom settings
+    private BlFacadeImplementation bl = BlFacadeImplementation.getInstance();;
     private ArrayList<Seat> selectedSeats = new ArrayList<>();
 
     /* This controller needs to track the previous controllers' parameters: customer, ShowTime/ScreeningRoom
@@ -38,19 +41,23 @@ public class SeatSelectionController {
 
     @FXML
     public void initialize() {
-        bl = BlFacadeImplementation.getInstance();
-        ScreeningRoom screeningRoom = bl.getScreeningRooms().get(0); // Get the first screening room for demonstration
-        for( int r=0; r<seatsPerRow; r++) seatGrid.getColumnConstraints().add(new ColumnConstraints());
-        for( int c=0; c<seatsPerColumn; c++) seatGrid.getRowConstraints().add(new RowConstraints());
-
-        int index =0;
+        int index =0, seatsPerRow;
         String id;
+        ScreeningRoom room = uiState.getSelectedShowtime().getSchedule().getScreeningRoom();
+        roomNumberLabel.setText(String.valueOf(room.getRoomNumber()));
+        seatsPerRow = room.getMAX_SEATS_PER_ROW();
 
-        for (Seat seat : screeningRoom.getSeats()) {
+        // Create column and row constraints for the grid
+        for( int r=0; r<=room.getMAX_ROWS(); r++) seatGrid.getColumnConstraints().add(new ColumnConstraints());
+        for( int c=0; c<=seatsPerRow; c++) seatGrid.getRowConstraints().add(new RowConstraints());
+
+        // Create ToggleButton for each seat, each has a listener that changes opacity and adds/removes the seat from the selectedSeats list
+        for (Seat seat : room.getSeats()) {
             id= seat.getSeatId().substring(2);
             ToggleButton seatButton = new ToggleButton(id);
             seatMap.put(seatButton, seat);
             seatButton.setStyle(seat.getType().getStyle());
+            seatButton.setGraphic(new ImageView(seat.getImage()));
 
             seatButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue) {
@@ -66,18 +73,25 @@ public class SeatSelectionController {
             GridPane.setHalignment(seatButton, HPos.CENTER);
             index++;
         }
+
+        totalPriceLabel.textProperty().addListener(observable -> {
+                    double totalPrice = 0;
+                    for (Seat selectedSeat : selectedSeats) {
+                        totalPrice += selectedSeat.getPrice();
+                    }
+                    totalPriceLabel.setText(String.valueOf(totalPrice));
+                }
+        );
     }
 
     /*
     // provisional
     @FXML
     void buyTickets(ActionEvent event) {
-        int result = bl.createPurchaseReceipt(customer, showTime, selectedSeats);
-        if(result != -1){
-            totalPriceLabel.setText(String.valueOf(result));
-
-        }else
-            totalPriceLabel.setText("Sorry, there's been an error. Try again.");
+        User customer = bl.getUserByEmail(uiState.getEmail());
+        uiState.setSelectedSeats(selectedSeats);
+        bl.createPurchaseReceipt((Customer)customer, uiState.getSelectedShowtime(), selectedSeats);
+        uiState.setCurrentView("signin.fxml");
     }
      */
 }
