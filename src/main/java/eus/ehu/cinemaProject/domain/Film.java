@@ -14,6 +14,7 @@ public class Film {
     private String director;
     private LocalTime duration;
     private String description;
+    private String imageurl;
 
     @ElementCollection(targetClass = Genre.class)
     @Enumerated(EnumType.STRING)
@@ -37,4 +38,5 @@ public class Film {
     public LocalTime getDuration(){return duration;}
     public String getDescription(){return description;}
     public List<Genre> getGenre(){return genre;}
+    public String getImageurl(){return imageurl;}
 }

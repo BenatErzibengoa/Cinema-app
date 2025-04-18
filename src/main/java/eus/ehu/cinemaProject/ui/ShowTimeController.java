@@ -7,10 +7,10 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -50,7 +50,7 @@ public class ShowTimeController {
         movieDescription.setText(film.getDescription());
         movieDuration.setText(film.getDuration().format(DateTimeFormatter.ofPattern("HH:mm")));
         movieGenre.setText(film.getGenre().toString());
-        movieImage.setImage(null);
+        movieImage.setImage(new Image(film.getImageurl()));
 
         //Configure the TilePane
         showtimesPane.setHgap(15);
