@@ -38,15 +38,9 @@ public class MenuController {
         });
 
         uiState.loggedInProperty().addListener((obs, wasLoggedIn, isNowLoggedIn) -> {
-            if (isNowLoggedIn) {
-                loginButton.setVisible(false);
-                registerButton.setVisible(false);
-                receiptsButton.setVisible(true);
-            } else {
-                loginButton.setVisible(true);
-                registerButton.setVisible(true);
-                receiptsButton.setVisible(false);
-            }
+            loginButton.setVisible(!isNowLoggedIn);
+            registerButton.setVisible(!isNowLoggedIn);
+            receiptsButton.setVisible(isNowLoggedIn);
         });
 
         bl = BlFacadeImplementation.getInstance();

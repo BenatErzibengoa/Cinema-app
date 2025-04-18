@@ -11,6 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.layout.StackPane?>
 <BorderPane fx:id="contentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="733.0" prefWidth="824.0" style="-fx-background-color: #171717;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.MenuController">
    <top>
       <HBox alignment="CENTER_RIGHT" prefHeight="47.0" prefWidth="600.0" style="-fx-background-color: rgba(0,0,0,0.6);" BorderPane.alignment="CENTER_RIGHT">
@@ -32,14 +33,19 @@
                </font>
             </Text>
             <Region prefHeight="47.0" prefWidth="27.0" />
-            <Button fx:id="receiptsButton" mnemonicParsing="false" onAction="#receiptsPane" prefHeight="28.0" prefWidth="66.0" style="-fx-background-color: rgba(0,0,0,0); -fx-border-color: #aaa; -fx-border-radius: 3px;" text="Receipts" textFill="WHITE" visible="false" />
+
             <Region prefHeight="47.0" prefWidth="82.0" />
             <Button fx:id="loginButton" mnemonicParsing="false" onAction="#loginPane" prefHeight="28.0" prefWidth="66.0" style="-fx-background-color: rgba(0,0,0,0); -fx-border-color: #aaa; -fx-border-radius: 3px;" text="Login" textFill="WHITE">
                <HBox.margin>
                   <Insets right="30.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="registerButton" mnemonicParsing="false" onAction="#registerPane" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #c01530;" text="Register" textFill="WHITE" />
+            <StackPane>
+               <!-- Register sits on bottom -->
+               <Button fx:id="registerButton" text="Register" prefWidth="73" prefHeight="25" style="-fx-background-color: #c01530;" textFill="WHITE" onAction="#registerPane"/>
+               <!-- Receipts on top, initially hidden -->
+               <Button fx:id="receiptsButton" text="Receipts" prefWidth="73" prefHeight="25" style="-fx-background-color: rgba(0,0,0,0); -fx-border-color: #aaa; -fx-border-radius: 3px;" textFill="WHITE" visible="false" onAction="#receiptsPane"/>
+            </StackPane>
          </children>
          <padding>
             <Insets left="20.0" right="20.0" />
