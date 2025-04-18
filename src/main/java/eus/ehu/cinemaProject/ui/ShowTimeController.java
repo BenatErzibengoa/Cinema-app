@@ -45,7 +45,7 @@ public class ShowTimeController {
     void initialize() {
         bl = BlFacadeImplementation.getInstance();
         film = uiState.getFilm();
-        //load movie info(WE WILL GET THE FILM FROM THE PREVIOUS CONTROLLER, TODO: change parameters)
+
         movieTitle.setText(film.getTitle());
         movieDescription.setText(film.getDescription());
         movieDuration.setText(film.getDuration().format(DateTimeFormatter.ofPattern("HH:mm")));
