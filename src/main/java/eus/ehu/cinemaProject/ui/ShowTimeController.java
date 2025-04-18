@@ -1,6 +1,8 @@
 package eus.ehu.cinemaProject.ui;
 
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
+import eus.ehu.cinemaProject.domain.Film;
+import eus.ehu.cinemaProject.domain.ShowTime;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -34,20 +36,20 @@ public class ShowTimeController {
 
     BlFacadeImplementation bl;
 
-
-    //THESE ARE TEMPORARY ATTRIBUTES, just to ensure  buttons are created correctly (The showtimes and the movie will be passed as parameters to the controller)
-    private List<LocalTime> showTimes=List.of(LocalTime.of(10, 0), LocalTime.of(12, 30), LocalTime.of(15, 0), LocalTime.of(17, 30), LocalTime.of(20, 0));
-    private String showTime;
+    private final UIState uiState = UIState.getInstance();
+    private List<ShowTime>showTimes;
+    private Film film;
+    private ShowTime selectedShowTime;
 
     @FXML
     void initialize() {
         bl = BlFacadeImplementation.getInstance();
-
+        film = uiState.getFilm();
         //load movie info(WE WILL GET THE FILM FROM THE PREVIOUS CONTROLLER, TODO: change parameters)
-        movieTitle.setText("Movie Title");
-        movieDescription.setText("Movie Description");
-        movieDuration.setText("120 min");
-        movieGenre.setText("Action, Adventure");
+        movieTitle.setText(film.getTitle());
+        movieDescription.setText(film.getDescription());
+        movieDuration.setText(film.getDuration().format(DateTimeFormatter.ofPattern("HH:mm")));
+        movieGenre.setText(film.getGenre().toString());
         movieImage.setImage(null);
 
         //Configure the TilePane
@@ -57,27 +59,19 @@ public class ShowTimeController {
         showtimesPane.getChildren().clear();
 
         //Create showTime Buttons
-        for (LocalTime showTime: showTimes){
-            Button showTimeButton = new Button(showTime.format(DateTimeFormatter.ofPattern("HH:mm")));
-            showTimeButton.setOnAction(event -> handleShowTimeClick(showTime));
+        showTimes=uiState.getShowtimes();
+
+        for (ShowTime selectedShowTime: showTimes){
+            Button showTimeButton = new Button(selectedShowTime.getScreeningTime().format(DateTimeFormatter.ofPattern("HH:mm")));
+            showTimeButton.setOnAction(event -> handleShowTimeClick(selectedShowTime));
 
             showtimesPane.getChildren().add(showTimeButton);
         }
-
-        //Correct one, with list of ShowTimes:
-
-        //for (ShowTime showTime: showTimes){
-        //    Button showTimeButton = new Button(showTime.getScreeningTime().format(DateTimeFormatter.ofPattern("HH:mm"));
-        //    showTimeButton.setOnAction(event -> handleShowTimeClick(showTime));
-
-        //    showtimesPane.getChildren().add(showTimeButton);
-        // }
-
     }
 
-    private void handleShowTimeClick(LocalTime showTime) {
-        //TODO:when user clicks on a showtime button, the seatView will load, and we will pass the selected showtime to the seatView controller
-
+    private void handleShowTimeClick(ShowTime selectedShowTime) {
+        uiState.setSelectedShowTime(selectedShowTime);
+        uiState.setCurrentView("seatSelection");
     }
 
 

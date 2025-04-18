@@ -69,6 +69,8 @@ public class UIState {
 
     private List<ShowTime> showtimes;
 
+    private ShowTime selectedShowTime;
+
     //Corresponding getters and setters to interchange data between controllers
     public String getEmail() {
         return email;
@@ -90,5 +92,6 @@ public class UIState {
     public void setShowtimes(List<ShowTime> showtimes) {
         this.showtimes = showtimes;
     }
-
+    public ShowTime getSelectedShowTime() {return selectedShowTime;}
+    public void setSelectedShowTime(ShowTime selectedShowTime) {this.selectedShowTime = selectedShowTime;}
 }
