@@ -9,12 +9,11 @@ import javafx.scene.image.Image;
 public class Seat {
     @Id
     private String seatId;
-    private double price;
-
-
 
     @ManyToOne
     private ScreeningRoom screeningRoom;
+
+    private double price;
     private SeatType type;
 
     private void setPrice(){

@@ -17,6 +17,8 @@ public class Schedule {
     private ScheduleId id;
 
     @ManyToOne
+    @MapsId("screeningRoom") // Maps the composite key's screeningRoom part
+    @JoinColumn(name = "screeningRoom_roomNumber", insertable = false, updatable = false)
     private ScreeningRoom screeningRoom;
 
     @OneToMany (mappedBy = "schedule", cascade = CascadeType.ALL, orphanRemoval = true)
