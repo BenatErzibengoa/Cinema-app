@@ -55,15 +55,17 @@ deactivate BIF
 UI -> UI: Display\nShowtimes
 
 Customer -> UI: select showTime
-UI -> DA: getSchedule().getScreeningRoom()
-activate DA
-DA --> UI: return ScreeningRoom
-deactivate DA
-
-UI -> ST: getSeats()
+UI -> ST: getSchedule().getScreeningRoom()
 activate ST
-ST --> UI: List<Seats>
+ST --> UI: return ScreeningRoom
 deactivate ST
+
+UI -> SR: getSeats()
+activate SR
+SR --> UI: List<Seat>
+deactivate SR
+
+UI -> UI: Display Seats
 
 Customer -> UI: select Seat/seats
 Customer -> UI: click on buyTicket
@@ -72,21 +74,23 @@ UI -> BIF: createPurchaseReceipt\n(customer, showTime, selectedSeats)
 activate BIF
 BIF -> DA: createPurchaseReceipt\n(customer, showTime, selectedSeats)
 activate DA
-DA -> DA: begin Transaction
+DA -> EM: begin Transaction
+activate EM
 DA -> PR: new PurchaseReceipt\n(customer, showTime, selectedSeats)
 activate PR
-PR --> DA: PurchaseReceipt created
+PR --> EM: PurchaseReceipt created
+EM --> DA: PurchaseReceipt created
 deactivate PR
-DA --> BIF: PurchaseReceipt created
-deactivate DA
-BIF --> UI: PurchaseReceipt created
-deactivate BIF
 
-UI -> DA: persist(purchaseReceipt)
-activate DA
-DA -> DA: commit Transaction
-DA --> UI: Success
+DA -> EM: persist(purchaseReceipt)
+DA -> EM: commit Transaction
+EM --> DA: Success
+deactivate EM
+
+DA --> BIF: Success
 deactivate DA
+BIF --> UI: Success
+deactivate BIF
 
 UI -> UI: Display\nPurchase Receipt\nand movie info
 Customer -> UI: click on proceed with\npayment
