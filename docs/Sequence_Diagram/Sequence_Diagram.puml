@@ -11,8 +11,6 @@ participant "PurchaseReceipt" as PR
 participant "ScreeningRoom" as SR
 participant "showTime" as ST
 
-Customer -> UI: getShowTimesByDate(today)
-activate UI
 UI -> BIF: getShowTimesByDate(today)
 activate BIF
 BIF -> DA: getShowTimesByDate(today)
@@ -119,7 +117,7 @@ note across #lightyellow
 Q1:
 SELECT s FROM ShowTime s
 WHERE s.screeningDate = ?1
-Parameter: 1.Todays date
+Parameter: 1.Today's date
 end note
 
 note across #lightyellow
