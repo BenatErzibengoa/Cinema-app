@@ -17,6 +17,7 @@ public class Film {
     private List<Genre> genre;
     @OneToMany (mappedBy = "reviewedFilm")
     private List<Review> reviews;
+    private String imagePath;  // movie cover - Théo
 
     public Film(String title, String director, LocalTime duration, String description, List<Genre> genre) {
         this.title = title;
@@ -29,4 +30,10 @@ public class Film {
 
     public String getTitle(){return this.title;}
     public LocalTime getDuration(){return duration;}
+    public String getImagePath() {return imagePath;} //Théo
+
+
+    public void setImagePath(String imagePath) { //Théo
+        this.imagePath = imagePath;
+    }
 }

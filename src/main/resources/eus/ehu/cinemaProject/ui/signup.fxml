@@ -15,7 +15,7 @@
       <TextField fx:id="emailField" layoutX="52.0" layoutY="218.0" prefHeight="35.0" prefWidth="270.0" promptText="Enter your email address" style="-fx-background-color: rgba(142,142,142,0.08); -fx-text-fill: #fff;" />
       <PasswordField fx:id="passwordField" layoutX="51.0" layoutY="285.0" prefHeight="35.0" prefWidth="270.0" promptText="Create a password" style="-fx-background-color: rgba(142,142,142,0.08); -fx-text-fill: #fff;" />
       <PasswordField fx:id="passwordField2" layoutX="51.0" layoutY="326.0" prefHeight="35.0" prefWidth="270.0" promptText="Repeat the password" style="-fx-background-color: rgba(142,142,142,0.08); -fx-text-fill: #fff;" />
-      <Button fx:id="loginButton" layoutX="51.0" layoutY="397.0" mnemonicParsing="false" onAction="#signUp" prefHeight="35.0" prefWidth="270.0" style="-fx-background-color: #c01530;" text="Sign Up" textFill="WHITE" />
+      <Button fx:id="loginButton" layoutX="51.0" layoutY="397.0" mnemonicParsing="false" onAction="#signUp" prefHeight="35.0" prefWidth="270.0" style="-fx-background-color: #c01530; -fx-cursor: hand;" text="Sign Up" textFill="WHITE" />
       <Text fill="WHITE" layoutX="136.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sign Up">
          <font>
             <Font name="System Bold" size="26.0" />
