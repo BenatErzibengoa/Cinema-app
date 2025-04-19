@@ -257,6 +257,7 @@ public class DataAccess {
         Film film1 = new Film("The Godfather", "Francis Ford Coppola", LocalTime.of(2, 55),
                 "A cinematic masterpiece directed by Francis Ford Coppola",
                 genreList1);
+        film1.setImagePath("/eus/ehu/cinemaProject/ui/pictures/the-godfather.jpg");
 
         List<Genre> genreList2 = new ArrayList<>();
         genreList2.add(Genre.ACTION);
@@ -264,18 +265,22 @@ public class DataAccess {
         Film film2 = new Film("Die Hard", "John McTiernan", LocalTime.of(2, 11),
                 "An action-packed thriller directed by John McTiernan",
                 genreList2);
+        film2.setImagePath("/eus/ehu/cinemaProject/ui/pictures/die-hard.jpg");
 
         ScreeningRoom screeningRoom1 = new ScreeningRoom(cinema,1);
         ScreeningRoom screeningRoom2 = new ScreeningRoom(cinema,2);
 
 
-        Schedule schedule1 = new Schedule(LocalDate.of(2025, 4, 1), screeningRoom1);
-        Schedule schedule2 = new Schedule(LocalDate.of(2025, 4, 1), screeningRoom2);
+        LocalDate today = LocalDate.now();  // today
+        Schedule schedule1 = new Schedule(today, screeningRoom1);
+        Schedule schedule2 = new Schedule(today, screeningRoom2);
 
 
         ShowTime showTime1 = new ShowTime(schedule1, LocalTime.of(17, 00), film1);
         ShowTime showTime2 = new ShowTime(schedule2, LocalTime.of(18, 30), film2);
         ShowTime showTime3 = new ShowTime(schedule2, LocalTime.of(16, 00), film2);
+        ShowTime showTime4 = new ShowTime(schedule1, LocalTime.of(20, 00), film1);
+        ShowTime showTime5 = new ShowTime(schedule2, LocalTime.of(20, 30), film2);
 
 
 
@@ -326,19 +331,21 @@ public class DataAccess {
         db.persist(showTime1);
         db.persist(showTime2);
         db.persist(showTime3);
+        db.persist(showTime4);
+        db.persist(showTime5);
 
 
         createPurchaseReceipt(customer1, showTime1, seatSelection1);
         createPurchaseReceipt(customer1, showTime1, seatSelection1);
         createPurchaseReceipt(customer2, showTime3, seatSelection1);
 
-        createSchedule(LocalDate.of(2025, 4, 8), screeningRoom1);
-        createSchedule(LocalDate.of(2025, 4, 8), screeningRoom2);
-        logger.debug("Schedules created");
+        LocalDate tomorrow = today.plusDays(1);  // Tomorrow
+        createSchedule(tomorrow, screeningRoom1);
+        createSchedule(tomorrow, screeningRoom2);
 
 
-        logger.info(getScheduleByRoomAndDate(LocalDate.of(2025, 4, 8), screeningRoom1));
-        createShowTime(getScheduleByRoomAndDate(LocalDate.of(2025, 4, 8), screeningRoom1), LocalTime.of(17, 00), film1);
+        logger.info(getScheduleByRoomAndDate(tomorrow, screeningRoom1));  // Utilise 'tomorrow'
+        createShowTime(getScheduleByRoomAndDate(tomorrow, screeningRoom1), LocalTime.of(17, 00), film1);
         logger.info("showtime created successfully");
 
 
@@ -349,11 +356,11 @@ public class DataAccess {
                 Thread.sleep(500);
                 logger.debug("Query testing:");
                 logger.debug("Showtimes with date(yyyy/mm/dd) 2025/04/01:");
-                for(ShowTime showtime: getShowTimesByDate(LocalDate.of(2025, 4, 1)) ) {
+                for(ShowTime showtime: getShowTimesByDate(today)) {
                     logger.debug(showtime);
                 }
                 logger.debug("Showtimes with date(yyyy/mm/dd) 2025/04/01 and film:");
-                for(ShowTime showtime: getShowTimesByDateAndFilm(LocalDate.of(2025, 4, 1), film1) ) {
+                for(ShowTime showtime: getShowTimesByDateAndFilm(today, film1)){
                     logger.debug(showtime);
                 }
                 return null;
