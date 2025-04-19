@@ -3,6 +3,8 @@ package eus.ehu.cinemaProject.domain;
 import jakarta.persistence.*;
 import javafx.scene.image.Image;
 
+import java.io.InputStream;
+
 @Entity
 @Table(name = "seats")
 
@@ -24,14 +26,21 @@ public class Seat {
         }
     }
     public Image getImage(){
-        Image im = null;
+        String name = "";
         switch (type){
-            case NORMAL -> im = new Image("plasticSeat.jpeg");
-            case COMFORTABLE -> im = new Image("redSeat.png");
-            case PREMIUM -> im = new Image("premiumSeat.png");
+            case NORMAL -> name ="plasticSeat.jpeg";
+            case COMFORTABLE -> name = "redSeat.png";
+            case PREMIUM -> name = "premiumSeat.png";
         }
-        return im;
+        InputStream stream = getClass().getResourceAsStream("/eus/ehu/cinemaProject/ui/pictures/" + name);
+        if (stream == null) {
+            throw new IllegalArgumentException("Seat image not found");
+        }
+        return new Image(stream);
     }
+
+
+
 
 
     public Seat(ScreeningRoom screeningRoom, String seatId, SeatType type){
