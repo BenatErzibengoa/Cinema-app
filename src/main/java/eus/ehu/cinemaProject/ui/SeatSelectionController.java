@@ -84,6 +84,7 @@ public class SeatSelectionController {
         );
     }
 
+    // not provisional
     @FXML
     void buyTickets(ActionEvent event) {
         User customer = uiState.getUser();
