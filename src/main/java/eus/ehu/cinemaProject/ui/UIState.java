@@ -3,6 +3,7 @@ package eus.ehu.cinemaProject.ui;
 import eus.ehu.cinemaProject.domain.Film;
 import eus.ehu.cinemaProject.domain.Seat;
 import eus.ehu.cinemaProject.domain.ShowTime;
+
 import eus.ehu.cinemaProject.domain.users.User;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -99,6 +100,8 @@ public class UIState {
 
     public List<Seat> getSelectedSeats() { return selectedSeats; }
     public void setSelectedSeats(List<Seat> selectedSeats) { this.selectedSeats = selectedSeats; }
+
+
 
 
 

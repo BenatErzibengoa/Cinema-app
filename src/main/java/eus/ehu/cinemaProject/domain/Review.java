@@ -1,5 +1,6 @@
 package eus.ehu.cinemaProject.domain;
 
+import eus.ehu.cinemaProject.domain.users.Customer;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,7 +12,17 @@ public class Review {
     private Long id;
     @ManyToOne
     private Film reviewedFilm;
-    private String opinion;
     private int rating;
-    private String reviewAuthor;
+    private String textReview;
+    @ManyToOne
+    private Customer author;
+
+    public Review(Film reviewedFilm, int rating, String textReview, Customer author) {
+        this.reviewedFilm = reviewedFilm;
+        this.rating = rating;
+        this.textReview = textReview;
+        this.author = author;
+    }
+    public Review(){}
+
 }

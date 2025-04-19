@@ -21,9 +21,10 @@ import org.apache.logging.log4j.Logger;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 
 public class DataAccess {
@@ -191,6 +192,7 @@ public class DataAccess {
     }
 
 
+
     public void createSchedule(LocalDate date, ScreeningRoom screeningRoom){
         Schedule schedule = new Schedule(date, screeningRoom);
         if (!db.getTransaction().isActive()) {
@@ -234,6 +236,14 @@ public class DataAccess {
             logger.info("There are no results with the query");
             return null;
         }
+    }
+
+    public void storeReview(Film film, int rating, String textReview, Customer author){
+        if (!db.getTransaction().isActive()) {
+            db.getTransaction().begin();
+        }
+        db.persist(new Review(film, rating, textReview, author));
+        db.getTransaction().commit();
     }
 
     private void generateTestingData() {
@@ -336,7 +346,7 @@ public class DataAccess {
 
 
         createPurchaseReceipt(customer1, showTime1, seatSelection1);
-        createPurchaseReceipt(customer1, showTime1, seatSelection1);
+        createPurchaseReceipt(customer1, showTime2, seatSelection1);
         createPurchaseReceipt(customer2, showTime3, seatSelection1);
 
         LocalDate tomorrow = today.plusDays(1);  // Tomorrow
@@ -367,7 +377,6 @@ public class DataAccess {
             }
         };
         new Thread(task).start();
-
 
 
     }

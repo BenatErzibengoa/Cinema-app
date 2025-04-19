@@ -45,7 +45,7 @@ public class PurchaseReceipt {
         return amount;
     }
 
-    public double getId(){return id;}
+    public long getId(){return id;}
     public Date getOrderDate(){return orderDate;}
     public ShowTime getShowTime(){return showTime;}
     public String getBookedSeats(){return bookedSeats.toString();}
