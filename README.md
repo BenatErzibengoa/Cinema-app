@@ -23,4 +23,15 @@ All of us worked concurrently on the requirements' analysis and gave feedback to
 project issues. After being on the same page, we started coding the first prototype of the main menu with a 
 BorderLayout, and gave it a style, as well as putting the attributes of the classes that we had defined.
 
+### Second sprint
+Before progressing with new functionalities, we dedicated time to reviewing and correcting issues identified during the first sprint to ensure a solid foundation.
+
+We then began integrating a database into our project. This included designing the schema, creating the necessary SQL queries, and conducting initial tests to ensure everything functioned correctly.
+
+With the updated requirements in mind, we reallocated tasks among team members, continuing to be mindful of workload balance.
+
+Our main focus for this sprint was the development of the application's controllers and user interfaces. Each team member was responsible for specific windows or components, working in parallel to build out the system’s interactive elements and later connect them with backend logic.
+
+The controllers and UIs we developed are Menu, MovieList, OrderFood, Receipt, SeatSelection, SignIn and SignUp
+
 

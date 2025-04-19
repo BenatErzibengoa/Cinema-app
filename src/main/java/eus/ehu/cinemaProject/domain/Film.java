@@ -36,4 +36,6 @@ public class Film {
     public void setImagePath(String imagePath) { //Théo
         this.imagePath = imagePath;
     }
+    public String getDescription(){return description;}
+    public List<Genre> getGenre(){return genre;}
 }
