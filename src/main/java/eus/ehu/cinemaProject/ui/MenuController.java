@@ -59,7 +59,7 @@ public class MenuController {
             }
         });
 
-        loadContent("seatSelection.fxml");
+        //loadContent("seatSelection.fxml");
     }
 
 
