@@ -16,9 +16,14 @@ public class Schedule {
     @EmbeddedId
     private ScheduleId id;
 
+    @ManyToOne
+    @MapsId("screeningRoom") // Maps the composite key's screeningRoom part
+    @JoinColumn(name = "screeningRoom_roomNumber", insertable = false, updatable = false)
+    private ScreeningRoom screeningRoom;
 
-    @OneToMany
+    @OneToMany (mappedBy = "schedule", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ShowTime> showTimes;
+
 
     private LocalTime openingTime;
     private LocalTime closingTime;
