@@ -54,7 +54,7 @@ public class ShowTimeController {
         movieDescription.setText(film.getDescription());
         movieDuration.setText(film.getDuration().format(DateTimeFormatter.ofPattern("HH:mm")));
         movieGenre.setText(film.getGenre().toString());
-        movieImage.setImage(new Image(film.getImagePath()));
+        movieImage.setImage(new Image(getClass().getResourceAsStream(film.getImagePath())));
 
         //Configure the TilePane
         showtimesPane.setHgap(15);

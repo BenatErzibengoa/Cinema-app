@@ -122,9 +122,9 @@ public class MovieListController {
         alert.setTitle("Booking");
         alert.setHeaderText("Booking for: " + film.getTitle());
         alert.setContentText("Redirecting to booking page...");
-        alert.showAndWait();
-        uiState.setCurrentView("showTime.fxml");
+        //alert.showAndWait();
         uiState.setFilm(film);
+        uiState.setCurrentView("showTime.fxml");
     }
 
     private void showError(String message) {
