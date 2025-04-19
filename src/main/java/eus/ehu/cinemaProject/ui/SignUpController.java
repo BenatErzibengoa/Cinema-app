@@ -30,6 +30,8 @@ public class SignUpController {
 
     BlFacadeImplementation bl;
 
+    // Reference to the UIState
+    private final UIState uiState = UIState.getInstance();
 
 
     @FXML
@@ -57,6 +59,9 @@ public class SignUpController {
             bl.signUp(emailField.getText(), passwordField.getText(), nameField.getText(), surnameField.getText());
             message.setText("You've successfully registered! Welcome, "+nameField.getText()+"!");
             message.setStyle("-fx-text-fill: green; -fx-alignment: center;");
+
+            //Pass the email to the UIState
+            uiState.setEmail(emailField.getText());
         }
 
     }

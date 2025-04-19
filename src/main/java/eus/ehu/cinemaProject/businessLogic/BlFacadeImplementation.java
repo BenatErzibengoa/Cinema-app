@@ -1,5 +1,6 @@
 package eus.ehu.cinemaProject.businessLogic;
 import eus.ehu.cinemaProject.domain.Film;
+import eus.ehu.cinemaProject.domain.ScreeningRoom;
 import eus.ehu.cinemaProject.domain.Seat;
 import eus.ehu.cinemaProject.domain.ShowTime;
 import eus.ehu.cinemaProject.domain.users.Customer;
@@ -11,6 +12,10 @@ import eus.ehu.cinemaProject.dataAccess.DataAccess;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -43,6 +48,10 @@ public class BlFacadeImplementation implements BlFacade {
 
     public void signUp(String email, String password, String name, String surname){
         dbManager.signUp(email,password,name,surname);
+    }
+
+    public List<ScreeningRoom> getScreeningRooms() {
+        return dbManager.getScreeningRooms();
     }
 
     public List<ShowTime> getShowTimesByDate(LocalDate date){

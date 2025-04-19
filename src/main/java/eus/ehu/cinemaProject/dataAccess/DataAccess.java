@@ -161,7 +161,7 @@ public class DataAccess {
     }
 
     /*
-    TODO: It gives errors when compiling but it works, so we have to find a way to solve the compile error
+    //TODO: It gives errors when compiling but it works, so we have to find a way to solve the compile error
     public Schedule getScheduleByRoomAndDate(LocalDate date, ScreeningRoom screeningRoom) {
         Schedule schedule;
         try {
@@ -177,7 +177,7 @@ public class DataAccess {
         }
         return schedule;
     }
-     */
+    */
 
     public void createSchedule(LocalDate date, ScreeningRoom screeningRoom){
         Schedule schedule = new Schedule(date, screeningRoom);
@@ -188,8 +188,8 @@ public class DataAccess {
         db.getTransaction().commit();
     }
 
-    public void createShowTime(ScreeningRoom screeningRoom, Schedule schedule, LocalTime screeningTime, Film film){
-        ShowTime showTime = new ShowTime(screeningRoom, schedule, screeningTime, film);
+    public void createShowTime(Schedule schedule, LocalTime screeningTime, Film film){
+        ShowTime showTime = new ShowTime(schedule, screeningTime, film);
         if (!db.getTransaction().isActive()) {
             db.getTransaction().begin();
         }
@@ -251,9 +251,9 @@ public class DataAccess {
         Schedule schedule2 = new Schedule(LocalDate.of(2025, 4, 1), screeningRoom2);
 
 
-        ShowTime showTime1 = new ShowTime(screeningRoom1, schedule1, LocalTime.of(17, 00), film1);
-        ShowTime showTime2 = new ShowTime(screeningRoom2, schedule2, LocalTime.of(18, 30), film2);
-        ShowTime showTime3 = new ShowTime(screeningRoom1, schedule2, LocalTime.of(16, 00), film2);
+        ShowTime showTime1 = new ShowTime(schedule1, LocalTime.of(17, 00), film1);
+        ShowTime showTime2 = new ShowTime(schedule2, LocalTime.of(18, 30), film2);
+        ShowTime showTime3 = new ShowTime(schedule2, LocalTime.of(16, 00), film2);
 
 
 
@@ -341,11 +341,11 @@ public class DataAccess {
                 createSchedule(LocalDate.of(2025, 4, 8), screeningRoom2);
                 logger.debug("Schedules created");
 
-                /*
-                logger.info(getScheduleByRoomAndDate(LocalDate.of(2025, 4, 8), screeningRoom1));
-                createShowTime(screeningRoom1, getScheduleByRoomAndDate(LocalDate.of(2025, 4, 8), screeningRoom1), LocalTime.of(17, 00), film1);
-                logger.info("showtime created successfully");
-                 */
+
+                //logger.info(getScheduleByRoomAndDate(LocalDate.of(2025, 4, 8), screeningRoom1));
+                //createShowTime(getScheduleByRoomAndDate(LocalDate.of(2025, 4, 8), screeningRoom1), LocalTime.of(17, 00), film1);
+                //logger.info("showtime created successfully");
+
 
                 return null;
             }
@@ -356,5 +356,15 @@ public class DataAccess {
 
     }
 
+
+    public List<ScreeningRoom> getScreeningRooms() {
+        try{
+            TypedQuery<ScreeningRoom> query = db.createQuery("SELECT c.screeningRooms FROM Cinema c", ScreeningRoom.class);
+            return query.getResultList();
+        }catch (NoResultException e){
+            logger.info("There are no results with the query");
+            return null;
+        }
+    }
 
 }
