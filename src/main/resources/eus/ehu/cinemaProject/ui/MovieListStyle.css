@@ -1,0 +1,14 @@
+.scroll-bar:vertical .thumb,
+.scroll-bar:horizontal .thumb {
+    -fx-background-color: #777;
+    -fx-background-radius: 4px;
+}
+
+.scroll-bar:vertical,
+.scroll-bar:horizontal {
+    -fx-background-color:  #242424;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent; /* viewport background */
+}
