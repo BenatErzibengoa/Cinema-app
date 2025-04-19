@@ -9,8 +9,9 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.SeatSelectionController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="602.0" style="-fx-background-radius: 12px;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.SeatSelectionController">
    <center>
       <GridPane fx:id="seatGrid" alignment="TOP_CENTER" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -22,9 +23,12 @@
       </GridPane>
    </center>
    <top>
-      <HBox alignment="CENTER_LEFT" prefHeight="56.0" prefWidth="600.0" BorderPane.alignment="CENTER_LEFT">
+      <HBox alignment="CENTER_LEFT" prefHeight="62.0" prefWidth="508.0" style="-fx-background-color: #242424;" BorderPane.alignment="CENTER_LEFT">
          <children>
-            <Label text="Screening room Nº  " />
+            <Label text="Screening room Nº  " textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="26.0" />
+               </font></Label>
             <Label fx:id="roomNumberLabel" />
          </children>
          <padding>
@@ -33,10 +37,10 @@
       </HBox>
    </top>
    <bottom>
-      <AnchorPane prefHeight="73.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="89.0" prefWidth="601.0" style="-fx-background-color: #242424;" BorderPane.alignment="CENTER">
          <children>
-            <Button alignment="CENTER" layoutX="238.0" layoutY="37.0" mnemonicParsing="false" onAction="#buyTickets" text="Continue buying" />
-            <Label layoutX="177.0" layoutY="6.0" text="Selectet seats' price:" />
+            <Button alignment="CENTER" layoutX="182.0" layoutY="31.0" mnemonicParsing="false" onAction="#buyTickets" prefHeight="38.0" prefWidth="237.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="Continue buying" textFill="WHITE" />
+            <Label layoutX="182.0" layoutY="6.0" text="Selectet seats' price:" textFill="WHITE" />
             <Label fx:id="totalPriceLabel" layoutX="289.0" layoutY="5.0" prefHeight="18.0" prefWidth="0.0" />
          </children>
       </AnchorPane>

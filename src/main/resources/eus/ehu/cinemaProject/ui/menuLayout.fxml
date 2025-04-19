@@ -23,7 +23,7 @@
                </image>
             </ImageView>
 
-            <Text fx:id="titleText" fill="#c01530" onMouseClicked="#showMovieList" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text=" CineFlix" wrappingWidth="92.30599331855774">
+            <Text fx:id="titleText" fill="#dd6600" onMouseClicked="#showMovieList" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text=" CineFlix" wrappingWidth="92.30599331855774">
                <HBox.margin>
                   <Insets right="295.0" />
                </HBox.margin>
@@ -40,7 +40,7 @@
                   <Insets right="30.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="registerButton" mnemonicParsing="false" onAction="#registerPane" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #c01530; -fx-cursor: hand;" text="Register" textFill="WHITE" />
+            <Button fx:id="registerButton" mnemonicParsing="false" onAction="#registerPane" prefHeight="25.0" prefWidth="73.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="Register" textFill="WHITE" />
          </children>
          <padding>
             <Insets left="20.0" right="20.0" />
