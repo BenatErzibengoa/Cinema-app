@@ -50,7 +50,8 @@ public class SignInController {
         }
         else{
             outputText.setText("Fill all fields");
-            outputText.setStyle("-fx-text-fill: grey;");
+            outputText.setStyle("-fx-text-fill: red;");
+
         }
         outputText.setVisible(true);
     }
