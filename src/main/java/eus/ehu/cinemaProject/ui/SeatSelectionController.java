@@ -86,10 +86,10 @@ public class SeatSelectionController {
 
     @FXML
     void buyTickets(ActionEvent event) {
-        User customer = bl.getUserByEmail(uiState.getEmail());
+        User customer = uiState.getUser();
         uiState.setSelectedSeats(selectedSeats);
         bl.createPurchaseReceipt((Customer)customer, uiState.getSelectedShowtime(), selectedSeats);
-        uiState.setCurrentView("signin.fxml");
+        uiState.setCurrentView("receipts.fxml");
     }
 
 }

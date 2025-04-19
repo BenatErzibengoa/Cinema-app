@@ -35,7 +35,7 @@
    <bottom>
       <AnchorPane prefHeight="73.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <Button alignment="CENTER" layoutX="238.0" layoutY="37.0" mnemonicParsing="false" onAction="#buyTickets" text="Buy Selected Tickets" />
+            <Button alignment="CENTER" layoutX="238.0" layoutY="37.0" mnemonicParsing="false" onAction="#buyTickets" text="Continue buying" />
             <Label layoutX="177.0" layoutY="6.0" text="Selectet seats' price:" />
             <Label fx:id="totalPriceLabel" layoutX="289.0" layoutY="5.0" prefHeight="18.0" prefWidth="0.0" />
          </children>
