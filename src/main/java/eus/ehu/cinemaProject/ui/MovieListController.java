@@ -15,7 +15,9 @@ import javafx.scene.text.Text;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MovieListController {
 
@@ -32,16 +34,28 @@ public class MovieListController {
     private void loadMovies() {
         try {
             LocalDate today = LocalDate.now();
-            List<ShowTime> showTimes = businessLogic.getShowTimesByDate(today);
-            movieTilePane.getChildren().clear();
+            LocalDate endDate = today.plusDays(14); // look 14 days
 
-            for (ShowTime showTime : showTimes) {
-                Film film = showTime.getFilm();
-                if (film != null) {
-                    VBox filmCard = createFilmCard(film, showTime.getScreeningTime());
-                    movieTilePane.getChildren().add(filmCard);
+            Map<Film, LocalTime> filmsMap = new LinkedHashMap<>();
+
+            for (LocalDate date = today; date.isBefore(endDate); date = date.plusDays(1)) {
+                List<ShowTime> showTimes = businessLogic.getShowTimesByDate(date);
+
+                for (ShowTime showTime : showTimes) {
+                    Film film = showTime.getFilm();
+                    if (!filmsMap.containsKey(film)) {
+                        filmsMap.put(film, showTime.getScreeningTime());
+                    }
                 }
             }
+
+            movieTilePane.getChildren().clear();
+
+            for (Map.Entry<Film, LocalTime> entry : filmsMap.entrySet()) {
+                VBox filmCard = createFilmCard(entry.getKey(), entry.getValue());
+                movieTilePane.getChildren().add(filmCard);
+            }
+
         } catch (Exception e) {
             showError("Error loading movies: " + e.getMessage());
         }
@@ -63,7 +77,7 @@ public class MovieListController {
         Button bookButton = createBookButton(film);
 
         // Card assembly
-        VBox card = new VBox(10, posterView, titleText, detailsText, bookButton);
+        VBox card = new VBox(8, posterView, titleText, detailsText, bookButton);
         card.setStyle("-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-padding: 15px;");
         card.setMaxWidth(220);
 
