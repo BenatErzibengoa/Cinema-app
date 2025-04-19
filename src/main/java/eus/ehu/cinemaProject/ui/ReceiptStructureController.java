@@ -1,10 +1,7 @@
 package eus.ehu.cinemaProject.ui;
 
-import eus.ehu.cinemaProject.businessLogic.BlFacade;
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
-import eus.ehu.cinemaProject.domain.Film;
 import eus.ehu.cinemaProject.domain.PurchaseReceipt;
-import eus.ehu.cinemaProject.domain.Seat;
 import eus.ehu.cinemaProject.domain.users.Customer;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -18,7 +15,7 @@ import javafx.scene.layout.BorderPane;
 
 import java.util.Date;
 
-public class ReceiptController {
+public class ReceiptStructureController {
 
     @FXML
     private BorderPane contentPane;
