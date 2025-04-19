@@ -35,17 +35,6 @@ public class MenuController {
     @FXML //Théo
     private void showMovieList() {
         loadContent("MovieList.fxml");
-
-        // Réinitialise le contrôleur pour rafraîchir les films
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("MovieList.fxml"));
-        try {
-            Pane movieList = loader.load();
-            MovieListController controller = loader.getController();
-            controller.setBusinessLogic(bl); // Recharge les données
-            contentPane.setCenter(movieList);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @FXML void initialize(){
@@ -76,17 +65,17 @@ public class MenuController {
 
     @FXML
     void loginPane(ActionEvent event) {
-        uiState.setCurrentView("signin.fxml");
+        loadContent("signin.fxml");
     }
 
     @FXML
     void registerPane(ActionEvent event) {
-        uiState.setCurrentView("signup.fxml");
+        loadContent("signup.fxml");
     }
 
     @FXML
     void receiptsPane(ActionEvent event) {
-        uiState.setCurrentView("receipts.fxml");
+        loadContent("receipts.fxml");
     }
 
     // Reference to the UIState
@@ -96,6 +85,28 @@ public class MenuController {
 
     private void loadContent(String fxmlFile) {
         try {
+            // Retirer la vue du cache si elle existe déjà
+            contentCache.remove(fxmlFile);
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
+            Pane content = loader.load();
+
+            if (loader.getController() instanceof MovieListController) {
+                ((MovieListController) loader.getController()).setBusinessLogic(bl);
+            }
+
+            contentCache.put(fxmlFile, content);
+            contentPane.setCenter(content);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /*
+    private void loadContent(String fxmlFile) {
+        try {
+            contentCache.remove(fxmlFile); //Théo - Remove view if already in cache
             // Check if content is already cached
             Pane content = contentCache.get(fxmlFile);
             if (content == null) {
@@ -115,4 +126,5 @@ public class MenuController {
             e.printStackTrace();
         }
     }
+    */
 }
