@@ -14,16 +14,10 @@ public class Film {
     private String director;
     private LocalTime duration;
     private String description;
-    private String imageurl;
-
-    @ElementCollection(targetClass = Genre.class)
-    @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "film_genres")
-    @Column(name = "genre")
     private List<Genre> genre;
-
     @OneToMany (mappedBy = "reviewedFilm")
     private List<Review> reviews;
+    private String imagePath;  // movie cover - Théo
 
     public Film(String title, String director, LocalTime duration, String description, List<Genre> genre) {
         this.title = title;
@@ -36,7 +30,10 @@ public class Film {
 
     public String getTitle(){return this.title;}
     public LocalTime getDuration(){return duration;}
-    public String getDescription(){return description;}
-    public List<Genre> getGenre(){return genre;}
-    public String getImageurl(){return imageurl;}
+    public String getImagePath() {return imagePath;} //Théo
+
+
+    public void setImagePath(String imagePath) { //Théo
+        this.imagePath = imagePath;
+    }
 }

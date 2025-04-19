@@ -1,6 +1,7 @@
 package eus.ehu.cinemaProject.domain;
 
 import jakarta.persistence.*;
+import javafx.scene.image.Image;
 
 @Entity
 @Table(name = "seats")
@@ -8,12 +9,11 @@ import jakarta.persistence.*;
 public class Seat {
     @Id
     private String seatId;
-    private double price;
-
-
 
     @ManyToOne
     private ScreeningRoom screeningRoom;
+
+    private double price;
     private SeatType type;
 
     private void setPrice(){
@@ -22,6 +22,15 @@ public class Seat {
             case COMFORTABLE -> price = 7.95;
             case PREMIUM -> price = 9.5;
         }
+    }
+    public Image getImage(){
+        Image im = null;
+        switch (type){
+            case NORMAL -> im = new Image("plasticSeat.jpeg");
+            case COMFORTABLE -> im = new Image("redSeat.png");
+            case PREMIUM -> im = new Image("premiumSeat.png");
+        }
+        return im;
     }
 
 

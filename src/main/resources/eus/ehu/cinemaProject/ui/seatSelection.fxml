@@ -12,12 +12,12 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.SeatSelectionController">
    <center>
-      <GridPane fx:id="seatGrid" BorderPane.alignment="CENTER">
+      <GridPane fx:id="seatGrid" alignment="TOP_CENTER" BorderPane.alignment="CENTER">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints vgrow="SOMETIMES" />
         </rowConstraints>
       </GridPane>
    </center>
@@ -35,7 +35,7 @@
    <bottom>
       <AnchorPane prefHeight="73.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <Button alignment="CENTER" layoutX="238.0" layoutY="37.0" mnemonicParsing="false" onAction="#buyTickets" text="Buy Selected Tickets" />
+            <Button alignment="CENTER" layoutX="238.0" layoutY="37.0" mnemonicParsing="false" onAction="#buyTickets" text="Continue buying" />
             <Label layoutX="177.0" layoutY="6.0" text="Selectet seats' price:" />
             <Label fx:id="totalPriceLabel" layoutX="289.0" layoutY="5.0" prefHeight="18.0" prefWidth="0.0" />
          </children>

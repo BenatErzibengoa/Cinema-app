@@ -1,6 +1,7 @@
 package eus.ehu.cinemaProject.ui;
 
 import eus.ehu.cinemaProject.domain.Film;
+import eus.ehu.cinemaProject.domain.Seat;
 import eus.ehu.cinemaProject.domain.ShowTime;
 import eus.ehu.cinemaProject.domain.users.User;
 import javafx.beans.property.BooleanProperty;
@@ -62,14 +63,15 @@ public class UIState {
 
     //Attributes to share between different view controllers (we have to add more!!!)
     private String email;
+    private Film selectedFilm;
+    private ShowTime selectedShowtime;
+    private List<Seat> selectedSeats;
 
     private User user;
 
     private Film film;
 
     private List<ShowTime> showtimes;
-
-    private ShowTime selectedShowTime;
 
     //Corresponding getters and setters to interchange data between controllers
     public String getEmail() {
@@ -92,6 +94,12 @@ public class UIState {
     public void setShowtimes(List<ShowTime> showtimes) {
         this.showtimes = showtimes;
     }
-    public ShowTime getSelectedShowTime() {return selectedShowTime;}
-    public void setSelectedShowTime(ShowTime selectedShowTime) {this.selectedShowTime = selectedShowTime;}
+    public ShowTime getSelectedShowtime() { return selectedShowtime; }
+    public void setSelectedShowtime(ShowTime selectedShowtime) { this.selectedShowtime = selectedShowtime; }
+
+    public List<Seat> getSelectedSeats() { return selectedSeats; }
+    public void setSelectedSeats(List<Seat> selectedSeats) { this.selectedSeats = selectedSeats; }
+
+
+
 }
