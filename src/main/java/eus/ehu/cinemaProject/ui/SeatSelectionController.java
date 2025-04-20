@@ -106,7 +106,7 @@ public class SeatSelectionController {
         User customer = uiState.getUser();
         uiState.setSelectedSeats(selectedSeats);
         bl.createPurchaseReceipt((Customer)customer, uiState.getSelectedShowtime(), selectedSeats);
-        uiState.setCurrentView("receipts.fxml");
+        uiState.setCurrentView("receipt.fxml");
     }
 
     //Update the total price label with the sum of the selected seats, using stream
