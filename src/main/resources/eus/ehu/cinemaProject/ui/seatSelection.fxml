@@ -37,7 +37,7 @@
          <children>
             <Button alignment="CENTER" layoutX="238.0" layoutY="37.0" mnemonicParsing="false" onAction="#buyTickets" text="Continue buying" />
             <Label layoutX="177.0" layoutY="6.0" text="Selectet seats' price:" />
-            <Label fx:id="totalPriceLabel" layoutX="289.0" layoutY="5.0" prefHeight="18.0" prefWidth="0.0" />
+             <Label fx:id="totalPriceLabel" layoutX="289.0" layoutY="7.0" maxWidth="Infinity" text="0.00 €" />
          </children>
       </AnchorPane>
    </bottom>

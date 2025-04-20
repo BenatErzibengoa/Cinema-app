@@ -58,7 +58,13 @@ public class SeatSelectionController {
             ToggleButton seatButton = new ToggleButton(id);
             seatMap.put(seatButton, seat);
             seatButton.setStyle(seat.getType().getStyle());
-            seatButton.setGraphic(new ImageView(seat.getImage()));
+
+            //Add image but make the size smaller
+            ImageView seatImage = new ImageView(seat.getImage());
+            seatImage.setFitWidth(40);
+            seatImage.setFitHeight(40);
+            seatImage.setPreserveRatio(true);
+            seatButton.setGraphic(seatImage);
 
             seatButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue) {
@@ -68,6 +74,8 @@ public class SeatSelectionController {
                     selectedSeats.remove(seatMap.get(seatButton));
                     seatButton.setOpacity(1.0); // Restore opacity to 100% when unselected
                 }
+                // Update the total price label
+                updateTotalPrice();
             });
 
             seatGrid.add(seatButton, index % seatsPerRow, index / seatsPerRow);
@@ -75,14 +83,6 @@ public class SeatSelectionController {
             index++;
         }
 
-        totalPriceLabel.textProperty().addListener(observable -> {
-                    double totalPrice = 0;
-                    for (Seat selectedSeat : selectedSeats) {
-                        totalPrice += selectedSeat.getPrice();
-                    }
-                    totalPriceLabel.setText(String.valueOf(totalPrice));
-                }
-        );
     }
 
     // not provisional
@@ -92,6 +92,14 @@ public class SeatSelectionController {
         uiState.setSelectedSeats(selectedSeats);
         bl.createPurchaseReceipt((Customer)customer, uiState.getSelectedShowtime(), selectedSeats);
         uiState.setCurrentView("receipts.fxml");
+    }
+
+    //Update the total price label with the sum of the selected seats, using stream
+    private void updateTotalPrice() {
+        double totalPrice = selectedSeats.stream()
+                .mapToDouble(Seat::getPrice)
+                .sum();
+        totalPriceLabel.setText(String.format("%.2f €", totalPrice));
     }
 
 }
