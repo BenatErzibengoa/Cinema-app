@@ -62,6 +62,9 @@ public class SignUpController {
 
             //Pass the email to the UIState
             uiState.setEmail(emailField.getText());
+            uiState.setUser(bl.getUserByEmail(emailField.getText()));
+            uiState.setLoggedIn(true);
+            uiState.setCurrentView("MovieList.fxml");
         }
 
     }
