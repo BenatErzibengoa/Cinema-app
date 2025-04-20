@@ -90,7 +90,7 @@ public class SeatSelectionController {
         User customer = uiState.getUser();
         uiState.setSelectedSeats(selectedSeats);
         bl.createPurchaseReceipt((Customer)customer, uiState.getSelectedShowtime(), selectedSeats);
-        uiState.setCurrentView("receipts.fxml");
+        uiState.setCurrentView("receipt.fxml");
     }
 
 }
