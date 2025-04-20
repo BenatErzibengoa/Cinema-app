@@ -22,6 +22,7 @@ import java.util.Map;
 public class MovieListController {
 
     @FXML private TilePane movieTilePane;
+    private final UIState uiState = UIState.getInstance();
 
     private BlFacade businessLogic;
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH'h'mm");
@@ -111,7 +112,7 @@ public class MovieListController {
 
     private Button createBookButton(Film film) {
         Button button = new Button("Book Now");
-        button.setStyle("-fx-background-color: #2a9df4; -fx-text-fill: white; -fx-font-weight: bold;");
+        button.setStyle("-fx-background-color: #dd6600; -fx-text-fill: white; -fx-font-weight: bold;");
         button.setOnAction(event -> showBookingAlert(film));
         return button;
     }
@@ -121,7 +122,9 @@ public class MovieListController {
         alert.setTitle("Booking");
         alert.setHeaderText("Booking for: " + film.getTitle());
         alert.setContentText("Redirecting to booking page...");
-        alert.showAndWait();
+        //alert.showAndWait();
+        uiState.setFilm(film);
+        uiState.setCurrentView("showTime.fxml");
     }
 
     private void showError(String message) {

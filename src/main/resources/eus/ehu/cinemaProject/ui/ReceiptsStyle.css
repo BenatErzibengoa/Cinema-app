@@ -1,0 +1,10 @@
+.table-view .column-header .label {
+    -fx-text-fill: #ffffff;
+}
+
+/* Cellules */
+.table-cell {
+    -fx-padding: 8px 10px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-text-fill: #ffffff;
+}
