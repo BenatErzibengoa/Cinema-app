@@ -335,9 +335,9 @@ public class DataAccess {
         db.persist(showTime5);
 
 
-        createPurchaseReceipt(customer1, showTime1, seatSelection1);
-        createPurchaseReceipt(customer1, showTime1, seatSelection1);
-        createPurchaseReceipt(customer2, showTime3, seatSelection1);
+         //createPurchaseReceipt(customer1, showTime1, seatSelection1);
+         //createPurchaseReceipt(customer1, showTime1, seatSelection1);
+        //createPurchaseReceipt(customer2, showTime3, seatSelection1);
 
         LocalDate tomorrow = today.plusDays(1);  // Tomorrow
         createSchedule(tomorrow, screeningRoom1);
