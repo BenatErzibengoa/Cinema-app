@@ -42,6 +42,9 @@ public class ReceiptController {
     String seatInfo;
     private UIState uiState = UIState.getInstance();
 
+    private String summary="";
+    private double foodprice=0.0;
+
 
     @FXML
     public void initialize() {
@@ -57,7 +60,8 @@ public class ReceiptController {
 
     @FXML
     private void goToSnacksSelect(javafx.event.ActionEvent event) {
-        try {
+        uiState.setCurrentView("orderfood.fxml");
+        /** try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("orderfood.fxml"));
             Parent root = loader.load();
 
@@ -68,7 +72,7 @@ public class ReceiptController {
             stage.setScene(new Scene(root));
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        } **/
     }
 
     @FXML
