@@ -30,7 +30,7 @@ public class Seat {
         switch (type){
             case NORMAL -> name ="plasticSeat.jpeg";
             case COMFORTABLE -> name = "redSeat.png";
-            case PREMIUM -> name = "premiumSeat.png";
+            case PREMIUM -> name = "premiumSeat.jpg";
         }
         InputStream stream = getClass().getResourceAsStream("/eus/ehu/cinemaProject/ui/pictures/" + name);
         if (stream == null) {
