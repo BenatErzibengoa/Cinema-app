@@ -37,10 +37,19 @@ public class ScreeningRoom {
         this.cinema = cinema;
         this.roomNumber = roomNumber;
         //Room.Row.Seat
-        for(int i=1; i<=MAX_ROWS; i++)
-            for (int j=1; j<=MAX_SEATS_PER_ROW; j++)
-                seats.add( new Seat(this, String.format("%s.%s.%s", roomNumber, i, j), SeatType.values()[(i-1)%3]));
-
+        for (int i = 1; i <= MAX_ROWS; i++) {
+            for (int j = 1; j <= MAX_SEATS_PER_ROW; j++) {
+                SeatType type;
+                if (i <= 2) { // First two rows are normal
+                    type = SeatType.NORMAL;
+                } else if (i == 3) { // Third row is comfortable
+                    type = SeatType.COMFORTABLE;
+                } else { // Fourth row is premium
+                    type = SeatType.PREMIUM;
+                }
+                seats.add(new Seat(this, String.format("%s.%s.%s", roomNumber, i, j), type));
+            }
+            }
     }
 
     public ScreeningRoom() {}
