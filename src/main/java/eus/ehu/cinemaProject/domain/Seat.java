@@ -26,9 +26,9 @@ public class Seat {
     public Image getImage(){
         Image im = null;
         switch (type){
-            case NORMAL -> im = new Image("plasticSeat.jpeg");
-            case COMFORTABLE -> im = new Image("redSeat.png");
-            case PREMIUM -> im = new Image("premiumSeat.png");
+            case NORMAL -> im = new Image(getClass().getResourceAsStream("/eus/ehu/cinemaProject/ui/pictures/plasticSeat.jpeg"));
+            case COMFORTABLE -> im = new Image(getClass().getResourceAsStream("/eus/ehu/cinemaProject/ui/pictures/redSeat.png"));
+            case PREMIUM -> im = new Image(getClass().getResourceAsStream("/eus/ehu/cinemaProject/ui/pictures/premiumSeat.png"));
         }
         return im;
     }

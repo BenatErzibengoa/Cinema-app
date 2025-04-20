@@ -10,12 +10,15 @@ import eus.ehu.cinemaProject.domain.users.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 public class SeatSelectionController {
     @FXML
@@ -55,9 +58,8 @@ public class SeatSelectionController {
         for (Seat seat : room.getSeats()) {
             id= seat.getSeatId().substring(2);
             ToggleButton seatButton = new ToggleButton(id);
+            setButtonStyled(seatButton, seat);
             seatMap.put(seatButton, seat);
-            seatButton.setStyle(seat.getType().getStyle());
-            seatButton.setGraphic(new ImageView(seat.getImage()));
 
             seatButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue) {
@@ -84,7 +86,6 @@ public class SeatSelectionController {
         );
     }
 
-    // not provisional
     @FXML
     void buyTickets(ActionEvent event) {
         User customer = uiState.getUser();
@@ -93,5 +94,28 @@ public class SeatSelectionController {
         uiState.setCurrentView("receipt.fxml");
     }
 
+    private void setButtonStyled(ToggleButton button, Seat seat) {
+        ImageView iv = new ImageView(seat.getImage());
+        iv.setFitHeight(40);
+        iv.setFitWidth(40);
+        iv.setPreserveRatio(true);
+        button.setGraphic(null);
+        VBox content = new VBox(5); // 5 pixel spacing between elements
+        content.setAlignment(Pos.CENTER);
+        content.getChildren().addAll(iv, new Text(button.getText()));
+
+        // Set the VBox as the button's graphic
+        button.setGraphic(content);
+        button.setText(""); // Clear the text property as we're using the Text node
+
+        // Set minimum button size
+        button.setMinSize(80, 80);
+
+
+        button.setStyle(seat.getType().getStyle());
+
+
+
+    }
 }
 
