@@ -61,8 +61,9 @@ public class BlFacadeImplementation implements BlFacade {
         return dbManager.getPurchaseReceiptsByUser(customer);
     }
 
-
-    //storereview
+    public void storeReview(Film reviewedFilm, int rating, String textReview, Customer author){
+        dbManager.storeReview(reviewedFilm, rating, textReview, author);
+    }
 
 
 

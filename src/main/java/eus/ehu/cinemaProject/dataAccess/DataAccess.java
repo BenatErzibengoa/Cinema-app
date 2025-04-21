@@ -40,7 +40,7 @@ public class DataAccess {
             System.out.println("Shutting down database connection...");
             this.close();
         }));
-        Configurator.setLevel(logger.getName(), Level.INFO);
+        Configurator.setLevel(logger.getName(), Level.DEBUG);
     }
 
     public void open() {

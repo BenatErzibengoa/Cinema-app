@@ -16,6 +16,6 @@
             <TableColumn fx:id="priceColumn" prefWidth="79.0" text="Price" />
         </columns>
       </TableView>
-      <Button fx:id="rateFilmsButton" layoutX="274.0" layoutY="361.0" mnemonicParsing="false" onAction="#filmsToReviewPane" text="Rate a film" />
+      <Button fx:id="rateFilmsButton" layoutX="274.0" layoutY="361.0" mnemonicParsing="false" onAction="#onReviewFilmClick" text="Rate a film" />
    </children>
 </AnchorPane>
