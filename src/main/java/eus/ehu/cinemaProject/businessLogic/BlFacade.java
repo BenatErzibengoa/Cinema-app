@@ -76,5 +76,4 @@ public interface BlFacade {
     List<PurchaseReceipt> getPurchaseReceiptsByUser(Customer customer);
 
 
-
-}
+    }

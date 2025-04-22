@@ -236,6 +236,14 @@ public class DataAccess {
         }
     }
 
+    public void storeReview(Film film, int rating, String textReview, Customer author){
+        if (!db.getTransaction().isActive()) {
+            db.getTransaction().begin();
+        }
+        db.persist(new Review(film, rating, textReview, author));
+        db.getTransaction().commit();
+    }
+
     private void generateTestingData() {
 
         Cinema cinema = new Cinema("Cineflix", "Bilbo", 688861291, LocalTime.of(15, 30), LocalTime.of(01, 00));
