@@ -2,25 +2,21 @@ package eus.ehu.cinemaProject.ui;
 
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
 import eus.ehu.cinemaProject.domain.PurchaseReceipt;
-import eus.ehu.cinemaProject.domain.Review;
 import eus.ehu.cinemaProject.domain.users.Customer;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 
 import java.util.Date;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Optional;
 
-public class ReceiptController {
+public class ReceiptStructureController {
 
     @FXML
     private TableView<PurchaseReceipt> tablePurchaseReceipts;
