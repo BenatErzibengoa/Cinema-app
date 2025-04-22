@@ -1,8 +1,5 @@
 package eus.ehu.cinemaProject.businessLogic;
-import eus.ehu.cinemaProject.domain.Film;
-import eus.ehu.cinemaProject.domain.PurchaseReceipt;
-import eus.ehu.cinemaProject.domain.Seat;
-import eus.ehu.cinemaProject.domain.ShowTime;
+import eus.ehu.cinemaProject.domain.*;
 import eus.ehu.cinemaProject.domain.users.Customer;
 import eus.ehu.cinemaProject.domain.users.User;
 
@@ -89,5 +86,12 @@ public interface BlFacade {
      * @param customer the customer
      */
     boolean hasFilmBeenReviewed(Film film, Customer customer);
+
+    /**
+     * Gets all reviews of a film
+     *
+     * @param film the film
+     */
+    List<Review> getReviewsByFilm(Film film);
 
 }

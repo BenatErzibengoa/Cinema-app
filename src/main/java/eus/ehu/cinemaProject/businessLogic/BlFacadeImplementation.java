@@ -77,6 +77,11 @@ public class BlFacadeImplementation implements BlFacade {
         return dbManager.getReviewByFilmAndUser(film, customer) != null;
     }
 
+    public List<Review> getReviewsByFilm(Film film){
+        return dbManager.getReviewsByFilm(film);
+    }
+
+
 
 
 

@@ -112,5 +112,11 @@ public class ShowTimeController {
         }
     }
 
+    @FXML
+    void searchReviews(){
+        uiState.setReviews(bl.getReviewsByFilm(film));
+        uiState.setCurrentView("reviews.fxml");
+    }
+
 
 }

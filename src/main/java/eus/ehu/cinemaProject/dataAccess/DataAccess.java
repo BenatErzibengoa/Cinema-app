@@ -275,6 +275,19 @@ public class DataAccess {
         return review;
     }
 
+    public List<Review> getReviewsByFilm(Film film){
+        List<Review> reviews;
+        try{
+            TypedQuery<Review> query = db.createQuery("SELECT r FROM Review r WHERE r.reviewedFilm = ?1", Review.class);
+            query.setParameter(1, film);
+            reviews = query.getResultList();
+        }catch(NoResultException e){
+            logger.info(String.format("There are no reviews related to %s film", film.getTitle()));
+            reviews = new ArrayList<>();
+        }
+        return reviews;
+    }
+
 
     private void generateTestingData() {
 

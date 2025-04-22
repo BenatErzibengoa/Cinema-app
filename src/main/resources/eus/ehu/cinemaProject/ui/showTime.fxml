@@ -6,11 +6,11 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.layout.HBox?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="432.0" prefWidth="597.0" style="-fx-background-color: #242424; -fx-background-radius: 12px;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.ShowTimeController">
     <children>
         <DatePicker fx:id="datePicker" layoutX="45.0" layoutY="249.0" prefHeight="35.0" prefWidth="200.0" promptText="Choose a date" />
@@ -37,7 +37,7 @@
 
                 <HBox fx:id="ratingBox" spacing="2.0" StackPane.alignment="TOP_LEFT">
                     <StackPane.margin>
-                        <Insets top="50.0" left="140.0" />
+                        <Insets left="140.0" top="50.0" />
                     </StackPane.margin>
                     <children>
                         <ImageView fx:id="star1" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
@@ -69,5 +69,6 @@
             <Font name="System Bold" size="26.0" />
          </font></Label>
       <Button layoutX="260.0" layoutY="249.0" mnemonicParsing="false" onAction="#searchShowTimes" prefHeight="35.0" prefWidth="153.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="Search ShowTimes" textFill="WHITE" />
+      <Button layoutX="420.0" layoutY="249.0" mnemonicParsing="false" onAction="#searchReviews" prefHeight="35.0" prefWidth="153.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="Reviews" textFill="WHITE" />
     </children>
 </AnchorPane>
