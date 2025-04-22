@@ -104,7 +104,7 @@ public class DataAccess {
             query.setParameter(2, password);
             user = query.getSingleResult();
         }catch(NoResultException e){
-            logger.error(String.format("There are no results with %s %s email and password", email, password));
+            logger.error(String.format("There are no results related to %s %s email and password", email, password));
             user = null;
         }
         return user;
@@ -126,7 +126,7 @@ public class DataAccess {
             query.setParameter(1, email);
             user = query.getSingleResult();
         }catch(NoResultException e){
-            logger.error(String.format("There are no results related with %s email", email));
+            logger.error(String.format("There are no results related to %s email", email));
             user = null;
         }
         return user;
@@ -139,7 +139,7 @@ public class DataAccess {
             query.setParameter(1, date);
             showtimes = query.getResultList();
         }catch(NoResultException e){
-            logger.error(String.format("There are no results related with '%s' date", date));
+            logger.error(String.format("There are no results related to '%s' date", date));
             showtimes = null;
         }
         return showtimes;
@@ -154,7 +154,7 @@ public class DataAccess {
             query.setParameter(2, film);
             showtimes = query.getResultList();
         }catch(NoResultException e){
-            logger.error(String.format("There are no results related with '%s' date and '%s' film", date, film));
+            logger.error(String.format("There are no results related to '%s' date and '%s' film", date, film));
             showtimes = null;
         }
         return showtimes;
@@ -167,7 +167,7 @@ public class DataAccess {
             query.setParameter(1, customer);
             purchaseReceipts = query.getResultList();
         }catch(NoResultException e){
-            logger.info(String.format("There are no results related with '%s' customer", customer.getEmail()));
+            logger.info(String.format("There are no results related to '%s' customer", customer.getEmail()));
             purchaseReceipts = null;
         }
         return purchaseReceipts;
@@ -184,7 +184,7 @@ public class DataAccess {
 
             schedule = query.getSingleResult();
         } catch (NoResultException e) {
-            logger.error(String.format("There are no results related with %s screeningRoom and %s date", screeningRoom.getRoomNumber(), date.toString()));
+            logger.error(String.format("There are no results related to %s screeningRoom and %s date", screeningRoom.getRoomNumber(), date.toString()));
             schedule = null;
         }
         return schedule;
@@ -242,6 +242,19 @@ public class DataAccess {
         }
         db.persist(new Review(film, rating, textReview, author));
         db.getTransaction().commit();
+    }
+
+    public Double getAverageRating(Film film){
+        Double average;
+        try{
+            TypedQuery<Double> query = db.createQuery("SELECT AVG(r.rating) FROM Review r WHERE r.reviewedFilm = ?1", Double.class);
+            query.setParameter(1, film);
+            average = query.getSingleResult();
+        }catch(NoResultException e){
+            logger.info(String.format("There are no ratings related to %s film", film.getTitle()));
+            average = null;
+        }
+        return average;
     }
 
     private void generateTestingData() {
@@ -343,13 +356,20 @@ public class DataAccess {
         db.persist(showTime5);
 
 
-         //createPurchaseReceipt(customer1, showTime1, seatSelection1);
-         //createPurchaseReceipt(customer1, showTime1, seatSelection1);
-        //createPurchaseReceipt(customer2, showTime3, seatSelection1);
+        createPurchaseReceipt(customer1, showTime1, seatSelection1);
+        createPurchaseReceipt(customer1, showTime1, seatSelection1);
+        createPurchaseReceipt(customer2, showTime3, seatSelection1);
 
         LocalDate tomorrow = today.plusDays(1);  // Tomorrow
         createSchedule(tomorrow, screeningRoom1);
         createSchedule(tomorrow, screeningRoom2);
+
+        storeReview(film1, 5, "This is a review", customer1);
+        storeReview(film1, 1, "This is a review", customer2);
+        storeReview(film1, 2, "This is a review", customer3);
+
+
+
 
 
         logger.info(getScheduleByRoomAndDate(tomorrow, screeningRoom1));  // Utilise 'tomorrow'

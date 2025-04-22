@@ -8,6 +8,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -74,11 +75,15 @@ public class MovieListController {
         Text detailsText = new Text(formatMovieDetails(film, screeningTime));
         detailsText.setStyle("-fx-font-size: 14px; -fx-fill: #666666;");
 
+
+        //Star rating
+        HBox starRating = createStarRating(businessLogic.getAverageRating(film));
+
         // Button
         Button bookButton = createBookButton(film);
 
         // Card assembly
-        VBox card = new VBox(8, posterView, titleText, detailsText, bookButton);
+        VBox card = new VBox(8, posterView, titleText, starRating, detailsText, bookButton);
         card.setStyle("-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-padding: 15px;");
         card.setMaxWidth(220);
 
@@ -99,6 +104,31 @@ public class MovieListController {
         imageView.setPreserveRatio(true);
         return imageView;
     }
+
+    private HBox createStarRating(double rating) {
+        HBox stars = new HBox(2);
+
+        for (int i = 1; i <= 5; i++) {
+            String imagePath;
+
+            if (i <= (int) rating) {
+                imagePath = "/eus/ehu/cinemaProject/ui/pictures/filled_star.png";
+            } else if (i - rating <= 0.5) {
+                imagePath = "/eus/ehu/cinemaProject/ui/pictures/half_filled_star.png";
+            } else {
+                imagePath = "/eus/ehu/cinemaProject/ui/pictures/empty_star.png";
+            }
+
+            ImageView star = new ImageView(new Image(getClass().getResourceAsStream(imagePath)));
+            star.setFitWidth(20);
+            star.setFitHeight(20);
+            stars.getChildren().add(star);
+        }
+
+        return stars;
+    }
+
+
 
     private String formatMovieDetails(Film film, LocalTime screeningTime) {
         return String.format("%s | Screening: %s",

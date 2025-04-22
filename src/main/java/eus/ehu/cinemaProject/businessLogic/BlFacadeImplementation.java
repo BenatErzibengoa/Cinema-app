@@ -65,6 +65,14 @@ public class BlFacadeImplementation implements BlFacade {
         dbManager.storeReview(reviewedFilm, rating, textReview, author);
     }
 
+    public double getAverageRating(Film film){
+        Double average = dbManager.getAverageRating(film);
+        if (average == null){
+            return 0;
+        }
+        return average;
+    }
+
 
 
 
