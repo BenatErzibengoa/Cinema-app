@@ -73,6 +73,10 @@ public class BlFacadeImplementation implements BlFacade {
         return average;
     }
 
+    public boolean hasFilmBeenReviewed(Film film, Customer customer){
+        return dbManager.getReviewByFilmAndUser(film, customer) != null;
+    }
+
 
 
 

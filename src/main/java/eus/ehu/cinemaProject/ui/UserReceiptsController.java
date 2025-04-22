@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-public class ReceiptStructureController {
+public class UserReceiptsController {
 
     @FXML
     private TableView<PurchaseReceipt> tablePurchaseReceipts;
@@ -69,11 +69,21 @@ public class ReceiptStructureController {
     void onReviewFilmClick(){
         PurchaseReceipt selectedReceipt = tablePurchaseReceipts.getSelectionModel().getSelectedItem();
         if(selectedReceipt != null){
-            Optional<Pair<Integer, String>> result = obtainReview();
-            if (result.isPresent()) {
-                int rating = result.get().getKey();
-                String review = result.get().getValue();
-                bl.storeReview(selectedReceipt.getShowTime().getFilm(), rating, review, (Customer) uiState.getUser());
+            // Check if the film has already been reviewed
+            if (bl.hasFilmBeenReviewed(selectedReceipt.getShowTime().getFilm(), (Customer) uiState.getUser())) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information");
+                alert.setHeaderText(null);
+                alert.setContentText("You have already reviewed this film.");
+                alert.showAndWait();
+            }
+            else{
+                Optional<Pair<Integer, String>> result = obtainReview();
+                if (result.isPresent()) {
+                    int rating = result.get().getKey();
+                    String review = result.get().getValue();
+                    bl.storeReview(selectedReceipt.getShowTime().getFilm(), rating, review, (Customer) uiState.getUser());
+                }
             }
         }
     }

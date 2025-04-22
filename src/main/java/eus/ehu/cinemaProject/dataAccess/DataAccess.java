@@ -257,6 +257,25 @@ public class DataAccess {
         return average;
     }
 
+    public Review getReviewByFilmAndUser(Film film, User user) {
+        Review review;
+        try {
+            TypedQuery<Review> query = db.createQuery(
+                    "SELECT r FROM Review r WHERE r.reviewedFilm = :film AND r.author = :user",
+                    Review.class
+            );
+            query.setParameter("film", film);
+            query.setParameter("user", user);
+
+            review = query.getSingleResult();
+        } catch (NoResultException e) {
+            logger.info(String.format("No review found for film '%s' and user '%s'", film.getTitle(), user.getEmail()));
+            review = null;
+        }
+        return review;
+    }
+
+
     private void generateTestingData() {
 
         Cinema cinema = new Cinema("Cineflix", "Bilbo", 688861291, LocalTime.of(15, 30), LocalTime.of(01, 00));

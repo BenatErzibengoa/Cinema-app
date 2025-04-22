@@ -82,4 +82,12 @@ public interface BlFacade {
      */
     double getAverageRating(Film film);
 
+    /**
+     * Returns whether a film has been reviewed by a customer or not
+     *
+     * @param film the film
+     * @param customer the customer
+     */
+    boolean hasFilmBeenReviewed(Film film, Customer customer);
+
 }
