@@ -42,6 +42,32 @@ public class ShowTimeController {
     private ShowTime selectedShowTime;
     private LocalDate selectedDate;
 
+
+    @FXML private ImageView star1;
+    @FXML private ImageView star2;
+    @FXML private ImageView star3;
+    @FXML private ImageView star4;
+    @FXML private ImageView star5;
+
+    private void updateStarRating(double rating) {
+        Image full = new Image(getClass().getResourceAsStream("/eus/ehu/cinemaProject/ui/pictures/filled_star.png"));
+        Image half = new Image(getClass().getResourceAsStream("/eus/ehu/cinemaProject/ui/pictures/half_filled_star.png"));
+        Image empty = new Image(getClass().getResourceAsStream("/eus/ehu/cinemaProject/ui/pictures/empty_star.png"));
+
+        ImageView[] stars = {star1, star2, star3, star4, star5};
+
+        for (int i = 0; i < 5; i++) {
+            if (i < (int) rating) {
+                stars[i].setImage(full);
+            } else if (i + 1 - rating <= 0.5) {
+                stars[i].setImage(half);
+            } else {
+                stars[i].setImage(empty);
+            }
+        }
+    }
+
+
     @FXML
     void initialize() {
         bl = BlFacadeImplementation.getInstance();
@@ -60,6 +86,8 @@ public class ShowTimeController {
         showtimesPane.setHgap(15);
         showtimesPane.setVgap(15);
         showtimesPane.setPadding(new Insets(10, 10, 10, 10));
+
+        updateStarRating(bl.getAverageRating(film));
 
     }
 
