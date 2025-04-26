@@ -21,6 +21,8 @@ public class OrderFoodController {
     @FXML private Spinner<Integer> candyNum;
     @FXML private Spinner<Integer> hotdogNum;
 
+    private final UIState uiState = UIState.getInstance();
+
     private ReceiptController receiptController;
 
     public void setReceiptController(ReceiptController controller) {
@@ -56,7 +58,11 @@ public class OrderFoodController {
         summary.append("-----------------------\n");
         summary.append(String.format("Snacks total: €%.2f", totalPrice));
 
-        // Volver a la vista original y pasar datos
+        uiState.setCurrentView("receipt.fxml");
+        uiState.setSnackprice(totalPrice);
+        uiState.setSummary(summary.toString());
+
+       /** // Volver a la vista original y pasar datos
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("receipt.fxml"));
             Parent root = loader.load();
@@ -68,6 +74,6 @@ public class OrderFoodController {
             stage.setScene(new Scene(root));
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }**/
     }
 }

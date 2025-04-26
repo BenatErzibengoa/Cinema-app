@@ -40,8 +40,7 @@ public class SignInController {
                 uiState.setUser(user);
                 uiState.setLoggedIn(true);
 
-                //Remove next comment when Theo finishes his work
-                //uiState.setCurrentView("films.fxml");
+                uiState.setCurrentView("MovieList.fxml");
             }
             else{
                 outputText.setText("Invalid credentials. Please try again");

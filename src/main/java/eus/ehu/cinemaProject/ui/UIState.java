@@ -73,6 +73,10 @@ public class UIState {
 
     private List<ShowTime> showtimes;
 
+    public String summary;
+    public double snackprice;
+
+
     //Corresponding getters and setters to interchange data between controllers
     public String getEmail() {
         return email;
@@ -99,6 +103,12 @@ public class UIState {
 
     public List<Seat> getSelectedSeats() { return selectedSeats; }
     public void setSelectedSeats(List<Seat> selectedSeats) { this.selectedSeats = selectedSeats; }
+
+    public String getSummary() { return summary; }
+    public void setSummary(String summary) { this.summary = summary; }
+
+    public double getSnackprice() { return snackprice; }
+    public void setSnackprice(double snackprice) { this.snackprice = snackprice; }
 
 
 
