@@ -305,24 +305,7 @@ public class DataAccess {
         Customer customer2 = new Customer("amaia@gmail.com", "12345", "Amaia", "Susperregi");
         Customer customer3 = new Customer("uxue@gmail.com", "12345", "Uxue", "Etxebeste");
 
-        List<Genre> genreList1 = new ArrayList<>();
-        genreList1.add(Genre.DRAMA);
-        Film film1 = new Film("The Godfather", "Francis Ford Coppola", LocalTime.of(2, 55),
-                "A cinematic masterpiece directed by Francis Ford Coppola",
-                genreList1, "/eus/ehu/cinemaProject/ui/pictures/the-godfather.jpg");
-        film1.setImagePath("/eus/ehu/cinemaProject/ui/pictures/the-godfather.jpg");
 
-        List<Genre> genreList2 = new ArrayList<>();
-        genreList2.add(Genre.ACTION);
-        genreList2.add(Genre.ADVENTURE);
-        Film film2 = new Film("Die Hard", "John McTiernan", LocalTime.of(2, 11),
-                "An action-packed thriller directed by John McTiernan",
-                genreList2,
-                "/eus/ehu/cinemaProject/ui/pictures/die-hard.jpg");
-        film2.setImagePath("/eus/ehu/cinemaProject/ui/pictures/die-hard.jpg");
-
-        Film film3 = FilmDataFetcher.fetchFilmDataByName("Cars");
-        logger.debug(film3);
 
         ScreeningRoom screeningRoom1 = new ScreeningRoom(cinema,1);
         ScreeningRoom screeningRoom2 = new ScreeningRoom(cinema,2);
@@ -336,19 +319,56 @@ public class DataAccess {
         Schedule schedule3 = new Schedule(today, screeningRoom3);
 
 
-        ShowTime showTime1 = new ShowTime(schedule1, LocalTime.of(17, 00), film1);
-        ShowTime showTime2 = new ShowTime(schedule2, LocalTime.of(18, 30), film2);
-        ShowTime showTime3 = new ShowTime(schedule2, LocalTime.of(16, 00), film2);
-        ShowTime showTime4 = new ShowTime(schedule1, LocalTime.of(20, 00), film1);
-        ShowTime showTime5 = new ShowTime(schedule2, LocalTime.of(20, 30), film2);
+        Film film1 = null;
+        Film film2 = null;
+        Film film3 = null;
 
-        ShowTime showTime6 = new ShowTime(schedule3, LocalTime.of(17, 00), film3);
+        ShowTime showTime1 = null;
+        ShowTime showTime2 = null;
+        ShowTime showTime3 = null;
+        ShowTime showTime4 = null;
+        ShowTime showTime5 = null;
+        ShowTime showTime6 = null;
 
 
+        Task<Void> task = new Task<Void>(){
+            protected Void call() throws Exception{
+                Film film1 = FilmDataFetcher.fetchFilmDataByName("The Godfather");
+                Film film2 = FilmDataFetcher.fetchFilmDataByName("Die Hard");
+                Film film3 = FilmDataFetcher.fetchFilmDataByName("Cars");
+                logger.info(film1.toString());
+                logger.info(film2.toString());
+                logger.info(film3.toString());
 
-        schedule1.setShowTime(showTime1);
-        schedule2.setShowTime(showTime2);
-        schedule3.setShowTime(showTime3);
+                ShowTime showTime1 = new ShowTime(schedule1, LocalTime.of(17, 00), film1);
+                ShowTime showTime2 = new ShowTime(schedule2, LocalTime.of(18, 30), film2);
+                ShowTime showTime3 = new ShowTime(schedule2, LocalTime.of(16, 00), film2);
+                ShowTime showTime4 = new ShowTime(schedule1, LocalTime.of(20, 00), film1);
+                ShowTime showTime5 = new ShowTime(schedule2, LocalTime.of(20, 30), film2);
+                ShowTime showTime6 = new ShowTime(schedule3, LocalTime.of(17, 00), film3);
+
+                schedule1.setShowTime(showTime1);
+                schedule2.setShowTime(showTime2);
+                schedule3.setShowTime(showTime3);
+
+
+                db.persist(film1);
+                db.persist(film2);
+                db.persist(film3);
+
+                db.persist(showTime1);
+                db.persist(showTime2);
+                db.persist(showTime3);
+                db.persist(showTime4);
+                db.persist(showTime5);
+                db.persist(showTime6);
+                return null;
+            }
+        };
+        Thread taskThread = new Thread(task);
+        taskThread.start();
+
+
 
         List<Seat> seatSelection1 = new ArrayList<>();
         List<Seat> seatSelection2 = new ArrayList<>();
@@ -379,9 +399,7 @@ public class DataAccess {
         db.persist(customer1);
         db.persist(customer2);
         db.persist(customer3);
-        db.persist(film1);
-        db.persist(film2);
-        db.persist(film3);
+
         db.persist(screeningRoom1);
         db.persist(screeningRoom2);
         db.persist(screeningRoom3);
@@ -394,14 +412,13 @@ public class DataAccess {
         for(Seat seat: screeningRoom1.getSeats()){
             db.persist(seat);
         }
-        db.persist(showTime1);
-        db.persist(showTime2);
-        db.persist(showTime3);
-        db.persist(showTime4);
-        db.persist(showTime5);
-        db.persist(showTime6);
 
-
+        // This will block until the task completes
+        try {
+            taskThread.join();  // This will block until the task completes
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         createPurchaseReceipt(customer1, showTime1, seatSelection1);
         createPurchaseReceipt(customer1, showTime1, seatSelection1);
         createPurchaseReceipt(customer2, showTime3, seatSelection1);
@@ -422,7 +439,7 @@ public class DataAccess {
 
         //This is made to assure we do the queries before persisting data
         //If not it attempts to print this before finishing persisting some data
-        Task<Void> task = new Task<Void>(){
+        Task<Void> task2 = new Task<Void>(){
             protected Void call() throws Exception{
                 Thread.sleep(500);
                 logger.debug("Query testing:");
@@ -437,7 +454,7 @@ public class DataAccess {
                 return null;
             }
         };
-        //new Thread(task).start();
+        //new Thread(task2).start();
 
     }
 

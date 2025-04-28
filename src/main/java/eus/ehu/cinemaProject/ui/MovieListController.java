@@ -92,23 +92,35 @@ public class MovieListController {
 
     private ImageView createPosterImageView(Film film) {
         ImageView imageView = new ImageView();
+        imageView.setFitWidth(200);
+        imageView.setFitHeight(300);
+        imageView.setPreserveRatio(true);
+
         try {
-            Image image;
-            if (film.getImagePath().startsWith("http")) { // Si es un enlace
-                image = new Image(film.getImagePath(), true);
-            } else { // Si es una imagen local (recurso interno)
-                image = new Image(getClass().getResourceAsStream(film.getImagePath()));
+            if (film.getImagePath().startsWith("http")) {
+                Image placeholder = new Image(getClass().getResourceAsStream("/eus/ehu/cinemaProject/ui/pictures/default-poster.jpg"));
+                imageView.setImage(placeholder);
+
+                new Thread(() -> {
+                    try {
+                        Image image = new Image(film.getImagePath(), false); // false = no background loading
+                        javafx.application.Platform.runLater(() -> imageView.setImage(image));
+                    } catch (Exception e) {
+                        System.err.println("Failed to load image: " + film.getImagePath());
+                    }
+                }).start();
+            } else {
+                Image image = new Image(getClass().getResourceAsStream(film.getImagePath()));
+                imageView.setImage(image);
             }
-            imageView.setImage(image);
         } catch (Exception e) {
             System.err.println("Image not found: " + film.getImagePath());
             imageView.setImage(new Image(getClass().getResourceAsStream("/eus/ehu/cinemaProject/ui/pictures/default-poster.jpg")));
         }
-        imageView.setFitWidth(200);
-        imageView.setFitHeight(300);
-        imageView.setPreserveRatio(true);
+
         return imageView;
     }
+
 
     private HBox createStarRating(double rating) {
         HBox stars = new HBox(2);

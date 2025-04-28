@@ -8,6 +8,8 @@ import com.google.gson.JsonArray;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,59 +19,50 @@ public class FilmDataFetcher {
 
     public static Film fetchFilmDataByName(String movieName) {
         try {
-            // Paso 1: Hacer una búsqueda por nombre
-            String searchUrl = "https://api.themoviedb.org/3/search/movie?api_key=" + API_KEY + "&query=" + movieName + "&language=en-US";
+            // Encode the movie name
+            String encodedMovieName = URLEncoder.encode(movieName, StandardCharsets.UTF_8.toString());
+
+            // Step 1: Search by movie name
+            String searchUrl = "https://api.themoviedb.org/3/search/movie?api_key=" + API_KEY + "&query=" + encodedMovieName + "&language=en-US";
             URL url = new URL(searchUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
 
-            // Leer la respuesta de la búsqueda
+            // Read the search API response
             InputStreamReader reader = new InputStreamReader(conn.getInputStream());
             Gson gson = new Gson();
             JsonObject jsonResponse = gson.fromJson(reader, JsonObject.class);
-
-            // Paso 2: Obtener el primer resultado de la búsqueda
             JsonArray results = jsonResponse.getAsJsonArray("results");
+
             if (results.size() == 0) {
-                return null;  // Si no se encuentra ninguna película
+                return null;  // If no movie is found
             }
 
+            // Get the ID of the first movie found
             JsonObject firstResult = results.get(0).getAsJsonObject();
-            String movieId = firstResult.get("id").getAsString();  // Obtener el ID de la película encontrada
+            String movieId = firstResult.get("id").getAsString();
 
-            // Paso 3: Obtener los detalles de la película con el movieId
-            return fetchFilmDataById(movieId);  // Llamamos a la función que obtiene los detalles
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public static Film fetchFilmDataById(String movieId) {
-        try {
-            //Set API fetch URL
+            // Step 2: Get the movie details using the movieId
             String urlString = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + API_KEY + "&language=en-US";
-            URL url = new URL(urlString);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            url = new URL(urlString);
+            conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
 
-            // Read API response
-            InputStreamReader reader = new InputStreamReader(conn.getInputStream());
-            Gson gson = new Gson();
-            JsonObject jsonResponse = gson.fromJson(reader, JsonObject.class);
+            // Read the movie details API response
+            reader = new InputStreamReader(conn.getInputStream());
+            jsonResponse = gson.fromJson(reader, JsonObject.class);
 
-            // Extract relevant info about API
+            // Extract movie details
             String title = jsonResponse.get("title").getAsString();
             String director = fetchDirector(movieId);  // Director is processed separately
             String description = jsonResponse.get("overview").getAsString();
             String imagePath = "https://image.tmdb.org/t/p/w500" + jsonResponse.get("poster_path").getAsString();
 
-            // Get duration and parse to LocalTime
+            // Get the duration and parse it to LocalTime
             int durationInMinutes = jsonResponse.get("runtime").getAsInt();
             java.time.LocalTime duration = java.time.LocalTime.of(durationInMinutes / 60, durationInMinutes % 60);
 
-            // Obtain genre (match genre with enum)
+            // Obtain genres (match genres with enum)
             List<Genre> genres = new ArrayList<>();
             JsonArray genresArray = jsonResponse.getAsJsonArray("genres");
             for (int i = 0; i < genresArray.size(); i++) {
@@ -78,11 +71,12 @@ public class FilmDataFetcher {
                     Genre genre = Genre.valueOf(genreName.toUpperCase());
                     genres.add(genre);
                 } catch (IllegalArgumentException e) {
-                    // If it doesn't match with enum, we skip it
-                    System.out.println("Género no reconocido: " + genreName);
+                    // If it doesn't match the enum, skip it
+                    System.out.println("Unrecognized genre: " + genreName);
                 }
             }
-            // Return film object
+
+            // Return the film object
             return new Film(title, director, duration, description, genres, imagePath);
 
         } catch (Exception e) {
@@ -91,7 +85,7 @@ public class FilmDataFetcher {
         }
     }
 
-    // Método para obtener el director de la película
+
     private static String fetchDirector(String movieId) {
         try {
             String urlString = "https://api.themoviedb.org/3/movie/" + movieId + "/credits?api_key=" + API_KEY + "&language=en-US";
@@ -99,12 +93,10 @@ public class FilmDataFetcher {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
 
-            // Leer la respuesta
             InputStreamReader reader = new InputStreamReader(conn.getInputStream());
             Gson gson = new Gson();
             JsonObject jsonResponse = gson.fromJson(reader, JsonObject.class);
 
-            // Extraer el nombre del director
             JsonArray crewArray = jsonResponse.getAsJsonArray("crew");
             for (int i = 0; i < crewArray.size(); i++) {
                 JsonObject crewMember = crewArray.get(i).getAsJsonObject();
@@ -117,6 +109,6 @@ public class FilmDataFetcher {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "Unknown";  // Si no se encuentra el director
+        return "Unknown";  // if not found
     }
 }
