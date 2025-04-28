@@ -93,7 +93,12 @@ public class MovieListController {
     private ImageView createPosterImageView(Film film) {
         ImageView imageView = new ImageView();
         try {
-            Image image = new Image(getClass().getResourceAsStream(film.getImagePath()));
+            Image image;
+            if (film.getImagePath().startsWith("http")) { // Si es un enlace
+                image = new Image(film.getImagePath(), true);
+            } else { // Si es una imagen local (recurso interno)
+                image = new Image(getClass().getResourceAsStream(film.getImagePath()));
+            }
             imageView.setImage(image);
         } catch (Exception e) {
             System.err.println("Image not found: " + film.getImagePath());

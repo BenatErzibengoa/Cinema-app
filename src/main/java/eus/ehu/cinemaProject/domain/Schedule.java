@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,8 +22,8 @@ public class Schedule {
     @JoinColumn(name = "screeningRoom_roomNumber", insertable = false, updatable = false)
     private ScreeningRoom screeningRoom;
 
-    @OneToMany (mappedBy = "schedule", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ShowTime> showTimes;
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ShowTime> showTimes = new ArrayList<>();
 
 
     private LocalTime openingTime;
@@ -66,8 +67,10 @@ public class Schedule {
                 int bound1 = filmStartTimeScheduleIndex(filmStartingTime);
                 int bound2 = filmEndTimeScheduleIndex(bound1, duration);
                 bookBetweenBounds(bound1, bound2);
+                showTimes.add(showtime);
+                showtime.setSchedule(this);
                 System.out.println("Successfully reserved at: " + filmStartingTime + " - " + filmStartingTime.plusMinutes(duration.toSecondOfDay() / 60));
-                printAllReserves();
+                //printAllReserves();
             }
             else{
                 System.out.println("This ScreeningRoom is not empty between " + filmStartingTime + " - " + filmStartingTime.plusMinutes(duration.toSecondOfDay() / 60));
