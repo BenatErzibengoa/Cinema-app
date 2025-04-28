@@ -80,8 +80,8 @@ public class ShowTimeController {
         movieDescription.setText(film.getDescription());
         movieDuration.setText(film.getDuration().format(DateTimeFormatter.ofPattern("HH:mm")));
         movieGenre.setText(film.getGenre().toString());
-        movieImage.setImage(new Image(getClass().getResourceAsStream(film.getImagePath())));
-
+        //movieImage.setImage(new Image(getClass().getResourceAsStream(film.getImagePath())));
+        loadMovieImage(film);
         //Configure the TilePane
         showtimesPane.setHgap(15);
         showtimesPane.setVgap(15);
@@ -118,5 +118,25 @@ public class ShowTimeController {
         uiState.setCurrentView("reviews.fxml");
     }
 
+    private void loadMovieImage(Film film) {
+        // Check if the film image path is an external URL
+        if (film.getImagePath().startsWith("http")) {
+            // Set placeholder initially
+            movieImage.setImage(new Image(getClass().getResourceAsStream("/eus/ehu/cinemaProject/ui/pictures/default-poster.jpg")));
+
+            // Load the image in a background thread
+            new Thread(() -> {
+                try {
+                    Image image = new Image(film.getImagePath(), false); // false = no background loading
+                    javafx.application.Platform.runLater(() -> movieImage.setImage(image));
+                } catch (Exception e) {
+                    System.err.println("Failed to load image: " + film.getImagePath());
+                }
+            }).start();
+        } else {
+            // If the path is local, load it from resources
+            movieImage.setImage(new Image(getClass().getResourceAsStream(film.getImagePath())));
+        }
+    }
 
 }
