@@ -39,7 +39,7 @@ public class DataAccess {
             System.out.println("Shutting down database connection...");
             this.close();
         }));
-        Configurator.setLevel(logger.getName(), Level.INFO);
+        Configurator.setLevel(logger.getName(), Level.ALL);
     }
 
     public void open() {
@@ -309,7 +309,7 @@ public class DataAccess {
         genreList1.add(Genre.DRAMA);
         Film film1 = new Film("The Godfather", "Francis Ford Coppola", LocalTime.of(2, 55),
                 "A cinematic masterpiece directed by Francis Ford Coppola",
-                genreList1);
+                genreList1, "/eus/ehu/cinemaProject/ui/pictures/the-godfather.jpg");
         film1.setImagePath("/eus/ehu/cinemaProject/ui/pictures/the-godfather.jpg");
 
         List<Genre> genreList2 = new ArrayList<>();
@@ -317,16 +317,23 @@ public class DataAccess {
         genreList2.add(Genre.ADVENTURE);
         Film film2 = new Film("Die Hard", "John McTiernan", LocalTime.of(2, 11),
                 "An action-packed thriller directed by John McTiernan",
-                genreList2);
+                genreList2,
+                "/eus/ehu/cinemaProject/ui/pictures/die-hard.jpg");
         film2.setImagePath("/eus/ehu/cinemaProject/ui/pictures/die-hard.jpg");
+
+        Film film3 = FilmDataFetcher.fetchFilmDataByName("Cars");
+        logger.debug(film3);
 
         ScreeningRoom screeningRoom1 = new ScreeningRoom(cinema,1);
         ScreeningRoom screeningRoom2 = new ScreeningRoom(cinema,2);
+        ScreeningRoom screeningRoom3 = new ScreeningRoom(cinema,3);
+
 
 
         LocalDate today = LocalDate.now();  // today
         Schedule schedule1 = new Schedule(today, screeningRoom1);
         Schedule schedule2 = new Schedule(today, screeningRoom2);
+        Schedule schedule3 = new Schedule(today, screeningRoom3);
 
 
         ShowTime showTime1 = new ShowTime(schedule1, LocalTime.of(17, 00), film1);
@@ -335,10 +342,13 @@ public class DataAccess {
         ShowTime showTime4 = new ShowTime(schedule1, LocalTime.of(20, 00), film1);
         ShowTime showTime5 = new ShowTime(schedule2, LocalTime.of(20, 30), film2);
 
+        ShowTime showTime6 = new ShowTime(schedule3, LocalTime.of(17, 00), film3);
+
 
 
         schedule1.setShowTime(showTime1);
         schedule2.setShowTime(showTime2);
+        schedule3.setShowTime(showTime3);
 
         List<Seat> seatSelection1 = new ArrayList<>();
         List<Seat> seatSelection2 = new ArrayList<>();
@@ -371,10 +381,13 @@ public class DataAccess {
         db.persist(customer3);
         db.persist(film1);
         db.persist(film2);
+        db.persist(film3);
         db.persist(screeningRoom1);
         db.persist(screeningRoom2);
+        db.persist(screeningRoom3);
         db.persist(schedule1);
         db.persist(schedule2);
+        db.persist(schedule3);
         for(Seat seat: screeningRoom1.getSeats()){
             db.persist(seat);
         }
@@ -386,6 +399,7 @@ public class DataAccess {
         db.persist(showTime3);
         db.persist(showTime4);
         db.persist(showTime5);
+        db.persist(showTime6);
 
 
         createPurchaseReceipt(customer1, showTime1, seatSelection1);
@@ -396,12 +410,9 @@ public class DataAccess {
         createSchedule(tomorrow, screeningRoom1);
         createSchedule(tomorrow, screeningRoom2);
 
-        storeReview(film1, 5, "This is a review", customer1);
-        storeReview(film1, 1, "This is a review", customer2);
-        storeReview(film1, 2, "This is a review", customer3);
-
-
-
+        storeReview(film1, 5, "Great film! Nothing similar has been seen recently", customer1);
+        storeReview(film1, 1, "Interesting film", customer2);
+        storeReview(film1, 2, "Nice", customer3);
 
 
         logger.info(getScheduleByRoomAndDate(tomorrow, screeningRoom1));  // Utilise 'tomorrow'
@@ -426,9 +437,7 @@ public class DataAccess {
                 return null;
             }
         };
-        new Thread(task).start();
-
-
+        //new Thread(task).start();
 
     }
 
