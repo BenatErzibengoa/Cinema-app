@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="eus.ehu.cinemaProject.ui.ReviewsController"
-            prefWidth="600" prefHeight="400" style="-fx-background-color: #242424;">
+<AnchorPane prefHeight="400" prefWidth="600" style="-fx-background-color: #242424;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.ReviewsController">
 
     <children>
         <!-- Título principal -->
@@ -19,8 +17,11 @@
         </Label>
 
         <!-- Contenedor de reseñas -->
-        <VBox fx:id="reviewsContainer" layoutX="25.0" layoutY="70.0" spacing="20.0" prefWidth="550.0">
+        <VBox fx:id="reviewsContainer" layoutX="25.0" layoutY="70.0" prefWidth="550.0" spacing="20.0">
             <!-- Aquí se insertarán dinámicamente las reseñas -->
         </VBox>
+
+        <Button alignment="CENTER" layoutX="173.0" layoutY="351.0" mnemonicParsing="false" onAction="#goBack" prefHeight="35.0" prefWidth="255.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="Go back" textFill="WHITE" />
+
     </children>
 </AnchorPane>

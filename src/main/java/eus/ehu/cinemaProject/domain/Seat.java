@@ -31,6 +31,7 @@ public class Seat {
             case NORMAL -> name ="plasticSeat.jpeg";
             case COMFORTABLE -> name = "redSeat.png";
             case PREMIUM -> name = "premiumSeat.jpg";
+            case OCCUPIED -> name = "occupiedSeat.png";
         }
         InputStream stream = getClass().getResourceAsStream("/eus/ehu/cinemaProject/ui/pictures/" + name);
         if (stream == null) {
@@ -59,9 +60,16 @@ public class Seat {
     public String getSeatId() { return seatId; }
 
     public SeatType getType() { return type; }
+    public void setType(SeatType type) {
+        this.type = type;
+    }
 
     @Override
     public String toString(){
         return this.seatId;
+    }
+
+    public boolean isReserved() {
+        return type == SeatType.OCCUPIED;
     }
 }
