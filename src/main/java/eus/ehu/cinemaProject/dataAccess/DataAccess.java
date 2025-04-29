@@ -110,7 +110,7 @@ public class DataAccess {
         return user;
     }
 
-    public void signUp(String email, String password, String name, String surname){
+    public void signUpCustomer(String email, String password, String name, String surname){
         User user = new Customer(email,password,name,surname);
         if (!db.getTransaction().isActive()) {
             db.getTransaction().begin();
@@ -191,13 +191,14 @@ public class DataAccess {
     }
 
 
-    public void createSchedule(LocalDate date, ScreeningRoom screeningRoom){
+    public Schedule createSchedule(LocalDate date, ScreeningRoom screeningRoom){
         Schedule schedule = new Schedule(date, screeningRoom);
         if (!db.getTransaction().isActive()) {
             db.getTransaction().begin();
         }
         db.persist(schedule);
         db.getTransaction().commit();
+        return schedule;
     }
 
     public void createShowTime(Schedule schedule, LocalTime screeningTime, Film film){
@@ -241,7 +242,36 @@ public class DataAccess {
             db.getTransaction().begin();
         }
         db.persist(new Review(film, rating, textReview, author));
+        logger.debug("Review stored successfully");
         db.getTransaction().commit();
+    }
+
+    public Film storeFilm(String name){
+        if (!db.getTransaction().isActive()) {
+            db.getTransaction().begin();
+        }
+        Film film = FilmDataFetcher.fetchFilmDataByName(name);
+        if(film == null){
+            logger.error("There was an error while fetching the film data");
+            return null;
+        }
+        db.persist(film);
+        logger.debug("Film stored successfully");
+        db.getTransaction().commit();
+        return film;
+    }
+
+    public ShowTime storeShowtime(Schedule schedule, LocalTime screeningTime, Film film){
+        if (!db.getTransaction().isActive()) {
+            db.getTransaction().begin();
+        }
+        ShowTime showTime = new ShowTime(schedule, screeningTime, film);
+        db.persist(showTime);
+        logger.debug("Showtime stored successfully");
+        db.getTransaction().commit();
+        schedule.setShowTime(showTime);
+        db.merge(schedule);
+        return showTime;
     }
 
     public Double getAverageRating(Film film){
@@ -289,85 +319,58 @@ public class DataAccess {
     }
 
 
+
+
     private void generateTestingData() {
 
         Cinema cinema = new Cinema("Cineflix", "Bilbo", 688861291, LocalTime.of(15, 30), LocalTime.of(01, 00));
+        db.persist(cinema);
 
         Admin admin = new Admin("juanan.pereira@ehu.eus", "admin1234", "Juanan", "Pereira", 2500);
+        db.persist(admin);
 
         Worker worker1 = new Worker("bercibengoa001@ikasle.ehu.eus", "12345678", "Beñat", "Ercibengoa", 2000);
         Worker worker2 = new Worker("vandrushkiv001@ikasle.ehu.eus", "87654321", "Viktoria", "Andrushkiv", 2000);
         Worker worker3 = new Worker("trolland001@ikasle.ehu.eus", "abcdefghi", "Théo", "Rolland", 2000);
         Worker worker4 = new Worker("lrodriguez154@ikasle.ehu.eus", "12345678", "Laura", "Rodríguez", 2000);
         Worker worker5 = new Worker("eugarte001@ikasle.ehu.eus", "111222333g", "Ekhi", "Ugarte", 2000);
+        db.persist(worker1);
+        db.persist(worker2);
+        db.persist(worker3);
+        db.persist(worker4);
+        db.persist(worker5);
 
         Customer customer1 = new Customer("aitor@gmail.com", "12345", "Aitor", "Elizondo");
         Customer customer2 = new Customer("amaia@gmail.com", "12345", "Amaia", "Susperregi");
         Customer customer3 = new Customer("uxue@gmail.com", "12345", "Uxue", "Etxebeste");
-
-
+        db.persist(customer1);
+        db.persist(customer2);
+        db.persist(customer3);
 
         ScreeningRoom screeningRoom1 = new ScreeningRoom(cinema,1);
         ScreeningRoom screeningRoom2 = new ScreeningRoom(cinema,2);
         ScreeningRoom screeningRoom3 = new ScreeningRoom(cinema,3);
 
+        db.persist(screeningRoom1);
+        db.persist(screeningRoom2);
+        db.persist(screeningRoom3);
 
 
-        LocalDate today = LocalDate.now();  // today
-        Schedule schedule1 = new Schedule(today, screeningRoom1);
-        Schedule schedule2 = new Schedule(today, screeningRoom2);
-        Schedule schedule3 = new Schedule(today, screeningRoom3);
 
 
-        Film film1 = null;
-        Film film2 = null;
-        Film film3 = null;
-
-        ShowTime showTime1 = null;
-        ShowTime showTime2 = null;
-        ShowTime showTime3 = null;
-        ShowTime showTime4 = null;
-        ShowTime showTime5 = null;
-        ShowTime showTime6 = null;
+        Film film1 = storeFilm("The Godfather");
+        Film film2 = storeFilm("Spirited Away");
+        Film film3 = storeFilm("Cars");
+        Film film4 = storeFilm("Fight Club");
+        Film film5 = storeFilm("Shutter Island");
 
 
-        Task<Void> task = new Task<Void>(){
-            protected Void call() throws Exception{
-                Film film1 = FilmDataFetcher.fetchFilmDataByName("The Godfather");
-                Film film2 = FilmDataFetcher.fetchFilmDataByName("Die Hard");
-                Film film3 = FilmDataFetcher.fetchFilmDataByName("Cars");
-                logger.info(film1.toString());
-                logger.info(film2.toString());
-                logger.info(film3.toString());
-
-                ShowTime showTime1 = new ShowTime(schedule1, LocalTime.of(17, 00), film1);
-                ShowTime showTime2 = new ShowTime(schedule2, LocalTime.of(18, 30), film2);
-                ShowTime showTime3 = new ShowTime(schedule2, LocalTime.of(16, 00), film2);
-                ShowTime showTime4 = new ShowTime(schedule1, LocalTime.of(20, 00), film1);
-                ShowTime showTime5 = new ShowTime(schedule2, LocalTime.of(20, 30), film2);
-                ShowTime showTime6 = new ShowTime(schedule3, LocalTime.of(17, 00), film3);
-
-                schedule1.setShowTime(showTime1);
-                schedule2.setShowTime(showTime2);
-                schedule3.setShowTime(showTime3);
-
-
-                db.persist(film1);
-                db.persist(film2);
-                db.persist(film3);
-
-                db.persist(showTime1);
-                db.persist(showTime2);
-                db.persist(showTime3);
-                db.persist(showTime4);
-                db.persist(showTime5);
-                db.persist(showTime6);
-                return null;
-            }
-        };
-        Thread taskThread = new Thread(task);
-        taskThread.start();
-
+        ShowTime showTime1 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom1), LocalTime.of(17, 00), film1);
+        ShowTime showTime2 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom2), LocalTime.of(18, 30), film2);
+        ShowTime showTime3 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom3), LocalTime.of(16, 00), film2);
+        ShowTime showTime4 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom1), LocalTime.of(20, 00), film3);
+        ShowTime showTime5 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom2), LocalTime.of(20, 30), film4);
+        ShowTime showTime6 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom3), LocalTime.of(17, 00), film5);
 
 
         List<Seat> seatSelection1 = new ArrayList<>();
@@ -389,72 +392,22 @@ public class DataAccess {
         }
 
 
-        db.persist(cinema);
-        db.persist(admin);
-        db.persist(worker1);
-        db.persist(worker2);
-        db.persist(worker3);
-        db.persist(worker4);
-        db.persist(worker5);
-        db.persist(customer1);
-        db.persist(customer2);
-        db.persist(customer3);
 
-        db.persist(screeningRoom1);
-        db.persist(screeningRoom2);
-        db.persist(screeningRoom3);
-        db.persist(schedule1);
-        db.persist(schedule2);
-        db.persist(schedule3);
         for(Seat seat: screeningRoom1.getSeats()){
             db.persist(seat);
         }
         for(Seat seat: screeningRoom1.getSeats()){
             db.persist(seat);
-        }
-
-        // This will block until the task completes
-        try {
-            taskThread.join();  // This will block until the task completes
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
         createPurchaseReceipt(customer1, showTime1, seatSelection1);
         createPurchaseReceipt(customer1, showTime1, seatSelection1);
         createPurchaseReceipt(customer2, showTime3, seatSelection1);
-
-        LocalDate tomorrow = today.plusDays(1);  // Tomorrow
-        createSchedule(tomorrow, screeningRoom1);
-        createSchedule(tomorrow, screeningRoom2);
 
         storeReview(film1, 5, "Great film! Nothing similar has been seen recently", customer1);
         storeReview(film1, 1, "Interesting film", customer2);
         storeReview(film1, 2, "Nice", customer3);
 
 
-        logger.info(getScheduleByRoomAndDate(tomorrow, screeningRoom1));  // Utilise 'tomorrow'
-        createShowTime(getScheduleByRoomAndDate(tomorrow, screeningRoom1), LocalTime.of(17, 00), film1);
-        logger.info("showtime created successfully");
-
-
-        //This is made to assure we do the queries before persisting data
-        //If not it attempts to print this before finishing persisting some data
-        Task<Void> task2 = new Task<Void>(){
-            protected Void call() throws Exception{
-                Thread.sleep(500);
-                logger.debug("Query testing:");
-                logger.debug("Showtimes with date(yyyy/mm/dd) 2025/04/01:");
-                for(ShowTime showtime: getShowTimesByDate(today)) {
-                    logger.debug(showtime);
-                }
-                logger.debug("Showtimes with date(yyyy/mm/dd) 2025/04/01 and film:");
-                for(ShowTime showtime: getShowTimesByDateAndFilm(today, film1)){
-                    logger.debug(showtime);
-                }
-                return null;
-            }
-        };
-        //new Thread(task2).start();
 
     }
 

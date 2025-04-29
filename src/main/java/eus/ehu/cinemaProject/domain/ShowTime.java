@@ -45,6 +45,7 @@ public class ShowTime {
     public void setSchedule(Schedule schedule){this.schedule=schedule;}
     public Set<Seat> getBookedSeats(){return bookedSeats;}
     public long getId(){return this.id;}
+    public LocalDate getScreeningDate(){return this.screeningDate;}
     public LocalTime getScreeningTime(){return this.screeningTime;}
     public Film getFilm(){return film;}
     public Schedule getSchedule(){return schedule;}
