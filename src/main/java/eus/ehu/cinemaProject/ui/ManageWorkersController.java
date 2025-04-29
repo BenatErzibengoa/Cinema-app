@@ -29,10 +29,16 @@ public class ManageWorkersController {
     @FXML
     void addWorker(ActionEvent event) {
 
+
     }
 
     @FXML
     void deleteWorker(ActionEvent event) {
+        Worker selectedWorker = tableWorkers.getSelectionModel().getSelectedItem();
+        if (selectedWorker != null) {
+            bl.deleteWorker(selectedWorker);
+            workers.remove(selectedWorker);
+        }
 
     }
 
@@ -43,8 +49,11 @@ public class ManageWorkersController {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         surnameColumn.setCellValueFactory(new PropertyValueFactory<>("surname"));
 
-        workers= FXCollections.observableArrayList();
-        workers.addAll(bl.getAllWorkers());
+        workers= FXCollections.observableArrayList(
+                bl.getAllWorkers().stream()
+                        .filter(worker -> !(worker instanceof eus.ehu.cinemaProject.domain.users.Admin))
+                        .toList()
+        );
         tableWorkers.setItems(workers);
     }
 

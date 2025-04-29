@@ -329,7 +329,13 @@ public class DataAccess {
         return workers;
     }
 
-
+    public void deleteWorker(Worker worker){
+        if (!db.getTransaction().isActive()) {
+            db.getTransaction().begin();
+        }
+        db.remove(worker);
+        db.getTransaction().commit();
+    }
 
 
     private void generateTestingData() {

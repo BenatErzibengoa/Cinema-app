@@ -91,6 +91,8 @@ public class BlFacadeImplementation implements BlFacade {
         return dbManager.getAllWorkers();
     }
 
+    public void deleteWorker(Worker worker){   dbManager.deleteWorker(worker);}
+
 
 
 

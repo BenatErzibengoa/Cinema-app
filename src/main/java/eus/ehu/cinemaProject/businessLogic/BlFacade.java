@@ -102,4 +102,11 @@ public interface BlFacade {
      */
     List<Worker>getAllWorkers();
 
+    /**
+     * Deletes a worker from the database
+     *
+     * @param worker the worker to be deleted
+     */
+    void deleteWorker(Worker worker);
+
 }
