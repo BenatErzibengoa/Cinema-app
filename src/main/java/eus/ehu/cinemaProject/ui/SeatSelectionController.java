@@ -3,6 +3,7 @@ package eus.ehu.cinemaProject.ui;
 import java.util.*;
 
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
+import eus.ehu.cinemaProject.domain.PurchaseReceipt;
 import eus.ehu.cinemaProject.domain.ScreeningRoom;
 import eus.ehu.cinemaProject.domain.Seat;
 import eus.ehu.cinemaProject.domain.users.Customer;
@@ -82,6 +83,10 @@ public class SeatSelectionController {
             seatButton.setGraphic(seatImage);
 
             seatButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
+                if(seat.isReserved()) {
+                    seatButton.setSelected(false);
+                    return;
+                }
                 if (newValue) {
                     selectedSeats.add(seatMap.get(seatButton));
                     seatButton.setOpacity(0.5); // Set opacity to 50% when selected
@@ -100,12 +105,11 @@ public class SeatSelectionController {
 
     }
 
-    // not provisional
     @FXML
     void buyTickets(ActionEvent event) {
-        User customer = uiState.getUser();
         uiState.setSelectedSeats(selectedSeats);
-        bl.createPurchaseReceipt((Customer)customer, uiState.getSelectedShowtime(), selectedSeats);
+        // Receipt is created when proceeding to payment
+        //bl.createPurchaseReceipt((Customer)customer, uiState.getSelectedShowtime(), selectedSeats);
         uiState.setCurrentView("receipt.fxml");
     }
 
@@ -115,6 +119,11 @@ public class SeatSelectionController {
                 .mapToDouble(Seat::getPrice)
                 .sum();
         totalPriceLabel.setText(String.format("%.2f €", totalPrice));
+    }
+
+    @FXML
+    void goBack(ActionEvent event) {
+        uiState.setCurrentView("showTime.fxml");
     }
 
 }
