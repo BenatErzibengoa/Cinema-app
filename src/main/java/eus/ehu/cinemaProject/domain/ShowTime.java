@@ -41,6 +41,8 @@ public class ShowTime {
     public void bookSeats(List<Seat> seatsToBook){
         bookedSeats.addAll(seatsToBook);
     }
+
+    public void setSchedule(Schedule schedule){this.schedule=schedule;}
     public Set<Seat> getBookedSeats(){return bookedSeats;}
     public long getId(){return this.id;}
     public LocalTime getScreeningTime(){return this.screeningTime;}

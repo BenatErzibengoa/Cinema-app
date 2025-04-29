@@ -42,6 +42,32 @@ public class ShowTimeController {
     private ShowTime selectedShowTime;
     private LocalDate selectedDate;
 
+
+    @FXML private ImageView star1;
+    @FXML private ImageView star2;
+    @FXML private ImageView star3;
+    @FXML private ImageView star4;
+    @FXML private ImageView star5;
+
+    private void updateStarRating(double rating) {
+        Image full = new Image(getClass().getResourceAsStream("/eus/ehu/cinemaProject/ui/pictures/filled_star.png"));
+        Image half = new Image(getClass().getResourceAsStream("/eus/ehu/cinemaProject/ui/pictures/half_filled_star.png"));
+        Image empty = new Image(getClass().getResourceAsStream("/eus/ehu/cinemaProject/ui/pictures/empty_star.png"));
+
+        ImageView[] stars = {star1, star2, star3, star4, star5};
+
+        for (int i = 0; i < 5; i++) {
+            if (i < (int) rating) {
+                stars[i].setImage(full);
+            } else if (i + 1 - rating <= 0.5) {
+                stars[i].setImage(half);
+            } else {
+                stars[i].setImage(empty);
+            }
+        }
+    }
+
+
     @FXML
     void initialize() {
         bl = BlFacadeImplementation.getInstance();
@@ -54,12 +80,14 @@ public class ShowTimeController {
         movieDescription.setText(film.getDescription());
         movieDuration.setText(film.getDuration().format(DateTimeFormatter.ofPattern("HH:mm")));
         movieGenre.setText(film.getGenre().toString());
-        movieImage.setImage(new Image(getClass().getResourceAsStream(film.getImagePath())));
-
+        //movieImage.setImage(new Image(getClass().getResourceAsStream(film.getImagePath())));
+        loadMovieImage(film);
         //Configure the TilePane
         showtimesPane.setHgap(15);
         showtimesPane.setVgap(15);
         showtimesPane.setPadding(new Insets(10, 10, 10, 10));
+
+        updateStarRating(bl.getAverageRating(film));
 
     }
 
@@ -84,5 +112,31 @@ public class ShowTimeController {
         }
     }
 
+    @FXML
+    void searchReviews(){
+        uiState.setReviews(bl.getReviewsByFilm(film));
+        uiState.setCurrentView("reviews.fxml");
+    }
+
+    private void loadMovieImage(Film film) {
+        // Check if the film image path is an external URL
+        if (film.getImagePath().startsWith("http")) {
+            // Set placeholder initially
+            movieImage.setImage(new Image(getClass().getResourceAsStream("/eus/ehu/cinemaProject/ui/pictures/default-poster.jpg")));
+
+            // Load the image in a background thread
+            new Thread(() -> {
+                try {
+                    Image image = new Image(film.getImagePath(), false); // false = no background loading
+                    javafx.application.Platform.runLater(() -> movieImage.setImage(image));
+                } catch (Exception e) {
+                    System.err.println("Failed to load image: " + film.getImagePath());
+                }
+            }).start();
+        } else {
+            // If the path is local, load it from resources
+            movieImage.setImage(new Image(getClass().getResourceAsStream(film.getImagePath())));
+        }
+    }
 
 }

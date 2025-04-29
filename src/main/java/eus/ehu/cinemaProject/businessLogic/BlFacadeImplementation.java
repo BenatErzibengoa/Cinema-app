@@ -61,6 +61,28 @@ public class BlFacadeImplementation implements BlFacade {
         return dbManager.getPurchaseReceiptsByUser(customer);
     }
 
+    public void storeReview(Film reviewedFilm, int rating, String textReview, Customer author){
+        dbManager.storeReview(reviewedFilm, rating, textReview, author);
+    }
+
+    public double getAverageRating(Film film){
+        Double average = dbManager.getAverageRating(film);
+        if (average == null){
+            return 0;
+        }
+        return average;
+    }
+
+    public boolean hasFilmBeenReviewed(Film film, Customer customer){
+        return dbManager.getReviewByFilmAndUser(film, customer) != null;
+    }
+
+    public List<Review> getReviewsByFilm(Film film){
+        return dbManager.getReviewsByFilm(film);
+    }
+
+
+
 
 
 

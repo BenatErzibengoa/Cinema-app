@@ -8,6 +8,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -74,11 +75,15 @@ public class MovieListController {
         Text detailsText = new Text(formatMovieDetails(film, screeningTime));
         detailsText.setStyle("-fx-font-size: 14px; -fx-fill: #666666;");
 
+
+        //Star rating
+        HBox starRating = createStarRating(businessLogic.getAverageRating(film));
+
         // Button
         Button bookButton = createBookButton(film);
 
         // Card assembly
-        VBox card = new VBox(8, posterView, titleText, detailsText, bookButton);
+        VBox card = new VBox(8, posterView, titleText, starRating, detailsText, bookButton);
         card.setStyle("-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-padding: 15px;");
         card.setMaxWidth(220);
 
@@ -87,18 +92,60 @@ public class MovieListController {
 
     private ImageView createPosterImageView(Film film) {
         ImageView imageView = new ImageView();
+        imageView.setFitWidth(200);
+        imageView.setFitHeight(300);
+        imageView.setPreserveRatio(true);
+
         try {
-            Image image = new Image(getClass().getResourceAsStream(film.getImagePath()));
-            imageView.setImage(image);
+            if (film.getImagePath().startsWith("http")) {
+                Image placeholder = new Image(getClass().getResourceAsStream("/eus/ehu/cinemaProject/ui/pictures/default-poster.jpg"));
+                imageView.setImage(placeholder);
+
+                new Thread(() -> {
+                    try {
+                        Image image = new Image(film.getImagePath(), false); // false = no background loading
+                        javafx.application.Platform.runLater(() -> imageView.setImage(image));
+                    } catch (Exception e) {
+                        System.err.println("Failed to load image: " + film.getImagePath());
+                    }
+                }).start();
+            } else {
+                Image image = new Image(getClass().getResourceAsStream(film.getImagePath()));
+                imageView.setImage(image);
+            }
         } catch (Exception e) {
             System.err.println("Image not found: " + film.getImagePath());
             imageView.setImage(new Image(getClass().getResourceAsStream("/eus/ehu/cinemaProject/ui/pictures/default-poster.jpg")));
         }
-        imageView.setFitWidth(200);
-        imageView.setFitHeight(300);
-        imageView.setPreserveRatio(true);
+
         return imageView;
     }
+
+
+    private HBox createStarRating(double rating) {
+        HBox stars = new HBox(2);
+
+        for (int i = 1; i <= 5; i++) {
+            String imagePath;
+
+            if (i <= (int) rating) {
+                imagePath = "/eus/ehu/cinemaProject/ui/pictures/filled_star.png";
+            } else if (i - rating <= 0.5) {
+                imagePath = "/eus/ehu/cinemaProject/ui/pictures/half_filled_star.png";
+            } else {
+                imagePath = "/eus/ehu/cinemaProject/ui/pictures/empty_star.png";
+            }
+
+            ImageView star = new ImageView(new Image(getClass().getResourceAsStream(imagePath)));
+            star.setFitWidth(20);
+            star.setFitHeight(20);
+            stars.getChildren().add(star);
+        }
+
+        return stars;
+    }
+
+
 
     private String formatMovieDetails(Film film, LocalTime screeningTime) {
         return String.format("%s | Screening: %s",

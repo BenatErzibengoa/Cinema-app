@@ -8,6 +8,7 @@ module eus.ehu.cinemaProject {
     requires com.h2database;
     requires org.apache.logging.log4j.core;
     requires org.apache.logging.log4j;
+    requires com.google.gson;
 
     opens eus.ehu.cinemaProject.domain to javafx.base, org.hibernate.orm.core;
 
