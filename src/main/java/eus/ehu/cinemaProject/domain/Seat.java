@@ -66,8 +66,8 @@ public class Seat {
 
     @Override
     public String toString(){
-        return this.seatId;
-    }
+        String[] myArray = seatId.split("\\.");
+        return String.format("Room: %s, Row: %s, Seat: %s", myArray[0], myArray[1], myArray[2]);    }
 
     public boolean isReserved() {
         return type == SeatType.OCCUPIED;
