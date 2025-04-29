@@ -1,6 +1,7 @@
 package eus.ehu.cinemaProject.dataAccess;
 
 import eus.ehu.cinemaProject.configuration.Config;
+import eus.ehu.cinemaProject.configuration.PasswordHasher;
 import eus.ehu.cinemaProject.domain.*;
 import eus.ehu.cinemaProject.domain.users.Admin;
 import eus.ehu.cinemaProject.domain.users.Customer;
@@ -96,27 +97,25 @@ public class DataAccess {
         }
     }
 
-    public User login(String email, String password){
-        User user;
-        try{
-            TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.email = ?1 AND u.password = ?2", User.class);
-            query.setParameter(1, email);
-            query.setParameter(2, password);
-            user = query.getSingleResult();
-        }catch(NoResultException e){
-            logger.error(String.format("There are no results related to %s %s email and password", email, password));
-            user = null;
-        }
-        return user;
-    }
 
-    public void signUp(String email, String password, String name, String surname){
-        User user = new Customer(email,password,name,surname);
+    public User signUp(String email, String password, String name, String surname){
+        User user = new Customer(email, PasswordHasher.hashPassword(password),name,surname);
         if (!db.getTransaction().isActive()) {
             db.getTransaction().begin();
         }
         db.persist(user);
         db.getTransaction().commit();
+        return user;
+    }
+
+    public User signUpWorker(String email, String password, String name, String surname, int salary){
+        User user = new Worker(email, PasswordHasher.hashPassword(password),name,surname, 2000);
+        if (!db.getTransaction().isActive()) {
+            db.getTransaction().begin();
+        }
+        db.persist(user);
+        db.getTransaction().commit();
+        return user;
     }
 
     public User getUserByEmail(String email){
@@ -329,33 +328,22 @@ public class DataAccess {
         Admin admin = new Admin("juanan.pereira@ehu.eus", "admin1234", "Juanan", "Pereira", 2500);
         db.persist(admin);
 
-        Worker worker1 = new Worker("bercibengoa001@ikasle.ehu.eus", "12345678", "Beñat", "Ercibengoa", 2000);
-        Worker worker2 = new Worker("vandrushkiv001@ikasle.ehu.eus", "87654321", "Viktoria", "Andrushkiv", 2000);
-        Worker worker3 = new Worker("trolland001@ikasle.ehu.eus", "abcdefghi", "Théo", "Rolland", 2000);
-        Worker worker4 = new Worker("lrodriguez154@ikasle.ehu.eus", "12345678", "Laura", "Rodríguez", 2000);
-        Worker worker5 = new Worker("eugarte001@ikasle.ehu.eus", "111222333g", "Ekhi", "Ugarte", 2000);
-        db.persist(worker1);
-        db.persist(worker2);
-        db.persist(worker3);
-        db.persist(worker4);
-        db.persist(worker5);
-
-        Customer customer1 = new Customer("aitor@gmail.com", "12345", "Aitor", "Elizondo");
-        Customer customer2 = new Customer("amaia@gmail.com", "12345", "Amaia", "Susperregi");
-        Customer customer3 = new Customer("uxue@gmail.com", "12345", "Uxue", "Etxebeste");
-        db.persist(customer1);
-        db.persist(customer2);
-        db.persist(customer3);
-
         ScreeningRoom screeningRoom1 = new ScreeningRoom(cinema,1);
         ScreeningRoom screeningRoom2 = new ScreeningRoom(cinema,2);
         ScreeningRoom screeningRoom3 = new ScreeningRoom(cinema,3);
-
         db.persist(screeningRoom1);
         db.persist(screeningRoom2);
         db.persist(screeningRoom3);
 
+        signUpWorker("bercibengoa001@ikasle.ehu.eus", "12345678", "Beñat", "Ercibengoa", 2000);
+        signUpWorker("vandrushkiv001@ikasle.ehu.eus", "87654321", "Viktoria", "Andrushkiv", 2000);
+        signUpWorker("trolland001@ikasle.ehu.eus", "abcdefghi", "Théo", "Rolland", 2000);
+        signUpWorker("lrodriguez154@ikasle.ehu.eus", "12345678", "Laura", "Rodríguez", 2000);
+        signUpWorker("eugarte001@ikasle.ehu.eus", "111222333g", "Ekhi", "Ugarte", 2000);
 
+        Customer customer1 = (Customer)signUp("aitor@gmail.com", "12345", "Aitor", "Elizondo");
+        Customer customer2 = (Customer)signUp("amaia@gmail.com", "12345", "Amaia", "Susperregi");
+        Customer customer3 = (Customer)signUp("uxue@gmail.com", "12345", "Uxue", "Etxebeste");
 
 
         Film film1 = storeFilm("The Godfather");
@@ -368,9 +356,9 @@ public class DataAccess {
         ShowTime showTime1 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom1), LocalTime.of(17, 00), film1);
         ShowTime showTime2 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom2), LocalTime.of(18, 30), film2);
         ShowTime showTime3 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom3), LocalTime.of(16, 00), film2);
-        ShowTime showTime4 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom1), LocalTime.of(20, 00), film3);
-        ShowTime showTime5 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom2), LocalTime.of(20, 30), film4);
-        ShowTime showTime6 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom3), LocalTime.of(17, 00), film5);
+        ShowTime showTime4 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom1), LocalTime.of(20, 30), film3);
+        ShowTime showTime5 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom2), LocalTime.of(21, 30), film4);
+        ShowTime showTime6 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom3), LocalTime.of(18, 45), film5);
 
 
         List<Seat> seatSelection1 = new ArrayList<>();
@@ -406,8 +394,6 @@ public class DataAccess {
         storeReview(film1, 5, "Great film! Nothing similar has been seen recently", customer1);
         storeReview(film1, 1, "Interesting film", customer2);
         storeReview(film1, 2, "Nice", customer3);
-
-
 
     }
 
