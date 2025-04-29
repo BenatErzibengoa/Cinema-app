@@ -216,6 +216,10 @@ public class DataAccess {
             db.getTransaction().begin();
         }
         db.persist(purchaseReceipt);
+        for(Seat seat: seats){
+            seat.setType(SeatType.OCCUPIED);
+            db.merge(seat);
+        }
         db.getTransaction().commit();
     }
 

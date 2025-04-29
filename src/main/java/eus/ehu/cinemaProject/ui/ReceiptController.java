@@ -1,6 +1,8 @@
 package eus.ehu.cinemaProject.ui;
 
+import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
 import eus.ehu.cinemaProject.domain.Seat;
+import eus.ehu.cinemaProject.domain.users.Customer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -42,6 +44,7 @@ public class ReceiptController {
     private double totalSnacks = 0.0;
     String seatInfo;
     private UIState uiState = UIState.getInstance();
+    private BlFacadeImplementation bl = BlFacadeImplementation.getInstance();
 
     private String summary="";
     private double foodprice=0.0;
@@ -79,7 +82,9 @@ public class ReceiptController {
 
     @FXML
     private void proceedPaymentButton(ActionEvent event){
+        bl.createPurchaseReceipt((Customer)uiState.getUser(), uiState.getSelectedShowtime(), uiState.getSelectedSeats());
         System.out.println("proceed");
+        uiState.setCurrentView("MovieList.fxml");
     }
 
     public void setSnackData(String snackSummary, double snackPrice) {
