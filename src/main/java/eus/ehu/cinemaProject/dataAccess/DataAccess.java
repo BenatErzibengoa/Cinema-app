@@ -110,7 +110,7 @@ public class DataAccess {
         return user;
     }
 
-    public void signUpCustomer(String email, String password, String name, String surname){
+    public void signUp(String email, String password, String name, String surname){
         User user = new Customer(email,password,name,surname);
         if (!db.getTransaction().isActive()) {
             db.getTransaction().begin();

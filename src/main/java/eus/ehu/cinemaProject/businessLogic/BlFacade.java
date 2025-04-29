@@ -38,7 +38,7 @@ public interface BlFacade {
      * @param name     the name
      * @param surname  the surname
      */
-    void signUpCustomer(String email, String password, String name, String surname);
+    void signUp(String email, String password, String name, String surname);
 
     /**
      * Returns all ShowTimes that matches with the provided date

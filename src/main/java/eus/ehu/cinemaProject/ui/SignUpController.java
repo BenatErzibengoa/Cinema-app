@@ -56,7 +56,7 @@ public class SignUpController {
             message.setText("There is already an account related to "+emailField.getText());
 
         }else {
-            bl.signUpCustomer(emailField.getText(), passwordField.getText(), nameField.getText(), surnameField.getText());
+            bl.signUp(emailField.getText(), passwordField.getText(), nameField.getText(), surnameField.getText());
             message.setText("You've successfully registered! Welcome, "+nameField.getText()+"!");
             message.setStyle("-fx-text-fill: green; -fx-alignment: center;");
 
