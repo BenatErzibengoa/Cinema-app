@@ -52,8 +52,14 @@ public class ShowTime {
         return String.format("Room Number: %s, Date: %s, Time: %s, Film: %s", schedule.getScreeningRoom().getRoomNumber(), screeningDate, screeningTime, film.getTitle());
     }
 
-    public String toString2(){
-        return String.format("Room Number: %s \n  Date: %s, \n Time: %s \n"+ schedule.getScreeningRoom().getRoomNumber(),"\n"+ screeningDate,"\n"+ screeningTime);
+    public String toString2() {
+        return String.format(
+                "Room Number: %s\nDate: %s\nTime: %s",
+                schedule.getScreeningRoom().getRoomNumber(),
+                screeningDate,
+                screeningTime
+        );
     }
+
 
 }
