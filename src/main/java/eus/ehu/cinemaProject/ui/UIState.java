@@ -1,8 +1,10 @@
 package eus.ehu.cinemaProject.ui;
 
 import eus.ehu.cinemaProject.domain.Film;
+import eus.ehu.cinemaProject.domain.Review;
 import eus.ehu.cinemaProject.domain.Seat;
 import eus.ehu.cinemaProject.domain.ShowTime;
+
 import eus.ehu.cinemaProject.domain.users.User;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -72,6 +74,7 @@ public class UIState {
     private Film film;
 
     private List<ShowTime> showtimes;
+    private List<Review> reviews;
 
     public String summary;
     public double snackprice;
@@ -100,6 +103,8 @@ public class UIState {
     }
     public ShowTime getSelectedShowtime() { return selectedShowtime; }
     public void setSelectedShowtime(ShowTime selectedShowtime) { this.selectedShowtime = selectedShowtime; }
+    public List<Review> getReviews() { return reviews; }
+    public void setReviews(List<Review> reviews) { this.reviews = reviews; }
 
     public List<Seat> getSelectedSeats() { return selectedSeats; }
     public void setSelectedSeats(List<Seat> selectedSeats) { this.selectedSeats = selectedSeats; }
@@ -109,6 +114,8 @@ public class UIState {
 
     public double getSnackprice() { return snackprice; }
     public void setSnackprice(double snackprice) { this.snackprice = snackprice; }
+
+
 
 
 

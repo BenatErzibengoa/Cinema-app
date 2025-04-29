@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -23,7 +24,7 @@ public class ReceiptController {
     private Button goBack;
 
     @FXML
-    private TextField movieInfo;
+    private TextArea movieInfo;
 
     @FXML
     private Button orderSnacks;
@@ -32,7 +33,7 @@ public class ReceiptController {
     private Button proceedPayment;
 
     @FXML
-    private TextField receipt;
+    private TextArea receipt;
 
     @FXML
     private TextField totalPrize;
@@ -44,35 +45,31 @@ public class ReceiptController {
 
     private String summary="";
     private double foodprice=0.0;
+    private double snackprice=0.0;
+
 
 
     @FXML
     public void initialize() {
+        uiState = UIState.getInstance();
+        movieInfo.setText(uiState.getSelectedShowtime().toString2());
+        snackprice = uiState.getSnackprice();
+        seatPrices = 0.0;
+        seatInfo = "Selected seats:\n";
+
         List<Seat> seats = uiState.getSelectedSeats();
         for (Seat seat : seats) {
-            seatInfo = seatInfo + seat.toString();
+            seatInfo = seatInfo + seat.toString() + "\n";
             seatPrices += seat.getPrice();
         }
 
-        receipt.setText(seatInfo);
-        totalPrize.setText(String.format("€%.2f", seatPrices));
+        receipt.setText(seatInfo + "\n" + uiState.getSummary() + "\n" + "Seats total: €" + seatPrices);
+        totalPrize.setText(String.format("€%.2f", seatPrices + snackprice));
     }
 
     @FXML
     private void goToSnacksSelect(javafx.event.ActionEvent event) {
         uiState.setCurrentView("orderfood.fxml");
-        /** try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("orderfood.fxml"));
-            Parent root = loader.load();
-
-            OrderFoodController controller = loader.getController();
-            controller.setReceiptController(this);
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } **/
     }
 
     @FXML

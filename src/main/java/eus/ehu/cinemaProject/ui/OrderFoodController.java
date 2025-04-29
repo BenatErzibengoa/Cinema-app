@@ -58,9 +58,9 @@ public class OrderFoodController {
         summary.append("-----------------------\n");
         summary.append(String.format("Snacks total: €%.2f", totalPrice));
 
-        uiState.setCurrentView("receipt.fxml");
         uiState.setSnackprice(totalPrice);
         uiState.setSummary(summary.toString());
+        uiState.setCurrentView("receipt.fxml");
 
        /** // Volver a la vista original y pasar datos
         try {

@@ -75,7 +75,7 @@ public class MenuController {
 
     @FXML
     void receiptsPane(ActionEvent event) {
-        loadContent("receipts.fxml");
+        loadContent("userReceipts.fxml");
     }
 
     // Reference to the UIState
