@@ -12,4 +12,7 @@ public class Worker extends User {
     }
     public Worker(){}
     private int Salary;
+    public int getSalary(){
+        return this.Salary;
+    }
 }
