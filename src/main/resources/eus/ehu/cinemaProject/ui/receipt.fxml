@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -11,12 +12,20 @@
       <Button fx:id="goBack" layoutX="77.0" layoutY="272.0" mnemonicParsing="false" onAction="#goToSeatSelect" prefHeight="35.0" prefWidth="60.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="Back" textFill="WHITE" />
       <Button fx:id="proceedPayment" layoutX="445.0" layoutY="272.0" mnemonicParsing="false" onAction="#proceedPaymentButton" prefHeight="35.0" prefWidth="182.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="Proceed with payment" textFill="WHITE" />
       <Button fx:id="orderSnacks" layoutX="261.0" layoutY="272.0" mnemonicParsing="false" onAction="#goToSnacksSelect" prefHeight="35.0" prefWidth="107.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="Order Snacks" textFill="WHITE" />
-      <TextField fx:id="movieInfo" layoutX="28.0" layoutY="26.0" prefHeight="202.0" prefWidth="254.0" promptText="Information about the movie" style="-fx-background-color: rgba(142,142,142,0.08); -fx-text-fill: #fff;" />
-      <TextField fx:id="receipt" layoutX="390.0" layoutY="26.0" prefHeight="170.0" prefWidth="182.0" promptText="Actual receipt (Price of each seat and price of snacks)" style="-fx-background-color: rgba(142,142,142,0.08); -fx-text-fill: #fff;" />
-      <TextField fx:id="totalPrize" layoutX="456.0" layoutY="215.0" prefHeight="26.0" prefWidth="116.0" style="-fx-background-color: rgba(142,142,142,0.08); -fx-text-fill: #fff;" />
+
+      <TextField fx:id="totalPrize" layoutX="456.0" layoutY="215.0" prefHeight="26.0" prefWidth="116.0"
+                 style="-fx-background-color: #2c2c2c; -fx-text-fill: white;" />
+
       <Label layoutX="390.0" layoutY="213.0" prefHeight="30.0" prefWidth="60.0" text="Total:" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
-         </font></Label>
+         </font>
+      </Label>
+
+      <TextArea fx:id="movieInfo" layoutX="37.0" layoutY="26.0" prefHeight="200.0" prefWidth="200.0"
+                style="-fx-background-color: #2c2c2c; -fx-text-fill: white; -fx-control-inner-background: #2c2c2c;" />
+
+      <TextArea fx:id="receipt" layoutX="414.0" layoutY="20.0" prefHeight="194.0" prefWidth="200.0"
+                style="-fx-background-color: #2c2c2c; -fx-text-fill: white; -fx-control-inner-background: #2c2c2c;" />
    </children>
 </AnchorPane>
