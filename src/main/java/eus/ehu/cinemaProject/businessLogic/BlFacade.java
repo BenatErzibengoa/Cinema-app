@@ -109,4 +109,15 @@ public interface BlFacade {
      */
     void deleteWorker(Worker worker);
 
+    /**
+     * Registers a worker with the given credentials and personal data
+     *
+     * @param email    the email
+     * @param password the password
+     * @param name     the name
+     * @param surname  the surname
+     * @param salary the salary
+     */
+    User signUpWorker(String email, String password, String name, String surname, int salary);
+
 }

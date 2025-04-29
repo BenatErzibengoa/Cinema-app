@@ -93,6 +93,10 @@ public class BlFacadeImplementation implements BlFacade {
 
     public void deleteWorker(Worker worker){   dbManager.deleteWorker(worker);}
 
+    public User signUpWorker(String email, String password, String name, String surname, int salary){
+        return dbManager.signUpWorker(email, password, name, surname, salary);
+    }
+
 
 
 

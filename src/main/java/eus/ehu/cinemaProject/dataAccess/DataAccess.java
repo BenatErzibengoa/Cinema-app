@@ -109,7 +109,7 @@ public class DataAccess {
     }
 
     public User signUpWorker(String email, String password, String name, String surname, int salary){
-        User user = new Worker(email, PasswordHasher.hashPassword(password),name,surname, 2000);
+        User user = new Worker(email, PasswordHasher.hashPassword(password),name,surname, salary);
         if (!db.getTransaction().isActive()) {
             db.getTransaction().begin();
         }
