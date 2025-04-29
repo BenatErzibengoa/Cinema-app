@@ -2,6 +2,7 @@ package eus.ehu.cinemaProject.domain;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +17,7 @@ public class ScreeningRoom {
     @OneToMany(mappedBy = "screeningRoom", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Seat> seats = new ArrayList<Seat>();
 
-    @OneToMany(mappedBy = "id.screeningRoom")
+    @OneToMany(mappedBy = "id.screeningRoom", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Schedule> schedules;
 
     @OneToMany
@@ -49,10 +50,26 @@ public class ScreeningRoom {
                 }
                 seats.add(new Seat(this, String.format("%s.%s.%s", roomNumber, i, j), type));
             }
-            }
+        }
+        schedules = new ArrayList<>();
+        for(LocalDate date = LocalDate.now(); date.isBefore(LocalDate.now().plusDays(14)); date = date.plusDays(1)){
+            schedules.add(new Schedule(date, this));
+        }
     }
 
     public ScreeningRoom() {}
+
+    public void setShowTime(ShowTime showtime){
+        if (schedules != null) {
+            for (Schedule schedule : schedules) {
+                if (schedule.getDate().equals(showtime.getScreeningDate())) {
+                    schedule.setShowTime(showtime);
+                    return;
+                }
+            }
+        }
+    }
+
     public int getRoomNumber(){return this.roomNumber;}
     public Cinema getCinema(){return this.cinema;}
 
