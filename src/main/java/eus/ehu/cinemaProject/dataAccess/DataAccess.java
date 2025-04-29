@@ -216,6 +216,10 @@ public class DataAccess {
             db.getTransaction().begin();
         }
         db.persist(purchaseReceipt);
+        for(Seat seat: seats){
+            seat.setType(SeatType.OCCUPIED);
+            db.merge(seat);
+        }
         db.getTransaction().commit();
     }
 
@@ -343,7 +347,7 @@ public class DataAccess {
         Cinema cinema = new Cinema("Cineflix", "Bilbo", 688861291, LocalTime.of(15, 30), LocalTime.of(01, 00));
         db.persist(cinema);
 
-        Admin admin = new Admin("juanan.pereira@ehu.eus", "admin1234", "Juanan", "Pereira", 2500);
+        Admin admin = new Admin("juanan.pereira@ehu.eus", PasswordHasher.hashPassword("admin1234"), "Juanan", "Pereira", 2500);
         db.persist(admin);
 
         ScreeningRoom screeningRoom1 = new ScreeningRoom(cinema,1);

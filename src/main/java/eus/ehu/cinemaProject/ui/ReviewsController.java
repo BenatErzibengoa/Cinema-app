@@ -2,6 +2,7 @@ package eus.ehu.cinemaProject.ui;
 
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
 import eus.ehu.cinemaProject.domain.Review;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -53,4 +54,7 @@ public class ReviewsController {
     }
 
 
+    public void goBack(ActionEvent actionEvent) {
+        uiState.setCurrentView("showTime.fxml");
+    }
 }
