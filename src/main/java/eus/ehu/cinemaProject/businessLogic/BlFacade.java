@@ -2,6 +2,7 @@ package eus.ehu.cinemaProject.businessLogic;
 import eus.ehu.cinemaProject.domain.*;
 import eus.ehu.cinemaProject.domain.users.Customer;
 import eus.ehu.cinemaProject.domain.users.User;
+import eus.ehu.cinemaProject.domain.users.Worker;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -93,5 +94,12 @@ public interface BlFacade {
      * @param film the film
      */
     List<Review> getReviewsByFilm(Film film);
+
+    /**
+     * Returns all workers in the database
+     *
+     * @return List of workers, null if no workers are found
+     */
+    List<Worker>getAllWorkers();
 
 }

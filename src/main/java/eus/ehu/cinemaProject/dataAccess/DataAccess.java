@@ -288,6 +288,18 @@ public class DataAccess {
         return reviews;
     }
 
+    public List<Worker> getAllWorkers(){
+        List<Worker>workers;
+        try{
+            TypedQuery<Worker>query=db.createQuery("SELECT w FROM Worker w", Worker.class);
+            workers=query.getResultList();
+        }catch (NoResultException e){
+            logger.info("There are no workers in the database");
+            workers = null;
+        }
+        return workers;
+    }
+
 
     private void generateTestingData() {
 

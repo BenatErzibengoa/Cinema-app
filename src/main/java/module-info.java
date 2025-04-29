@@ -12,7 +12,7 @@ module eus.ehu.cinemaProject {
 
     opens eus.ehu.cinemaProject.domain to javafx.base, org.hibernate.orm.core;
 
-    opens eus.ehu.cinemaProject.domain.users to org.hibernate.orm.core;
+    opens eus.ehu.cinemaProject.domain.users to javafx.base, org.hibernate.orm.core;
     opens eus.ehu.cinemaProject.ui to javafx.fxml;
 
     exports eus.ehu.cinemaProject.ui;

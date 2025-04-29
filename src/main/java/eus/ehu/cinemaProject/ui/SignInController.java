@@ -1,6 +1,7 @@
 package eus.ehu.cinemaProject.ui;
 
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
+import eus.ehu.cinemaProject.domain.users.Admin;
 import eus.ehu.cinemaProject.domain.users.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -40,7 +41,12 @@ public class SignInController {
                 uiState.setUser(user);
                 uiState.setLoggedIn(true);
 
-                uiState.setCurrentView("MovieList.fxml");
+                if(user instanceof Admin){
+                    uiState.setCurrentView("adminMain.fxml");
+                }else{
+                    uiState.setCurrentView("MovieList.fxml");
+                }
+
             }
             else{
                 outputText.setText("Invalid credentials. Please try again");

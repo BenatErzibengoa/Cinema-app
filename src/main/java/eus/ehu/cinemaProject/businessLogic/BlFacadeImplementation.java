@@ -5,6 +5,7 @@ import eus.ehu.cinemaProject.domain.users.User;
 
 import eus.ehu.cinemaProject.configuration.Config;
 import eus.ehu.cinemaProject.dataAccess.DataAccess;
+import eus.ehu.cinemaProject.domain.users.Worker;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -79,6 +80,10 @@ public class BlFacadeImplementation implements BlFacade {
 
     public List<Review> getReviewsByFilm(Film film){
         return dbManager.getReviewsByFilm(film);
+    }
+
+    public List<Worker>getAllWorkers(){
+        return dbManager.getAllWorkers();
     }
 
 
