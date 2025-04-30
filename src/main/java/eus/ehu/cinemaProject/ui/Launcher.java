@@ -6,11 +6,18 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class Launcher extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("menuLayout.fxml")); //Menu --> SignIn
+
+        Locale locale = Locale.forLanguageTag("es");
+        ResourceBundle bundle = ResourceBundle.getBundle("eus.ehu.cinemaProject.ui.Language", locale);
+
+
+        FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("menuLayout.fxml"), bundle); //Menu --> SignIn
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("CineFlix");
         stage.setScene(scene);
