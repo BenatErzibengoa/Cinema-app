@@ -17,5 +17,7 @@ module eus.ehu.cinemaProject {
     opens eus.ehu.cinemaProject.ui to javafx.fxml;
 
     exports eus.ehu.cinemaProject.ui;
+    exports eus.ehu.cinemaProject.domain;
+
 
 }
