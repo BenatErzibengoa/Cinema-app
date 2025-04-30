@@ -88,7 +88,7 @@ public class Schedule {
     //Given a film starting time and the film duration, it will determine if the film is between openingTime and closingTime
     public boolean isFilmInBounds(LocalTime filmStartingTime, LocalTime duration){
         int filmEndingTimeInMinutes = filmStartingTime.toSecondOfDay() / 60 + duration.toSecondOfDay() / 60;
-        int closingTimeInMinutes = closingTime.toSecondOfDay() / 60;
+        int closingTimeInMinutes = closingTime.toSecondOfDay() / 60 - (15*60);
         // If closingTime is after 23:59, then add 1440 minutes (one day)
         if(closingTime.isBefore(openingTime)){
             closingTimeInMinutes += 1440;
@@ -111,6 +111,14 @@ public class Schedule {
         return true;
     }
 
+    //This is the method that should be used to book a film.
+    // It will book every 15 minutes frame between the starting time and the ending time
+    public void bookBetweenTimeBounds(LocalTime startingTime, LocalTime endingTime){
+        int startingIndex = filmStartTimeScheduleIndex(startingTime);
+        int endingIndex = filmEndTimeScheduleIndex(startingIndex, endingTime);
+        bookBetweenBounds(startingIndex, endingIndex);
+    }
+
     //Given a startingIndex and endingIndex, it will book every 15 minutes frame between those bounds
     //If a film finishes at 17:00, we will book also 17:00 in order to have a minimum of 15 minutes between film and film
     public void bookBetweenBounds(int startingIndex, int endingIndex){
@@ -121,10 +129,18 @@ public class Schedule {
 
     //Given a film starting time, it will determine which index represents that starting time
     public int filmStartTimeScheduleIndex(LocalTime filmStartingTime){
-        int differenceInMinutes = (filmStartingTime.toSecondOfDay() / 60) - (openingTime.toSecondOfDay()/60); //Difference between cinema opening time and film starting time
-        int startingTimeIndex = (int)Math.ceil(differenceInMinutes / 15.0); //Number of schedule[] index
-        return startingTimeIndex;
+        int openingMinutes = openingTime.toSecondOfDay() / 60;
+        int filmStartMinutes = filmStartingTime.toSecondOfDay() / 60;
+
+        //If the cinema closes after 00:00 and the film is after 00:00 (before opening time)
+        if (closingTime.isBefore(openingTime) && filmStartMinutes < openingMinutes) {
+            filmStartMinutes += 1440; // Sum 24 hours in minutes
+        }
+
+        int differenceInMinutes = filmStartMinutes - openingMinutes;
+        return (int) Math.ceil(differenceInMinutes / 15.0);
     }
+
 
     //Given a film starting time index and the film duration, it will determine which index represents the finishing time
     public int filmEndTimeScheduleIndex(int startingTimeIndex, LocalTime duration){
@@ -151,6 +167,8 @@ public class Schedule {
     public LocalDate getDate(){
         return id.getDate();
     }
+    public LocalTime getOpeningTime(){return openingTime;}
+    public LocalTime getClosingTime(){return closingTime;}
     public ScreeningRoom getScreeningRoom(){return id.getScreeningRoom();}
 
 }
