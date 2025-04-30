@@ -7,6 +7,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 public class SignInController {
     @FXML
     private TextField emailField;
@@ -17,6 +20,8 @@ public class SignInController {
     private Label outputText;
 
     BlFacadeImplementation bl;
+    Locale locale = Locale.forLanguageTag("es");
+    ResourceBundle bundle = ResourceBundle.getBundle("eus.ehu.cinemaProject.ui.Language", locale);
 
     // Reference to the UIState
     private final UIState uiState = UIState.getInstance();
@@ -33,7 +38,7 @@ public class SignInController {
         if(!(emailField.getText().isEmpty() || passwordField.getText().isEmpty())){
             User user = bl.login(emailField.getText(), passwordField.getText());
             if(user != null){
-                outputText.setText("Login successful! Welcome %s".formatted(emailField.getText()));
+                outputText.setText(bundle.getString("successfulLogin")+emailField.getText());
                 outputText.setStyle("-fx-text-fill: green;");
 
                 //Pass the email to the UIState
@@ -44,12 +49,12 @@ public class SignInController {
                 uiState.setCurrentView("MovieList.fxml");
             }
             else{
-                outputText.setText("Invalid credentials. Please try again");
+                outputText.setText(bundle.getString("loginError"));
                 outputText.setStyle("-fx-text-fill: red;");
             }
         }
         else{
-            outputText.setText("Fill all fields");
+            outputText.setText(bundle.getString("emptyFields"));
             outputText.setStyle("-fx-text-fill: red;");
 
         }

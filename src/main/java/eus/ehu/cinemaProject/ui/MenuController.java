@@ -11,7 +11,9 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 public class MenuController {
 
@@ -31,6 +33,10 @@ public class MenuController {
     private Text titleText; //Théo
 
     BlFacadeImplementation bl;
+
+    Locale locale = Locale.forLanguageTag("es");
+    ResourceBundle bundle = ResourceBundle.getBundle("eus.ehu.cinemaProject.ui.Language", locale);
+
 
     @FXML //Théo
     private void showMovieList() {
