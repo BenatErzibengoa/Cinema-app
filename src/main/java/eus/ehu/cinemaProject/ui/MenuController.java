@@ -88,6 +88,7 @@ public class MenuController {
             // Retirer la vue du cache si elle existe déjà
             contentCache.remove(fxmlFile);
 
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
             Pane content = loader.load();
 

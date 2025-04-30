@@ -1,6 +1,7 @@
 package eus.ehu.cinemaProject.ui;
 
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
+import eus.ehu.cinemaProject.configuration.PasswordHasher;
 import eus.ehu.cinemaProject.domain.users.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
