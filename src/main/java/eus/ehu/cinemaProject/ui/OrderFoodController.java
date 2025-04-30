@@ -62,18 +62,5 @@ public class OrderFoodController {
         uiState.setSummary(summary.toString());
         uiState.setCurrentView("receipt.fxml");
 
-       /** // Volver a la vista original y pasar datos
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("receipt.fxml"));
-            Parent root = loader.load();
-
-            ReceiptController controller = loader.getController();
-            controller.setSnackData(summary.toString(), totalPrice);
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }**/
     }
 }
