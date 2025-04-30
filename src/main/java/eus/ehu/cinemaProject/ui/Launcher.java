@@ -13,11 +13,10 @@ public class Launcher extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        Locale locale = Locale.forLanguageTag("es");
-        ResourceBundle bundle = ResourceBundle.getBundle("eus.ehu.cinemaProject.ui.Language", locale);
+        UIState uiState = UIState.getInstance();
+        // to change the language, go to constructor of UIState
 
-
-        FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("menuLayout.fxml"), bundle); //Menu --> SignIn
+        FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("menuLayout.fxml"), uiState.getBundle()); //Menu --> SignIn
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("CineFlix");
         stage.setScene(scene);

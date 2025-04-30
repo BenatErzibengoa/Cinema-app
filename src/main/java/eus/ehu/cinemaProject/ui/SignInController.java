@@ -20,11 +20,10 @@ public class SignInController {
     private Label outputText;
 
     BlFacadeImplementation bl;
-    Locale locale = Locale.forLanguageTag("es");
-    ResourceBundle bundle = ResourceBundle.getBundle("eus.ehu.cinemaProject.ui.Language", locale);
-
     // Reference to the UIState
     private final UIState uiState = UIState.getInstance();
+    ResourceBundle bundle = uiState.getBundle();
+
 
     @FXML
     void initialize(){

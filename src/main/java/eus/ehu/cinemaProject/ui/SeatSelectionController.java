@@ -37,11 +37,6 @@ public class SeatSelectionController {
     private BlFacadeImplementation bl = BlFacadeImplementation.getInstance();;
     private ArrayList<Seat> selectedSeats = new ArrayList<>();
 
-    /* This controller needs to track the previous controllers' parameters: customer, ShowTime/ScreeningRoom
-    * Customer is needed just to create the PurchaseReceipt
-    * The ShowTime -> ScreeningRoom -> Seat is needed to create the button/seat selection.
-    * It is important to know the dimensions - row x column - of the room to create the grid. Another solution could be to divide the total number of seats by a fixed number of rows.
-    * */
 
     @FXML
     public void initialize() {
