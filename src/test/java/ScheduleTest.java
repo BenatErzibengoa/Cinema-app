@@ -1,6 +1,5 @@
-import eus.ehu.cinemaProject.domain.Cinema;
-import eus.ehu.cinemaProject.domain.Schedule;
-import eus.ehu.cinemaProject.domain.ScreeningRoom;
+import eus.ehu.cinemaProject.domain.*;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -8,11 +7,11 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ScheduleTest {
     Schedule schedule;
+    ShowTime showTime;
 
     @BeforeEach
     public void setup(){
@@ -30,34 +29,71 @@ public class ScheduleTest {
         assertTrue(schedule.isBetweenBoundsFree(schedule.getOpeningTime(), duration));
     }
 
-    //Check if the frames that the film has occupied have been booked. Before 00:00 - before 00:00 conditions
+    //Check if the frames that the film has occupied have been booked. Before 00:00 - Before 00:00 conditions
     @Test
-    public void normalBooking() {
+    public void dayDayBooking() {
         LocalTime startHour = LocalTime.of(17, 45);
         LocalTime duration = LocalTime.of(1, 30);
         schedule.bookBetweenTimeBounds(startHour, duration);
-        assertTrue(!schedule.isFilmInBounds(startHour, duration));
+        assertTrue(!schedule.isBetweenBoundsFree(startHour, duration));
     }
 
-    //Check if the frames that the film has occupied have been booked. Before 00:00 - after 00:00 conditions
+    //Check if the frames that the film has occupied have been booked. Before 00:00 - After 00:00 conditions
     @Test
-    public void normalAndNightBooking() {
+    public void dayNightBooking() {
         LocalTime startHour = LocalTime.of(23, 45);
         LocalTime duration = LocalTime.of(0, 45);
         schedule.bookBetweenTimeBounds(startHour, duration);
-        assertTrue(!schedule.isFilmInBounds(startHour, duration));
+        assertTrue(!schedule.isBetweenBoundsFree(startHour, duration));
     }
 
-    //Check if the frames that the film has occupied have been booked. After 00:00 - after 00:00 conditions
+    //Check if the frames that the film has occupied have been booked. After 00:00 - After 00:00 conditions
     @Test
-    public void nightAndNightBooking() {
+    public void nightNightBooking() {
         LocalTime startHour = LocalTime.of(0, 0);
         LocalTime duration = LocalTime.of(1, 0);
         schedule.bookBetweenTimeBounds(startHour, duration);
-        schedule.printAllReserves();
-        assertTrue(!schedule.isFilmInBounds(startHour, duration));
+        assertTrue(!schedule.isBetweenBoundsFree(startHour, duration));
     }
 
+    //Check if the schedule works with real ShowTime: Before 00:00 - Before 00:00 conditions
+    @Test
+    public void dayDayShowTimeBooking() {
+        showTime = new ShowTime(schedule, LocalTime.of(17, 30), new Film(null, null, LocalTime.of(1, 30), null, null, null));
+        schedule.setShowTime(showTime);
+        assertTrue(!schedule.isBetweenBoundsFree(showTime.getScreeningTime(), showTime.getFilm().getDuration()));
+    }
+
+    //Check if the schedule works with real ShowTime: Before 00:00 - After 00:00 conditions
+    @Test
+    public void dayNightShowTimeBooking() {
+        showTime = new ShowTime(schedule, LocalTime.of(23, 45), new Film(null, null, LocalTime.of(1, 15), null, null, null));
+        schedule.setShowTime(showTime);
+        assertTrue(!schedule.isBetweenBoundsFree(showTime.getScreeningTime(), showTime.getFilm().getDuration()));
+    }
+
+    //Check if the schedule works with real ShowTimes: After 00:00 - After 00:00 conditions
+    @Test
+    public void nightNightShowTimeBooking() {
+        showTime = new ShowTime(schedule, LocalTime.of(00, 15), new Film(null, null, LocalTime.of(00, 30), null, null, null));
+        assertTrue(schedule.setShowTime(showTime));
+        assertTrue(!schedule.isBetweenBoundsFree(showTime.getScreeningTime(), showTime.getFilm().getDuration()));
+    }
+
+    //Booking 2 ShowTimes at the same time
+    @Test
+    public void repeatShowTimeBooking() {
+        showTime = new ShowTime(schedule, LocalTime.of(00, 15), new Film(null, null, LocalTime.of(00, 30), null, null, null));
+        ShowTime showTime2 = new ShowTime(schedule, LocalTime.of(00, 15), new Film(null, null, LocalTime.of(00, 30), null, null, null));
+        assertTrue(schedule.setShowTime(showTime));
+        assertTrue(!schedule.setShowTime(showTime2));
+    }
+
+
+    @AfterEach
+    public void printAllReserves(){
+        schedule.printAllReserves();
+    }
 
 
 
