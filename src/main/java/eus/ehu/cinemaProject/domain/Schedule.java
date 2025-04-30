@@ -59,45 +59,53 @@ public class Schedule {
     }
 
     //Given a showtime if it is possible, it will set the showtime in the schedule of the ScreeningRoom
-    public void setShowTime(ShowTime showtime){
+    public boolean setShowTime(ShowTime showtime){
         LocalTime filmStartingTime = showtime.getScreeningTime();
         LocalTime duration = showtime.getFilm().getDuration();
         if(isFilmInBounds(filmStartingTime, duration)){
             if(isBetweenBoundsFree(filmStartingTime, duration)){
-                int bound1 = filmStartTimeScheduleIndex(filmStartingTime);
-                int bound2 = filmEndTimeScheduleIndex(bound1, duration);
-                bookBetweenBounds(bound1, bound2);
+                bookBetweenTimeBounds(filmStartingTime, duration);
                 showTimes.add(showtime);
                 showtime.setSchedule(this);
                 System.out.println("Successfully reserved at: " + filmStartingTime + " - " + filmStartingTime.plusMinutes(duration.toSecondOfDay() / 60));
-                //printAllReserves();
+                return true;
             }
             else{
                 System.out.println("This ScreeningRoom is not empty between " + filmStartingTime + " - " + filmStartingTime.plusMinutes(duration.toSecondOfDay() / 60));
                 System.out.println("This is the availability of the ScreeningRoom in " + id.getDate() + ":");
                 printAllReserves();
+                return false;
             }
         }
         else{
             System.out.println("Film starting time: " + filmStartingTime + " or/and duration: " + duration + " are not valid. Try to match this schedule:");
             System.out.println("Opening Time: " + openingTime);
             System.out.println("Closing Time: " + closingTime);
+            return false;
         }
     }
 
     //Given a film starting time and the film duration, it will determine if the film is between openingTime and closingTime
-    public boolean isFilmInBounds(LocalTime filmStartingTime, LocalTime duration){
-        int filmEndingTimeInMinutes = filmStartingTime.toSecondOfDay() / 60 + duration.toSecondOfDay() / 60;
-        int closingTimeInMinutes = closingTime.toSecondOfDay() / 60 - (15*60);
-        // If closingTime is after 23:59, then add 1440 minutes (one day)
-        if(closingTime.isBefore(openingTime)){
-            closingTimeInMinutes += 1440;
+    public boolean isFilmInBounds(LocalTime filmStartingTime, LocalTime duration) {
+        int openingMinutes = openingTime.toSecondOfDay() / 60;
+        int closingMinutes = closingTime.toSecondOfDay() / 60;
+        int startMinutes = filmStartingTime.toSecondOfDay() / 60;
+        int durationMinutes = duration.toSecondOfDay() / 60;
+        int endMinutes = startMinutes + durationMinutes;
+
+        // If it closes after 00:00
+        if (closingTime.isBefore(openingTime)) {
+            // If the film starts after 00:00 but not after opening time
+            if (startMinutes < openingMinutes) startMinutes += 1440;
+            // If the film ends after 00:00 but not after opening time
+            if (endMinutes < openingMinutes) endMinutes += 1440;
+            closingMinutes += 1440;
         }
-        LocalTime filmEndingTime = LocalTime.of((filmEndingTimeInMinutes / 60) % 24, filmEndingTimeInMinutes % 60); //Only for debugging
-        System.out.println(String.format("Film starting time: %s, Film ending time: %s", filmStartingTime.toString(), filmEndingTime.toString())); //Only for debugging
-        //Ending time is treated differently to catch the cases in which time exceeds the day (>23:59)
-        return openingTime.isBefore(filmStartingTime) && filmEndingTimeInMinutes < closingTimeInMinutes;
+        int frameSize = 15;
+        // Check if the film starts after cinema is opened and ends before the cinema is closed
+        return startMinutes >= openingMinutes && endMinutes <= (closingMinutes - frameSize);
     }
+
 
     //Given a film and the film duration, it will determine if there are no other films set at the same time
     public boolean isBetweenBoundsFree(LocalTime filmStartingTime, LocalTime duration){
@@ -123,6 +131,7 @@ public class Schedule {
     //If a film finishes at 17:00, we will book also 17:00 in order to have a minimum of 15 minutes between film and film
     public void bookBetweenBounds(int startingIndex, int endingIndex){
         for (int i = startingIndex; i < endingIndex + 1; i++) {
+            System.out.println(i);
             schedule[i] = true;
         }
     }
