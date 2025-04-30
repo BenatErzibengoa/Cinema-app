@@ -131,7 +131,6 @@ public class Schedule {
     //If a film finishes at 17:00, we will book also 17:00 in order to have a minimum of 15 minutes between film and film
     public void bookBetweenBounds(int startingIndex, int endingIndex){
         for (int i = startingIndex; i < endingIndex + 1; i++) {
-            System.out.println(i);
             schedule[i] = true;
         }
     }
