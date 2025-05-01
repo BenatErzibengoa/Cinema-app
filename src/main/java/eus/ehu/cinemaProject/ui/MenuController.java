@@ -34,6 +34,8 @@ public class MenuController {
 
     @FXML //Théo
     private void showMovieList() {
+        uiState.setSummary("");
+        uiState.setSnackprice(0.0);
         loadContent("MovieList.fxml");
     }
 
