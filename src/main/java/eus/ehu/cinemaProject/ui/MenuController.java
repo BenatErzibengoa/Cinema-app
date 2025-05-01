@@ -1,5 +1,8 @@
 package eus.ehu.cinemaProject.ui;
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
+import eus.ehu.cinemaProject.domain.users.Customer;
+import eus.ehu.cinemaProject.domain.users.User;
+import eus.ehu.cinemaProject.domain.users.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -49,9 +52,20 @@ public class MenuController {
 
         uiState.loggedInProperty().addListener((obs, wasLoggedIn, isNowLoggedIn) -> {
             if (isNowLoggedIn) {
+                User user = uiState.getUser();
                 loginButton.setVisible(false);
                 registerButton.setVisible(false);
-                receiptsButton.setVisible(true);
+                if(user instanceof Customer)
+                    receiptsButton.setVisible(true);
+                else if(user instanceof Worker){
+                    receiptsButton.setVisible(false);
+                    titleText.setText("Welcome to the worker menu");
+                    loadContent("workerMenu.fxml");
+                } /*else {
+                    receiptsButton.setVisible(false);
+                    titleText.setText("Welcome to the admin menu");
+                    loadContent("adminMenu.fxml");
+                }*/
             } else {
                 loginButton.setVisible(true);
                 registerButton.setVisible(true);
@@ -94,7 +108,7 @@ public class MenuController {
 
             if (loader.getController() instanceof MovieListController) {
                 ((MovieListController) loader.getController()).setBusinessLogic(bl);
-            }
+            }else if(loader.getController() instanceof WorkerMenuController)
 
             contentCache.put(fxmlFile, content);
             contentPane.setCenter(content);
