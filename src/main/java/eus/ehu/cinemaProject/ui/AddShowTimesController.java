@@ -37,6 +37,7 @@ public class AddShowTimesController {
     private Schedule schedule;
 
     BlFacadeImplementation bl;
+    private final UIState uiState = UIState.getInstance();
 
     @FXML
     public void initialize() {
@@ -72,6 +73,11 @@ public class AddShowTimesController {
         bl.saveShowTime(showTime);
 
    }
+
+    @FXML
+    void goBack(ActionEvent event) {
+        uiState.setCurrentView("adminMain.fxml");
+    }
 
 
 }

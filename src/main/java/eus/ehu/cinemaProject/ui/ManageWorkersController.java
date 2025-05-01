@@ -31,6 +31,7 @@ public class ManageWorkersController {
     private TableView<Worker> tableWorkers;
     BlFacadeImplementation bl;
     private ObservableList<Worker> workers;
+    private final UIState uiState = UIState.getInstance();
 
     @FXML
     void addWorker(ActionEvent event) {
@@ -156,6 +157,11 @@ public class ManageWorkersController {
                         .toList()
         );
         tableWorkers.setItems(workers);
+    }
+
+    @FXML
+    void goBack(ActionEvent event) {
+        uiState.setCurrentView("adminMain.fxml");
     }
 
 }

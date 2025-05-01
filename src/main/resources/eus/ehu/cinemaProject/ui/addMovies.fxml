@@ -59,6 +59,7 @@
         </columns>
       </TableView>
       <Label layoutX="467.0" layoutY="21.0" text="Movies:" />
+      <Button layoutX="28.0" layoutY="350.0" mnemonicParsing="false" onAction="#goBack" text="Back" />
 
    </children>
 </AnchorPane>

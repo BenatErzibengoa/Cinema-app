@@ -8,8 +8,8 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.ManageWorkersController">
     <children>
-        <Button layoutX="158.0" layoutY="347.0" mnemonicParsing="false" onAction="#deleteWorker" text="Fire selected worker" />
-        <Button layoutX="328.0" layoutY="347.0" mnemonicParsing="false" onAction="#addWorker" text="Hire new worker" />
+        <Button layoutX="221.0" layoutY="347.0" mnemonicParsing="false" onAction="#deleteWorker" text="Fire selected worker" />
+        <Button layoutX="354.0" layoutY="347.0" mnemonicParsing="false" onAction="#addWorker" text="Hire new worker" />
         <TableView fx:id="tableWorkers" layoutX="36.0" layoutY="62.0" prefHeight="252.0" prefWidth="547.0">
             <columns>
                 <TableColumn fx:id="nameColumn" prefWidth="99.33331298828125" text="Name" />
@@ -19,6 +19,7 @@
             </columns>
         </TableView>
       <Label layoutX="54.0" layoutY="27.0" text="Current CineFlix workers:" />
+      <Button layoutX="165.0" layoutY="347.0" mnemonicParsing="false" onAction="#goBack" text="Back" />
     </children>
 
 </AnchorPane>

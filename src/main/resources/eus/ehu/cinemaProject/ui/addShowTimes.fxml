@@ -13,5 +13,6 @@
       <Button fx:id="displayButton" layoutX="411.0" layoutY="59.0" mnemonicParsing="false" onAction="#displayTimes" text="Display available starting times" />
       <ComboBox fx:id="timesCombobox" layoutX="30.0" layoutY="102.0" prefWidth="150.0" promptText="StartingTimes" />
       <Button fx:id="showTimeButton" layoutX="411.0" layoutY="102.0" mnemonicParsing="false" onAction="#addShowTime" text="Create showtime" />
+      <Button layoutX="30.0" layoutY="354.0" mnemonicParsing="false" onAction="#goBack" text="Back" />
    </children>
 </AnchorPane>

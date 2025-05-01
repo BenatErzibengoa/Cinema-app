@@ -48,6 +48,7 @@ public class AddMovieController {
     BlFacadeImplementation bl;
     private Film newFilm;
     private ObservableList<Film>films;
+    private final UIState uiState = UIState.getInstance();
 
     @FXML
     void initialize() {
@@ -120,5 +121,10 @@ public class AddMovieController {
             // If the path is local, load it from resources
             movieImage.setImage(new Image(getClass().getResourceAsStream(film.getImagePath())));
         }
+    }
+
+    @FXML
+    void goBack(ActionEvent event) {
+        uiState.setCurrentView("adminMain.fxml");
     }
 }
