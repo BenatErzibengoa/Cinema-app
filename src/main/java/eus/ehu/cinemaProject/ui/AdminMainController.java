@@ -13,7 +13,7 @@ public class AdminMainController {
 
     @FXML
     void addMovies(ActionEvent event) {
-
+        uiState.setCurrentView("addMovies.fxml");
     }
 
     @FXML

@@ -142,5 +142,18 @@ public interface BlFacade {
      */
     void saveShowTime(ShowTime showTime);
 
+    /**
+     * Stores a film in the database
+     * @param film
+     */
+    void addFilm(Film film);
+
+    /**
+     * Returns a film that matches with the provided name
+     * @param name
+     * @return Film object
+     */
+    Film getFilmbyName(String name);
+
 
 }

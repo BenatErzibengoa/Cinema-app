@@ -111,6 +111,12 @@ public class BlFacadeImplementation implements BlFacade {
     }
 
     public void saveShowTime(ShowTime showTime){dbManager.saveShowTime(showTime);}
+
+    public void addFilm(Film film){ dbManager.addFilm(film);}
+
+    public Film getFilmbyName(String name) {
+        return dbManager.getFilmbyName(name);
+    }
 }
 
 

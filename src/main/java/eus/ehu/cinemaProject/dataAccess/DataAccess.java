@@ -364,6 +364,25 @@ public class DataAccess {
         return films;
     }
 
+    public void addFilm(Film film) {
+        if (!db.getTransaction().isActive()) {
+            db.getTransaction().begin();
+        }
+        db.persist(film);
+        db.getTransaction().commit();
+    }
+    public Film getFilmbyName(String name) {
+        Film film;
+        try {
+            TypedQuery<Film> query = db.createQuery("SELECT f FROM Film f WHERE f.title = ?1", Film.class);
+            query.setParameter(1, name);
+            film = query.getSingleResult();
+        } catch (NoResultException e) {
+            logger.info(String.format("There are no films related to %s title", name));
+            film = null;
+        }
+        return film;
+    }
     private void generateTestingData() {
 
         Cinema cinema = new Cinema("Cineflix", "Bilbo", 688861291, LocalTime.of(15, 30), LocalTime.of(01, 00));
