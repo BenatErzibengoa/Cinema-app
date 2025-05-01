@@ -11,5 +11,14 @@ public class AdminMainController {
         uiState.setCurrentView("manageWorkers.fxml");
     }
 
+    @FXML
+    void addMovies(ActionEvent event) {
+
+    }
+
+    @FXML
+    void addShowtimes(ActionEvent event) {
+        uiState.setCurrentView("addShowTimes.fxml");
+    }
 }
 

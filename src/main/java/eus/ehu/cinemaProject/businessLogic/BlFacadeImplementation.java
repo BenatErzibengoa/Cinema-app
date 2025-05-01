@@ -9,6 +9,7 @@ import eus.ehu.cinemaProject.dataAccess.DataAccess;
 import eus.ehu.cinemaProject.domain.users.Worker;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -33,74 +34,84 @@ public class BlFacadeImplementation implements BlFacade {
             dbManager.initializeDB();
     }
 
-    public User login(String email, String password){
+    public User login(String email, String password) {
         User user = getUserByEmail(email);
-        if(user == null || !PasswordHasher.checkPassword(password, user.getPassword())){
+        if (user == null || !PasswordHasher.checkPassword(password, user.getPassword())) {
             return null;
         }
         return user;
     }
 
-    public User getUserByEmail(String email){ return dbManager.getUserByEmail(email);}
+    public User getUserByEmail(String email) {
+        return dbManager.getUserByEmail(email);
+    }
 
-    public void signUp(String email, String password, String name, String surname){
-        dbManager.signUp(email,password,name,surname);
+    public void signUp(String email, String password, String name, String surname) {
+        dbManager.signUp(email, password, name, surname);
     }
 
     public List<ScreeningRoom> getScreeningRooms() {
         return dbManager.getScreeningRooms();
     }
 
-    public List<ShowTime> getShowTimesByDate(LocalDate date){
+    public List<ShowTime> getShowTimesByDate(LocalDate date) {
         return dbManager.getShowTimesByDate(date);
     }
 
-    public List<ShowTime> getShowTimesByDateAndFilm(LocalDate date, Film film){
+    public List<ShowTime> getShowTimesByDateAndFilm(LocalDate date, Film film) {
         return dbManager.getShowTimesByDateAndFilm(date, film);
     }
 
-    public void createPurchaseReceipt(Customer customer, ShowTime showTime, List<Seat> seats){
+    public void createPurchaseReceipt(Customer customer, ShowTime showTime, List<Seat> seats) {
         dbManager.createPurchaseReceipt(customer, showTime, seats);
     }
 
-    public List<PurchaseReceipt> getPurchaseReceiptsByUser(Customer customer){
+    public List<PurchaseReceipt> getPurchaseReceiptsByUser(Customer customer) {
         return dbManager.getPurchaseReceiptsByUser(customer);
     }
 
-    public void storeReview(Film reviewedFilm, int rating, String textReview, Customer author){
+    public void storeReview(Film reviewedFilm, int rating, String textReview, Customer author) {
         dbManager.storeReview(reviewedFilm, rating, textReview, author);
     }
 
-    public double getAverageRating(Film film){
+    public double getAverageRating(Film film) {
         Double average = dbManager.getAverageRating(film);
-        if (average == null){
+        if (average == null) {
             return 0;
         }
         return average;
     }
 
-    public boolean hasFilmBeenReviewed(Film film, Customer customer){
+    public boolean hasFilmBeenReviewed(Film film, Customer customer) {
         return dbManager.getReviewByFilmAndUser(film, customer) != null;
     }
 
-    public List<Review> getReviewsByFilm(Film film){
+    public List<Review> getReviewsByFilm(Film film) {
         return dbManager.getReviewsByFilm(film);
     }
 
-    public List<Worker>getAllWorkers(){
+    public List<Worker> getAllWorkers() {
         return dbManager.getAllWorkers();
     }
 
-    public void deleteWorker(Worker worker){   dbManager.deleteWorker(worker);}
+    public void deleteWorker(Worker worker) {
+        dbManager.deleteWorker(worker);
+    }
 
-    public User signUpWorker(String email, String password, String name, String surname, int salary){
+    public User signUpWorker(String email, String password, String name, String surname, int salary) {
         return dbManager.signUpWorker(email, password, name, surname, salary);
     }
 
+    public List<Film> getAllFilms() {
+        return dbManager.getAllFilms();
+    }
 
+    public Schedule getScheduleByRoomAndDate(LocalDate date, ScreeningRoom screeningRoom) {
+        return dbManager.getScheduleByRoomAndDate(date, screeningRoom);
+    }
 
-
-
-
+    public void saveShowTime(ShowTime showTime){dbManager.saveShowTime(showTime);}
 }
+
+
 

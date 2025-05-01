@@ -96,13 +96,18 @@ public class Schedule {
         LocalTime filmEndingTime = LocalTime.of((filmEndingTimeInMinutes / 60) % 24, filmEndingTimeInMinutes % 60); //Only for debugging
         System.out.println(String.format("Film starting time: %s, Film ending time: %s", filmStartingTime.toString(), filmEndingTime.toString())); //Only for debugging
         //Ending time is treated differently to catch the cases in which time exceeds the day (>23:59)
-        return openingTime.isBefore(filmStartingTime) && filmEndingTimeInMinutes < closingTimeInMinutes;
+        return !filmStartingTime.isBefore(openingTime) && filmEndingTimeInMinutes < closingTimeInMinutes;
     }
 
     //Given a film and the film duration, it will determine if there are no other films set at the same time
     public boolean isBetweenBoundsFree(LocalTime filmStartingTime, LocalTime duration){
         int startingIndex = filmStartTimeScheduleIndex(filmStartingTime);
         int endingIndex = filmEndTimeScheduleIndex(startingIndex, duration);
+
+        if (endingIndex >= schedule.length) {
+            return false; // Can't fit in schedule
+        }
+
         for(int i = startingIndex; i < endingIndex + 1; i++){
             if(schedule[i]){
                 return false;
@@ -152,5 +157,20 @@ public class Schedule {
         return id.getDate();
     }
     public ScreeningRoom getScreeningRoom(){return id.getScreeningRoom();}
+
+    //Considering movie duration returns valid starting times in this schedule
+    public List<LocalTime> getAvailableStartTimes(LocalTime duration){
+        List<LocalTime>availableTimes=new ArrayList<>();
+        LocalTime currentTime=this.openingTime;
+
+        for(int i=0;i<size;i++){
+            if(!this.isFilmInBounds(currentTime,duration)){break;}
+            if(this.isBetweenBoundsFree(currentTime,duration)){
+                availableTimes.add(currentTime);
+            }
+            currentTime=currentTime.plusMinutes(15);
+        }
+        return availableTimes;
+    }
 
 }

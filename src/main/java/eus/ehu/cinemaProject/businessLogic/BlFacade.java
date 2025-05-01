@@ -5,6 +5,7 @@ import eus.ehu.cinemaProject.domain.users.User;
 import eus.ehu.cinemaProject.domain.users.Worker;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Set;
 
@@ -119,5 +120,27 @@ public interface BlFacade {
      * @param salary the salary
      */
     User signUpWorker(String email, String password, String name, String surname, int salary);
+
+    /**
+     * Returns all films in the database
+     *
+     * @return List of films, null if no films are found
+     */
+    List<Film> getAllFilms();
+
+    /**
+     * Returns schedule that matches with the provided date and screening room
+     * @param date
+     * @param screeningRoom
+     * @return
+     */
+    Schedule getScheduleByRoomAndDate(LocalDate date, ScreeningRoom screeningRoom);
+
+    /**
+     * Stores a showtime in the database and updates corresponding schedule
+     * @param showTime
+     */
+    void saveShowTime(ShowTime showTime);
+
 
 }

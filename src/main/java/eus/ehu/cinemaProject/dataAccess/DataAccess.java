@@ -277,6 +277,17 @@ public class DataAccess {
         return showTime;
     }
 
+    public void saveShowTime(ShowTime showTime){
+        if (!db.getTransaction().isActive()) {
+            db.getTransaction().begin();
+        }
+        db.persist(showTime);
+        db.getTransaction().commit();
+        Schedule schedule = showTime.getSchedule();
+        schedule.setShowTime(showTime);
+        db.merge(schedule);
+    }
+
     public Double getAverageRating(Film film){
         Double average;
         try{
@@ -341,6 +352,17 @@ public class DataAccess {
         db.getTransaction().commit();
     }
 
+    public List<Film> getAllFilms() {
+        List<Film> films;
+        try {
+            TypedQuery<Film> query = db.createQuery("SELECT f FROM Film f", Film.class);
+            films = query.getResultList();
+        } catch (NoResultException e) {
+            logger.info("There are no films in the database");
+            films = null;
+        }
+        return films;
+    }
 
     private void generateTestingData() {
 

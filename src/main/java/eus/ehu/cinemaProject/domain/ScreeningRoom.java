@@ -77,4 +77,9 @@ public class ScreeningRoom {
     public void setMAX_ROWS(int MAX_ROWS) { this.MAX_ROWS = MAX_ROWS; }
     public int getMAX_SEATS_PER_ROW() { return MAX_SEATS_PER_ROW; }
     public void setMAX_SEATS_PER_ROW(int MAX_SEATS_PER_ROW) { this.MAX_SEATS_PER_ROW = MAX_SEATS_PER_ROW; }
+
+    @Override
+    public String toString() {
+        return "Room"+this.roomNumber;
+    }
 }
