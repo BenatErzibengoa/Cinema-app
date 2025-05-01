@@ -66,7 +66,12 @@ public class ReceiptController {
             seatPrices += seat.getPrice();
         }
 
-        receipt.setText(seatInfo + "\n" + uiState.getSummary() + "\n" + "Seats total: €" + seatPrices);
+        if(uiState.getSummary()==null){
+            receipt.setText(seatInfo + "\n" +"-----------------------\n"+ "\n" + "Seats total: €" + seatPrices);
+        }
+        else{
+            receipt.setText(seatInfo + "\n" + uiState.getSummary() + "\n" + "Seats total: €" + seatPrices);
+        }
         totalPrize.setText(String.format("€%.2f", seatPrices + snackprice));
     }
 

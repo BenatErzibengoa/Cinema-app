@@ -40,9 +40,11 @@ We then began integrating a database into our project. This included designing t
 
 With the updated requirements in mind, we reallocated tasks among team members, continuing to be mindful of workload balance.
 
-Our main focus for this sprint was the development of the application's controllers and user interfaces. Each team member was responsible for specific windows or components, working in parallel to build out the system's interactive elements and later connect them with backend logic.
+Our main focus for this sprint was the development of the application's controllers and user interfaces. Each team member was responsible for specific windows or components, working in parallel to build out the system's interactive elements and connect them between eachother. For this connection we created a class for storing data from one view to another.
 
 The controllers and UIs we have developed during this second sprint are MovieList, ShowTimeView, OrderFood, SeatSelection, Receipt and PurchaseReceiptHistory.
+
+We also created a sequence diagram, and we stylized our views following the style used in the previous sprint.
 
 ### Test Users
 
