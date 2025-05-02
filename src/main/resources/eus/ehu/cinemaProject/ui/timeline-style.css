@@ -1,0 +1,57 @@
+/* Timeline Container */
+.timeline-container {
+    -fx-background-color: #f0f0f0;
+}
+
+/* Header Labels */
+.header-label {
+    -fx-font-size: 10px;
+    -fx-text-fill: #333333;
+}
+
+/* Grid Lines */
+.grid-line {
+    -fx-stroke: #cccccc;
+    -fx-stroke-width: 0.5;
+}
+
+.header-label {
+    -fx-font-size: 10px;
+    -fx-text-fill: #333333;
+    -fx-font-weight: bold;
+}
+
+.showtime-rect {
+    -fx-arc-width: 3;
+    -fx-arc-height: 3;
+    -fx-stroke-type: inside;
+    -fx-stroke-width: 1;
+}
+
+.available-slot {
+    -fx-fill: #90EE90;  /* Light green */
+    -fx-stroke: #006400; /* Dark green border */
+}
+
+.occupied-slot {
+    -fx-fill: #D3D3D3;  /* Light gray */
+    -fx-stroke: #696969; /* Dark gray border */
+}
+
+.available-slot:hover {
+    -fx-fill: #7CFC00;  /* Brighter green on hover */
+    -fx-cursor: hand;
+}
+
+/* Available slot markers (15-minute blocks) */
+.available-slot-marker {
+    -fx-fill: #90EE90;
+    -fx-stroke: #006400;
+    -fx-stroke-width: 1;
+    -fx-opacity: 0.7;
+}
+
+.available-slot-marker:hover {
+    -fx-fill: #7CFC00;
+    -fx-cursor: hand;
+}

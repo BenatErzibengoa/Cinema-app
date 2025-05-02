@@ -11,12 +11,14 @@ import javafx.scene.control.*;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class AddShowTimesController {
@@ -58,6 +60,13 @@ public class AddShowTimesController {
 
     @FXML
     public void initialize() {
+        //set up timeline css
+        timelineScrollPane.getStylesheets().add(
+                Objects.requireNonNull(getClass().getResource("/eus/ehu/cinemaProject/ui/timeline-style.css")).toExternalForm()
+        );
+        timelineScrollPane.getStyleClass().add("timeline-container");
+
+
         bl = BlFacadeImplementation.getInstance();
         refreshMovieList();
         screeningRoomComboBox.getItems().addAll(bl.getScreeningRooms());
@@ -101,11 +110,13 @@ public class AddShowTimesController {
             if (selectedDate.getValue().isAfter(LocalDate.now().plusDays(13))) {
                 showDialog("Error","The selected date has to be within 14 days.");
                 return;
+            }else if (selectedDate.getValue().isBefore(LocalDate.now())) {
+                showDialog("Error","The selected date has to be in the future.");
+                return;
             }
 
             schedule = bl.getScheduleByRoomAndDate(selectedDate.getValue(), selectedScreeningRoom);
             if (schedule != null) {
-                schedule.reconstructBookingStateFromShowTimes();
                 updateTimeline();
             }
         }
@@ -129,47 +140,71 @@ public class AddShowTimesController {
     }
 
     private void setupHeader() {
-        for (int minutes = 0; minutes <= TOTAL_OPERATING_MINUTES; minutes += 15) {
-            LocalTime time = OPENING_TIME.plusMinutes(minutes);
-            if (time.equals(LocalTime.MIDNIGHT)) time = LocalTime.of(0, 0);
+        headerPane.getChildren().clear();
+        if (schedule == null) return;
 
+        LocalTime openingTime = schedule.getOpeningTime();
+        int totalSlots = schedule.getSize();
+
+        for (int slot = 0; slot <= totalSlots; slot++) {
+            LocalTime time = openingTime.plusMinutes(slot * 15L);
             Label label = new Label(time.toString());
-            label.setLayoutX(minutes * PIXELS_PER_MINUTE);
+
+            label.getStyleClass().add("header-label");
+
+            label.setLayoutX(slot * 15 * PIXELS_PER_MINUTE);
             headerPane.getChildren().add(label);
         }
     }
 
     private void setupTimeline() {
-        // Existing showtimes
-        for (ShowTime showtime : schedule.getShowTimes()) {
-            addShowtimeRectangle(showtime.getScreeningTime(),
-                    showtime.getFilm().getDuration(),
-                    Color.LIGHTGRAY);
+        // Add grid lines
+        for (int slot = 0; slot <= schedule.getSize(); slot++) {
+            Line gridLine = new Line(
+                    slot * 15 * PIXELS_PER_MINUTE, 0,
+                    slot * 15 * PIXELS_PER_MINUTE, TRACK_HEIGHT
+            );
+            gridLine.getStyleClass().add("grid-line");
+            timelinePane.getChildren().add(gridLine);
         }
 
-        // Available slots
+        // Existing showtimes (full duration)
+        for (ShowTime showtime : schedule.getShowTimes()) {
+            Rectangle rect = createShowtimeRectangle(
+                    showtime.getScreeningTime(),
+                    showtime.getFilm().getDuration(),
+                    "occupied-slot"
+            );
+            timelinePane.getChildren().add(rect);
+        }
+
+        // Available slots (15-minute markers)
         List<LocalTime> availableSlots = schedule.getAvailableStartTimes(selectedFilm.getDuration());
         for (LocalTime slot : availableSlots) {
-            Rectangle rect = addShowtimeRectangle(slot, selectedFilm.getDuration(), Color.LIGHTGREEN);
-            rect.setOnMouseClicked(e -> createShowTime(slot));
+            Rectangle slotMarker = new Rectangle(
+                    calculateMinutesFromOpening(slot) * PIXELS_PER_MINUTE,
+                    2,  // Top margin
+                    15 * PIXELS_PER_MINUTE,  // Fixed 15-minute width
+                    TRACK_HEIGHT - 4  // Height
+            );
+            slotMarker.getStyleClass().addAll("available-slot-marker");
+            slotMarker.setOnMouseClicked(e -> createShowTime(slot));
+            timelinePane.getChildren().add(slotMarker);
         }
     }
 
-    private Rectangle addShowtimeRectangle(LocalTime startTime, LocalTime duration, Color color) {
+    private Rectangle createShowtimeRectangle(LocalTime startTime, LocalTime duration, String styleClass) {
         int startMinutes = calculateMinutesFromOpening(startTime);
         int durationMinutes = convertLocalTimeToMinutes(duration);
 
         Rectangle rect = new Rectangle(
                 startMinutes * PIXELS_PER_MINUTE,
-                0,
+                2,  // Add small top margin
                 durationMinutes * PIXELS_PER_MINUTE,
-                TRACK_HEIGHT
+                TRACK_HEIGHT - 4  // Account for margin
         );
-        rect.setFill(color);
-        rect.setStroke(Color.BLACK);
-        timelinePane.getChildren().add(rect);
 
-
+        rect.getStyleClass().addAll("showtime-rect", styleClass);
         return rect;
     }
 

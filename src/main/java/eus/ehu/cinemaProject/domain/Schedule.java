@@ -211,4 +211,8 @@ public class Schedule {
     public List<ShowTime> getShowTimes() {
         return showTimes;
     }
+
+    public int getSize() {
+        return size;
+    }
 }
