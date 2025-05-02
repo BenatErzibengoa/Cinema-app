@@ -48,7 +48,7 @@ public class PurchaseReceipt {
     public long getId(){return id;}
     public Date getOrderDate(){return orderDate;}
     public ShowTime getShowTime(){return showTime;}
-    public String getBookedSeats(){return bookedSeats.toString();}
+    public List<Seat> getBookedSeats(){return bookedSeats;}
     public double getTotalAmount(){return totalAmount;}
 
 

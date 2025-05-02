@@ -50,15 +50,9 @@ public class MenuController {
         });
 
         uiState.loggedInProperty().addListener((obs, wasLoggedIn, isNowLoggedIn) -> {
-            if (isNowLoggedIn) {
-                loginButton.setVisible(false);
-                registerButton.setVisible(false);
-                receiptsButton.setVisible(true);
-            } else {
-                loginButton.setVisible(true);
-                registerButton.setVisible(true);
-                receiptsButton.setVisible(false);
-            }
+            loginButton.setVisible(!isNowLoggedIn);
+            registerButton.setVisible(!isNowLoggedIn);
+            receiptsButton.setVisible(isNowLoggedIn);
         });
 
         //loadContent("seatSelection.fxml");
@@ -87,47 +81,20 @@ public class MenuController {
 
     private void loadContent(String fxmlFile) {
         try {
-            // Retirer la vue du cache si elle existe déjà
-            contentCache.remove(fxmlFile);
-
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
-            Pane content = loader.load();
-
-            if (loader.getController() instanceof MovieListController) {
-                ((MovieListController) loader.getController()).setBusinessLogic(bl);
-            }
-
-            contentCache.put(fxmlFile, content);
-            contentPane.setCenter(content);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /*
-    private void loadContent(String fxmlFile) {
-        try {
-            contentCache.remove(fxmlFile); //Théo - Remove view if already in cache
             // Check if content is already cached
             Pane content = contentCache.get(fxmlFile);
             if (content == null) {
                 // If not cached, load it and store in cache
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
                 content = loader.load();
-
-                if (loader.getController() instanceof MovieListController) { //Théo
+                contentCache.put(fxmlFile, content);
+                if (loader.getController() instanceof MovieListController) {
                     ((MovieListController) loader.getController()).setBusinessLogic(bl);
                 }
-
-                contentCache.put(fxmlFile, content);
             }
             contentPane.setCenter(content);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    */
 }

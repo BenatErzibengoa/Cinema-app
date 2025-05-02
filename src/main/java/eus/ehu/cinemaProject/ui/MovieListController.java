@@ -103,7 +103,7 @@ public class MovieListController {
 
                 new Thread(() -> {
                     try {
-                        Image image = new Image(film.getImagePath(), false); // false = no background loading
+                        Image image = new Image(film.getImagePath(), true); // false = no background loading
                         javafx.application.Platform.runLater(() -> imageView.setImage(image));
                     } catch (Exception e) {
                         System.err.println("Failed to load image: " + film.getImagePath());
