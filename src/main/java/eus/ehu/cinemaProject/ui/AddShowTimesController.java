@@ -7,17 +7,17 @@ import eus.ehu.cinemaProject.domain.ScreeningRoom;
 import eus.ehu.cinemaProject.domain.ShowTime;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
+import javafx.scene.control.*;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AddShowTimesController {
 
     @FXML
-    private ComboBox<Film> movieCombobox;
+    private ComboBox<String> movieCombobox;
 
     @FXML
     private ComboBox<ScreeningRoom> screeningRoomComboBox;
@@ -42,36 +42,38 @@ public class AddShowTimesController {
     @FXML
     public void initialize() {
         bl = BlFacadeImplementation.getInstance();
-        movieCombobox.getItems().addAll(bl.getAllFilms());
+        List<String> titles = bl.getAllFilms().stream()
+                .map(Film::getTitle)
+                .collect(Collectors.toList());
+        movieCombobox.getItems().addAll(titles);
         screeningRoomComboBox.getItems().addAll(bl.getScreeningRooms());
 
-        movieCombobox.setOnAction(event -> {
-            selectedFilm = movieCombobox.getValue();
+        movieCombobox.valueProperty().addListener((obs, oldTitle, newTitle) -> {
+            if (newTitle != null) {
+                selectedFilm = bl.getFilmbyName(newTitle);
+            } else {
+                selectedFilm = null;
+            }
+            refreshAvailableTimes();
+        });
+        screeningRoomComboBox.valueProperty().addListener((obs, old, niu) -> {
+            selectedScreeningRoom = niu;
+            refreshAvailableTimes();
+        });
+        selectedDate.valueProperty().addListener((obs, old, niu) -> {
+            refreshAvailableTimes();
         });
 
-        screeningRoomComboBox.setOnAction(event ->{
-            selectedScreeningRoom=screeningRoomComboBox.getValue();
-        });
+        // Initially disable until all three are picked
         showTimeButton.setDisable(true);
-
     }
 
-    @FXML
-    void displayTimes(ActionEvent event) {
-        schedule=bl.getScheduleByRoomAndDate(selectedDate.getValue(), selectedScreeningRoom);
-        LocalTime duration = selectedFilm.getDuration();
-        timesCombobox.getItems().addAll(schedule.getAvailableStartTimes(duration));
-        timesCombobox.setOnAction(event1 -> {
-            startingTime = timesCombobox.getValue();
-        });
-        showTimeButton.setDisable(false);
-    }
 
    @FXML
     void addShowTime(ActionEvent event) {
         ShowTime showTime = new ShowTime(schedule, startingTime, selectedFilm);
         bl.saveShowTime(showTime);
-
+       refreshAvailableTimes();
    }
 
     @FXML
@@ -79,5 +81,34 @@ public class AddShowTimesController {
         uiState.setCurrentView("adminMain.fxml");
     }
 
+    private void refreshAvailableTimes() {
+        timesCombobox.getItems().clear();
+        timesCombobox.getSelectionModel().clearSelection();
+        showTimeButton.setDisable(true);
+
+        if (selectedDate.getValue() != null && selectedScreeningRoom != null && selectedFilm != null) {
+
+            //check if selected date is within 14 days
+            if (selectedDate.getValue().isAfter(LocalDate.now().plusDays(13))) {
+                Dialog<String> dialog = new Dialog<>();
+                dialog.setTitle("Error");
+                dialog.setContentText("The selected date has to be within 14 days. Please change the date.");
+                dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+                dialog.showAndWait();
+            }else{
+                // Fetch fresh schedule and slots
+                schedule = bl.getScheduleByRoomAndDate(selectedDate.getValue(), selectedScreeningRoom);
+                List<LocalTime> slots = schedule.getAvailableStartTimes(selectedFilm.getDuration());
+                timesCombobox.getItems().addAll(slots);
+
+                timesCombobox.valueProperty().addListener((obs, old, niu) -> {
+                    startingTime = niu;
+                    showTimeButton.setDisable(niu == null);
+                });
+            }
+
+        }
+
+    }
 
 }
