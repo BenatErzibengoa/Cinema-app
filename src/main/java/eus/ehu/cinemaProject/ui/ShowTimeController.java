@@ -127,7 +127,7 @@ public class ShowTimeController {
             // Load the image in a background thread
             new Thread(() -> {
                 try {
-                    Image image = new Image(film.getImagePath(), false); // false = no background loading
+                    Image image = new Image(film.getImagePath(), true); // false = no background loading
                     javafx.application.Platform.runLater(() -> movieImage.setImage(image));
                 } catch (Exception e) {
                     System.err.println("Failed to load image: " + film.getImagePath());
