@@ -1,6 +1,7 @@
 package eus.ehu.cinemaProject.dataAccess;
 
 import eus.ehu.cinemaProject.configuration.Config;
+import eus.ehu.cinemaProject.configuration.PasswordHasher;
 import eus.ehu.cinemaProject.domain.*;
 import eus.ehu.cinemaProject.domain.users.Admin;
 import eus.ehu.cinemaProject.domain.users.Customer;
@@ -39,7 +40,7 @@ public class DataAccess {
             System.out.println("Shutting down database connection...");
             this.close();
         }));
-        Configurator.setLevel(logger.getName(), Level.INFO);
+        Configurator.setLevel(logger.getName(), Level.ALL);
     }
 
     public void open() {
@@ -96,27 +97,25 @@ public class DataAccess {
         }
     }
 
-    public User login(String email, String password){
-        User user;
-        try{
-            TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.email = ?1 AND u.password = ?2", User.class);
-            query.setParameter(1, email);
-            query.setParameter(2, password);
-            user = query.getSingleResult();
-        }catch(NoResultException e){
-            logger.error(String.format("There are no results with %s %s email and password", email, password));
-            user = null;
-        }
-        return user;
-    }
 
-    public void signUp(String email, String password, String name, String surname){
-        User user = new Customer(email,password,name,surname);
+    public User signUp(String email, String password, String name, String surname){
+        User user = new Customer(email, PasswordHasher.hashPassword(password),name,surname);
         if (!db.getTransaction().isActive()) {
             db.getTransaction().begin();
         }
         db.persist(user);
         db.getTransaction().commit();
+        return user;
+    }
+
+    public User signUpWorker(String email, String password, String name, String surname, int salary){
+        User user = new Worker(email, PasswordHasher.hashPassword(password),name,surname, 2000);
+        if (!db.getTransaction().isActive()) {
+            db.getTransaction().begin();
+        }
+        db.persist(user);
+        db.getTransaction().commit();
+        return user;
     }
 
     public User getUserByEmail(String email){
@@ -126,7 +125,7 @@ public class DataAccess {
             query.setParameter(1, email);
             user = query.getSingleResult();
         }catch(NoResultException e){
-            logger.error(String.format("There are no results related with %s email", email));
+            logger.error(String.format("There are no results related to %s email", email));
             user = null;
         }
         return user;
@@ -139,7 +138,7 @@ public class DataAccess {
             query.setParameter(1, date);
             showtimes = query.getResultList();
         }catch(NoResultException e){
-            logger.error(String.format("There are no results related with '%s' date", date));
+            logger.error(String.format("There are no results related to '%s' date", date));
             showtimes = null;
         }
         return showtimes;
@@ -154,7 +153,7 @@ public class DataAccess {
             query.setParameter(2, film);
             showtimes = query.getResultList();
         }catch(NoResultException e){
-            logger.error(String.format("There are no results related with '%s' date and '%s' film", date, film));
+            logger.error(String.format("There are no results related to '%s' date and '%s' film", date, film));
             showtimes = null;
         }
         return showtimes;
@@ -167,7 +166,7 @@ public class DataAccess {
             query.setParameter(1, customer);
             purchaseReceipts = query.getResultList();
         }catch(NoResultException e){
-            logger.info(String.format("There are no results related with '%s' customer", customer.getEmail()));
+            logger.info(String.format("There are no results related to '%s' customer", customer.getEmail()));
             purchaseReceipts = null;
         }
         return purchaseReceipts;
@@ -184,20 +183,21 @@ public class DataAccess {
 
             schedule = query.getSingleResult();
         } catch (NoResultException e) {
-            logger.error(String.format("There are no results related with %s screeningRoom and %s date", screeningRoom.getRoomNumber(), date.toString()));
+            logger.error(String.format("There are no results related to %s screeningRoom and %s date", screeningRoom.getRoomNumber(), date.toString()));
             schedule = null;
         }
         return schedule;
     }
 
 
-    public void createSchedule(LocalDate date, ScreeningRoom screeningRoom){
+    public Schedule createSchedule(LocalDate date, ScreeningRoom screeningRoom){
         Schedule schedule = new Schedule(date, screeningRoom);
         if (!db.getTransaction().isActive()) {
             db.getTransaction().begin();
         }
         db.persist(schedule);
         db.getTransaction().commit();
+        return schedule;
     }
 
     public void createShowTime(Schedule schedule, LocalTime screeningTime, Film film){
@@ -216,6 +216,10 @@ public class DataAccess {
             db.getTransaction().begin();
         }
         db.persist(purchaseReceipt);
+        for(Seat seat: seats){
+            seat.setType(SeatType.OCCUPIED);
+            db.merge(seat);
+        }
         db.getTransaction().commit();
     }
 
@@ -236,51 +240,130 @@ public class DataAccess {
         }
     }
 
+    public void storeReview(Film film, int rating, String textReview, Customer author){
+        if (!db.getTransaction().isActive()) {
+            db.getTransaction().begin();
+        }
+        db.persist(new Review(film, rating, textReview, author));
+        logger.debug("Review stored successfully");
+        db.getTransaction().commit();
+    }
+
+    public Film storeFilm(String name){
+        if (!db.getTransaction().isActive()) {
+            db.getTransaction().begin();
+        }
+        Film film = FilmDataFetcher.fetchFilmDataByName(name);
+        if(film == null){
+            logger.error("There was an error while fetching the film data");
+            return null;
+        }
+        db.persist(film);
+        logger.debug("Film stored successfully");
+        db.getTransaction().commit();
+        return film;
+    }
+
+    public ShowTime storeShowtime(Schedule schedule, LocalTime screeningTime, Film film){
+        if (!db.getTransaction().isActive()) {
+            db.getTransaction().begin();
+        }
+        ShowTime showTime = new ShowTime(schedule, screeningTime, film);
+        db.persist(showTime);
+        logger.debug("Showtime stored successfully");
+        db.getTransaction().commit();
+        schedule.setShowTime(showTime);
+        db.merge(schedule);
+        return showTime;
+    }
+
+    public Double getAverageRating(Film film){
+        Double average;
+        try{
+            TypedQuery<Double> query = db.createQuery("SELECT AVG(r.rating) FROM Review r WHERE r.reviewedFilm = ?1", Double.class);
+            query.setParameter(1, film);
+            average = query.getSingleResult();
+        }catch(NoResultException e){
+            logger.info(String.format("There are no ratings related to %s film", film.getTitle()));
+            average = null;
+        }
+        return average;
+    }
+
+    public Review getReviewByFilmAndUser(Film film, User user) {
+        Review review;
+        try {
+            TypedQuery<Review> query = db.createQuery(
+                    "SELECT r FROM Review r WHERE r.reviewedFilm = :film AND r.author = :user",
+                    Review.class
+            );
+            query.setParameter("film", film);
+            query.setParameter("user", user);
+
+            review = query.getSingleResult();
+        } catch (NoResultException e) {
+            logger.info(String.format("No review found for film '%s' and user '%s'", film.getTitle(), user.getEmail()));
+            review = null;
+        }
+        return review;
+    }
+
+    public List<Review> getReviewsByFilm(Film film){
+        List<Review> reviews;
+        try{
+            TypedQuery<Review> query = db.createQuery("SELECT r FROM Review r WHERE r.reviewedFilm = ?1", Review.class);
+            query.setParameter(1, film);
+            reviews = query.getResultList();
+        }catch(NoResultException e){
+            logger.info(String.format("There are no reviews related to %s film", film.getTitle()));
+            reviews = new ArrayList<>();
+        }
+        return reviews;
+    }
+
+
+
+
     private void generateTestingData() {
 
         Cinema cinema = new Cinema("Cineflix", "Bilbo", 688861291, LocalTime.of(15, 30), LocalTime.of(01, 00));
+        db.persist(cinema);
 
-        Admin admin = new Admin("juanan.pereira@ehu.eus", "admin1234", "Juanan", "Pereira", 2500);
-
-        Worker worker1 = new Worker("bercibengoa001@ikasle.ehu.eus", "12345678", "Beñat", "Ercibengoa", 2000);
-        Worker worker2 = new Worker("vandrushkiv001@ikasle.ehu.eus", "87654321", "Viktoria", "Andrushkiv", 2000);
-        Worker worker3 = new Worker("trolland001@ikasle.ehu.eus", "abcdefghi", "Théo", "Rolland", 2000);
-        Worker worker4 = new Worker("lrodriguez154@ikasle.ehu.eus", "12345678", "Laura", "Rodríguez", 2000);
-        Worker worker5 = new Worker("eugarte001@ikasle.ehu.eus", "111222333g", "Ekhi", "Ugarte", 2000);
-
-        Customer customer1 = new Customer("aitor@gmail.com", "12345", "Aitor", "Elizondo");
-        Customer customer2 = new Customer("amaia@gmail.com", "12345", "Amaia", "Susperregi");
-        Customer customer3 = new Customer("uxue@gmail.com", "12345", "Uxue", "Etxebeste");
-
-        List<Genre> genreList1 = new ArrayList<>();
-        genreList1.add(Genre.DRAMA);
-        Film film1 = new Film("The Godfather", "Francis Ford Coppola", LocalTime.of(2, 55),
-                "A cinematic masterpiece directed by Francis Ford Coppola",
-                genreList1);
-
-        List<Genre> genreList2 = new ArrayList<>();
-        genreList2.add(Genre.ACTION);
-        genreList2.add(Genre.ADVENTURE);
-        Film film2 = new Film("Die Hard", "John McTiernan", LocalTime.of(2, 11),
-                "An action-packed thriller directed by John McTiernan",
-                genreList2);
+        Admin admin = new Admin("juanan.pereira@ehu.eus", PasswordHasher.hashPassword("admin1234"), "Juanan", "Pereira", 2500);
+        db.persist(admin);
 
         ScreeningRoom screeningRoom1 = new ScreeningRoom(cinema,1);
         ScreeningRoom screeningRoom2 = new ScreeningRoom(cinema,2);
+        ScreeningRoom screeningRoom3 = new ScreeningRoom(cinema,3);
+        db.persist(screeningRoom1);
+        db.persist(screeningRoom2);
+        db.persist(screeningRoom3);
+
+        signUpWorker("bercibengoa001@ikasle.ehu.eus", "12345678", "Beñat", "Ercibengoa", 2000);
+        signUpWorker("vandrushkiv001@ikasle.ehu.eus", "87654321", "Viktoria", "Andrushkiv", 2000);
+        signUpWorker("trolland001@ikasle.ehu.eus", "abcdefghi", "Théo", "Rolland", 2000);
+        signUpWorker("lrodriguez154@ikasle.ehu.eus", "12345678", "Laura", "Rodríguez", 2000);
+        signUpWorker("eugarte001@ikasle.ehu.eus", "111222333g", "Ekhi", "Ugarte", 2000);
+
+        Customer customer1 = (Customer)signUp("aitor@gmail.com", "12345", "Aitor", "Elizondo");
+        Customer customer2 = (Customer)signUp("amaia@gmail.com", "12345", "Amaia", "Susperregi");
+        Customer customer3 = (Customer)signUp("uxue@gmail.com", "12345", "Uxue", "Etxebeste");
 
 
-        Schedule schedule1 = new Schedule(LocalDate.of(2025, 4, 1), screeningRoom1);
-        Schedule schedule2 = new Schedule(LocalDate.of(2025, 4, 1), screeningRoom2);
+        Film film1 = storeFilm("The Godfather");
+        Film film2 = storeFilm("Spirited Away");
+        Film film3 = storeFilm("Cars");
+        Film film4 = storeFilm("Fight Club");
+        Film film5 = storeFilm("Shutter Island");
 
 
-        ShowTime showTime1 = new ShowTime(schedule1, LocalTime.of(17, 00), film1);
-        ShowTime showTime2 = new ShowTime(schedule2, LocalTime.of(18, 30), film2);
-        ShowTime showTime3 = new ShowTime(schedule2, LocalTime.of(16, 00), film2);
+        ShowTime showTime1 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom1), LocalTime.of(17, 00), film1);
+        ShowTime showTime2 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom2), LocalTime.of(18, 30), film2);
+        ShowTime showTime3 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom3), LocalTime.of(16, 00), film2);
+        ShowTime showTime4 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom1), LocalTime.of(20, 30), film3);
+        ShowTime showTime5 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom2), LocalTime.of(21, 30), film4);
+        ShowTime showTime6 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom3), LocalTime.of(18, 45), film5);
 
-
-
-        schedule1.setShowTime(showTime1);
-        schedule2.setShowTime(showTime2);
 
         List<Seat> seatSelection1 = new ArrayList<>();
         List<Seat> seatSelection2 = new ArrayList<>();
@@ -301,67 +384,20 @@ public class DataAccess {
         }
 
 
-        db.persist(cinema);
-        db.persist(admin);
-        db.persist(worker1);
-        db.persist(worker2);
-        db.persist(worker3);
-        db.persist(worker4);
-        db.persist(worker5);
-        db.persist(customer1);
-        db.persist(customer2);
-        db.persist(customer3);
-        db.persist(film1);
-        db.persist(film2);
-        db.persist(screeningRoom1);
-        db.persist(screeningRoom2);
-        db.persist(schedule1);
-        db.persist(schedule2);
+
         for(Seat seat: screeningRoom1.getSeats()){
             db.persist(seat);
         }
         for(Seat seat: screeningRoom1.getSeats()){
             db.persist(seat);
         }
-        db.persist(showTime1);
-        db.persist(showTime2);
-        db.persist(showTime3);
-
-
         createPurchaseReceipt(customer1, showTime1, seatSelection1);
         createPurchaseReceipt(customer1, showTime1, seatSelection1);
         createPurchaseReceipt(customer2, showTime3, seatSelection1);
 
-        createSchedule(LocalDate.of(2025, 4, 8), screeningRoom1);
-        createSchedule(LocalDate.of(2025, 4, 8), screeningRoom2);
-        logger.debug("Schedules created");
-
-
-        logger.info(getScheduleByRoomAndDate(LocalDate.of(2025, 4, 8), screeningRoom1));
-        createShowTime(getScheduleByRoomAndDate(LocalDate.of(2025, 4, 8), screeningRoom1), LocalTime.of(17, 00), film1);
-        logger.info("showtime created successfully");
-
-
-        //This is made to assure we do the queries before persisting data
-        //If not it attempts to print this before finishing persisting some data
-        Task<Void> task = new Task<Void>(){
-            protected Void call() throws Exception{
-                Thread.sleep(500);
-                logger.debug("Query testing:");
-                logger.debug("Showtimes with date(yyyy/mm/dd) 2025/04/01:");
-                for(ShowTime showtime: getShowTimesByDate(LocalDate.of(2025, 4, 1)) ) {
-                    logger.debug(showtime);
-                }
-                logger.debug("Showtimes with date(yyyy/mm/dd) 2025/04/01 and film:");
-                for(ShowTime showtime: getShowTimesByDateAndFilm(LocalDate.of(2025, 4, 1), film1) ) {
-                    logger.debug(showtime);
-                }
-                return null;
-            }
-        };
-        new Thread(task).start();
-
-
+        storeReview(film1, 5, "Great film! Nothing similar has been seen recently", customer1);
+        storeReview(film1, 1, "Interesting film", customer2);
+        storeReview(film1, 2, "Nice", customer3);
 
     }
 

@@ -6,6 +6,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -25,13 +27,23 @@ public class MenuController {
     @FXML
     private Button registerButton;
 
-
-
+    @FXML
+    private Text titleText; //Théo
 
     BlFacadeImplementation bl;
 
+    @FXML //Théo
+    private void showMovieList() {
+        uiState.setSummary("");
+        uiState.setSnackprice(0.0);
+        loadContent("MovieList.fxml");
+    }
 
     @FXML void initialize(){
+        bl = BlFacadeImplementation.getInstance(); //Théo
+        showMovieList(); //Théo
+
+
         // Load the initial content and it changes when the view changes
         uiState.currentViewProperty().addListener((obs, oldView, newView) -> {
             loadContent(newView);
@@ -43,45 +55,73 @@ public class MenuController {
             receiptsButton.setVisible(isNowLoggedIn);
         });
 
-        bl = BlFacadeImplementation.getInstance();
-        loadContent("seatSelection.fxml");
+        //loadContent("seatSelection.fxml");
     }
 
 
     @FXML
     void loginPane(ActionEvent event) {
-        uiState.setCurrentView("signin.fxml");
+        loadContent("signin.fxml");
     }
 
     @FXML
     void registerPane(ActionEvent event) {
-        uiState.setCurrentView("signup.fxml");
+        loadContent("signup.fxml");
     }
 
     @FXML
     void receiptsPane(ActionEvent event) {
-        uiState.setCurrentView("receipts.fxml");
+        loadContent("userReceipts.fxml");
     }
 
     // Reference to the UIState
     private final UIState uiState = UIState.getInstance();
 
-    private Map<String, AnchorPane> contentCache = new HashMap<>();
+    private Map<String, Pane> contentCache = new HashMap<>();
 
     private void loadContent(String fxmlFile) {
         try {
-            // Check if content is already cached
-            AnchorPane content = contentCache.get(fxmlFile);
-            if (content == null) {
-                // If not cached, load it and store in cache
-                FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
-                content = loader.load();
-                contentCache.put(fxmlFile, content);
+            // Retirer la vue du cache si elle existe déjà
+            contentCache.remove(fxmlFile);
+
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
+            Pane content = loader.load();
+
+            if (loader.getController() instanceof MovieListController) {
+                ((MovieListController) loader.getController()).setBusinessLogic(bl);
             }
+
+            contentCache.put(fxmlFile, content);
             contentPane.setCenter(content);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /*
+    private void loadContent(String fxmlFile) {
+        try {
+            contentCache.remove(fxmlFile); //Théo - Remove view if already in cache
+            // Check if content is already cached
+            Pane content = contentCache.get(fxmlFile);
+            if (content == null) {
+                // If not cached, load it and store in cache
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
+                content = loader.load();
+
+                if (loader.getController() instanceof MovieListController) { //Théo
+                    ((MovieListController) loader.getController()).setBusinessLogic(bl);
+                }
+
+                contentCache.put(fxmlFile, content);
+            }
+            contentPane.setCenter(content);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    */
 }

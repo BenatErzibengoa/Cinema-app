@@ -1,6 +1,9 @@
 package eus.ehu.cinemaProject.domain;
 
 import jakarta.persistence.*;
+import javafx.scene.image.Image;
+
+import java.io.InputStream;
 
 @Entity
 @Table(name = "seats")
@@ -8,12 +11,11 @@ import jakarta.persistence.*;
 public class Seat {
     @Id
     private String seatId;
-    private double price;
-
-
 
     @ManyToOne
     private ScreeningRoom screeningRoom;
+
+    private double price;
     private SeatType type;
 
     private void setPrice(){
@@ -23,6 +25,23 @@ public class Seat {
             case PREMIUM -> price = 9.5;
         }
     }
+    public Image getImage(){
+        String name = "";
+        switch (type){
+            case NORMAL -> name ="plasticSeat.jpeg";
+            case COMFORTABLE -> name = "redSeat.png";
+            case PREMIUM -> name = "premiumSeat.jpg";
+            case OCCUPIED -> name = "occupiedSeat.png";
+        }
+        InputStream stream = getClass().getResourceAsStream("/eus/ehu/cinemaProject/ui/pictures/" + name);
+        if (stream == null) {
+            throw new IllegalArgumentException("Seat image not found");
+        }
+        return new Image(stream);
+    }
+
+
+
 
 
     public Seat(ScreeningRoom screeningRoom, String seatId, SeatType type){
@@ -41,9 +60,16 @@ public class Seat {
     public String getSeatId() { return seatId; }
 
     public SeatType getType() { return type; }
+    public void setType(SeatType type) {
+        this.type = type;
+    }
 
     @Override
     public String toString(){
-        return this.seatId;
+        String[] myArray = seatId.split("\\.");
+        return String.format("Room: %s, Row: %s, Seat: %s", myArray[0], myArray[1], myArray[2]);    }
+
+    public boolean isReserved() {
+        return type == SeatType.OCCUPIED;
     }
 }

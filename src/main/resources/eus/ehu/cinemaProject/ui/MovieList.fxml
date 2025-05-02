@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.TilePane?>
+
+<BorderPane prefHeight="92.0" prefWidth="745.0" style="-fx-background-color: #171717;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.MovieListController">
+    <top>
+        <Label prefHeight="43.0" prefWidth="716.0" style="-fx-font-size: 26px; -fx-font-weight: bold;" text="Now Playing" textFill="WHITE" BorderPane.alignment="CENTER" />
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true" prefHeight="255.0" prefWidth="841.0" style="-fx-background-color: #171717;">
+            <TilePane fx:id="movieTilePane" hgap="20" prefColumns="3" prefHeight="47.0" prefTileWidth="220" prefWidth="729.0" style="-fx-background-color: #171717;" vgap="20">
+                <padding>
+                    <Insets bottom="20" left="20" right="20" top="20" />
+                </padding>
+            </TilePane>
+        </ScrollPane>
+    </center>
+</BorderPane>

@@ -1,72 +1,103 @@
 package eus.ehu.cinemaProject.ui;
 
-import eus.ehu.cinemaProject.businessLogic.BlFacade;
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
-import eus.ehu.cinemaProject.domain.Film;
-import eus.ehu.cinemaProject.domain.PurchaseReceipt;
 import eus.ehu.cinemaProject.domain.Seat;
 import eus.ehu.cinemaProject.domain.users.Customer;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.BorderPane;
-
-import java.util.Date;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import javafx.scene.Node;
+import java.io.IOException;
+import java.util.List;
 
 public class ReceiptController {
 
     @FXML
-    private BorderPane contentPane;
-    @FXML
-    private Label numberOfRaces;
-    @FXML
-    private TableView<PurchaseReceipt> tablePurchaseReceipts;
+    private AnchorPane contentArea;
 
     @FXML
-    private TableColumn<PurchaseReceipt, Long> showTimeIdColumn;
+    private Button goBack;
 
     @FXML
-    private TableColumn<PurchaseReceipt, String> filmColumn;
+    private TextArea movieInfo;
 
     @FXML
-    private TableColumn<PurchaseReceipt, Date> dateColumn;
+    private Button orderSnacks;
 
     @FXML
-    private TableColumn<PurchaseReceipt, String> seatColumn;
+    private Button proceedPayment;
 
     @FXML
-    private TableColumn<PurchaseReceipt, Double> priceColumn;
+    private TextArea receipt;
 
-    private ObservableList<PurchaseReceipt> purchaseReceipts;
+    @FXML
+    private TextField totalPrize;
 
-    private BlFacadeImplementation bl;
+    private double seatPrices = 0.0;
+    private double totalSnacks = 0.0;
+    String seatInfo;
+    private UIState uiState = UIState.getInstance();
+    private BlFacadeImplementation bl = BlFacadeImplementation.getInstance();
 
-    private final UIState uiState = UIState.getInstance();
+    private String summary="";
+    private double foodprice=0.0;
+    private double snackprice=0.0;
+
 
 
     @FXML
     public void initialize() {
+        uiState = UIState.getInstance();
+        movieInfo.setText(uiState.getSelectedShowtime().toString2());
+        snackprice = uiState.getSnackprice();
+        seatPrices = 0.0;
+        seatInfo = "Selected seats:\n";
 
-        bl = BlFacadeImplementation.getInstance();
-        showTimeIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        List<Seat> seats = uiState.getSelectedSeats();
+        for (Seat seat : seats) {
+            seatInfo = seatInfo + seat.toString() + "\n";
+            seatPrices += seat.getPrice();
+        }
 
-
-        filmColumn.setCellValueFactory(cellData -> {
-            PurchaseReceipt pr = cellData.getValue();
-            return new SimpleStringProperty(pr.getShowTime().getFilm().getTitle());
-        });
-        dateColumn.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
-        seatColumn.setCellValueFactory(new PropertyValueFactory<>("bookedSeats"));
-        priceColumn.setCellValueFactory(new PropertyValueFactory<>("totalAmount"));
-
-        purchaseReceipts = FXCollections.observableArrayList();
-        purchaseReceipts.addAll(bl.getPurchaseReceiptsByUser((Customer) uiState.getUser()));
-        tablePurchaseReceipts.setItems(purchaseReceipts);
-
+        if(uiState.getSummary()==null){
+            receipt.setText(seatInfo + "\n" +"-----------------------\n"+ "\n" + "Seats total: €" + seatPrices);
+        }
+        else{
+            receipt.setText(seatInfo + "\n" + uiState.getSummary() + "\n" + "Seats total: €" + seatPrices);
+        }
+        totalPrize.setText(String.format("€%.2f", seatPrices + snackprice));
     }
+
+    @FXML
+    private void goToSnacksSelect(javafx.event.ActionEvent event) {
+        uiState.setCurrentView("orderfood.fxml");
+    }
+
+    @FXML
+    private void goToSeatSelect(ActionEvent event){
+        uiState.setCurrentView("seatSelection.fxml");
+    }
+
+    @FXML
+    private void proceedPaymentButton(ActionEvent event){
+        bl.createPurchaseReceipt((Customer)uiState.getUser(), uiState.getSelectedShowtime(), uiState.getSelectedSeats());
+        System.out.println("proceed");
+        uiState.setCurrentView("MovieList.fxml");
+    }
+
+    public void setSnackData(String snackSummary, double snackPrice) {
+        receipt.setText(snackSummary);
+        snackPrice += seatPrices;
+        totalPrize.setText(String.format("€%.2f", snackPrice));
+        totalSnacks = snackPrice;
+    }
+
 }
+

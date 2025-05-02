@@ -1,4 +1,5 @@
 package eus.ehu.cinemaProject.businessLogic;
+import eus.ehu.cinemaProject.configuration.PasswordHasher;
 import eus.ehu.cinemaProject.domain.*;
 import eus.ehu.cinemaProject.domain.users.Customer;
 import eus.ehu.cinemaProject.domain.users.User;
@@ -32,7 +33,11 @@ public class BlFacadeImplementation implements BlFacade {
     }
 
     public User login(String email, String password){
-        return dbManager.login(email, password);
+        User user = getUserByEmail(email);
+        if(user == null || !PasswordHasher.checkPassword(password, user.getPassword())){
+            return null;
+        }
+        return user;
     }
 
     public User getUserByEmail(String email){ return dbManager.getUserByEmail(email);}
@@ -60,6 +65,28 @@ public class BlFacadeImplementation implements BlFacade {
     public List<PurchaseReceipt> getPurchaseReceiptsByUser(Customer customer){
         return dbManager.getPurchaseReceiptsByUser(customer);
     }
+
+    public void storeReview(Film reviewedFilm, int rating, String textReview, Customer author){
+        dbManager.storeReview(reviewedFilm, rating, textReview, author);
+    }
+
+    public double getAverageRating(Film film){
+        Double average = dbManager.getAverageRating(film);
+        if (average == null){
+            return 0;
+        }
+        return average;
+    }
+
+    public boolean hasFilmBeenReviewed(Film film, Customer customer){
+        return dbManager.getReviewByFilmAndUser(film, customer) != null;
+    }
+
+    public List<Review> getReviewsByFilm(Film film){
+        return dbManager.getReviewsByFilm(film);
+    }
+
+
 
 
 

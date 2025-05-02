@@ -4,17 +4,15 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<?import javafx.scene.layout.StackPane?>
-<BorderPane fx:id="contentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="733.0" prefWidth="824.0" style="-fx-background-color: #171717;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.MenuController">
+<BorderPane fx:id="contentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="662.0" prefWidth="800.0" style="-fx-background-color: #171717;" stylesheets="@MovieListStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.MenuController">
    <top>
-      <HBox alignment="CENTER_RIGHT" prefHeight="47.0" prefWidth="600.0" style="-fx-background-color: rgba(0,0,0,0.6);" BorderPane.alignment="CENTER_RIGHT">
+      <HBox alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="800.0" style="-fx-background-color: rgba(0,0,0,0.6);" BorderPane.alignment="CENTER_RIGHT">
          <children>
             <ImageView fitHeight="35.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
                <HBox.margin>
@@ -24,7 +22,8 @@
                   <Image url="@logo.png" />
                </image>
             </ImageView>
-            <Text fill="#c01530" strokeType="OUTSIDE" strokeWidth="0.0" text=" CineFlix" wrappingWidth="92.30599331855774">
+
+            <Text fx:id="titleText" fill="#dd6600" onMouseClicked="#showMovieList" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text=" CineFlix" wrappingWidth="92.30599331855774">
                <HBox.margin>
                   <Insets right="295.0" />
                </HBox.margin>
@@ -32,27 +31,25 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Text>
-            <Region prefHeight="47.0" prefWidth="27.0" />
 
+            <Region prefHeight="47.0" prefWidth="27.0" />
+            <Button fx:id="receiptsButton" mnemonicParsing="false" onAction="#receiptsPane" prefHeight="31.0" prefWidth="89.0" style="-fx-background-color: rgba(0,0,0,0); -fx-border-color: #aaa; -fx-border-radius: 3px;" text="Receipts" textFill="WHITE" visible="false" />
             <Region prefHeight="47.0" prefWidth="82.0" />
-            <Button fx:id="loginButton" mnemonicParsing="false" onAction="#loginPane" prefHeight="28.0" prefWidth="66.0" style="-fx-background-color: rgba(0,0,0,0); -fx-border-color: #aaa; -fx-border-radius: 3px;" text="Login" textFill="WHITE">
+            <Button fx:id="loginButton" mnemonicParsing="false" onAction="#loginPane" prefHeight="31.0" prefWidth="79.0" style="-fx-background-color: rgba(0,0,0,0); -fx-border-color: #aaa; -fx-border-radius: 3px; -fx-cursor: hand;" text="Login" textFill="WHITE">
                <HBox.margin>
                   <Insets right="30.0" />
                </HBox.margin>
             </Button>
-            <StackPane>
-               <!-- Register sits on bottom -->
-               <Button fx:id="registerButton" text="Register" prefWidth="73" prefHeight="25" style="-fx-background-color: #c01530;" textFill="WHITE" onAction="#registerPane"/>
-               <!-- Receipts on top, initially hidden -->
-               <Button fx:id="receiptsButton" text="Receipts" prefWidth="73" prefHeight="25" style="-fx-background-color: rgba(0,0,0,0); -fx-border-color: #aaa; -fx-border-radius: 3px;" textFill="WHITE" visible="false" onAction="#receiptsPane"/>
-            </StackPane>
+            <Button fx:id="registerButton" mnemonicParsing="false" onAction="#registerPane" prefHeight="31.0" prefWidth="89.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="Register" textFill="WHITE" />
          </children>
          <padding>
             <Insets left="20.0" right="20.0" />
          </padding>
       </HBox>
    </top>
+
    <center>
-      <AnchorPane prefHeight="671.0" prefWidth="743.0" style="-fx-background-color: #171717;" BorderPane.alignment="CENTER" />
+      <fx:include fx:id="movieList" source="MovieList.fxml" />
    </center>
+
 </BorderPane>

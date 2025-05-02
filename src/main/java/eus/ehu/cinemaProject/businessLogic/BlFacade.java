@@ -1,8 +1,5 @@
 package eus.ehu.cinemaProject.businessLogic;
-import eus.ehu.cinemaProject.domain.Film;
-import eus.ehu.cinemaProject.domain.PurchaseReceipt;
-import eus.ehu.cinemaProject.domain.Seat;
-import eus.ehu.cinemaProject.domain.ShowTime;
+import eus.ehu.cinemaProject.domain.*;
 import eus.ehu.cinemaProject.domain.users.Customer;
 import eus.ehu.cinemaProject.domain.users.User;
 
@@ -29,7 +26,7 @@ public interface BlFacade {
     /**
      * Returns the user related to the given email
      *
-     * @param email     the email
+     * @param email the email
      */
     User getUserByEmail(String email);
 
@@ -46,35 +43,55 @@ public interface BlFacade {
     /**
      * Returns all ShowTimes that matches with the provided date
      *
-     * @param date    the date
+     * @param date the date
      */
     List<ShowTime> getShowTimesByDate(LocalDate date);
 
     /**
      * Returns all ShowTimes that matches with the provided date and film
      *
-     * @param date    the date
-     * @param film    the film
+     * @param date the date
+     * @param film the film
      */
     List<ShowTime> getShowTimesByDateAndFilm(LocalDate date, Film film);
 
     /**
      * Creates a PurchaseReceipt for a customer
      *
-     * @param customer    the date
-     * @param showTime    the showtime
-     * @param seats       the booked seats
-     * TODO: Food
+     * @param customer the date
+     * @param showTime the showtime
+     * @param seats    the booked seats
+     *                 TODO: Food
      */
     void createPurchaseReceipt(Customer customer, ShowTime showTime, List<Seat> seats);
 
     /**
      * Returns all PurchaseReceipts that matches with the provided customer
      *
-     * @param customer    the customer
+     * @param customer the customer
      */
     List<PurchaseReceipt> getPurchaseReceiptsByUser(Customer customer);
 
+    /**
+     * Returns the average rating among all the reviews of a film
+     *
+     * @param film the film
+     */
+    double getAverageRating(Film film);
 
+    /**
+     * Returns whether a film has been reviewed by a customer or not
+     *
+     * @param film the film
+     * @param customer the customer
+     */
+    boolean hasFilmBeenReviewed(Film film, Customer customer);
+
+    /**
+     * Gets all reviews of a film
+     *
+     * @param film the film
+     */
+    List<Review> getReviewsByFilm(Film film);
 
 }

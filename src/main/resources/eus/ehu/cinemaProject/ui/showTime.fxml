@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="432.0" prefWidth="597.0" style="-fx-background-color: #242424; -fx-background-radius: 12px;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.ShowTimeController">
+    <children>
+        <DatePicker fx:id="datePicker" layoutX="45.0" layoutY="249.0" prefHeight="35.0" prefWidth="200.0" promptText="Choose a date" />
+        <TilePane fx:id="showtimesPane" layoutX="35.0" layoutY="329.0" prefHeight="79.0" prefWidth="519.0" />
+        <Label layoutX="46.0" layoutY="297.0" text="Select Showtime" textFill="WHITE">
+            <font>
+                <Font name="System Bold" size="20.0" />
+            </font></Label>
+        <StackPane layoutX="45.0" layoutY="58.0" prefHeight="177.0" prefWidth="509.0">
+            <children>
+                <ImageView fx:id="movieImage" fitHeight="150.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER_LEFT">
+                    <StackPane.margin>
+                        <Insets left="15.0" />
+                    </StackPane.margin>
+                </ImageView>
+                <Label fx:id="movieTitle" prefHeight="27.0" prefWidth="345.0" textFill="WHITE" StackPane.alignment="TOP_LEFT">
+                    <StackPane.margin>
+                        <Insets left="140.0" top="20.0" />
+                    </StackPane.margin>
+                    <font>
+                        <Font name="System Bold" size="20.0" />
+                    </font>
+                </Label>
+
+                <HBox fx:id="ratingBox" spacing="2.0" StackPane.alignment="TOP_LEFT">
+                    <StackPane.margin>
+                        <Insets left="140.0" top="50.0" />
+                    </StackPane.margin>
+                    <children>
+                        <ImageView fx:id="star1" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="star2" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="star3" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="star4" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="star5" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
+                </HBox>
+
+                <!-- Mover el Genre debajo de la Descripción -->
+                <Label fx:id="movieDescription" prefHeight="100.0" prefWidth="380.0" textFill="WHITE" wrapText="true" StackPane.alignment="CENTER_LEFT">
+                    <StackPane.margin>
+                        <Insets left="140.0" top="50.0" />
+                    </StackPane.margin>
+                </Label>
+
+                <!-- Género debajo de la descripción -->
+                <Label fx:id="movieGenre" prefHeight="17.0" prefWidth="177.0" textFill="WHITE" StackPane.alignment="CENTER_LEFT">
+                    <StackPane.margin>
+                        <Insets left="140.0" top="160.0" />
+                    </StackPane.margin>
+                </Label>
+
+                <Label fx:id="movieDuration" prefHeight="17.0" prefWidth="169.0" textFill="WHITE" StackPane.alignment="CENTER_RIGHT">
+                    <StackPane.margin>
+                        <Insets bottom="60.0" left="15.0" />
+                    </StackPane.margin>
+                </Label>
+            </children>
+        </StackPane>
+        <Label layoutX="45.0" layoutY="20.0" text="Your Movie" textFill="WHITE">
+            <font>
+                <Font name="System Bold" size="26.0" />
+            </font></Label>
+        <Button layoutX="260.0" layoutY="249.0" mnemonicParsing="false" onAction="#searchShowTimes" prefHeight="35.0" prefWidth="153.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="Search ShowTimes" textFill="WHITE" />
+        <Button layoutX="420.0" layoutY="249.0" mnemonicParsing="false" onAction="#searchReviews" prefHeight="35.0" prefWidth="153.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="Reviews" textFill="WHITE" />
+    </children>
+</AnchorPane>

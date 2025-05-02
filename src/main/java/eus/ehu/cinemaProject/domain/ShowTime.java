@@ -41,14 +41,28 @@ public class ShowTime {
     public void bookSeats(List<Seat> seatsToBook){
         bookedSeats.addAll(seatsToBook);
     }
+
+    public void setSchedule(Schedule schedule){this.schedule=schedule;}
     public Set<Seat> getBookedSeats(){return bookedSeats;}
     public long getId(){return this.id;}
+    public LocalDate getScreeningDate(){return this.screeningDate;}
     public LocalTime getScreeningTime(){return this.screeningTime;}
     public Film getFilm(){return film;}
+    public Schedule getSchedule(){return schedule;}
 
     @Override
     public String toString() {
         return String.format("Room Number: %s, Date: %s, Time: %s, Film: %s", schedule.getScreeningRoom().getRoomNumber(), screeningDate, screeningTime, film.getTitle());
     }
+
+    public String toString2() {
+        return String.format(
+                "Room Number: %s\nDate: %s\nTime: %s",
+                schedule.getScreeningRoom().getRoomNumber(),
+                screeningDate,
+                screeningTime
+        );
+    }
+
 
 }

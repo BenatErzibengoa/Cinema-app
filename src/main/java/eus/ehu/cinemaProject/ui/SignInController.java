@@ -1,6 +1,7 @@
 package eus.ehu.cinemaProject.ui;
 
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
+import eus.ehu.cinemaProject.configuration.PasswordHasher;
 import eus.ehu.cinemaProject.domain.users.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -40,8 +41,7 @@ public class SignInController {
                 uiState.setUser(user);
                 uiState.setLoggedIn(true);
 
-                //Remove next comment when Theo finishes his work
-                //uiState.setCurrentView("films.fxml");
+                uiState.setCurrentView("MovieList.fxml");
             }
             else{
                 outputText.setText("Invalid credentials. Please try again");
@@ -50,7 +50,8 @@ public class SignInController {
         }
         else{
             outputText.setText("Fill all fields");
-            outputText.setStyle("-fx-text-fill: grey;");
+            outputText.setStyle("-fx-text-fill: red;");
+
         }
         outputText.setVisible(true);
     }

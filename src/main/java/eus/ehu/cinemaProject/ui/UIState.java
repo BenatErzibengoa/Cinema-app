@@ -1,7 +1,7 @@
 package eus.ehu.cinemaProject.ui;
 
-import eus.ehu.cinemaProject.domain.Film;
-import eus.ehu.cinemaProject.domain.ShowTime;
+import eus.ehu.cinemaProject.domain.*;
+
 import eus.ehu.cinemaProject.domain.users.User;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -62,12 +62,21 @@ public class UIState {
 
     //Attributes to share between different view controllers (we have to add more!!!)
     private String email;
+    private Film selectedFilm;
+    private ShowTime selectedShowtime;
+    private List<Seat> selectedSeats;
+    private PurchaseReceipt provisionalReceipt;
 
     private User user;
 
     private Film film;
 
     private List<ShowTime> showtimes;
+    private List<Review> reviews;
+
+    public String summary;
+    public double snackprice;
+
 
     //Corresponding getters and setters to interchange data between controllers
     public String getEmail() {
@@ -90,5 +99,24 @@ public class UIState {
     public void setShowtimes(List<ShowTime> showtimes) {
         this.showtimes = showtimes;
     }
+    public ShowTime getSelectedShowtime() { return selectedShowtime; }
+    public void setSelectedShowtime(ShowTime selectedShowtime) { this.selectedShowtime = selectedShowtime; }
+    public List<Review> getReviews() { return reviews; }
+    public void setReviews(List<Review> reviews) { this.reviews = reviews; }
+    public PurchaseReceipt getProvisionalReceipt() { return provisionalReceipt; }
+    public void setProvisionalReceipt(PurchaseReceipt provisionalReceipt) { this.provisionalReceipt = provisionalReceipt; }
+
+    public List<Seat> getSelectedSeats() { return selectedSeats; }
+    public void setSelectedSeats(List<Seat> selectedSeats) { this.selectedSeats = selectedSeats; }
+
+    public String getSummary() { return summary; }
+    public void setSummary(String summary) { this.summary = summary; }
+
+    public double getSnackprice() { return snackprice; }
+    public void setSnackprice(double snackprice) { this.snackprice = snackprice; }
+
+
+
+
 
 }
