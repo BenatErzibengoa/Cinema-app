@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -181,17 +180,32 @@ public class Schedule {
 
     //Considering movie duration returns valid starting times in this schedule
     public List<LocalTime> getAvailableStartTimes(LocalTime duration){
-        List<LocalTime>availableTimes=new ArrayList<>();
-        LocalTime currentTime=this.openingTime;
+        List<LocalTime> availableTimes = new ArrayList<>();
+        LocalTime currentTime = this.openingTime;
 
-        for(int i=0;i<size;i++){
-            if(!this.isFilmInBounds(currentTime,duration)){break;}
-            if(this.isBetweenBoundsFree(currentTime,duration)){
+        for (int i = 0; i < size; i++) {
+            if (!this.isFilmInBounds(currentTime, duration)) {
+                currentTime = currentTime.plusMinutes(15);
+                continue; // ← was "break"
+            }
+            if (this.isBetweenBoundsFree(currentTime, duration)) {
                 availableTimes.add(currentTime);
             }
-            currentTime=currentTime.plusMinutes(15);
+            currentTime = currentTime.plusMinutes(15);
         }
+
         return availableTimes;
+    }
+
+
+    public void reconstructBookingStateFromShowTimes() {
+        setAllFree();
+
+        // Defensive copy to prevent ConcurrentModificationException
+        List<ShowTime> copy = new ArrayList<>(showTimes);
+        for (ShowTime st : copy) {
+            setShowTime(st);
+        }
     }
 
 }

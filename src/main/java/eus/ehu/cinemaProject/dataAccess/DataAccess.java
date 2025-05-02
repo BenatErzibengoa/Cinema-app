@@ -182,8 +182,12 @@ public class DataAccess {
             query.setParameter("room", screeningRoom);
 
             schedule = query.getSingleResult();
+            if (schedule != null) {
+                schedule.reconstructBookingStateFromShowTimes();
+            }
         } catch (NoResultException e) {
-            logger.error(String.format("There are no results related to %s screeningRoom and %s date", screeningRoom.getRoomNumber(), date.toString()));
+            logger.error(String.format("There are no results related to %s screeningRoom and %s date",
+                    screeningRoom.getRoomNumber(), date));
             schedule = null;
         }
         return schedule;
