@@ -2,14 +2,17 @@ package eus.ehu.cinemaProject.ui;
 
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
 import eus.ehu.cinemaProject.domain.PurchaseReceipt;
+import eus.ehu.cinemaProject.domain.Seat;
 import eus.ehu.cinemaProject.domain.users.Customer;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.util.Pair;
 
 import java.util.Date;
@@ -19,24 +22,7 @@ import java.util.Optional;
 public class UserReceiptsController {
 
     @FXML
-    private TableView<PurchaseReceipt> tablePurchaseReceipts;
-
-    @FXML
-    private TableColumn<PurchaseReceipt, Long> showTimeIdColumn;
-
-    @FXML
-    private TableColumn<PurchaseReceipt, String> filmColumn;
-
-    @FXML
-    private TableColumn<PurchaseReceipt, Date> dateColumn;
-
-    @FXML
-    private TableColumn<PurchaseReceipt, String> seatColumn;
-
-    @FXML
-    private TableColumn<PurchaseReceipt, Double> priceColumn;
-
-    private ObservableList<PurchaseReceipt> purchaseReceipts;
+    private VBox receiptsContainer;
 
     private BlFacadeImplementation bl;
 
@@ -45,46 +31,63 @@ public class UserReceiptsController {
 
     @FXML
     public void initialize() {
-
         bl = BlFacadeImplementation.getInstance();
-        showTimeIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-
-
-        filmColumn.setCellValueFactory(cellData -> {
-            PurchaseReceipt pr = cellData.getValue();
-            return new SimpleStringProperty(pr.getShowTime().getFilm().getTitle());
-        });
-        dateColumn.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
-        seatColumn.setCellValueFactory(new PropertyValueFactory<>("bookedSeats"));
-        priceColumn.setCellValueFactory(new PropertyValueFactory<>("totalAmount"));
-
-        purchaseReceipts = FXCollections.observableArrayList();
         List<PurchaseReceipt> receipts = bl.getPurchaseReceiptsByUser((Customer) uiState.getUser());
-        purchaseReceipts.addAll(receipts);
-        tablePurchaseReceipts.setItems(purchaseReceipts);
-
+        loadReceipts(receipts);
     }
+    public void loadReceipts(List<PurchaseReceipt> receipts) {
+        receiptsContainer.getChildren().clear();
 
-    @FXML
-    void onReviewFilmClick(){
-        PurchaseReceipt selectedReceipt = tablePurchaseReceipts.getSelectionModel().getSelectedItem();
-        if(selectedReceipt != null){
-            // Check if the film has already been reviewed
-            if (bl.hasFilmBeenReviewed(selectedReceipt.getShowTime().getFilm(), (Customer) uiState.getUser())) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Information");
-                alert.setHeaderText(null);
-                alert.setContentText("You have already reviewed this film.");
-                alert.showAndWait();
+        for (PurchaseReceipt receipt : receipts) {
+            VBox receiptBox = new VBox(8);
+            receiptBox.setPadding(new Insets(10));
+            receiptBox.setStyle("-fx-background-color: #333333; -fx-background-radius: 8;");
+            receiptBox.setPrefWidth(550);
+
+            Label filmLabel = new Label("Film: " + receipt.getShowTime().getFilm().getTitle());
+            filmLabel.setTextFill(Color.WHITE);
+
+            Label dateLabel = new Label("Date: " + receipt.getOrderDate());
+            dateLabel.setTextFill(Color.LIGHTGRAY);
+
+            // Contenedor de asientos
+            VBox seatsBox = new VBox(2);
+            Label seatsTitle = new Label("Seats:");
+            seatsTitle.setTextFill(Color.LIGHTGRAY);
+            seatsBox.getChildren().add(seatsTitle);
+
+            for (Seat seat : receipt.getBookedSeats()) {
+                Label seatLabel = new Label(seat.toString());
+                seatLabel.setTextFill(Color.LIGHTGRAY);
+                seatsBox.getChildren().add(seatLabel);
             }
-            else{
-                Optional<Pair<Integer, String>> result = obtainReview();
-                if (result.isPresent()) {
-                    int rating = result.get().getKey();
-                    String review = result.get().getValue();
-                    bl.storeReview(selectedReceipt.getShowTime().getFilm(), rating, review, (Customer) uiState.getUser());
-                }
-            }
+
+            Label priceLabel = new Label("Total Paid: " + receipt.getTotalAmount() + "€");
+            priceLabel.setTextFill(Color.GOLD);
+
+            Button rateButton = new Button("Rate this film");
+            rateButton.setStyle("-fx-background-color: #dd6600; -fx-text-fill: white; -fx-cursor: hand;");
+            rateButton.setOnAction(e -> handleRateFilm(receipt));
+
+            receiptBox.getChildren().addAll(filmLabel, dateLabel, seatsBox, priceLabel, rateButton);
+            receiptsContainer.getChildren().add(receiptBox);
+        }
+    }
+    private void handleRateFilm(PurchaseReceipt receipt) {
+        // Verify if it has been reviewed
+        if (bl.hasFilmBeenReviewed(receipt.getShowTime().getFilm(), (Customer) uiState.getUser())) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information");
+            alert.setHeaderText(null);
+            alert.setContentText("You have already reviewed this film.");
+            alert.showAndWait();
+        } else {
+            Optional<Pair<Integer, String>> result = obtainReview();
+            result.ifPresent(pair -> {
+                int rating = pair.getKey();
+                String review = pair.getValue();
+                bl.storeReview(receipt.getShowTime().getFilm(), rating, review, (Customer) uiState.getUser());
+            });
         }
     }
 
