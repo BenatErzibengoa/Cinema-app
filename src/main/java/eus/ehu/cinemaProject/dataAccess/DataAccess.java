@@ -387,6 +387,18 @@ public class DataAccess {
         }
         return film;
     }
+
+    public List<ShowTime>getAllShowtimes(){
+        List<ShowTime> showtimes;
+        try{
+            TypedQuery<ShowTime> query = db.createQuery("SELECT s FROM ShowTime s", ShowTime.class);
+            showtimes = query.getResultList();
+        }catch(NoResultException e){
+            logger.info("There are no showtimes in the database");
+            showtimes = null;
+        }
+        return showtimes;
+    }
     private void generateTestingData() {
 
         Cinema cinema = new Cinema("Cineflix", "Bilbo", 688861291, LocalTime.of(15, 30), LocalTime.of(01, 00));

@@ -1,5 +1,9 @@
 package eus.ehu.cinemaProject.ui;
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
+import eus.ehu.cinemaProject.domain.users.Admin;
+import eus.ehu.cinemaProject.domain.users.Customer;
+import eus.ehu.cinemaProject.domain.users.User;
+import eus.ehu.cinemaProject.domain.users.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -50,9 +54,27 @@ public class MenuController {
         });
 
         uiState.loggedInProperty().addListener((obs, wasLoggedIn, isNowLoggedIn) -> {
-            loginButton.setVisible(!isNowLoggedIn);
-            registerButton.setVisible(!isNowLoggedIn);
-            receiptsButton.setVisible(isNowLoggedIn);
+            if (isNowLoggedIn) {
+                User user = uiState.getUser();
+                loginButton.setVisible(false);
+                registerButton.setVisible(false);
+                receiptsButton.setVisible(true);
+                if(user instanceof Customer)
+                    receiptsButton.setVisible(true);
+                else if((user instanceof Worker)&&!(user instanceof Admin)){  //TODO: compare with workerview !!!!!!!
+                    receiptsButton.setVisible(false);
+                    titleText.setText("Welcome to the worker menu");
+                    //loadContent("workerMenu.fxml");
+                } else {
+                    receiptsButton.setVisible(false);
+                    titleText.setText("Welcome to the admin menu");
+                    loadContent("adminMain.fxml");
+                }
+            } else {
+                loginButton.setVisible(true);
+                registerButton.setVisible(true);
+                receiptsButton.setVisible(false);
+            }
         });
 
         //loadContent("seatSelection.fxml");

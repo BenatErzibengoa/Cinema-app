@@ -11,15 +11,15 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.AddMovieController">
+<AnchorPane prefHeight="400.0" prefWidth="656.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.AddMovieController">
    <children>
       <TextField fx:id="movieName" layoutX="28.0" layoutY="30.0" promptText="Enter a valid movie title" />
       <Button layoutX="185.0" layoutY="30.0" mnemonicParsing="false" onAction="#searchMovie" text="Search" />
-       <StackPane layoutX="28.0" layoutY="65.0" prefHeight="269.0" prefWidth="350.0">
+       <StackPane layoutX="28.0" layoutY="65.0" prefHeight="285.0" prefWidth="445.0">
            <children>
                <Label fx:id="movieTitle" prefHeight="27.0" prefWidth="345.0" textFill="WHITE" StackPane.alignment="TOP_LEFT">
                    <StackPane.margin>
-                       <Insets left="125.0" right="5.0" top="5.0" />
+                       <Insets left="175.0" right="5.0" top="5.0" />
                    </StackPane.margin>
                    <font>
                        <Font name="System Bold" size="20.0" />
@@ -27,39 +27,39 @@
                </Label>
 
                <!-- Mover el Genre debajo de la Descripción -->
-               <Label fx:id="movieDescription" prefHeight="195.0" prefWidth="221.0" textFill="WHITE" wrapText="true" StackPane.alignment="TOP_LEFT">
+               <Label fx:id="movieDescription" prefHeight="195.0" prefWidth="318.0" textFill="WHITE" wrapText="true" StackPane.alignment="TOP_LEFT">
                    <StackPane.margin>
-                       <Insets bottom="10.0" left="120.0" right="5.0" top="50.0" />
+                       <Insets bottom="10.0" left="175.0" right="5.0" top="50.0" />
                    </StackPane.margin>
                </Label>
 
                <!-- Género debajo de la descripción -->
-               <Label fx:id="movieGenre" prefHeight="17.0" prefWidth="233.0" textFill="WHITE" StackPane.alignment="TOP_LEFT">
+               <Label fx:id="movieGenre" prefHeight="17.0" prefWidth="285.0" textFill="WHITE" StackPane.alignment="TOP_LEFT">
                    <StackPane.margin>
-                       <Insets bottom="18.0" left="120.0" right="5.0" top="250.0" />
+                       <Insets bottom="18.0" left="175.0" right="5.0" top="250.0" />
                    </StackPane.margin>
                </Label>
-               <ImageView fx:id="movieImage" fitHeight="150.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER_LEFT">
+               <ImageView fx:id="movieImage" fitHeight="179.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER_LEFT">
                    <StackPane.margin>
-                       <Insets bottom="105.0" left="5.0" />
+                       <Insets bottom="105.0" left="5.0" top="5.0" />
                    </StackPane.margin>
                </ImageView>
 
-               <Label fx:id="movieDuration" prefHeight="17.0" prefWidth="115.0" textFill="WHITE" StackPane.alignment="CENTER_LEFT">
+               <Label fx:id="movieDuration" prefHeight="17.0" prefWidth="137.0" textFill="WHITE" StackPane.alignment="CENTER_LEFT">
                    <StackPane.margin>
-                       <Insets left="5.0" top="80.0" />
+                       <Insets left="5.0" top="100.0" />
                    </StackPane.margin>
                </Label>
            </children>
        </StackPane>
       <Button fx:id="aMovieButton" layoutX="248.0" layoutY="30.0" mnemonicParsing="false" onAction="#addNewMovie" text="Add movie" />
-      <TableView fx:id="moviesTable" layoutX="422.0" layoutY="55.0" prefHeight="322.0" prefWidth="143.0">
+      <TableView fx:id="moviesTable" layoutX="488.0" layoutY="43.0" prefHeight="322.0" prefWidth="143.0">
         <columns>
           <TableColumn fx:id="titleColumn" prefWidth="146.66665649414062" text="Title" />
         </columns>
       </TableView>
-      <Label layoutX="467.0" layoutY="21.0" text="Movies:" />
-      <Button layoutX="28.0" layoutY="350.0" mnemonicParsing="false" onAction="#goBack" text="Back" />
+      <Label layoutX="539.0" layoutY="22.0" text="Movies:" textFill="WHITE" />
+      <Button layoutX="28.0" layoutY="362.0" mnemonicParsing="false" onAction="#goBack" text="Back" />
 
    </children>
 </AnchorPane>

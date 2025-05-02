@@ -154,6 +154,11 @@ public interface BlFacade {
      * @return Film object
      */
     Film getFilmbyName(String name);
+    /**
+     * Returns all showtimes in the database
+     * @return List of showtimes
+     */
+    List<ShowTime>getAllShowtimes();
 
 
 }

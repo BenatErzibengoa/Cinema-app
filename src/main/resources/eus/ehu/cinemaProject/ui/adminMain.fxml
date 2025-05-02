@@ -1,12 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.AdminMainController">
+<AnchorPane prefHeight="400" prefWidth="600" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.AdminMainController">
     <children>
-        <Button layoutX="93.0" layoutY="188.0" mnemonicParsing="false" onAction="#manageWorkers" text="Manage workers" />
-        <Button layoutX="263.0" layoutY="188.0" mnemonicParsing="false" onAction="#addMovies" text="Add movies" />
-        <Button layoutX="404.0" layoutY="188.0" mnemonicParsing="false" onAction="#addShowtimes" text="Add Showtimes" />
+        <VBox layoutX="50" layoutY="30" prefHeight="308.0" prefWidth="500" spacing="20">
+            <children>
+                <Label fx:id="welcomeLabel" style="-fx-font-size: 16px; -fx-font-weight: bold;" textFill="WHITE" />
+
+                <HBox spacing="15">
+                    <Button onAction="#addMovies" prefWidth="160" text="Add Movies" />
+                    <Button onAction="#addShowtimes" prefWidth="160" text="Add Showtimes" />
+                    <Button onAction="#manageWorkers" prefWidth="160" text="Manage Staff" />
+                </HBox>
+
+                <Separator />
+
+                <VBox spacing="8" style="-fx-padding: 10;">
+                    <Label fx:id="movieCountLabel" style="-fx-font-size: 14px;" textFill="WHITE" />
+                    <Label fx:id="workerCountLabel" style="-fx-font-size: 14px;" textFill="WHITE" />
+                    <Label fx:id="showtimeCountLabel" style="-fx-font-size: 14px;" textFill="WHITE" />
+                </VBox>
+            </children>
+        </VBox>
     </children>
 </AnchorPane>

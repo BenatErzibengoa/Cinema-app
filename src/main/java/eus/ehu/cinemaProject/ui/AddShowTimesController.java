@@ -45,7 +45,6 @@ public class AddShowTimesController {
 
     private static final int PIXELS_PER_MINUTE = 2;
     private static final int TRACK_HEIGHT = 40;      // Height for each timeline entry
-    private static final LocalTime OPENING_TIME = LocalTime.of(15, 30);
     private static final int TOTAL_OPERATING_MINUTES = 570; // 9.5 hours
 
 

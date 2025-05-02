@@ -117,6 +117,8 @@ public class BlFacadeImplementation implements BlFacade {
     public Film getFilmbyName(String name) {
         return dbManager.getFilmbyName(name);
     }
+
+    public List<ShowTime>getAllShowtimes(){return dbManager.getAllShowtimes();}
 }
 
 
