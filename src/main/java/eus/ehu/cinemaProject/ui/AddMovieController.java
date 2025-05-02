@@ -85,6 +85,7 @@ public class AddMovieController {
             movieGenre.setText(newFilm.getGenre().toString());
             loadMovieImage(newFilm);
             aMovieButton.setDisable(false);
+            uiState.setMovieListDirty(true);
         }
     }
 

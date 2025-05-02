@@ -208,4 +208,7 @@ public class Schedule {
         }
     }
 
+    public List<ShowTime> getShowTimes() {
+        return showTimes;
+    }
 }

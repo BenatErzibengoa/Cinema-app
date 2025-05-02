@@ -115,6 +115,22 @@ public class UIState {
     public double getSnackprice() { return snackprice; }
     public void setSnackprice(double snackprice) { this.snackprice = snackprice; }
 
+    //To update addShowtime after adding movies
+    private final BooleanProperty movieListDirty = new SimpleBooleanProperty(false);
+
+    public BooleanProperty movieListDirtyProperty() {
+        return movieListDirty;
+    }
+
+    public boolean isMovieListDirty() {
+        return movieListDirty.get();
+    }
+
+    public void setMovieListDirty(boolean dirty) {
+        movieListDirty.set(dirty);
+    }
+
+
 
 
 
