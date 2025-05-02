@@ -10,16 +10,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.paint.Color;
 
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
+
 
 public class AddShowTimesController {
 
@@ -52,7 +52,6 @@ public class AddShowTimesController {
 
     private Film selectedFilm;
     private ScreeningRoom selectedScreeningRoom;
-    private LocalTime startingTime=null;
     private Schedule schedule;
 
     BlFacadeImplementation bl;
@@ -66,7 +65,7 @@ public class AddShowTimesController {
         );
         timelineScrollPane.getStyleClass().add("timeline-container");
 
-
+        //Set up the view
         bl = BlFacadeImplementation.getInstance();
         refreshMovieList();
         screeningRoomComboBox.getItems().addAll(bl.getScreeningRooms());
@@ -87,7 +86,7 @@ public class AddShowTimesController {
             refreshAvailableTimes();
         });
 
-        //To update movielist if new ones were added
+        //To update movie list if new ones were added
         uiState.currentViewProperty().addListener((obs, oldView, newView) -> {
             if ("addShowTimes.fxml".equals(newView) && UIState.getInstance().isMovieListDirty()) {
                 refreshMovieList();
@@ -168,14 +167,14 @@ public class AddShowTimesController {
             timelinePane.getChildren().add(gridLine);
         }
 
-        // Existing showtimes (full duration)
+        // Existing showtimes with movie names
         for (ShowTime showtime : schedule.getShowTimes()) {
-            Rectangle rect = createShowtimeRectangle(
+            createShowtimeRectangle(
                     showtime.getScreeningTime(),
                     showtime.getFilm().getDuration(),
-                    "occupied-slot"
+                    "occupied-slot",
+                    showtime.getFilm().getTitle()  // Add movie name
             );
-            timelinePane.getChildren().add(rect);
         }
 
         // Available slots (15-minute markers)
@@ -193,7 +192,7 @@ public class AddShowTimesController {
         }
     }
 
-    private Rectangle createShowtimeRectangle(LocalTime startTime, LocalTime duration, String styleClass) {
+    private Rectangle createShowtimeRectangle(LocalTime startTime, LocalTime duration, String styleClass, String movieName) {
         int startMinutes = calculateMinutesFromOpening(startTime);
         int durationMinutes = convertLocalTimeToMinutes(duration);
 
@@ -205,6 +204,20 @@ public class AddShowTimesController {
         );
 
         rect.getStyleClass().addAll("showtime-rect", styleClass);
+
+        // Create and configure the label
+        Label movieLabel = new Label(movieName);
+        movieLabel.setLayoutX(startMinutes * PIXELS_PER_MINUTE + 5);  // Small offset from left
+        movieLabel.setLayoutY(TRACK_HEIGHT / 2 - 8);  // Vertically centered
+        movieLabel.setTextFill(Color.BLACK);
+        movieLabel.setStyle("-fx-font-size: 10px;");
+        movieLabel.setMaxWidth(durationMinutes * PIXELS_PER_MINUTE - 10);  // Prevent overflow
+        movieLabel.setWrapText(true);
+
+        Pane container = new Pane();
+        container.getChildren().addAll(rect, movieLabel);
+        timelinePane.getChildren().add(container);
+
         return rect;
     }
 
