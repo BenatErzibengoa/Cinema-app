@@ -3,16 +3,9 @@ import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
 import eus.ehu.cinemaProject.domain.users.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class WorkerMenuController {
 
@@ -29,14 +22,21 @@ public class WorkerMenuController {
     private void initialize() {
         emailField.setVisible(true);
         outputText.setVisible(true);
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException ie) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     @FXML
     void proceedBuying(ActionEvent event) {
         if(emailField.getText().isEmpty()){
+            System.out.println("Please enter an email address.");
             outputText.setText("Please enter an email address.");
             outputText.setStyle("-fx-text-fill: red;");
         } else {
+            System.out.println("Proceeding with email: " + emailField.getText());
             User cust = bl.getUserByEmail(emailField.getText());
             if(cust == null){
                 outputText.setText("User not found.");
@@ -51,11 +51,11 @@ public class WorkerMenuController {
             outputText.setText("Purchase process initiated for %s".formatted(emailField.getText()));
             outputText.setStyle("-fx-text-fill: green;");
             try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException ie) {
                 Thread.currentThread().interrupt();
             }
-            uiState.setCurrentView("MovieList.fxml");
+            //uiState.setCurrentView("MovieList.fxml");
         }
 
     }

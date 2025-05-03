@@ -38,34 +38,42 @@ public class MenuController {
 
     @FXML //Théo
     private void showMovieList() {
-        loadContent("MovieList.fxml");
+        if(!(uiState.getUser() instanceof Worker)){
+            uiState.setSummary("");
+            uiState.setSnackprice(0.0);
+            loadContent("MovieList.fxml");
+        }
     }
 
-    @FXML void initialize(){
-        bl = BlFacadeImplementation.getInstance(); //Théo
-        showMovieList(); //Théo
+
+    @FXML
+    void initialize() {
+        bl = BlFacadeImplementation.getInstance();
+
+        showMovieList(); // Default behavior for other users
 
 
-        // Load the initial content and it changes when the view changes
+        // Add listeners for view and login state changes
         uiState.currentViewProperty().addListener((obs, oldView, newView) -> {
             loadContent(newView);
         });
 
         uiState.loggedInProperty().addListener((obs, wasLoggedIn, isNowLoggedIn) -> {
             if (isNowLoggedIn) {
-                User user = uiState.getUser();
+                User loggedInUser = uiState.getUser();
                 loginButton.setVisible(false);
                 registerButton.setVisible(false);
-                receiptsButton.setVisible(true);
-                if(user instanceof Customer)
+
+                if (loggedInUser instanceof Customer) {
                     receiptsButton.setVisible(true);
-                else if((user instanceof Worker)&&!(user instanceof Admin)){
+                } else if (loggedInUser instanceof Worker && !(loggedInUser instanceof Admin)) {
                     receiptsButton.setVisible(false);
                     loadContent("workerMenu.fxml");
-                } else {
+                } else if (loggedInUser instanceof Admin) {
                     receiptsButton.setVisible(false);
                     loadContent("adminMain.fxml");
-            }} else {
+                }
+            } else {
                 loginButton.setVisible(true);
                 registerButton.setVisible(true);
                 receiptsButton.setVisible(false);
