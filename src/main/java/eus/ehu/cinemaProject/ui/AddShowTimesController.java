@@ -5,7 +5,6 @@ import eus.ehu.cinemaProject.domain.Film;
 import eus.ehu.cinemaProject.domain.Schedule;
 import eus.ehu.cinemaProject.domain.ScreeningRoom;
 import eus.ehu.cinemaProject.domain.ShowTime;
-import javafx.animation.PauseTransition;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,9 +12,11 @@ import javafx.scene.control.*;
 
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -37,6 +38,7 @@ public class AddShowTimesController {
     @FXML
     private VBox datesContainer; // Add this to replace the DatePicker
 
+    @FXML private Region dateSpacer;
 
     @FXML
     private ScrollPane timelineScrollPane;
@@ -44,6 +46,10 @@ public class AddShowTimesController {
     private static final int PIXELS_PER_MINUTE = 2;
     private static final int TRACK_HEIGHT = 40; // Height for each timeline entry
     private static final int FRAME_MINUTES = 15;
+    private static final LocalTime OPENING_TIME = LocalTime.of(15,30);
+    private static final LocalTime CLOSING_TIME = LocalTime.of(1,0); // next-day
+
+
 
 
 
@@ -61,7 +67,6 @@ public class AddShowTimesController {
 
     @FXML
     public void initialize() {
-        // CSS setup
         bl = BlFacadeImplementation.getInstance();
         refreshMovieList();
         timelineScrollPane.getStylesheets().add(
@@ -87,17 +92,34 @@ public class AddShowTimesController {
                 UIState.getInstance().setMovieListDirty(false);
             }
         });
+
     }
 
 
+    private void setupHeader() {
+        timePane.getChildren().clear();
+        // compute total open minutes (overnight aware)
+        int openMin  = OPENING_TIME.toSecondOfDay()/60;
+        int closeMin = CLOSING_TIME.toSecondOfDay()/60;
+        if (closeMin <= openMin) closeMin += 24*60;
+        int totalMin  = closeMin - openMin;
+        int totalSlots = totalMin / FRAME_MINUTES;
+
+        // make timePane wide enough to hold every slot
+        timePane.setPrefWidth(totalMin * PIXELS_PER_MINUTE);
+
+        for (int i = 0; i <= totalSlots; i++) {
+            LocalTime t = OPENING_TIME.plusMinutes(i * FRAME_MINUTES);
+            if (t.isBefore(OPENING_TIME)) t = t.plusHours(24);
+            Label lbl = new Label(t.toString());
+            lbl.setLayoutX(i * FRAME_MINUTES * PIXELS_PER_MINUTE);
+            lbl.setLayoutY(0);
+            timePane.getChildren().add(lbl);
+        }
+    }
+
 
     private void refreshDateRows() {
-
-        //for debbuging
-        System.out.println("Refreshing dates for: ");
-        System.out.println("Room: " + (selectedScreeningRoom != null ? selectedScreeningRoom.getRoomNumber() : "null"));
-        System.out.println("Film: " + (selectedFilm != null ? selectedFilm.getTitle() : "null"));
-        System.out.println("Film duration: " + (selectedFilm != null ? selectedFilm.getDuration() : "null"));
 
 
         datesContainer.getChildren().clear();
@@ -116,6 +138,12 @@ public class AddShowTimesController {
             HBox row = (HBox) dateCache.computeIfAbsent(date, d -> createDateRow(d));
             datesContainer.getChildren().add(row);
         }
+        if (!datesContainer.getChildren().isEmpty()) {
+            HBox firstRow = (HBox) datesContainer.getChildren().get(0);
+            Label firstLabel = (Label) firstRow.getChildren().get(0);
+            dateSpacer.prefWidthProperty().bind(firstLabel.widthProperty());
+        }
+        setupHeader();
     }
 
     private HBox createDateRow(LocalDate date) {
@@ -192,7 +220,7 @@ public class AddShowTimesController {
             Rectangle slotMarker = new Rectangle(x, 2, w, TRACK_HEIGHT - 4);
             slotMarker.getStyleClass().add("available-slot-marker");
 
-            // ❗️ Tooltip shows start + film-duration end
+            //  Tooltip shows start + film-duration end
             LocalTime end = slot.plusMinutes(selectedFilm.getDuration().toSecondOfDay()/60);
             Tooltip.install(slotMarker,
                     new Tooltip(String.format("Starts: %s\nEnds:   %s", slot, end))
@@ -279,6 +307,7 @@ public class AddShowTimesController {
                     });
 
                     new Thread(dbTask).start();
+                    showDialog("Success", "Showtime created successfully");
                 }
             } else {
                 showDialog("Error", "Slot no longer available");

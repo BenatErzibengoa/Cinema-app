@@ -8,18 +8,25 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <AnchorPane prefHeight="584.0" prefWidth="718.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.AddShowTimesController">
    <children>
       <ComboBox fx:id="screeningRoomComboBox" layoutX="30.0" layoutY="27.0" prefHeight="25.0" prefWidth="175.0" promptText="Select screening room" />
       <ComboBox fx:id="movieCombobox" layoutX="222.0" layoutY="27.0" prefHeight="25.0" prefWidth="365.0" promptText="Select a movie to create a new showtime" />
       <Button layoutX="30.0" layoutY="545.0" mnemonicParsing="false" onAction="#goBack" text="Back" />
       <ScrollPane fx:id="timelineScrollPane" layoutX="30.0" layoutY="80.0" prefHeight="455.0" prefWidth="657.0" VBox.vgrow="ALWAYS">
-         <VBox>
-            <Pane fx:id="headerPane" prefHeight="30" />
-            <Pane fx:id="timelinePane" prefHeight="50" />
-         </VBox>
-         <Pane fx:id="headerPane" prefHeight="40" />
-         <VBox fx:id="datesContainer" spacing="10" />
+         <content>
+            <VBox spacing="5">
+               <!-- 1️⃣ Header: spacer + time pane -->
+               <HBox fx:id="headerContainer">
+                  <Region fx:id="dateSpacer"/>
+                  <Pane fx:id="timePane" prefHeight="30"/>
+               </HBox>
+               <!-- 2️⃣ Your date-rows here -->
+               <VBox fx:id="datesContainer" spacing="10"/>
+            </VBox>
+         </content>
       </ScrollPane>
       <Label layoutX="30.0" layoutY="59.0" text="Scheduled Showtimes:" textFill="WHITE" />
       <Label layoutX="280.0" layoutY="105.0" />

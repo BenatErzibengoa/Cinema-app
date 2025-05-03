@@ -69,5 +69,7 @@
     -fx-font-weight: bold;
     -fx-alignment: center-left;
     -fx-padding: 0 10px;
+    -fx-min-width: 100px;
+    -fx-pref-width: 100px;
 
 }
