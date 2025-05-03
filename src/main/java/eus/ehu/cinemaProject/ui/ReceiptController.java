@@ -5,17 +5,14 @@ import eus.ehu.cinemaProject.domain.Seat;
 import eus.ehu.cinemaProject.domain.users.Customer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import javafx.scene.Node;
-import java.io.IOException;
+
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class ReceiptController {
 
@@ -40,25 +37,24 @@ public class ReceiptController {
     @FXML
     private TextField totalPrize;
 
+    @FXML
+    private ImageView filmImage;
+
     private double seatPrices = 0.0;
     private double totalSnacks = 0.0;
-    String seatInfo;
+    private String seatInfo;
     private UIState uiState = UIState.getInstance();
     private BlFacadeImplementation bl = BlFacadeImplementation.getInstance();
 
-    private String summary="";
-    private double foodprice=0.0;
-    private double snackprice=0.0;
-
-
+    private final ResourceBundle bundle = uiState.getBundle();
 
     @FXML
     public void initialize() {
-        uiState = UIState.getInstance();
+        filmImage.setImage(new javafx.scene.image.Image(uiState.getFilm().getImagePath()));        uiState = UIState.getInstance();
         movieInfo.setText(uiState.getSelectedShowtime().toString2());
-        snackprice = uiState.getSnackprice();
+        double snackPrice = uiState.getSnackprice(); // Obtén el precio de los snacks desde uiState
         seatPrices = 0.0;
-        seatInfo = "Selected seats:\n";
+        seatInfo = bundle.getString("selectedSeats") + ":\n";
 
         List<Seat> seats = uiState.getSelectedSeats();
         for (Seat seat : seats) {
@@ -66,29 +62,30 @@ public class ReceiptController {
             seatPrices += seat.getPrice();
         }
 
-        if(uiState.getSummary()==null){
-            receipt.setText(seatInfo + "\n" +"-----------------------\n"+ "\n" + "Seats total: €" + seatPrices);
+        if (uiState.getSummary() == null) {
+            receipt.setText(seatInfo + "\n" + "-----------------------\n" + "\n" +
+                    String.format(bundle.getString("seatsTotal"), seatPrices));
+        } else {
+            receipt.setText(seatInfo + "\n" + uiState.getSummary() + "\n" +
+                    String.format(bundle.getString("seatsTotal"), seatPrices));
         }
-        else{
-            receipt.setText(seatInfo + "\n" + uiState.getSummary() + "\n" + "Seats total: €" + seatPrices);
-        }
-        totalPrize.setText(String.format("€%.2f", seatPrices + snackprice));
+        totalPrize.setText(String.format("€%.2f", seatPrices + snackPrice)); // Usa snackPrice aquí
     }
 
     @FXML
-    private void goToSnacksSelect(javafx.event.ActionEvent event) {
+    private void goToSnacksSelect(ActionEvent event) {
         uiState.setCurrentView("orderfood.fxml");
     }
 
     @FXML
-    private void goToSeatSelect(ActionEvent event){
+    private void goToSeatSelect(ActionEvent event) {
         uiState.setCurrentView("seatSelection.fxml");
     }
 
     @FXML
-    private void proceedPaymentButton(ActionEvent event){
-        bl.createPurchaseReceipt((Customer)uiState.getUser(), uiState.getSelectedShowtime(), uiState.getSelectedSeats());
-        System.out.println("proceed");
+    private void proceedPaymentButton(ActionEvent event) {
+        bl.createPurchaseReceipt((Customer) uiState.getUser(), uiState.getSelectedShowtime(), uiState.getSelectedSeats());
+        System.out.println(bundle.getString("proceed"));
         uiState.setCurrentView("MovieList.fxml");
     }
 
@@ -98,6 +95,4 @@ public class ReceiptController {
         totalPrize.setText(String.format("€%.2f", snackPrice));
         totalSnacks = snackPrice;
     }
-
 }
-
