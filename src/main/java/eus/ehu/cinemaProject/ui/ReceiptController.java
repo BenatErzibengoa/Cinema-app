@@ -85,7 +85,7 @@ public class ReceiptController {
     @FXML
     private void proceedPaymentButton(ActionEvent event) {
         bl.createPurchaseReceipt((Customer) uiState.getUser(), uiState.getSelectedShowtime(), uiState.getSelectedSeats());
-        System.out.println(bundle.getString("proceed"));
+        System.out.println(bundle.getString("proceedButton"));
         uiState.setCurrentView("MovieList.fxml");
     }
 
