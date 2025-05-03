@@ -287,9 +287,7 @@ public class DataAccess {
         }
         db.persist(showTime);
         db.getTransaction().commit();
-        Schedule schedule = showTime.getSchedule();
-        schedule.setShowTime(showTime);
-        db.merge(schedule);
+        db.merge(showTime.getSchedule());
     }
 
     public Double getAverageRating(Film film){

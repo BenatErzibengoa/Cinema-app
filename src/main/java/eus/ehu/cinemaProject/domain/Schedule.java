@@ -72,7 +72,7 @@ public class Schedule {
             else{
                 System.out.println("This ScreeningRoom is not empty between " + filmStartingTime + " - " + filmStartingTime.plusMinutes(duration.toSecondOfDay() / 60));
                 System.out.println("This is the availability of the ScreeningRoom in " + id.getDate() + ":");
-                printAllReserves();
+                //printAllReserves();
                 return false;
             }
         }
@@ -199,12 +199,25 @@ public class Schedule {
 
 
     public void reconstructBookingStateFromShowTimes() {
-        setAllFree();
+        setAllFree(); // Clear state first
 
-        // Defensive copy to prevent ConcurrentModificationException
         List<ShowTime> copy = new ArrayList<>(showTimes);
         for (ShowTime st : copy) {
-            setShowTime(st);
+            addShowTimeInternal(st);  // <- Pure logic, no logging or checks
+        }
+    }
+
+
+    private void addShowTimeInternal(ShowTime showTime) {
+        LocalTime start = showTime.getScreeningTime();
+        LocalTime duration = showTime.getFilm().getDuration();
+
+        // Directly book time bounds (no validation)
+        bookBetweenTimeBounds(start, duration);
+
+        // Add to internal list, but avoid duplicates
+        if (!showTimes.contains(showTime)) {
+            showTimes.add(showTime);
         }
     }
 

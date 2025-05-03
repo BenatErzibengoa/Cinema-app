@@ -65,4 +65,7 @@ public class ShowTime {
     }
 
 
+    public void setScreeningDate(LocalDate date) {
+        this.screeningDate = date;
+    }
 }

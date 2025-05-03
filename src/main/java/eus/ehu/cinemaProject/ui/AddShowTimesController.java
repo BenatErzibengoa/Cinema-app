@@ -5,20 +5,22 @@ import eus.ehu.cinemaProject.domain.Film;
 import eus.ehu.cinemaProject.domain.Schedule;
 import eus.ehu.cinemaProject.domain.ScreeningRoom;
 import eus.ehu.cinemaProject.domain.ShowTime;
+import javafx.animation.PauseTransition;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.paint.Color;
 
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 
 public class AddShowTimesController {
@@ -29,63 +31,56 @@ public class AddShowTimesController {
     @FXML
     private ComboBox<ScreeningRoom> screeningRoomComboBox;
 
-
+    @FXML
+    private Pane timePane;
 
     @FXML
-    private DatePicker selectedDate;
+    private VBox datesContainer; // Add this to replace the DatePicker
+
 
     @FXML
     private ScrollPane timelineScrollPane;
 
-    @FXML
-    private Pane headerPane;
-
-    @FXML
-    private Pane timelinePane;
-
     private static final int PIXELS_PER_MINUTE = 2;
-    private static final int TRACK_HEIGHT = 40;      // Height for each timeline entry
-    private static final int TOTAL_OPERATING_MINUTES = 570; // 9.5 hours
+    private static final int TRACK_HEIGHT = 40; // Height for each timeline entry
+    private static final int FRAME_MINUTES = 15;
 
 
 
     private Film selectedFilm;
     private ScreeningRoom selectedScreeningRoom;
-    private Schedule schedule;
 
     BlFacadeImplementation bl;
     private final UIState uiState = UIState.getInstance();
 
+
+    //To cache the timelines
+    private final Map<LocalDate, Pane> dateCache = new HashMap<>();
+
+    private boolean isRefreshing = false;
+
     @FXML
     public void initialize() {
-        //set up timeline css
+        // CSS setup
+        bl = BlFacadeImplementation.getInstance();
+        refreshMovieList();
         timelineScrollPane.getStylesheets().add(
                 Objects.requireNonNull(getClass().getResource("/eus/ehu/cinemaProject/ui/timeline-style.css")).toExternalForm()
         );
-        timelineScrollPane.getStyleClass().add("timeline-container");
 
-        //Set up the view
-        bl = BlFacadeImplementation.getInstance();
-        refreshMovieList();
+        screeningRoomComboBox.valueProperty().addListener((obs, old, room) -> {
+            selectedScreeningRoom = room;
+            dateCache.clear();
+            refreshDateRows();
+        });
+
+        movieCombobox.valueProperty().addListener((obs, old, title) -> {
+            selectedFilm = bl.getFilmbyName(title);
+            dateCache.clear();
+            refreshDateRows();
+        });
+
         screeningRoomComboBox.getItems().addAll(bl.getScreeningRooms());
-
-        movieCombobox.valueProperty().addListener((obs, oldTitle, newTitle) -> {
-            if (newTitle != null) {
-                selectedFilm = bl.getFilmbyName(newTitle);
-            } else {
-                selectedFilm = null;
-            }
-            refreshAvailableTimes();
-        });
-        screeningRoomComboBox.valueProperty().addListener((obs, old, niu) -> {
-            selectedScreeningRoom = niu;
-            refreshAvailableTimes();
-        });
-        selectedDate.valueProperty().addListener((obs, old, niu) -> {
-            refreshAvailableTimes();
-        });
-
-        //To update movie list if new ones were added
         uiState.currentViewProperty().addListener((obs, oldView, newView) -> {
             if ("addShowTimes.fxml".equals(newView) && UIState.getInstance().isMovieListDirty()) {
                 refreshMovieList();
@@ -96,67 +91,73 @@ public class AddShowTimesController {
 
 
 
-    @FXML
-    void goBack(ActionEvent event) {
-        uiState.setCurrentView("adminMain.fxml");
-    }
+    private void refreshDateRows() {
 
-    private void refreshAvailableTimes() {
-        timelinePane.getChildren().clear();
+        //for debbuging
+        System.out.println("Refreshing dates for: ");
+        System.out.println("Room: " + (selectedScreeningRoom != null ? selectedScreeningRoom.getRoomNumber() : "null"));
+        System.out.println("Film: " + (selectedFilm != null ? selectedFilm.getTitle() : "null"));
+        System.out.println("Film duration: " + (selectedFilm != null ? selectedFilm.getDuration() : "null"));
 
-        if (selectedDate.getValue() != null && selectedScreeningRoom != null && selectedFilm != null) {
-            if (selectedDate.getValue().isAfter(LocalDate.now().plusDays(13))) {
-                showDialog("Error","The selected date has to be within 14 days.");
-                return;
-            }else if (selectedDate.getValue().isBefore(LocalDate.now())) {
-                showDialog("Error","The selected date has to be in the future.");
-                return;
-            }
 
-            schedule = bl.getScheduleByRoomAndDate(selectedDate.getValue(), selectedScreeningRoom);
-            if (schedule != null) {
-                updateTimeline();
-            }
+        datesContainer.getChildren().clear();
+        if (selectedScreeningRoom == null || selectedFilm == null) return;
+
+        LocalDate startDate = LocalDate.now();
+        List<LocalDate> dates = new ArrayList<>();
+        for (int i = 0; i < 14; i++) {
+            dates.add(startDate.plusDays(i));
+        }
+
+        // Maintain sorted order
+        dates.sort(LocalDate::compareTo);
+
+        for (LocalDate date : dates) {
+            HBox row = (HBox) dateCache.computeIfAbsent(date, d -> createDateRow(d));
+            datesContainer.getChildren().add(row);
         }
     }
 
-    private void updateTimeline() {
-        clearTimeline();
+    private HBox createDateRow(LocalDate date) {
 
-        if (schedule == null || selectedFilm == null) return;
+        HBox row = new HBox(10);
+        row.getStyleClass().add("date-row");
 
-        setupHeader();
-        setupTimeline();
-    }
+        // Store date in the row's properties for later reference
+        row.getProperties().put("date", date);
 
-    private void clearTimeline() {
-        headerPane.getChildren().clear();
-        timelinePane.getChildren().clear();
-        double width = TOTAL_OPERATING_MINUTES * PIXELS_PER_MINUTE;
-        headerPane.setPrefWidth(width);
-        timelinePane.setPrefWidth(width);
-    }
+        // Date label
+        Label dateLabel = new Label(date.toString());
+        dateLabel.getStyleClass().add("date-label");
 
-    private void setupHeader() {
-        headerPane.getChildren().clear();
-        if (schedule == null) return;
+        // Timeline pane
+        Pane timelinePane = new Pane();
+        timelinePane.getProperties().put("date", date);
+        timelinePane.setPrefSize(1200, TRACK_HEIGHT);
 
-        LocalTime openingTime = schedule.getOpeningTime();
-        int totalSlots = schedule.getSize();
+        // Store date in timeline pane properties for reference in click handlers
+        timelinePane.getProperties().put("date", date);
 
-        for (int slot = 0; slot <= totalSlots; slot++) {
-            LocalTime time = openingTime.plusMinutes(slot * 15L);
-            Label label = new Label(time.toString());
-
-            label.getStyleClass().add("header-label");
-
-            label.setLayoutX(slot * 15 * PIXELS_PER_MINUTE);
-            headerPane.getChildren().add(label);
+        // Load schedule
+        try {
+            if (selectedScreeningRoom != null) {
+                Schedule schedule = bl.getScheduleByRoomAndDate(date, selectedScreeningRoom);
+                if (schedule != null) {
+                    drawTimeline(timelinePane, schedule, date);
+                }
+            }
+        } catch (Exception e) {
+            showDialog("Error", "Failed to load schedule: " + e.getMessage());
         }
+
+        row.getChildren().addAll(dateLabel, timelinePane);
+        return row;
     }
 
-    private void setupTimeline() {
-        // Add grid lines
+    private void drawTimeline(Pane timelinePane, Schedule schedule, LocalDate date) {
+        timelinePane.getChildren().clear();
+
+        // Grid lines
         for (int slot = 0; slot <= schedule.getSize(); slot++) {
             Line gridLine = new Line(
                     slot * 15 * PIXELS_PER_MINUTE, 0,
@@ -166,83 +167,152 @@ public class AddShowTimesController {
             timelinePane.getChildren().add(gridLine);
         }
 
-        // Existing showtimes with movie names
-        for (ShowTime showtime : schedule.getShowTimes()) {
+        // Existing showtimes
+        List<ShowTime> showTimesCopy = new ArrayList<>(schedule.getShowTimes());
+        for (ShowTime showtime : showTimesCopy) {
             createShowtimeRectangle(
+                    timelinePane,
                     showtime.getScreeningTime(),
                     showtime.getFilm().getDuration(),
                     "occupied-slot",
-                    showtime.getFilm().getTitle()  // Add movie name
+                    showtime.getFilm().getTitle()
             );
         }
 
-        // Available slots (15-minute markers)
+        if (selectedFilm == null || selectedFilm.getDuration() == null) {
+            showDialog("Error", "No valid film duration");
+            return;
+        }
+
         List<LocalTime> availableSlots = schedule.getAvailableStartTimes(selectedFilm.getDuration());
         for (LocalTime slot : availableSlots) {
-            Rectangle slotMarker = new Rectangle(
-                    calculateMinutesFromOpening(slot) * PIXELS_PER_MINUTE,
-                    2,  // Top margin
-                    15 * PIXELS_PER_MINUTE,  // Fixed 15-minute width
-                    TRACK_HEIGHT - 4  // Height
+            int x = calculateMinutesFromOpening(slot, schedule.getOpeningTime()) * PIXELS_PER_MINUTE;
+            int w = FRAME_MINUTES * PIXELS_PER_MINUTE;  // width = one slot unit
+
+            Rectangle slotMarker = new Rectangle(x, 2, w, TRACK_HEIGHT - 4);
+            slotMarker.getStyleClass().add("available-slot-marker");
+
+            // ❗️ Tooltip shows start + film-duration end
+            LocalTime end = slot.plusMinutes(selectedFilm.getDuration().toSecondOfDay()/60);
+            Tooltip.install(slotMarker,
+                    new Tooltip(String.format("Starts: %s\nEnds:   %s", slot, end))
             );
-            slotMarker.getStyleClass().addAll("available-slot-marker");
-            slotMarker.setOnMouseClicked(e -> createShowTime(slot));
+
+            slotMarker.setOnMouseClicked(e -> createShowTime(slot, date));
             timelinePane.getChildren().add(slotMarker);
         }
     }
 
-    private Rectangle createShowtimeRectangle(LocalTime startTime, LocalTime duration, String styleClass, String movieName) {
-        int startMinutes = calculateMinutesFromOpening(startTime);
+    @FXML
+    void goBack(ActionEvent event) {
+        uiState.setCurrentView("adminMain.fxml");
+    }
+
+
+
+    private void createShowtimeRectangle(Pane parent,
+                                         LocalTime startTime,
+                                         LocalTime duration,
+                                         String styleClass,
+                                         String movieName) {
+        // Get date from parent pane's user data
+        LocalDate date = (LocalDate) parent.getProperties().get("date");
+        if (date == null) return;
+
+        Schedule schedule = bl.getScheduleByRoomAndDate(date, selectedScreeningRoom);
+
+        if (schedule == null) return;
+
+        int startMinutes = calculateMinutesFromOpening(startTime, schedule.getOpeningTime());
         int durationMinutes = convertLocalTimeToMinutes(duration);
 
         Rectangle rect = new Rectangle(
                 startMinutes * PIXELS_PER_MINUTE,
-                2,  // Add small top margin
+                2,
                 durationMinutes * PIXELS_PER_MINUTE,
-                TRACK_HEIGHT - 4  // Account for margin
+                TRACK_HEIGHT - 4
         );
-
         rect.getStyleClass().addAll("showtime-rect", styleClass);
 
-        // Create and configure the label
         Label movieLabel = new Label(movieName);
-        movieLabel.setLayoutX(startMinutes * PIXELS_PER_MINUTE + 5);  // Small offset from left
-        movieLabel.setLayoutY(TRACK_HEIGHT / 2 - 8);  // Vertically centered
-        movieLabel.setTextFill(Color.BLACK);
+        movieLabel.setLayoutX(startMinutes * PIXELS_PER_MINUTE + 5);
+        movieLabel.setLayoutY(TRACK_HEIGHT / 2 - 8);
         movieLabel.setStyle("-fx-font-size: 10px;");
-        movieLabel.setMaxWidth(durationMinutes * PIXELS_PER_MINUTE - 10);  // Prevent overflow
-        movieLabel.setWrapText(true);
 
-        Pane container = new Pane();
-        container.getChildren().addAll(rect, movieLabel);
-        timelinePane.getChildren().add(container);
-
-        return rect;
+        parent.getChildren().addAll(rect, movieLabel);
     }
 
     private int convertLocalTimeToMinutes(LocalTime time) {
         return (time.getHour() * 60) + time.getMinute();
     }
 
-    private int calculateMinutesFromOpening(LocalTime time) {
-        LocalTime openingTime = schedule.getOpeningTime();
-
+    private int calculateMinutesFromOpening(LocalTime time, LocalTime openingTime) {
         if (time.isBefore(openingTime)) {
-            // Handle overnight schedule (after midnight)
             return (int) Duration.between(openingTime, time.plusHours(24)).toMinutes();
         }
         return (int) Duration.between(openingTime, time).toMinutes();
     }
-    private void createShowTime(LocalTime selectedTime) {
-        ShowTime showTime = new ShowTime(schedule, selectedTime, selectedFilm);
-        if (schedule.setShowTime(showTime)) {
-            bl.saveShowTime(showTime);
-            showDialog("Success","Showtime added successfully");
-            refreshAvailableTimes();
-        } else {
-            showDialog("Error","Time slot no longer available");
+    private void createShowTime(LocalTime selectedTime, LocalDate date) {
+        Schedule schedule = bl.getScheduleByRoomAndDate(date, selectedScreeningRoom);
+        if (schedule != null && selectedFilm != null) {
+            // Re-validate availability before booking
+            if (schedule.isBetweenBoundsFree(selectedTime, selectedFilm.getDuration())) {
+                ShowTime showTime = new ShowTime(schedule, selectedTime, selectedFilm);
+                if (schedule.setShowTime(showTime)) {
+                    // Run DB save in background
+                    Task<Void> dbTask = new Task<>() {
+                        @Override
+                        protected Void call() {
+                            bl.saveShowTime(showTime);
+                            return null;
+                        }
+                    };
+
+                    dbTask.setOnSucceeded(e -> {
+                        // UI update must be on JavaFX thread
+                        refreshSingleDate(date);
+                    });
+
+                    dbTask.setOnFailed(e -> {
+                        // Optional: handle save failure (e.g., log or show dialog)
+                        showDialog("Error", "Failed to save showtime: " + dbTask.getException().getMessage());
+                    });
+
+                    new Thread(dbTask).start();
+                }
+            } else {
+                showDialog("Error", "Slot no longer available");
+            }
         }
     }
+
+
+    private void refreshSingleDate(LocalDate date) {
+
+        if (isRefreshing) return;
+        isRefreshing = true;
+
+        // Remove existing date row
+        dateCache.remove(date);
+        datesContainer.getChildren().removeIf(node ->
+                ((LocalDate) ((HBox) node).getProperties().get("date")).equals(date)
+        );
+
+        // Create new row
+        HBox newRow = createDateRow(date);
+
+        // Find correct position using original date order
+        int insertIndex = (int) dateCache.keySet().stream()
+                .filter(d -> !d.isAfter(date))
+                .count();
+
+        // Insert at correct position
+        datesContainer.getChildren().add(insertIndex, newRow);
+        dateCache.put(date, newRow);
+
+        isRefreshing = false;
+    }
+
     private void showDialog(String title,String message) {
         Dialog<String> dialog = new Dialog<>();
         dialog.setTitle(title);

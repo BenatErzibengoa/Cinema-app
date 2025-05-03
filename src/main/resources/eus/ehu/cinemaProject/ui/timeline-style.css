@@ -43,15 +43,31 @@
     -fx-cursor: hand;
 }
 
-/* Available slot markers (15-minute blocks) */
 .available-slot-marker {
     -fx-fill: #90EE90;
     -fx-stroke: #006400;
-    -fx-stroke-width: 1;
     -fx-opacity: 0.7;
 }
 
+.available-slot-marker:disabled {
+    -fx-fill: #FFCCCB;
+    -fx-stroke: #FF0000;
+    -fx-opacity: 0.5;
+}
 .available-slot-marker:hover {
     -fx-fill: #7CFC00;
     -fx-cursor: hand;
+}
+
+.date-row {
+    -fx-padding: 5px;
+    -fx-border-color: #ccc;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.date-label {
+    -fx-font-weight: bold;
+    -fx-alignment: center-left;
+    -fx-padding: 0 10px;
+
 }
