@@ -1,5 +1,6 @@
 package eus.ehu.cinemaProject.domain.users;
 import jakarta.persistence.*;
+import org.h2.engine.UserBuilder;
 
 
 @Entity
@@ -25,16 +26,15 @@ public class User {
         private String surname;
 
 
-        // Default constructor
-        public User() {
-        }
+        // Default constructor required by JPA
+        protected User() {}
 
-        // Constructor with fields
-        public User(String email, String password, String name, String surname) {
-                this.email = email;
-                this.password = password;
-                this.name = name;
-                this.surname = surname;
+        // Private constructor used by the builder
+        protected User(UserBuilder<?> builder) {
+                this.email = builder.email;
+                this.password = builder.password;
+                this.name = builder.name;
+                this.surname = builder.surname;
         }
 
 
@@ -89,5 +89,54 @@ public class User {
                         ", userName='" + name + '\'' +
                         ", surname='" + surname + '\'' +
                         '}';
+        }
+
+
+        // Abstract builder class with generic type parameter for method chaining
+        public static abstract class UserBuilder<T extends UserBuilder<T>> {
+                // Required fields
+                private String email;
+                private String password;
+
+                // Optional fields with defaults
+                private String name = "";
+                private String surname = "";
+
+                // Constructor with required fields
+                protected UserBuilder(String email, String password) {
+                        this.email = email;
+                        this.password = password;
+                }
+
+                // Self-return method to allow method chaining in subclasses
+                protected abstract T self();
+
+                // Builder methods for optional fields
+                public T name(String name) {
+                        this.name = name;
+                        return self();
+                }
+
+                public T surname(String surname) {
+                        this.surname = surname;
+                        return self();
+                }
+
+                // Build method
+                public User build() {
+                        return new User(this);
+                }
+        }
+
+        // Concrete builder for User
+        public static class Builder extends UserBuilder<Builder> {
+                public Builder(String email, String password) {
+                        super(email, password);
+                }
+
+                @Override
+                protected Builder self() {
+                        return this;
+                }
         }
 }
