@@ -1,7 +1,6 @@
 package eus.ehu.cinemaProject.ui;
 
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
-import eus.ehu.cinemaProject.configuration.PasswordHasher;
 import eus.ehu.cinemaProject.domain.users.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -37,7 +36,7 @@ public class SignInController {
                 outputText.setStyle("-fx-text-fill: green;");
 
                 //Pass the email to the UIState
-                uiState.setEmail(emailField.getText());
+                uiState.setCustomerEmail(emailField.getText());
                 uiState.setUser(user);
                 uiState.setLoggedIn(true);
 

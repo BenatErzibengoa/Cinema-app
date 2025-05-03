@@ -55,12 +55,14 @@ public class MenuController {
                 User user = uiState.getUser();
                 loginButton.setVisible(false);
                 registerButton.setVisible(false);
-                if(user instanceof Customer)
+                if(user instanceof Customer) {
                     receiptsButton.setVisible(true);
-                else if(user instanceof Worker){
+                    uiState.setWorkerEmail(null);
+                }else if(user instanceof Worker){
+                    uiState.setWorkerEmail(user.getEmail());
+                    uiState.setCustomerEmail(null);
                     receiptsButton.setVisible(false);
-                    titleText.setText("Welcome to the worker menu");
-                    loadContent("workerMenu.fxml");
+                    uiState.setCurrentView("workerMenu.fxml");
                 } /*else {
                     receiptsButton.setVisible(false);
                     titleText.setText("Welcome to the admin menu");
@@ -108,7 +110,7 @@ public class MenuController {
 
             if (loader.getController() instanceof MovieListController) {
                 ((MovieListController) loader.getController()).setBusinessLogic(bl);
-            }else if(loader.getController() instanceof WorkerMenuController)
+            }
 
             contentCache.put(fxmlFile, content);
             contentPane.setCenter(content);
