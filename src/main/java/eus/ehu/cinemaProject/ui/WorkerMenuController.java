@@ -26,6 +26,12 @@ public class WorkerMenuController {
     UIState uiState = UIState.getInstance();
 
     @FXML
+    private void initialize() {
+        emailField.setVisible(true);
+        outputText.setVisible(true);
+    }
+
+    @FXML
     void proceedBuying(ActionEvent event) {
         if(emailField.getText().isEmpty()){
             outputText.setText("Please enter an email address.");
@@ -39,6 +45,7 @@ public class WorkerMenuController {
             }
 
             uiState.setCustomerEmail(emailField.getText());
+            uiState.setUser(cust);
 
 
             outputText.setText("Purchase process initiated for %s".formatted(emailField.getText()));

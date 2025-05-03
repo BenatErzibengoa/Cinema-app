@@ -64,15 +64,13 @@ public class MenuController {
                     loadContent("workerMenu.fxml");
                 } else {
                     receiptsButton.setVisible(false);
-                    //loadContent("adminMain.fxml");
+                    loadContent("adminMain.fxml");
             }} else {
                 loginButton.setVisible(true);
                 registerButton.setVisible(true);
                 receiptsButton.setVisible(false);
             }
         });
-
-        //loadContent("seatSelection.fxml");
     }
 
 
@@ -110,6 +108,7 @@ public class MenuController {
                 }
             }
             contentPane.setCenter(content);
+            System.out.println("Loaded content from " + fxmlFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
