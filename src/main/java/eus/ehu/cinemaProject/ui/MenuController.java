@@ -1,5 +1,6 @@
 package eus.ehu.cinemaProject.ui;
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
+import eus.ehu.cinemaProject.domain.users.Admin;
 import eus.ehu.cinemaProject.domain.users.Customer;
 import eus.ehu.cinemaProject.domain.users.User;
 import eus.ehu.cinemaProject.domain.users.Worker;
@@ -55,20 +56,16 @@ public class MenuController {
                 User user = uiState.getUser();
                 loginButton.setVisible(false);
                 registerButton.setVisible(false);
-                if(user instanceof Customer) {
+                receiptsButton.setVisible(true);
+                if(user instanceof Customer)
                     receiptsButton.setVisible(true);
-                    uiState.setWorkerEmail(null);
-                }else if(user instanceof Worker){
-                    uiState.setWorkerEmail(user.getEmail());
-                    uiState.setCustomerEmail(null);
+                else if((user instanceof Worker)&&!(user instanceof Admin)){
                     receiptsButton.setVisible(false);
-                    uiState.setCurrentView("workerMenu.fxml");
-                } /*else {
+                    loadContent("workerMenu.fxml");
+                } else {
                     receiptsButton.setVisible(false);
-                    titleText.setText("Welcome to the admin menu");
-                    loadContent("adminMenu.fxml");
-                }*/
-            } else {
+                    //loadContent("adminMain.fxml");
+            }} else {
                 loginButton.setVisible(true);
                 registerButton.setVisible(true);
                 receiptsButton.setVisible(false);
