@@ -4,6 +4,7 @@ import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
 import eus.ehu.cinemaProject.configuration.PasswordHasher;
 import eus.ehu.cinemaProject.domain.users.Admin;
 import eus.ehu.cinemaProject.domain.users.User;
+import eus.ehu.cinemaProject.domain.users.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -44,6 +45,8 @@ public class SignInController {
 
                 if(user instanceof Admin){
                     uiState.setCurrentView("adminMain.fxml");
+                } else if (user instanceof Worker) {
+                    uiState.setCurrentView("workerMenu.fxml");
                 }else{
                     uiState.setCurrentView("MovieList.fxml");
                 }
