@@ -64,15 +64,8 @@ public class MenuController {
                 loginButton.setVisible(false);
                 registerButton.setVisible(false);
 
-                if (loggedInUser instanceof Customer) {
-                    receiptsButton.setVisible(true);
-                } else if (loggedInUser instanceof Worker && !(loggedInUser instanceof Admin)) {
-                    receiptsButton.setVisible(false);
-                    loadContent("workerMenu.fxml");
-                } else if (loggedInUser instanceof Admin) {
-                    receiptsButton.setVisible(false);
-                    loadContent("adminMain.fxml");
-                }
+                receiptsButton.setVisible(loggedInUser instanceof Customer);
+
             } else {
                 loginButton.setVisible(true);
                 registerButton.setVisible(true);
