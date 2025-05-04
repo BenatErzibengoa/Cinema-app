@@ -99,7 +99,7 @@ public class DataAccess {
 
 
     public User signUp(String email, String password, String name, String surname){
-        User user = new Customer.CustomerBuilder(email, password).name(name).surname(surname).build();
+        User user = new Customer.CustomerBuilder(email, PasswordHasher.hashPassword(password)).name(name).surname(surname).build();
         if (!db.getTransaction().isActive()) {
             db.getTransaction().begin();
         }
