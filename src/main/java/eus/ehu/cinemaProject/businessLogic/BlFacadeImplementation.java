@@ -86,10 +86,8 @@ public class BlFacadeImplementation implements BlFacade {
         return dbManager.getReviewsByFilm(film);
     }
 
-
-
-
-
-
+    public void setOrderStatus(PurchaseReceipt receipt, OrderStatus orderStatus) {
+        dbManager.setOrderStatus(receipt, orderStatus);
+    }
 }
 

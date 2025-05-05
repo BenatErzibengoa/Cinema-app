@@ -7,15 +7,17 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.UserReceiptsController">
    <children>
-      <TableView fx:id="tablePurchaseReceipts" layoutX="86.0" layoutY="56.0" prefHeight="288.0" prefWidth="440.0">
+      <TableView fx:id="tablePurchaseReceipts" layoutX="43.0" layoutY="56.0" prefHeight="288.0" prefWidth="515.0">
         <columns>
           <TableColumn fx:id="showTimeIdColumn" prefWidth="54.5" text="ID" />
           <TableColumn fx:id="filmColumn" prefWidth="108.0" text="Film" />
             <TableColumn fx:id="dateColumn" prefWidth="88.0" text="Date" />
             <TableColumn fx:id="seatColumn" prefWidth="109.5" text="Seats" />
-            <TableColumn fx:id="priceColumn" prefWidth="79.0" text="Price" />
+            <TableColumn fx:id="priceColumn" prefWidth="69.0" text="Price" />
+            <TableColumn fx:id="statusColumn" prefWidth="85.0" text="Status" />
         </columns>
       </TableView>
-      <Button fx:id="rateFilmsButton" layoutX="274.0" layoutY="361.0" mnemonicParsing="false" onAction="#onReviewFilmClick" text="Rate a film" />
+      <Button fx:id="rateFilmsButton" layoutX="168.0" layoutY="361.0" mnemonicParsing="false" onAction="#onReviewFilmClick" text="Rate a film" />
+      <Button layoutX="363.0" layoutY="361.0" mnemonicParsing="false" onAction="#cancelPurchase" text="Request cancellation" />
    </children>
 </AnchorPane>

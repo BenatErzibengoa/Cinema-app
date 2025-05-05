@@ -94,4 +94,6 @@ public interface BlFacade {
      */
     List<Review> getReviewsByFilm(Film film);
 
+
+    void setOrderStatus(PurchaseReceipt receipt, OrderStatus orderStatus);
 }

@@ -402,4 +402,9 @@ public class DataAccess {
     }
 
 
+    public void setOrderStatus(PurchaseReceipt receipt, OrderStatus orderStatus) {
+        db.getTransaction().begin();
+        receipt.setStatus(orderStatus);
+        db.merge(receipt);
+    }
 }

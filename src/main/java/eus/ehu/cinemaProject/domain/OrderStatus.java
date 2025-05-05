@@ -1,7 +1,8 @@
 package eus.ehu.cinemaProject.domain;
 
 public enum OrderStatus {
-    RESERVED,
+    PAST,
     COMPLETED,
+    CANCELLATION_PENDING,
     CANCELLED;
 }

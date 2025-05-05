@@ -2,6 +2,9 @@ package eus.ehu.cinemaProject.domain;
 
 import eus.ehu.cinemaProject.domain.users.Customer;
 import jakarta.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import javafx.beans.binding.Bindings;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,7 +22,7 @@ public class PurchaseReceipt {
     private Customer customer;
     @ManyToOne
     private ShowTime showTime;
-    private OrderStatus status = OrderStatus.RESERVED;
+    private OrderStatus status;
     @ManyToOne
     private Review review;
     @ManyToMany
@@ -29,10 +32,13 @@ public class PurchaseReceipt {
         this.orderDate = orderDate;
         this.customer = customer;
         this.showTime = showTime;
-        this.status = OrderStatus.RESERVED;
+        status = OrderStatus.COMPLETED;
         this.bookedSeats = bookedSeats;
         this.totalAmount = getSeatAmount() + getFoodAmount();
         this.showTime.bookSeats(bookedSeats);
+
+
+
     }
 
     public PurchaseReceipt(){}
@@ -60,6 +66,10 @@ public class PurchaseReceipt {
         return 0;
     }
 
-
-
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
+    public OrderStatus getStatus() {
+        return status;
+    }
 }

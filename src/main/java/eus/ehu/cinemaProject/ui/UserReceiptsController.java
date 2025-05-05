@@ -1,6 +1,7 @@
 package eus.ehu.cinemaProject.ui;
 
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
+import eus.ehu.cinemaProject.domain.OrderStatus;
 import eus.ehu.cinemaProject.domain.PurchaseReceipt;
 import eus.ehu.cinemaProject.domain.users.Customer;
 import javafx.beans.property.SimpleStringProperty;
@@ -12,6 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +38,9 @@ public class UserReceiptsController {
     @FXML
     private TableColumn<PurchaseReceipt, Double> priceColumn;
 
+    @FXML
+    private TableColumn<PurchaseReceipt, OrderStatus> statusColumn;
+
     private ObservableList<PurchaseReceipt> purchaseReceipts;
 
     private BlFacadeImplementation bl;
@@ -57,11 +62,20 @@ public class UserReceiptsController {
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
         seatColumn.setCellValueFactory(new PropertyValueFactory<>("bookedSeats"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("totalAmount"));
+        statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
 
         purchaseReceipts = FXCollections.observableArrayList();
         List<PurchaseReceipt> receipts = bl.getPurchaseReceiptsByUser((Customer) uiState.getUser());
         purchaseReceipts.addAll(receipts);
         tablePurchaseReceipts.setItems(purchaseReceipts);
+
+
+        // Add a listener to observe changes in the list
+        purchaseReceipts.forEach(receipt -> {
+            receipt.getShowTime().getScreeningDate(); // Ensure ShowTime is loaded
+            receipt.getShowTime().getScreeningTime(); // Ensure ShowTime is loaded
+            updateStatusIfPast(receipt);
+        });
 
     }
 
@@ -129,5 +143,26 @@ public class UserReceiptsController {
             return null;
         });
         return reviewDialog.showAndWait();
+    }
+
+    @FXML
+    void cancelPurchase() {
+        PurchaseReceipt selectedReceipt = tablePurchaseReceipts.getSelectionModel().getSelectedItem();
+        if((selectedReceipt != null) && selectedReceipt.getStatus() == OrderStatus.COMPLETED) {
+            bl.setOrderStatus(selectedReceipt, OrderStatus.CANCELLATION_PENDING);
+            tablePurchaseReceipts.refresh(); // Refresh the table to reflect the changes
+        }
+    }
+
+    private void updateStatusIfPast(PurchaseReceipt receipt) {
+        LocalDateTime showDateTime = LocalDateTime.of(
+                receipt.getShowTime().getScreeningDate(),
+                receipt.getShowTime().getScreeningTime()
+        );
+
+        if (showDateTime.isBefore(LocalDateTime.now())) {
+            bl.setOrderStatus(receipt, OrderStatus.PAST);
+            tablePurchaseReceipts.refresh(); // Refresh the table to reflect the changes
+        }
     }
 }
