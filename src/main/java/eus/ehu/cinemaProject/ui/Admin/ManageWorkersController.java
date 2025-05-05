@@ -10,12 +10,13 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+import java.util.Locale;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 public class ManageWorkersController {
 
@@ -24,9 +25,12 @@ public class ManageWorkersController {
 
     @FXML
     private TableView<Worker> tableWorkers;
-    BlFacadeImplementation bl = BlFacadeImplementation.getInstance();
-    private ObservableList<Worker> workers;
+
+    private final BlFacadeImplementation bl = BlFacadeImplementation.getInstance();
     private final UIState uiState = UIState.getInstance();
+    private final ResourceBundle bundle = ResourceBundle.getBundle("eus.ehu.cinemaProject.ui.Language", Locale.getDefault());
+
+    private ObservableList<Worker> workers;
 
     @FXML
     public void initialize() {
@@ -38,14 +42,13 @@ public class ManageWorkersController {
         loadWorkers();
     }
 
-
     @FXML
     void addWorker(ActionEvent event) {
         Dialog<Worker> dialog = new Dialog<>();
-        dialog.setTitle("Add Worker");
-        dialog.setHeaderText("Enter the worker's details");
+        dialog.setTitle(bundle.getString("hireB"));
+        dialog.setHeaderText(bundle.getString("dialog.add.header"));
 
-        ButtonType addButtonType = new ButtonType("Add", ButtonBar.ButtonData.OK_DONE);
+        ButtonType addButtonType = new ButtonType(bundle.getString("hireB"), ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(addButtonType, ButtonType.CANCEL);
 
         // Create fields
@@ -59,15 +62,14 @@ public class ManageWorkersController {
         TextField surnameField = new TextField();
         TextField salaryField = new TextField();
 
-        grid.add(new Label("Email:"), 0, 0);     grid.add(emailField, 1, 0);
-        grid.add(new Label("Password:"), 0, 1);  grid.add(passwordField, 1, 1);
-        grid.add(new Label("Name:"), 0, 2);      grid.add(nameField, 1, 2);
-        grid.add(new Label("Surname:"), 0, 3);   grid.add(surnameField, 1, 3);
-        grid.add(new Label("Salary:"), 0, 4);    grid.add(salaryField, 1, 4);
+        grid.add(new Label(bundle.getString("emailL") + ":"), 0, 0);     grid.add(emailField, 1, 0);
+        grid.add(new Label(bundle.getString("passwordL") + ":"), 0, 1);  grid.add(passwordField, 1, 1);
+        grid.add(new Label(bundle.getString("nameL") + ":"), 0, 2);      grid.add(nameField, 1, 2);
+        grid.add(new Label(bundle.getString("suenameL") + ":"), 0, 3);   grid.add(surnameField, 1, 3);
+        grid.add(new Label(bundle.getString("salaryL") + ":"), 0, 4);    grid.add(salaryField, 1, 4);
 
         dialog.getDialogPane().setContent(grid);
 
-        // Prevent dialog from closing if validation fails
         Node addButton = dialog.getDialogPane().lookupButton(addButtonType);
         addButton.addEventFilter(ActionEvent.ACTION, e -> {
             String email = emailField.getText();
@@ -77,25 +79,25 @@ public class ManageWorkersController {
             String salaryStr = salaryField.getText();
 
             if (email.isEmpty() || password.isEmpty() || name.isEmpty() || surname.isEmpty() || salaryStr.isEmpty()) {
-                showAlert("Fill all fields");
-                e.consume(); // Prevent dialog from closing
+                showAlert(bundle.getString("error.fill.all"));
+                e.consume();
                 return;
             }
 
             if (!validateEmail(email)) {
-                showAlert("Enter a valid email");
+                showAlert(bundle.getString("error.invalid.email"));
                 e.consume();
                 return;
             }
 
             if (password.length() < 5) {
-                showAlert("Password must be at least 5 characters long");
+                showAlert(bundle.getString("error.short.password"));
                 e.consume();
                 return;
             }
 
             if (bl.getUserByEmail(email) != null) {
-                showAlert("There is already an account related to " + email);
+                showAlert(bundle.getString("error.duplicate.email") + " " + email);
                 e.consume();
                 return;
             }
@@ -103,7 +105,7 @@ public class ManageWorkersController {
             try {
                 Integer.parseInt(salaryStr);
             } catch (NumberFormatException ex) {
-                showAlert("Salary must be a valid number");
+                showAlert(bundle.getString("error.invalid.salary"));
                 e.consume();
             }
         });
@@ -121,13 +123,15 @@ public class ManageWorkersController {
         });
 
         Optional<Worker> result = dialog.showAndWait();
-        result.ifPresent(worker -> workers.add(worker));
-        result.ifPresent(worker -> loadWorkers());
+        result.ifPresent(worker -> {
+            workers.add(worker);
+            loadWorkers();
+        });
     }
 
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Invalid Input");
+        alert.setTitle(bundle.getString("error.title"));
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
@@ -137,7 +141,6 @@ public class ManageWorkersController {
         return email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$");
     }
 
-
     private void loadWorkers() {
         workersContainer.getChildren().clear();
         for (Worker worker : workers) {
@@ -146,16 +149,16 @@ public class ManageWorkersController {
             workerBox.setStyle("-fx-background-color: #2b2b2b; -fx-background-radius: 8;");
             workerBox.setPrefWidth(550);
 
-            Label nameLabel = new Label("Name: " + worker.getName() + " " + worker.getSurname());
+            Label nameLabel = new Label(bundle.getString("nameL") + ": " + worker.getName() + " " + worker.getSurname());
             nameLabel.setTextFill(Color.WHITE);
 
-            Label emailLabel = new Label("Email: " + worker.getEmail());
+            Label emailLabel = new Label(bundle.getString("emailL") + ": " + worker.getEmail());
             emailLabel.setTextFill(Color.LIGHTGRAY);
 
-            Label salaryLabel = new Label("Salary: " + worker.getSalary());
+            Label salaryLabel = new Label(bundle.getString("salaryL") + ": " + worker.getSalary());
             salaryLabel.setTextFill(Color.GOLD);
 
-            Button deleteBtn = new Button("Fire customer");
+            Button deleteBtn = new Button(bundle.getString("fireB"));
             deleteBtn.setStyle("-fx-background-color: #dd6600; -fx-text-fill: white; -fx-cursor: hand;");
             deleteBtn.setOnAction(e -> {
                 bl.deleteWorker(worker);
@@ -168,11 +171,8 @@ public class ManageWorkersController {
         }
     }
 
-
-
     @FXML
     void goBack(ActionEvent event) {
         uiState.setCurrentView("adminMain.fxml");
     }
-
 }

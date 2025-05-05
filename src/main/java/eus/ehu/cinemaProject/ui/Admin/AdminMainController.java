@@ -1,18 +1,22 @@
 package eus.ehu.cinemaProject.ui.Admin;
-
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
 import eus.ehu.cinemaProject.domain.users.Admin;
 import eus.ehu.cinemaProject.domain.users.User;
 import eus.ehu.cinemaProject.ui.UIState;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+
+import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class AdminMainController {
 
     private final UIState uiState = UIState.getInstance();
     private final BlFacadeImplementation bl = BlFacadeImplementation.getInstance();
+    private final ResourceBundle bundle = ResourceBundle.getBundle("eus.ehu.cinemaProject.ui.Language", Locale.getDefault());
 
     @FXML
     private Label welcomeLabel;
@@ -29,9 +33,10 @@ public class AdminMainController {
     @FXML
     public void initialize() {
         User user = uiState.getUser();  // Assuming logged-in user is stored in UIState
-        String name = (user instanceof Admin) ? user.getName() : "Admin";
-        String today = LocalDate.now().format(DateTimeFormatter.ofPattern("MMMM d, yyyy"));
-        welcomeLabel.setText("Welcome, " + name + "     [ " + today + "]");
+        String name = (user instanceof Admin) ? user.getName() : bundle.getString("default.admin.name");
+        String today = LocalDate.now().format(DateTimeFormatter.ofPattern(bundle.getString("date.format")));
+
+        welcomeLabel.setText(MessageFormat.format(bundle.getString("label.welcome"), name, today));
 
         refreshStats();
 
@@ -58,16 +63,13 @@ public class AdminMainController {
     }
 
     private void refreshStats() {
-        // Update movie count
-        movieCountLabel.setText("Total Movies: " + bl.getAllFilms().size());
+        movieCountLabel.setText(MessageFormat.format(bundle.getString("label.movie.count"), bl.getAllFilms().size()));
 
-        // Update worker count (exclude admins)
         long workerCount = bl.getAllWorkers().stream()
                 .filter(w -> !(w instanceof Admin))
                 .count();
-        workerCountLabel.setText("Workers Employed: " + workerCount);
+        workerCountLabel.setText(MessageFormat.format(bundle.getString("label.worker.count"), workerCount));
 
-        // Update showtime count
-        showtimeCountLabel.setText("Showtimes Scheduled: " + bl.getAllShowtimes().size());
+        showtimeCountLabel.setText(MessageFormat.format(bundle.getString("label.showtime.count"), bl.getAllShowtimes().size()));
     }
 }

@@ -13,7 +13,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.text.MessageFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class AddMovieController {
 
@@ -51,6 +54,8 @@ public class AddMovieController {
     private ObservableList<Film>films;
     private final UIState uiState = UIState.getInstance();
 
+    private final ResourceBundle bundle = ResourceBundle.getBundle("eus.ehu.cinemaProject.ui.Language", Locale.getDefault());
+
     @FXML
     void initialize() {
         bl = BlFacadeImplementation.getInstance();
@@ -66,15 +71,14 @@ public class AddMovieController {
 
         if (newFilm == null) {
             Dialog<String> dialog = new Dialog<>();
-            dialog.setTitle("Error");
-            dialog.setContentText("No movie found with the name: " + name + ". Please try again.");
+            dialog.setTitle(bundle.getString("dialog.error.title"));
+            dialog.setContentText(MessageFormat.format(bundle.getString("dialog.error.noMovie"), name));
             dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
-            dialog.showAndWait(); // Show the dialog and wait for it to be closed
-        }
-        else if (bl.getFilmbyName(newFilm.getTitle()) != null) {
+            dialog.showAndWait();
+        } else if (bl.getFilmbyName(newFilm.getTitle()) != null) {
             Dialog<String> dialog = new Dialog<>();
-            dialog.setTitle("Error");
-            dialog.setContentText("The movie is already in the database.");
+            dialog.setTitle(bundle.getString("dialog.error.title"));
+            dialog.setContentText(bundle.getString("dialog.error.duplicate"));
             dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
             dialog.showAndWait();
             newFilm = null;

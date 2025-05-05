@@ -8,11 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400" prefWidth="600"
-            style="-fx-background-color: #242424;"
-            xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="eus.ehu.cinemaProject.ui.Admin.AdminMainController">
+<AnchorPane prefHeight="400" prefWidth="600" style="-fx-background-color: #242424;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.Admin.AdminMainController">
     <children>
         <VBox layoutX="50" layoutY="30" prefHeight="340.0" prefWidth="500.0" spacing="25">
             <children>
@@ -20,18 +16,15 @@
                 <!-- Bienvenida -->
                 <Label fx:id="welcomeLabel" textFill="WHITE">
                     <font>
-                        <Font name="System Bold" size="18.0"/>
+                        <Font name="System Bold" size="18.0" />
                     </font>
                 </Label>
 
                 <!-- Botones principales -->
                 <HBox spacing="20">
-                    <Button onAction="#addMovies" prefWidth="150" text="Add Movies"
-                            style="-fx-background-color: #dd6600; -fx-text-fill: white; -fx-cursor: hand;" />
-                    <Button onAction="#addShowtimes" prefWidth="150" text="Add Showtimes"
-                            style="-fx-background-color: #dd6600; -fx-text-fill: white; -fx-cursor: hand;" />
-                    <Button onAction="#manageWorkers" prefWidth="150" text="Manage Staff"
-                            style="-fx-background-color: #dd6600; -fx-text-fill: white; -fx-cursor: hand;" />
+                    <Button onAction="#addMovies" prefWidth="150" style="-fx-background-color: #dd6600; -fx-text-fill: white; -fx-cursor: hand;" text="%addMoviesB" />
+                    <Button onAction="#addShowtimes" prefWidth="150" style="-fx-background-color: #dd6600; -fx-text-fill: white; -fx-cursor: hand;" text="%addShowTimesB" />
+                    <Button onAction="#manageWorkers" prefWidth="150" style="-fx-background-color: #dd6600; -fx-text-fill: white; -fx-cursor: hand;" text="%manageStaffB" />
                 </HBox>
 
                 <Separator />
