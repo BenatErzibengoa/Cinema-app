@@ -66,6 +66,7 @@ public class UIState {
     private ShowTime selectedShowtime;
     private List<Seat> selectedSeats;
     private PurchaseReceipt provisionalReceipt;
+    private String lastView = "MovieList.fxml"; // Default view
 
     private User user;
 
@@ -114,6 +115,9 @@ public class UIState {
 
     public double getSnackprice() { return snackprice; }
     public void setSnackprice(double snackprice) { this.snackprice = snackprice; }
+
+    public String getLastView() { return lastView; }
+    public void setLastView(String lastView) { this.lastView = lastView; }
 
     //To update addShowtime after adding movies
     private final BooleanProperty movieListDirty = new SimpleBooleanProperty(false);

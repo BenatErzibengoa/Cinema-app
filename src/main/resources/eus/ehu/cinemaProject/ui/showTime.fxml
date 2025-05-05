@@ -75,5 +75,6 @@
             </font></Label>
         <Button layoutX="260.0" layoutY="249.0" mnemonicParsing="false" onAction="#searchShowTimes" prefHeight="35.0" prefWidth="153.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="Search ShowTimes" textFill="WHITE" />
         <Button layoutX="420.0" layoutY="249.0" mnemonicParsing="false" onAction="#searchReviews" prefHeight="35.0" prefWidth="153.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="Reviews" textFill="WHITE" />
+        <Button layoutX="45.0" layoutY="380.0" mnemonicParsing="false" onAction="#goBack" prefHeight="28.0" prefWidth="80.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="Back" textFill="WHITE" />
     </children>
 </AnchorPane>

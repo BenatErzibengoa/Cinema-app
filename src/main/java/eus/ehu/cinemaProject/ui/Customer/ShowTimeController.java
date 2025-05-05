@@ -140,4 +140,9 @@ public class ShowTimeController {
         }
     }
 
+    @FXML
+    void goBack(ActionEvent event) {
+        uiState.setCurrentView("MovieList.fxml");
+    }
+
 }

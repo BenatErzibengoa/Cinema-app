@@ -86,7 +86,8 @@ public class MenuController {
 
     @FXML
     void receiptsPane(ActionEvent event) {
-        loadContent("userReceipts.fxml");
+        uiState.setLastView(uiState.getCurrentView());
+        uiState.setCurrentView("userReceipts.fxml");
     }
 
     // Reference to the UIState

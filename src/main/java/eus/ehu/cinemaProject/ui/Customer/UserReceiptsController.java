@@ -5,6 +5,7 @@ import eus.ehu.cinemaProject.domain.PurchaseReceipt;
 import eus.ehu.cinemaProject.domain.Seat;
 import eus.ehu.cinemaProject.domain.users.Customer;
 import eus.ehu.cinemaProject.ui.UIState;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -128,5 +129,10 @@ public class UserReceiptsController {
             return null;
         });
         return reviewDialog.showAndWait();
+    }
+
+    @FXML
+    void goBack(ActionEvent event) {
+        uiState.setCurrentView(UIState.getInstance().getLastView());
     }
 }
