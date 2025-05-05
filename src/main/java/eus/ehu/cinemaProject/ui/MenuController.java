@@ -64,7 +64,7 @@ public class MenuController {
                 loginButton.setVisible(false);
                 registerButton.setVisible(false);
 
-                receiptsButton.setVisible(loggedInUser instanceof Customer);
+                receiptsButton.setVisible(!(loggedInUser instanceof Admin));
 
             } else {
                 loginButton.setVisible(true);
@@ -87,7 +87,11 @@ public class MenuController {
 
     @FXML
     void receiptsPane(ActionEvent event) {
-        loadContent("userReceipts.fxml");
+        if (uiState.getUser() instanceof Customer) {
+            loadContent("userReceipts.fxml");
+        } else {
+            loadContent("workerReceipts.fxml");
+        }
     }
 
     // Reference to the UIState

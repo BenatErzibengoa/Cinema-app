@@ -55,7 +55,7 @@ public class WorkerMenuController {
             } catch (InterruptedException ie) {
                 Thread.currentThread().interrupt();
             }
-            //uiState.setCurrentView("MovieList.fxml");
+            uiState.setCurrentView("MovieList.fxml");
         }
 
     }

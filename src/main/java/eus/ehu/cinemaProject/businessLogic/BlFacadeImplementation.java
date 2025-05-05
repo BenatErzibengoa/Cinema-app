@@ -89,5 +89,9 @@ public class BlFacadeImplementation implements BlFacade {
     public void setOrderStatus(PurchaseReceipt receipt, OrderStatus orderStatus) {
         dbManager.setOrderStatus(receipt, orderStatus);
     }
+
+    public List<PurchaseReceipt> getPendingCancellationPurchaseReceipts(){
+        return dbManager.getPendingCancellationPurchaseReceipts();
+    }
 }
 

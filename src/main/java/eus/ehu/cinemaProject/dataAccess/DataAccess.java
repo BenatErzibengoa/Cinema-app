@@ -172,6 +172,19 @@ public class DataAccess {
         return purchaseReceipts;
     }
 
+    public List<PurchaseReceipt> getPendingCancellationPurchaseReceipts(){
+        List<PurchaseReceipt> purchaseReceipts;
+        try{
+            TypedQuery<PurchaseReceipt> query = db.createQuery("SELECT p FROM PurchaseReceipt p WHERE p.status = ?1", PurchaseReceipt.class);
+            query.setParameter(1, OrderStatus.CANCELLATION_PENDING);
+            purchaseReceipts = query.getResultList();
+        }catch(NoResultException e){
+            logger.info("There are no pending cancellation receipts");
+            purchaseReceipts = null;
+        }
+        return purchaseReceipts;
+    }
+
 
     public Schedule getScheduleByRoomAndDate(LocalDate date, ScreeningRoom screeningRoom) {
         Schedule schedule;
@@ -321,6 +334,12 @@ public class DataAccess {
         return reviews;
     }
 
+    public void setOrderStatus(PurchaseReceipt receipt, OrderStatus orderStatus) {
+        db.getTransaction().begin();
+        receipt.setStatus(orderStatus);
+        db.merge(receipt);
+    }
+
 
 
 
@@ -362,7 +381,7 @@ public class DataAccess {
         ShowTime showTime3 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom3), LocalTime.of(16, 00), film2);
         ShowTime showTime4 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom1), LocalTime.of(20, 30), film3);
         ShowTime showTime5 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom2), LocalTime.of(21, 30), film4);
-        ShowTime showTime6 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom3), LocalTime.of(18, 45), film5);
+        ShowTime showTime6 = storeShowtime(getScheduleByRoomAndDate(LocalDate.of(2025, 5, 31), screeningRoom1), LocalTime.of(17, 00), film1);
 
 
         List<Seat> seatSelection1 = new ArrayList<>();
@@ -392,19 +411,31 @@ public class DataAccess {
             db.persist(seat);
         }
         createPurchaseReceipt(customer1, showTime1, seatSelection1);
-        createPurchaseReceipt(customer1, showTime1, seatSelection1);
-        createPurchaseReceipt(customer2, showTime3, seatSelection1);
+        createPurchaseReceipt(customer1, showTime1, seatSelection2);
+        createPurchaseReceipt(customer2, showTime3, seatSelection3);
+        createPurchaseReceipt(customer2, showTime6, seatSelection4);
+        createPurchaseReceipt(customer3, showTime6, seatSelection3);
+
+
+        List<PurchaseReceipt> receipts = getPurchaseReceiptsByUser(customer2);
+        for(PurchaseReceipt receipt: receipts){
+            if(receipt.getShowTime() == showTime6){
+                receipt.setStatus(OrderStatus.CANCELLATION_PENDING);
+                db.merge(receipt);
+            }
+        }
+
+        receipts = getPurchaseReceiptsByUser(customer3);
+        for(PurchaseReceipt receipt: receipts){
+            if(receipt.getShowTime() == showTime6){
+                receipt.setStatus(OrderStatus.CANCELLATION_PENDING);
+                db.merge(receipt);
+            }
+        }
 
         storeReview(film1, 5, "Great film! Nothing similar has been seen recently", customer1);
         storeReview(film1, 1, "Interesting film", customer2);
         storeReview(film1, 2, "Nice", customer3);
 
-    }
-
-
-    public void setOrderStatus(PurchaseReceipt receipt, OrderStatus orderStatus) {
-        db.getTransaction().begin();
-        receipt.setStatus(orderStatus);
-        db.merge(receipt);
     }
 }
