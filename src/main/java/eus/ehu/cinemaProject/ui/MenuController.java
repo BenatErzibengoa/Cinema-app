@@ -87,18 +87,20 @@ public class MenuController {
 
     private void loadContent(String fxmlFile) {
         try {
-            // Check if content is already cached
-            Pane content = contentCache.get(fxmlFile);
-            if (content == null) {
-                // If not cached, load it and store in cache
-                FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
-                content = loader.load();
-                contentCache.put(fxmlFile, content);
-                if (loader.getController() instanceof MovieListController) {
-                    ((MovieListController) loader.getController()).setBusinessLogic(bl);
-                }
+            // Retirer la vue du cache si elle existe déjà
+            contentCache.remove(fxmlFile);
+
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile), bundle);
+            Pane content = loader.load();
+
+            if (loader.getController() instanceof MovieListController) {
+                ((MovieListController) loader.getController()).setBusinessLogic(bl);
             }
+
+            contentCache.put(fxmlFile, content);
             contentPane.setCenter(content);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
