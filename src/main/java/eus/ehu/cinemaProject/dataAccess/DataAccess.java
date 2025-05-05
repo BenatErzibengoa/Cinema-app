@@ -108,6 +108,7 @@ public class DataAccess {
         return user;
     }
 
+
     public User signUpWorker(String email, String password, String name, String surname, int salary){
         User user = new Worker(email, PasswordHasher.hashPassword(password),name,surname, salary);
         if (!db.getTransaction().isActive()) {
@@ -200,7 +201,7 @@ public class DataAccess {
             db.getTransaction().begin();
         }
         db.persist(schedule);
-        db.getTransaction().commit();
+        //db.getTransaction().commit();
         return schedule;
     }
 
@@ -210,7 +211,7 @@ public class DataAccess {
             db.getTransaction().begin();
         }
         db.persist(showTime);
-        db.getTransaction().commit();
+        //db.getTransaction().commit();
     }
 
 
@@ -224,7 +225,7 @@ public class DataAccess {
             seat.setType(SeatType.OCCUPIED);
             db.merge(seat);
         }
-        db.getTransaction().commit();
+        //db.getTransaction().commit();
     }
 
 
@@ -250,7 +251,7 @@ public class DataAccess {
         }
         db.persist(new Review(film, rating, textReview, author));
         logger.debug("Review stored successfully");
-        db.getTransaction().commit();
+        //db.getTransaction().commit();
     }
 
     public Film storeFilm(String name){
@@ -264,7 +265,7 @@ public class DataAccess {
         }
         db.persist(film);
         logger.debug("Film stored successfully");
-        db.getTransaction().commit();
+        //db.getTransaction().commit();
         return film;
     }
 
@@ -275,7 +276,7 @@ public class DataAccess {
         ShowTime showTime = new ShowTime(schedule, screeningTime, film);
         db.persist(showTime);
         logger.debug("Showtime stored successfully");
-        db.getTransaction().commit();
+        //db.getTransaction().commit();
         schedule.setShowTime(showTime);
         db.merge(schedule);
         return showTime;
@@ -412,6 +413,7 @@ public class DataAccess {
         db.persist(screeningRoom2);
         db.persist(screeningRoom3);
 
+
         signUpWorker("bercibengoa001@ikasle.ehu.eus", "12345678", "Beñat", "Ercibengoa", 2000);
         signUpWorker("vandrushkiv001@ikasle.ehu.eus", "87654321", "Viktoria", "Andrushkiv", 2000);
         signUpWorker("trolland001@ikasle.ehu.eus", "abcdefghi", "Théo", "Rolland", 2000);
@@ -421,6 +423,10 @@ public class DataAccess {
         Customer customer1 = (Customer)signUp("aitor@gmail.com", "12345", "Aitor", "Elizondo");
         Customer customer2 = (Customer)signUp("amaia@gmail.com", "12345", "Amaia", "Susperregi");
         Customer customer3 = (Customer)signUp("uxue@gmail.com", "12345", "Uxue", "Etxebeste");
+        Customer customer4 = (Customer) signUp("ander@gmail.com", "54321", "Ander", "Zubizarreta");
+        Customer customer5 = (Customer) signUp("maite@gmail.com", "67890", "Maite", "Irigoyen");
+        Customer customer6 = (Customer) signUp("jon@gmail.com", "11111", "Jon", "Aranburu");
+
 
 
         Film film1 = storeFilm("The Godfather");
@@ -436,6 +442,7 @@ public class DataAccess {
         ShowTime showTime4 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom1), LocalTime.of(20, 30), film3);
         ShowTime showTime5 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom2), LocalTime.of(21, 30), film4);
         ShowTime showTime6 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom3), LocalTime.of(18, 45), film5);
+
 
 
         List<Seat> seatSelection1 = new ArrayList<>();
@@ -464,6 +471,7 @@ public class DataAccess {
         for(Seat seat: screeningRoom1.getSeats()){
             db.persist(seat);
         }
+
         createPurchaseReceipt(customer1, showTime1, seatSelection1);
         createPurchaseReceipt(customer1, showTime1, seatSelection1);
         createPurchaseReceipt(customer2, showTime3, seatSelection1);
@@ -471,6 +479,29 @@ public class DataAccess {
         storeReview(film1, 5, "Great film! Nothing similar has been seen recently", customer1);
         storeReview(film1, 1, "Interesting film", customer2);
         storeReview(film1, 2, "Nice", customer3);
+        storeReview(film1, 5, "A masterpiece. Truly one of the greatest films ever made.", customer4);
+        storeReview(film1, 4, "Brilliant acting and storyline. Timeless classic.", customer5);
+
+        storeReview(film2, 5, "Absolutely magical. A masterpiece of animation.", customer1);
+        storeReview(film2, 4, "Very artistic and touching.", customer3);
+        storeReview(film2, 5, "Stunning animation and emotional depth. Loved every second.", customer4);
+        storeReview(film2, 4, "Beautiful and imaginative. A magical experience.", customer6);
+
+        storeReview(film3, 3, "Fun for kids. Not my favorite Pixar movie.", customer2);
+        storeReview(film3, 4, "Entertaining and visually great.", customer1);
+        storeReview(film3, 3, "Fun for kids, but not as deep as other Pixar movies.", customer5);
+        storeReview(film3, 2, "Visually nice, but a bit repetitive and slow.", customer6);
+
+        storeReview(film4, 5, "Mind-blowing. Incredible plot twist.", customer3);
+        storeReview(film4, 4, "Dark, gritty, and well acted.", customer2);
+        storeReview(film4, 5, "Incredible twist and strong performances. Mind-blowing.", customer4);
+        storeReview(film4, 4, "Dark and thought-provoking. A must-watch.", customer6);
+
+        storeReview(film5, 4, "Thrilling and mysterious until the end.", customer1);
+        storeReview(film5, 5, "DiCaprio at his best. Loved it.", customer3);
+        storeReview(film5, 5, "Gripping and psychological. Keeps you guessing.", customer5);
+        storeReview(film5, 4, "Great direction and atmosphere. DiCaprio nailed it.", customer4);
+
 
     }
 
