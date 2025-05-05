@@ -1,15 +1,11 @@
-package eus.ehu.cinemaProject.ui;
+package eus.ehu.cinemaProject.ui.Customer;
 
+import eus.ehu.cinemaProject.ui.UIState;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.layout.AnchorPane;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+
 
 import java.io.IOException;
 import java.util.ResourceBundle;

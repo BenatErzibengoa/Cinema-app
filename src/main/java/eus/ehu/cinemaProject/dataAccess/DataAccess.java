@@ -99,7 +99,7 @@ public class DataAccess {
 
 
     public User signUp(String email, String password, String name, String surname){
-        User user = new Customer(email, PasswordHasher.hashPassword(password),name,surname);
+        User user = new Customer.CustomerBuilder(email, PasswordHasher.hashPassword(password)).name(name).surname(surname).build();
         if (!db.getTransaction().isActive()) {
             db.getTransaction().begin();
         }
@@ -110,7 +110,7 @@ public class DataAccess {
 
 
     public User signUpWorker(String email, String password, String name, String surname, int salary){
-        User user = new Worker(email, PasswordHasher.hashPassword(password),name,surname, salary);
+        User user = new Worker.WorkerBuilder(email, PasswordHasher.hashPassword(password), 2000).name(name).surname(surname).build();
         if (!db.getTransaction().isActive()) {
             db.getTransaction().begin();
         }
@@ -403,7 +403,7 @@ public class DataAccess {
         Cinema cinema = new Cinema("Cineflix", "Bilbo", 688861291, LocalTime.of(15, 30), LocalTime.of(01, 00));
         db.persist(cinema);
 
-        Admin admin = new Admin("juanan.pereira@ehu.eus", PasswordHasher.hashPassword("admin1234"), "Juanan", "Pereira", 2500);
+        Admin admin = new Admin.AdminBuilder("juanan.pereira@ehu.eus", PasswordHasher.hashPassword("admin1234"), 2500).name("Juanan").surname("Pereira").build();
         db.persist(admin);
 
         ScreeningRoom screeningRoom1 = new ScreeningRoom(cinema,1);
