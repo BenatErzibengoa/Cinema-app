@@ -44,7 +44,7 @@ Our main focus for this sprint was the development of the application's controll
 
 The controllers and UIs we have developed during this second sprint are MovieList, ShowTimeView, OrderFood, SeatSelection, Receipt and PurchaseReceiptHistory.
 
-We also 
+We also created a sequence diagram, and we stylized our views following the style used in the previous sprint.
 
 ### Test Users
 
