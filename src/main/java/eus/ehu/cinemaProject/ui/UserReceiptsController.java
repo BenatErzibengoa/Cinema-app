@@ -6,6 +6,7 @@ import eus.ehu.cinemaProject.domain.PurchaseReceipt;
 import eus.ehu.cinemaProject.domain.users.Customer;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -70,11 +71,17 @@ public class UserReceiptsController {
         tablePurchaseReceipts.setItems(purchaseReceipts);
 
 
+        // TODO: Test and remove if not needed
         // Add a listener to observe changes in the list
-        purchaseReceipts.forEach(receipt -> {
-            receipt.getShowTime().getScreeningDate(); // Ensure ShowTime is loaded
-            receipt.getShowTime().getScreeningTime(); // Ensure ShowTime is loaded
-            updateStatusIfPast(receipt);
+        purchaseReceipts.addListener(new ListChangeListener<PurchaseReceipt>() {
+            @Override
+            public void onChanged(ListChangeListener.Change<? extends PurchaseReceipt> change) {
+                while (change.next()) {
+                    for (PurchaseReceipt receipt : change.getRemoved()) {
+                        updateStatusIfPast(receipt);
+                    }
+                }
+            }
         });
 
     }

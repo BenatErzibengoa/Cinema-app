@@ -223,9 +223,10 @@ public class DataAccess {
     }
 
 
-    public void createPurchaseReceipt(Customer customer, ShowTime showTime, List<Seat> seats){
+    public PurchaseReceipt createPurchaseReceipt(Customer customer, ShowTime showTime, List<Seat> seats){
         PurchaseReceipt purchaseReceipt = new PurchaseReceipt(new Date(), customer, showTime, seats);
         if (!db.getTransaction().isActive()) {
+            System.out.println("reopen database");
             db.getTransaction().begin();
         }
         db.persist(purchaseReceipt);
@@ -234,6 +235,7 @@ public class DataAccess {
             db.merge(seat);
         }
         db.getTransaction().commit();
+        return purchaseReceipt;
     }
 
 
@@ -410,28 +412,16 @@ public class DataAccess {
         for(Seat seat: screeningRoom1.getSeats()){
             db.persist(seat);
         }
-        createPurchaseReceipt(customer1, showTime1, seatSelection1);
+        PurchaseReceipt pr0 = createPurchaseReceipt(customer1, showTime1, seatSelection1);
         createPurchaseReceipt(customer1, showTime1, seatSelection2);
         createPurchaseReceipt(customer2, showTime3, seatSelection3);
-        createPurchaseReceipt(customer2, showTime6, seatSelection4);
-        createPurchaseReceipt(customer3, showTime6, seatSelection3);
+        PurchaseReceipt pr1 = createPurchaseReceipt(customer2, showTime6, seatSelection4);
+        PurchaseReceipt pr2 = createPurchaseReceipt(customer3, showTime6, seatSelection3);
 
+        setOrderStatus(pr0, OrderStatus.CANCELLATION_PENDING);
+        setOrderStatus(pr1, OrderStatus.CANCELLATION_PENDING);
+        setOrderStatus(pr2, OrderStatus.CANCELLATION_PENDING);
 
-        List<PurchaseReceipt> receipts = getPurchaseReceiptsByUser(customer2);
-        for(PurchaseReceipt receipt: receipts){
-            if(receipt.getShowTime() == showTime6){
-                receipt.setStatus(OrderStatus.CANCELLATION_PENDING);
-                db.merge(receipt);
-            }
-        }
-
-        receipts = getPurchaseReceiptsByUser(customer3);
-        for(PurchaseReceipt receipt: receipts){
-            if(receipt.getShowTime() == showTime6){
-                receipt.setStatus(OrderStatus.CANCELLATION_PENDING);
-                db.merge(receipt);
-            }
-        }
 
         storeReview(film1, 5, "Great film! Nothing similar has been seen recently", customer1);
         storeReview(film1, 1, "Interesting film", customer2);

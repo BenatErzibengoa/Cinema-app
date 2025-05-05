@@ -51,7 +51,6 @@ public class WorkerReceiptsController {
         bl = BlFacadeImplementation.getInstance();
         showTimeIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 
-
         filmColumn.setCellValueFactory(cellData -> {
             PurchaseReceipt pr = cellData.getValue();
             return new SimpleStringProperty(pr.getShowTime().getFilm().getTitle());
@@ -63,6 +62,7 @@ public class WorkerReceiptsController {
 
         purchaseReceipts = FXCollections.observableArrayList();
         List<PurchaseReceipt> receipts = bl.getPendingCancellationPurchaseReceipts();
+        System.out.println("Pending cancellation receipts: " + receipts);
         purchaseReceipts.addAll(receipts);
         tablePurchaseReceipts.setItems(purchaseReceipts);
 
