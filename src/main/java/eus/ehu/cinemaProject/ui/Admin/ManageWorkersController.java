@@ -122,6 +122,7 @@ public class ManageWorkersController {
 
         Optional<Worker> result = dialog.showAndWait();
         result.ifPresent(worker -> workers.add(worker));
+        result.ifPresent(worker -> loadWorkers());
     }
 
     private void showAlert(String message) {
@@ -136,18 +137,6 @@ public class ManageWorkersController {
         return email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$");
     }
 
-
-
-
-    @FXML
-    void deleteWorker(ActionEvent event) {
-        Worker selectedWorker = tableWorkers.getSelectionModel().getSelectedItem();
-        if (selectedWorker != null) {
-            bl.deleteWorker(selectedWorker);
-            workers.remove(selectedWorker);
-        }
-
-    }
 
     private void loadWorkers() {
         workersContainer.getChildren().clear();

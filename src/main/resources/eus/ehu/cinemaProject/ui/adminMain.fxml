@@ -6,25 +6,53 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400" prefWidth="600" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.Admin.AdminMainController">
+<AnchorPane prefHeight="400" prefWidth="600"
+            style="-fx-background-color: #242424;"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="eus.ehu.cinemaProject.ui.Admin.AdminMainController">
     <children>
-        <VBox layoutX="50" layoutY="30" prefHeight="308.0" prefWidth="500" spacing="20">
+        <VBox layoutX="50" layoutY="30" prefHeight="340.0" prefWidth="500.0" spacing="25">
             <children>
-                <Label fx:id="welcomeLabel" style="-fx-font-size: 16px; -fx-font-weight: bold;" textFill="WHITE" />
 
-                <HBox spacing="15">
-                    <Button onAction="#addMovies" prefWidth="160" text="Add Movies" />
-                    <Button onAction="#addShowtimes" prefWidth="160" text="Add Showtimes" />
-                    <Button onAction="#manageWorkers" prefWidth="160" text="Manage Staff" />
+                <!-- Bienvenida -->
+                <Label fx:id="welcomeLabel" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="18.0"/>
+                    </font>
+                </Label>
+
+                <!-- Botones principales -->
+                <HBox spacing="20">
+                    <Button onAction="#addMovies" prefWidth="150" text="Add Movies"
+                            style="-fx-background-color: #dd6600; -fx-text-fill: white; -fx-cursor: hand;" />
+                    <Button onAction="#addShowtimes" prefWidth="150" text="Add Showtimes"
+                            style="-fx-background-color: #dd6600; -fx-text-fill: white; -fx-cursor: hand;" />
+                    <Button onAction="#manageWorkers" prefWidth="150" text="Manage Staff"
+                            style="-fx-background-color: #dd6600; -fx-text-fill: white; -fx-cursor: hand;" />
                 </HBox>
 
                 <Separator />
 
-                <VBox spacing="8" style="-fx-padding: 10;">
-                    <Label fx:id="movieCountLabel" style="-fx-font-size: 14px;" textFill="WHITE" />
-                    <Label fx:id="workerCountLabel" style="-fx-font-size: 14px;" textFill="WHITE" />
-                    <Label fx:id="showtimeCountLabel" style="-fx-font-size: 14px;" textFill="WHITE" />
+                <!-- Estadísticas -->
+                <VBox spacing="10" style="-fx-padding: 10;">
+                    <Label fx:id="movieCountLabel" textFill="WHITE">
+                        <font>
+                            <Font size="14.0" />
+                        </font>
+                    </Label>
+                    <Label fx:id="workerCountLabel" textFill="WHITE">
+                        <font>
+                            <Font size="14.0" />
+                        </font>
+                    </Label>
+                    <Label fx:id="showtimeCountLabel" textFill="WHITE">
+                        <font>
+                            <Font size="14.0" />
+                        </font>
+                    </Label>
                 </VBox>
             </children>
         </VBox>
