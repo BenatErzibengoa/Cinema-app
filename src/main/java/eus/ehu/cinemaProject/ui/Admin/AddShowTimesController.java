@@ -1,10 +1,11 @@
-package eus.ehu.cinemaProject.ui;
+package eus.ehu.cinemaProject.ui.Admin;
 
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
 import eus.ehu.cinemaProject.domain.Film;
 import eus.ehu.cinemaProject.domain.Schedule;
 import eus.ehu.cinemaProject.domain.ScreeningRoom;
 import eus.ehu.cinemaProject.domain.ShowTime;
+import eus.ehu.cinemaProject.ui.UIState;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="contentArea" prefHeight="339.0" prefWidth="673.0" style="-fx-background-color: #242424; -fx-background-radius: 12px;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.ReceiptController">
+<AnchorPane fx:id="contentArea" prefHeight="339.0" prefWidth="673.0" style="-fx-background-color: #242424; -fx-background-radius: 12px;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.Customer.ReceiptController">
    <children>
       <Button fx:id="goBack" layoutX="77.0" layoutY="272.0" mnemonicParsing="false" onAction="#goToSeatSelect" prefHeight="35.0" prefWidth="60.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="Back" textFill="WHITE" />
       <Button fx:id="proceedPayment" layoutX="445.0" layoutY="272.0" mnemonicParsing="false" onAction="#proceedPaymentButton" prefHeight="35.0" prefWidth="182.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="Proceed with payment" textFill="WHITE" />

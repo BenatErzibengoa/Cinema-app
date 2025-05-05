@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="497.0" prefWidth="372.0" style="-fx-background-color: #242424; -fx-background-radius: 12px;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.SignUpController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="497.0" prefWidth="372.0" style="-fx-background-color: #242424; -fx-background-radius: 12px;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.User.SignUpController">
    <children>
       <TextField fx:id="nameField" layoutX="52.0" layoutY="106.0" prefHeight="35.0" prefWidth="270.0" promptText="Enter your name" style="-fx-background-color: rgba(142,142,142,0.08); -fx-text-fill: #fff;" />
       <TextField fx:id="surnameField" layoutX="52.0" layoutY="147.0" prefHeight="35.0" prefWidth="270.0" promptText="Enter your surname" style="-fx-background-color: rgba(142,142,142,0.08); -fx-text-fill: #fff;" />

@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="656.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.AddMovieController">
+<AnchorPane prefHeight="400.0" prefWidth="656.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.Admin.AddMovieController">
    <children>
       <TextField fx:id="movieName" layoutX="28.0" layoutY="30.0" promptText="Enter a valid movie title" />
       <Button layoutX="185.0" layoutY="30.0" mnemonicParsing="false" onAction="#searchMovie" text="Search" />

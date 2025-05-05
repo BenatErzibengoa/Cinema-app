@@ -1,10 +1,10 @@
-package eus.ehu.cinemaProject.ui;
+package eus.ehu.cinemaProject.ui.User;
 
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
-import eus.ehu.cinemaProject.configuration.PasswordHasher;
 import eus.ehu.cinemaProject.domain.users.Admin;
 import eus.ehu.cinemaProject.domain.users.User;
 import eus.ehu.cinemaProject.domain.users.Worker;
+import eus.ehu.cinemaProject.ui.UIState;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;

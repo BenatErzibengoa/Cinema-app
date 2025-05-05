@@ -1,12 +1,11 @@
-package eus.ehu.cinemaProject.ui;
+package eus.ehu.cinemaProject.ui.Customer;
 
-import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
 import eus.ehu.cinemaProject.domain.Review;
+import eus.ehu.cinemaProject.ui.UIState;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 
 import java.time.format.DateTimeFormatter;

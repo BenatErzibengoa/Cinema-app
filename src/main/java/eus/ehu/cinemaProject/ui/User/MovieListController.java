@@ -1,8 +1,9 @@
-package eus.ehu.cinemaProject.ui;
+package eus.ehu.cinemaProject.ui.User;
 
 import eus.ehu.cinemaProject.businessLogic.BlFacade;
 import eus.ehu.cinemaProject.domain.Film;
 import eus.ehu.cinemaProject.domain.ShowTime;
+import eus.ehu.cinemaProject.ui.UIState;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;

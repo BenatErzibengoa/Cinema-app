@@ -1,37 +1,43 @@
-package eus.ehu.cinemaProject.ui;
+package eus.ehu.cinemaProject.ui.Admin;
 
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
 import eus.ehu.cinemaProject.domain.users.Worker;
+import eus.ehu.cinemaProject.ui.UIState;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 import java.util.Optional;
 
 public class ManageWorkersController {
 
     @FXML
-    private TableColumn<Worker, String> emailColumn;
-
-    @FXML
-    private TableColumn<Worker, String> nameColumn;
-
-    @FXML
-    private TableColumn<Worker, String> surnameColumn;
-
-    @FXML
-    private TableColumn<Worker, Integer> salaryColumn;
+    private VBox workersContainer;
 
     @FXML
     private TableView<Worker> tableWorkers;
-    BlFacadeImplementation bl;
+    BlFacadeImplementation bl = BlFacadeImplementation.getInstance();
     private ObservableList<Worker> workers;
     private final UIState uiState = UIState.getInstance();
+
+    @FXML
+    public void initialize() {
+        workers = FXCollections.observableArrayList(
+                bl.getAllWorkers().stream()
+                        .filter(w -> !(w instanceof eus.ehu.cinemaProject.domain.users.Admin))
+                        .toList()
+        );
+        loadWorkers();
+    }
+
 
     @FXML
     void addWorker(ActionEvent event) {
@@ -143,21 +149,37 @@ public class ManageWorkersController {
 
     }
 
-    @FXML
-    public void initialize(){
-        bl=BlFacadeImplementation.getInstance();
-        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        surnameColumn.setCellValueFactory(new PropertyValueFactory<>("surname"));
-        salaryColumn.setCellValueFactory(new PropertyValueFactory<>("salary"));
+    private void loadWorkers() {
+        workersContainer.getChildren().clear();
+        for (Worker worker : workers) {
+            VBox workerBox = new VBox(5);
+            workerBox.setPadding(new Insets(10));
+            workerBox.setStyle("-fx-background-color: #2b2b2b; -fx-background-radius: 8;");
+            workerBox.setPrefWidth(550);
 
-        workers= FXCollections.observableArrayList(
-                bl.getAllWorkers().stream()
-                        .filter(worker -> !(worker instanceof eus.ehu.cinemaProject.domain.users.Admin))
-                        .toList()
-        );
-        tableWorkers.setItems(workers);
+            Label nameLabel = new Label("Name: " + worker.getName() + " " + worker.getSurname());
+            nameLabel.setTextFill(Color.WHITE);
+
+            Label emailLabel = new Label("Email: " + worker.getEmail());
+            emailLabel.setTextFill(Color.LIGHTGRAY);
+
+            Label salaryLabel = new Label("Salary: " + worker.getSalary());
+            salaryLabel.setTextFill(Color.GOLD);
+
+            Button deleteBtn = new Button("Fire customer");
+            deleteBtn.setStyle("-fx-background-color: #dd6600; -fx-text-fill: white; -fx-cursor: hand;");
+            deleteBtn.setOnAction(e -> {
+                bl.deleteWorker(worker);
+                workers.remove(worker);
+                loadWorkers();
+            });
+
+            workerBox.getChildren().addAll(nameLabel, emailLabel, salaryLabel, deleteBtn);
+            workersContainer.getChildren().add(workerBox);
+        }
     }
+
+
 
     @FXML
     void goBack(ActionEvent event) {

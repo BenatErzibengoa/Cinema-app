@@ -18,6 +18,12 @@ module eus.ehu.cinemaProject {
 
     exports eus.ehu.cinemaProject.ui;
     exports eus.ehu.cinemaProject.domain;
+    exports eus.ehu.cinemaProject.ui.Admin;
+    opens eus.ehu.cinemaProject.ui.Admin to javafx.fxml;
+    exports eus.ehu.cinemaProject.ui.Customer;
+    opens eus.ehu.cinemaProject.ui.Customer to javafx.fxml;
+    exports eus.ehu.cinemaProject.ui.User;
+    opens eus.ehu.cinemaProject.ui.User to javafx.fxml;
 
 
 }

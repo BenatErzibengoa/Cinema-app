@@ -1,20 +1,17 @@
-package eus.ehu.cinemaProject.ui;
+package eus.ehu.cinemaProject.ui.Customer;
 
 import java.util.*;
 
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
-import eus.ehu.cinemaProject.domain.PurchaseReceipt;
 import eus.ehu.cinemaProject.domain.ScreeningRoom;
 import eus.ehu.cinemaProject.domain.Seat;
-import eus.ehu.cinemaProject.domain.users.Customer;
-import eus.ehu.cinemaProject.domain.users.User;
+import eus.ehu.cinemaProject.ui.UIState;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;

@@ -1,8 +1,9 @@
-package eus.ehu.cinemaProject.ui;
+package eus.ehu.cinemaProject.ui.Admin;
 
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
 import eus.ehu.cinemaProject.domain.users.Admin;
 import eus.ehu.cinemaProject.domain.users.User;
+import eus.ehu.cinemaProject.ui.UIState;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import java.time.LocalDate;
