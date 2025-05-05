@@ -403,7 +403,7 @@ public class DataAccess {
         Cinema cinema = new Cinema("Cineflix", "Bilbo", 688861291, LocalTime.of(15, 30), LocalTime.of(01, 00));
         db.persist(cinema);
 
-        Admin admin = new Admin.AdminBuilder("juanan.pereira@ehu.eus", PasswordHasher.hashPassword("admin1234"), 2500).name("Juanan").surname("Pereira").build();
+        Admin admin = (Admin) new Admin.AdminBuilder("juanan.pereira@ehu.eus", PasswordHasher.hashPassword("admin1234"), 3100).name("Juanan").surname("Pereira").build();
         db.persist(admin);
 
         ScreeningRoom screeningRoom1 = new ScreeningRoom(cinema,1);
