@@ -383,7 +383,7 @@ public class DataAccess {
         ShowTime showTime3 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom3), LocalTime.of(16, 00), film2);
         ShowTime showTime4 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom1), LocalTime.of(20, 30), film3);
         ShowTime showTime5 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom2), LocalTime.of(21, 30), film4);
-        ShowTime showTime6 = storeShowtime(getScheduleByRoomAndDate(LocalDate.of(2025, 5, 31), screeningRoom1), LocalTime.of(17, 00), film1);
+        ShowTime showTime6 = storeShowtime(getScheduleByRoomAndDate(LocalDate.of(2025, 5, 31), screeningRoom1), LocalTime.of(17, 0), film1);
 
 
         List<Seat> seatSelection1 = new ArrayList<>();
@@ -412,16 +412,17 @@ public class DataAccess {
         for(Seat seat: screeningRoom1.getSeats()){
             db.persist(seat);
         }
-        PurchaseReceipt pr0 = createPurchaseReceipt(customer1, showTime1, seatSelection1);
+        createPurchaseReceipt(customer1, showTime1, seatSelection1);
         createPurchaseReceipt(customer1, showTime1, seatSelection2);
         createPurchaseReceipt(customer2, showTime3, seatSelection3);
+        /*
         PurchaseReceipt pr1 = createPurchaseReceipt(customer2, showTime6, seatSelection4);
         PurchaseReceipt pr2 = createPurchaseReceipt(customer3, showTime6, seatSelection3);
 
         setOrderStatus(pr0, OrderStatus.CANCELLATION_PENDING);
         setOrderStatus(pr1, OrderStatus.CANCELLATION_PENDING);
         setOrderStatus(pr2, OrderStatus.CANCELLATION_PENDING);
-
+        */
 
         storeReview(film1, 5, "Great film! Nothing similar has been seen recently", customer1);
         storeReview(film1, 1, "Interesting film", customer2);

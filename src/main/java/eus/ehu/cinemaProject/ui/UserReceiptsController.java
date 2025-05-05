@@ -157,7 +157,7 @@ public class UserReceiptsController {
         PurchaseReceipt selectedReceipt = tablePurchaseReceipts.getSelectionModel().getSelectedItem();
         if((selectedReceipt != null) && selectedReceipt.getStatus() == OrderStatus.COMPLETED) {
             bl.setOrderStatus(selectedReceipt, OrderStatus.CANCELLATION_PENDING);
-            tablePurchaseReceipts.refresh(); // Refresh the table to reflect the changes
+            //tablePurchaseReceipts.refresh(); // Refresh the table to reflect the changes
         }
     }
 
@@ -169,7 +169,7 @@ public class UserReceiptsController {
 
         if (showDateTime.isBefore(LocalDateTime.now())) {
             bl.setOrderStatus(receipt, OrderStatus.PAST);
-            tablePurchaseReceipts.refresh(); // Refresh the table to reflect the changes
+            //tablePurchaseReceipts.refresh(); // Refresh the table to reflect the changes
         }
     }
 }
