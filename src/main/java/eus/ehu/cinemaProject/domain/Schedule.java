@@ -30,7 +30,6 @@ public class Schedule {
     private int size;
     private boolean schedule[];
 
-
     public Schedule(LocalDate date, ScreeningRoom screeningRoom) {
         this.id = new ScheduleId(date, screeningRoom);
         this.openingTime = screeningRoom.getCinema().getOpeningTime();

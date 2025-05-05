@@ -9,6 +9,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  * Shared model class to store UI state between controllers
@@ -23,9 +25,13 @@ public class UIState {
 
     private final BooleanProperty loggedIn = new SimpleBooleanProperty(false);
 
+    private final ResourceBundle bundle;
+
 
     private UIState() {
         // Private constructor for singleton
+        Locale locale = Locale.forLanguageTag("es");
+        bundle = ResourceBundle.getBundle("eus.ehu.cinemaProject.ui.Language", locale);
     }
 
     public static UIState getInstance() {
@@ -58,6 +64,10 @@ public class UIState {
 
     public void setLoggedIn(boolean value) {
         loggedIn.set(value);
+    }
+
+    public ResourceBundle getBundle() {
+        return bundle;
     }
 
     //Attributes to share between different view controllers (we have to add more!!!)

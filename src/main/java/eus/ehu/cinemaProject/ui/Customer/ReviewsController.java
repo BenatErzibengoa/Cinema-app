@@ -10,12 +10,15 @@ import javafx.scene.layout.VBox;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class ReviewsController {
 
 
     private List<Review> reviews;
     private final UIState uiState = UIState.getInstance();
+    private final ResourceBundle bundle = uiState.getBundle();
+
 
     @FXML
     void initialize() {
@@ -34,13 +37,13 @@ public class ReviewsController {
             reviewBox.setStyle("-fx-background-color: #333333; -fx-background-radius: 8;");
             reviewBox.setPrefWidth(550);
 
-            Label nameLabel = new Label("Reviewer: " + review.getAuthor().getName());
+            Label nameLabel = new Label(bundle.getString("reviewerLabel") + " " + review.getAuthor().getName());
             nameLabel.setTextFill(javafx.scene.paint.Color.WHITE);
 
-            Label dateLabel = new Label("Date: " + review.getDate().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+            Label dateLabel = new Label(bundle.getString("dateLabel") + " " + review.getDate().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
             dateLabel.setTextFill(javafx.scene.paint.Color.LIGHTGRAY);
 
-            Label scoreLabel = new Label("Rating: " + review.getRating() + "/5");
+            Label scoreLabel = new Label(bundle.getString("ratingLabel") + " " + review.getRating() + "/5");
             scoreLabel.setTextFill(javafx.scene.paint.Color.GOLD);
 
             Label commentLabel = new Label(review.getTextReview());

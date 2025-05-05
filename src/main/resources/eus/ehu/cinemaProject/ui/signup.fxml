@@ -10,20 +10,20 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="497.0" prefWidth="372.0" style="-fx-background-color: #242424; -fx-background-radius: 12px;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.User.SignUpController">
    <children>
-      <TextField fx:id="nameField" layoutX="52.0" layoutY="106.0" prefHeight="35.0" prefWidth="270.0" promptText="Enter your name" style="-fx-background-color: rgba(142,142,142,0.08); -fx-text-fill: #fff;" />
-      <TextField fx:id="surnameField" layoutX="52.0" layoutY="147.0" prefHeight="35.0" prefWidth="270.0" promptText="Enter your surname" style="-fx-background-color: rgba(142,142,142,0.08); -fx-text-fill: #fff;" />
-      <TextField fx:id="emailField" layoutX="52.0" layoutY="218.0" prefHeight="35.0" prefWidth="270.0" promptText="Enter your email address" style="-fx-background-color: rgba(142,142,142,0.08); -fx-text-fill: #fff;" />
-      <PasswordField fx:id="passwordField" layoutX="51.0" layoutY="285.0" prefHeight="35.0" prefWidth="270.0" promptText="Create a password" style="-fx-background-color: rgba(142,142,142,0.08); -fx-text-fill: #fff;" />
-      <PasswordField fx:id="passwordField2" layoutX="51.0" layoutY="326.0" prefHeight="35.0" prefWidth="270.0" promptText="Repeat the password" style="-fx-background-color: rgba(142,142,142,0.08); -fx-text-fill: #fff;" />
-      <Button fx:id="loginButton" layoutX="51.0" layoutY="397.0" mnemonicParsing="false" onAction="#signUp" prefHeight="35.0" prefWidth="270.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="Sign Up" textFill="WHITE" />
-      <Text fill="WHITE" layoutX="136.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sign Up">
+      <TextField fx:id="nameField" layoutX="52.0" layoutY="106.0" prefHeight="35.0" prefWidth="270.0" promptText="%namePrompt" style="-fx-background-color: rgba(142,142,142,0.08); -fx-text-fill: #fff;" />
+      <TextField fx:id="surnameField" layoutX="52.0" layoutY="147.0" prefHeight="35.0" prefWidth="270.0" promptText="%surnamePrompt" style="-fx-background-color: rgba(142,142,142,0.08); -fx-text-fill: #fff;" />
+      <TextField fx:id="emailField" layoutX="52.0" layoutY="218.0" prefHeight="35.0" prefWidth="270.0" promptText="%emailPrompt" style="-fx-background-color: rgba(142,142,142,0.08); -fx-text-fill: #fff;" />
+      <PasswordField fx:id="passwordField" layoutX="51.0" layoutY="285.0" prefHeight="35.0" prefWidth="270.0" promptText="%createPassword" style="-fx-background-color: rgba(142,142,142,0.08); -fx-text-fill: #fff;" />
+      <PasswordField fx:id="passwordField2" layoutX="51.0" layoutY="326.0" prefHeight="35.0" prefWidth="270.0" promptText="%repeatPassword" style="-fx-background-color: rgba(142,142,142,0.08); -fx-text-fill: #fff;" />
+      <Button fx:id="loginButton" layoutX="51.0" layoutY="397.0" mnemonicParsing="false" onAction="#signUp" prefHeight="35.0" prefWidth="270.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="%registerButton" textFill="WHITE" />
+      <Text fill="WHITE" layoutX="93.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%registerLabel" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="26.0" />
          </font>
       </Text>
-      <Label layoutX="52.0" layoutY="83.0" text="Name and Surname" textFill="WHITE" />
-      <Label layoutX="52.0" layoutY="200.0" text="Email Address" textFill="WHITE" />
-      <Label layoutX="51.0" layoutY="265.0" text="Password" textFill="WHITE" />
+      <Label layoutX="52.0" layoutY="83.0" text="%nameSurnameLabel" textFill="WHITE" />
+      <Label layoutX="52.0" layoutY="200.0" text="%emailLabel" textFill="WHITE" />
+      <Label layoutX="51.0" layoutY="265.0" text="%passwordLabel" textFill="WHITE" />
       <Label fx:id="message" alignment="TOP_CENTER" layoutX="49.0" layoutY="444.0" prefHeight="44.0" prefWidth="270.0" wrapText="true" />
    </children>
 </AnchorPane>

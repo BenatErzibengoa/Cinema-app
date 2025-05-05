@@ -8,6 +8,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 public class SignUpController {
 
     @FXML
@@ -32,7 +35,7 @@ public class SignUpController {
 
     // Reference to the UIState
     private final UIState uiState = UIState.getInstance();
-
+    ResourceBundle bundle = uiState.getBundle();
 
     @FXML
     void signUp(ActionEvent event) {
@@ -40,24 +43,24 @@ public class SignUpController {
         message.setStyle("-fx-text-fill: red; -fx-alignment: center;");
 
         if(nameField.getText().isEmpty()||surnameField.getText().isEmpty()||emailField.getText().isEmpty()||passwordField.getText().isEmpty()||passwordField2.getText().isEmpty()){
-            message.setText("Fill all fields");
+            message.setText(bundle.getString("emptyFields"));
 
         } else if(!validateEmail(emailField.getText())){
-            message.setText("Enter a valid email");
+            message.setText(bundle.getString("invalidEmail"));
             emailField.clear();
 
         } else if (!passwordField.getText().equals(passwordField2.getText())) {
-            message.setText("Passwords do not match");
+            message.setText(bundle.getString("noMatch"));
 
         } else if (passwordField.getText().length()<5) {
-            message.setText("Password must be at least 5 characters long");
+            message.setText(bundle.getString("shortPassword"));
 
         } else if(bl.getUserByEmail(emailField.getText()) != null){
-            message.setText("There is already an account related to "+emailField.getText());
+            message.setText(bundle.getString("repeatedEmail")+emailField.getText());
 
         }else {
             bl.signUp(emailField.getText(), passwordField.getText(), nameField.getText(), surnameField.getText());
-            message.setText("You've successfully registered! Welcome, "+nameField.getText()+"!");
+            message.setText(bundle.getString("successfulRegister")+nameField.getText()+"!");
             message.setStyle("-fx-text-fill: green; -fx-alignment: center;");
 
             //Pass the email to the UIState

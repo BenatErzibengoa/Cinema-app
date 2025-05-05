@@ -149,9 +149,11 @@ public class MovieListController {
 
 
     private String formatMovieDetails(Film film, LocalTime screeningTime) {
-        return String.format("%s | Screening: %s",
+        /*return String.format("%s | "+uiState.getBundle().getString("screeningTime")+": %s",
                 formatDuration(film.getDuration()),
                 screeningTime.format(timeFormatter));
+                */
+         return formatDuration(film.getDuration());
     }
 
     private String formatDuration(LocalTime duration) {
@@ -159,7 +161,7 @@ public class MovieListController {
     }
 
     private Button createBookButton(Film film) {
-        Button button = new Button("Book Now");
+        Button button = new Button(uiState.getBundle().getString("bookButton"));
         button.setStyle("-fx-background-color: #dd6600; -fx-text-fill: white; -fx-font-weight: bold;");
         button.setOnAction(event -> showBookingAlert(film));
         return button;

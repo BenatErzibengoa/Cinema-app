@@ -6,11 +6,17 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class Launcher extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("menuLayout.fxml")); //Menu --> SignIn
+
+        UIState uiState = UIState.getInstance();
+        // to change the language, go to constructor of UIState
+
+        FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("menuLayout.fxml"), uiState.getBundle()); //Menu --> SignIn
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("CineFlix");
         stage.setScene(scene);

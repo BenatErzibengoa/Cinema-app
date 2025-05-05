@@ -1,6 +1,7 @@
 package eus.ehu.cinemaProject.ui.Customer;
 
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
+import eus.ehu.cinemaProject.configuration.UtilDate;
 import eus.ehu.cinemaProject.domain.PurchaseReceipt;
 import eus.ehu.cinemaProject.domain.Seat;
 import eus.ehu.cinemaProject.domain.users.Customer;
@@ -15,6 +16,7 @@ import javafx.util.Pair;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 public class UserReceiptsController {
 
@@ -24,6 +26,7 @@ public class UserReceiptsController {
     private BlFacadeImplementation bl;
 
     private final UIState uiState = UIState.getInstance();
+    private final ResourceBundle bundle = uiState.getBundle();
 
 
     @FXML
@@ -41,15 +44,15 @@ public class UserReceiptsController {
             receiptBox.setStyle("-fx-background-color: #333333; -fx-background-radius: 8;");
             receiptBox.setPrefWidth(550);
 
-            Label filmLabel = new Label("Film: " + receipt.getShowTime().getFilm().getTitle());
+            Label filmLabel = new Label(bundle.getString("filmLabel") + " " + receipt.getShowTime().getFilm().getTitle());
             filmLabel.setTextFill(Color.WHITE);
 
-            Label dateLabel = new Label("Date: " + receipt.getOrderDate());
+            Label dateLabel = new Label(bundle.getString("dateLabel") + " " + UtilDate.formatDate(receipt.getOrderDate()));
             dateLabel.setTextFill(Color.LIGHTGRAY);
 
             // Contenedor de asientos
             VBox seatsBox = new VBox(2);
-            Label seatsTitle = new Label("Seats:");
+            Label seatsTitle = new Label(bundle.getString("seatsTitle"));
             seatsTitle.setTextFill(Color.LIGHTGRAY);
             seatsBox.getChildren().add(seatsTitle);
 
@@ -59,10 +62,10 @@ public class UserReceiptsController {
                 seatsBox.getChildren().add(seatLabel);
             }
 
-            Label priceLabel = new Label("Total Paid: " + receipt.getTotalAmount() + "€");
+            Label priceLabel = new Label(bundle.getString("priceLabel") + " " + receipt.getTotalAmount() + "€");
             priceLabel.setTextFill(Color.GOLD);
 
-            Button rateButton = new Button("Rate this film");
+            Button rateButton = new Button(bundle.getString("rateButton"));
             rateButton.setStyle("-fx-background-color: #dd6600; -fx-text-fill: white; -fx-cursor: hand;");
             rateButton.setOnAction(e -> handleRateFilm(receipt));
 
@@ -70,6 +73,7 @@ public class UserReceiptsController {
             receiptsContainer.getChildren().add(receiptBox);
         }
     }
+
     private void handleRateFilm(PurchaseReceipt receipt) {
         // Verify if it has been reviewed
         if (bl.hasFilmBeenReviewed(receipt.getShowTime().getFilm(), (Customer) uiState.getUser())) {
@@ -91,12 +95,13 @@ public class UserReceiptsController {
     @FXML
     public Optional<Pair<Integer, String>> obtainReview(){
         Dialog<Pair<Integer, String>> reviewDialog = new Dialog<>();
-        reviewDialog.setTitle("Film Review");
-        reviewDialog.setHeaderText("Rate the film and write your review");
+        reviewDialog.setTitle(bundle.getString("reviewDialogTitle"));
+        reviewDialog.setHeaderText(bundle.getString("reviewDialogHeader"));
 
         //Buttons
-        ButtonType submitButtonType = new ButtonType("Submit", ButtonBar.ButtonData.OK_DONE);
+        ButtonType submitButtonType = new ButtonType(bundle.getString("submitButton"), ButtonBar.ButtonData.OK_DONE);
         reviewDialog.getDialogPane().getButtonTypes().addAll(submitButtonType, ButtonType.CANCEL);
+
         //Slider
         Slider ratingSlider = new Slider(1, 5, 3);
         ratingSlider.setMajorTickUnit(1);
@@ -107,16 +112,16 @@ public class UserReceiptsController {
 
         //Review TextArea
         TextArea reviewText = new TextArea();
-        reviewText.setPromptText("Write your review here...");
+        reviewText.setPromptText(bundle.getString("reviewPrompt"));
         reviewText.setWrapText(true);
         reviewText.setPrefRowCount(4);
 
         //Design
         VBox content = new VBox(10);
         content.getChildren().addAll(
-                new Label("Rating:"),
+                new Label(bundle.getString("ratingLabel")),
                 ratingSlider,
-                new Label("Review:"),
+                new Label(bundle.getString("reviewLabel")),
                 reviewText
         );
         reviewDialog.getDialogPane().setContent(content);

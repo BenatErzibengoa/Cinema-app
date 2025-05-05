@@ -14,7 +14,9 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 public class MenuController {
 
@@ -34,6 +36,10 @@ public class MenuController {
     private Text titleText; //Théo
 
     BlFacadeImplementation bl;
+
+    Locale locale = Locale.forLanguageTag("es");
+    ResourceBundle bundle = ResourceBundle.getBundle("eus.ehu.cinemaProject.ui.Language", locale);
+
 
     @FXML //Théo
     private void showMovieList() {
@@ -97,18 +103,20 @@ public class MenuController {
 
     private void loadContent(String fxmlFile) {
         try {
-            // Check if content is already cached
-            Pane content = contentCache.get(fxmlFile);
-            if (content == null) {
-                // If not cached, load it and store in cache
-                FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
-                content = loader.load();
-                contentCache.put(fxmlFile, content);
-                if (loader.getController() instanceof MovieListController) {
-                    ((MovieListController) loader.getController()).setBusinessLogic(bl);
-                }
+            // Retirer la vue du cache si elle existe déjà
+            contentCache.remove(fxmlFile);
+
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile), bundle);
+            Pane content = loader.load();
+
+            if (loader.getController() instanceof MovieListController) {
+                ((MovieListController) loader.getController()).setBusinessLogic(bl);
             }
+
+            contentCache.put(fxmlFile, content);
             contentPane.setCenter(content);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
