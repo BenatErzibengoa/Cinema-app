@@ -6,27 +6,57 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="591.0" prefWidth="794.0" style="-fx-background-radius: 12px; -fx-background-color: #242424;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.Customer.OrderFoodController">
+<AnchorPane prefHeight="501.0" prefWidth="582.0" style="-fx-background-radius: 12px; -fx-background-color: #242424;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.Customer.OrderFoodController">
    <children>
-      <Label layoutX="103.0" layoutY="219.0" text="%popCorn" textFill="WHITE" />
-      <Label layoutX="103.0" layoutY="287.0" text="%nacho" textFill="WHITE" />
-      <Label layoutX="103.0" layoutY="346.0" text="%soda" textFill="WHITE" />
-      <Label layoutX="103.0" layoutY="408.0" text="%candy" textFill="WHITE" />
-      <Label layoutX="103.0" layoutY="467.0" text="%hotDog" textFill="WHITE" />
-      <Spinner fx:id="popcornNum" layoutX="194.0" layoutY="215.0" />
-      <Spinner fx:id="nachosNum" layoutX="195.0" layoutY="283.0" />
-      <Spinner fx:id="sodaNum" layoutX="195.0" layoutY="342.0" />
-      <Spinner fx:id="candyNum" layoutX="195.0" layoutY="404.0" />
-      <Spinner fx:id="hotdogNum" layoutX="194.0" layoutY="463.0" />
-      <Button fx:id="submitButton" layoutX="546.0" layoutY="507.0" mnemonicParsing="false" onAction="#handleSave" prefHeight="35.0" prefWidth="143.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="%submitOrder" textFill="WHITE" />
-      <Label layoutX="128.0" layoutY="73.0" prefHeight="45.0" prefWidth="248.0" text="%OrderSnacks" textFill="WHITE">
+      <Label layoutX="103.0" layoutY="90.0" prefHeight="20.0" prefWidth="101.0" text="%popCorn" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Label layoutX="103.0" layoutY="158.0" prefHeight="20.0" prefWidth="101.0" text="%nacho" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Label layoutX="103.0" layoutY="217.0" prefHeight="20.0" prefWidth="101.0" text="%soda" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Label layoutX="103.0" layoutY="279.0" prefHeight="20.0" prefWidth="101.0" text="%candy" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Label layoutX="103.0" layoutY="338.0" prefHeight="20.0" prefWidth="101.0" text="%hotDog" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Spinner fx:id="popcornNum" layoutX="218.0" layoutY="86.0" />
+      <Spinner fx:id="nachosNum" layoutX="219.0" layoutY="154.0" />
+      <Spinner fx:id="sodaNum" layoutX="219.0" layoutY="213.0" />
+      <Spinner fx:id="candyNum" layoutX="219.0" layoutY="275.0" />
+      <Spinner fx:id="hotdogNum" layoutX="218.0" layoutY="334.0" />
+      <Button fx:id="submitButton" layoutX="347.0" layoutY="391.0" mnemonicParsing="false" onAction="#handleSave" prefHeight="34.0" prefWidth="131.0" style="-fx-background-color: #e31837; -fx-cursor: hand;" text="%submitOrder" textFill="WHITE" />
+      <Label layoutX="103.0" layoutY="17.0" prefHeight="45.0" prefWidth="199.0" text="%OrderSnacks" textFill="WHITE">
          <font>
             <Font name="System Bold" size="26.0" />
          </font></Label>
-      <Label layoutX="390.0" layoutY="219.0" text="4€" textFill="WHITE" />
-      <Label layoutX="390.0" layoutY="287.0" text="3.5€" textFill="WHITE" />
-      <Label layoutX="390.0" layoutY="346.0" text="2.5€" textFill="WHITE" />
-      <Label layoutX="389.0" layoutY="408.0" text="1.5€" textFill="#fffcfc" />
-      <Label layoutX="389.0" layoutY="467.0" text="3€" textFill="#fffefe" />
+      <Label layoutX="404.0" layoutY="83.0" text="4€" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Label>
+      <Label layoutX="404.0" layoutY="151.0" text="3.5€" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Label>
+      <Label layoutX="404.0" layoutY="210.0" text="2.5€" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Label>
+      <Label layoutX="403.0" layoutY="272.0" text="1.5€" textFill="#fffcfc">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Label>
+      <Label layoutX="403.0" layoutY="331.0" text="3€" textFill="#fffefe">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Label>
    </children>
 </AnchorPane>

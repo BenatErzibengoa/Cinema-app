@@ -65,12 +65,12 @@ public class SignInController {
             }
             else{
                 outputText.setText(bundle.getString("loginError"));
-                outputText.setStyle("-fx-text-fill: red;");
+                outputText.setStyle("-fx-text-fill: #ff5900;");
             }
         }
         else{
             outputText.setText(bundle.getString("emptyFields"));
-            outputText.setStyle("-fx-text-fill: red;");
+            outputText.setStyle("-fx-text-fill: #ff5900;");
 
         }
         outputText.setVisible(true);

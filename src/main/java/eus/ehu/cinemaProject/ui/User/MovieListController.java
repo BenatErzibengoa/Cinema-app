@@ -71,10 +71,10 @@ public class MovieListController {
         // Texts
         Text titleText = new Text(film.getTitle());
         titleText.setWrappingWidth(200);
-        titleText.setStyle("-fx-font-weight: bold; -fx-font-size: 16px;");
+        titleText.setStyle("-fx-font-weight: bold; -fx-font-size: 16px; -fx-fill: white;");
 
         Text detailsText = new Text(formatMovieDetails(film, screeningTime));
-        detailsText.setStyle("-fx-font-size: 14px; -fx-fill: #666666;");
+        detailsText.setStyle("-fx-font-size: 14px; -fx-fill: white;");
 
 
         //Star rating
@@ -85,7 +85,7 @@ public class MovieListController {
 
         // Card assembly
         VBox card = new VBox(8, posterView, titleText, starRating, detailsText, bookButton);
-        card.setStyle("-fx-background-color: white; -fx-border-color: #e0e0e0; -fx-padding: 15px;");
+        card.setStyle("-fx-background-color: #242424; -fx-padding: 15px; -fx-border-radius: 8px; -fx-background-radius: 8px;");
         card.setMaxWidth(220);
 
         return card;
@@ -162,7 +162,7 @@ public class MovieListController {
 
     private Button createBookButton(Film film) {
         Button button = new Button(uiState.getBundle().getString("bookButton"));
-        button.setStyle("-fx-background-color: #e31837; -fx-text-fill: white; -fx-font-weight: bold;");
+        button.setStyle("-fx-background-color: #e31837; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 6px 18px; -fx-cursor:  hand;");
         button.setOnAction(event -> showBookingAlert(film));
         return button;
     }

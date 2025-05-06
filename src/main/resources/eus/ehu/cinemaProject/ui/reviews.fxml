@@ -5,29 +5,21 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0"
-            xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="eus.ehu.cinemaProject.ui.Customer.ReviewsController"
-            style="-fx-background-color: #242424;">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #242424;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.Customer.ReviewsController">
     <children>
         <!-- Título -->
-        <Label layoutX="36.0" layoutY="20.0" text="%reviews" textFill="white"
-               style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+        <Label layoutX="36.0" layoutY="20.0" style="-fx-font-size: 26px; -fx-font-weight: bold;" text="%reviews" textFill="white" />
 
         <!-- ScrollPane para reviews -->
-        <ScrollPane layoutX="36.0" layoutY="70.0" prefWidth="730.0" prefHeight="470.0"
-                    fitToWidth="true" style="-fx-background-color: transparent; -fx-background: #171717; -fx-border-color: #171717;">
+        <ScrollPane fitToWidth="true" layoutX="36.0" layoutY="70.0" prefHeight="470.0" prefWidth="730.0" style="-fx-background-color: transparent; -fx-background: #171717; -fx-border-color: #171717;">
             <content>
                 <VBox fx:id="reviewsContainer" spacing="15" style="-fx-padding: 10; -fx-background-color: #171717;" />
             </content>
         </ScrollPane>
 
         <!-- Botón abajo -->
-        <Button layoutX="36.0" layoutY="550.0" text="Back" onAction="#goBack"
-                style="-fx-background-color: #e31837; -fx-text-fill: white; -fx-background-radius: 5;" />
+        <Button layoutX="36.0" layoutY="551.0" onAction="#goBack" prefHeight="30.0" prefWidth="90.0" style="-fx-background-color: #e31837; -fx-text-fill: white; -fx-background-radius: 5;" text="Back" />
 
     </children>
 </AnchorPane>

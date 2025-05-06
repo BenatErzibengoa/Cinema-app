@@ -8,22 +8,25 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="contentArea" prefHeight="620.0" prefWidth="829.0" style="-fx-background-color: #242424; -fx-background-radius: 12px;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.Customer.ReceiptController">
+<AnchorPane fx:id="contentArea" prefHeight="620.0" prefWidth="785.0" style="-fx-background-color: #242424; -fx-background-radius: 12px;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.Customer.ReceiptController">
    <children>
-      <Button fx:id="goBack" layoutX="77.0" layoutY="502.0" mnemonicParsing="false" onAction="#goToSeatSelect" prefHeight="35.0" prefWidth="139.0" style="-fx-background-color: #e31837; -fx-cursor: hand;" text="%back" textFill="WHITE" />
-      <Button fx:id="proceedPayment" layoutX="508.0" layoutY="502.0" mnemonicParsing="false" onAction="#proceedPaymentButton" prefHeight="35.0" prefWidth="182.0" style="-fx-background-color: #e31837; -fx-cursor: hand;" text="%proceedButton" textFill="WHITE" />
-      <Button fx:id="orderSnacks" layoutX="307.0" layoutY="502.0" mnemonicParsing="false" onAction="#goToSnacksSelect" prefHeight="35.0" prefWidth="139.0" style="-fx-background-color: #e31837; -fx-cursor: hand;" text="%orderSnacksButton" textFill="WHITE" />
-      <TextField fx:id="totalPrize" editable="false" layoutX="569.0" layoutY="403.0" prefHeight="26.0" prefWidth="116.0" style="-fx-background-color: #2c2c2c; -fx-text-fill: white;" />
+      <Button fx:id="goBack" layoutX="45.0" layoutY="502.0" mnemonicParsing="false" onAction="#goToSeatSelect" prefHeight="35.0" prefWidth="139.0" style="-fx-background-color: #e31837; -fx-cursor: hand;" text="%back" textFill="WHITE" />
+      <Button fx:id="proceedPayment" layoutX="542.0" layoutY="502.0" mnemonicParsing="false" onAction="#proceedPaymentButton" prefHeight="35.0" prefWidth="182.0" style="-fx-background-color: #e31837; -fx-cursor: hand;" text="%proceedButton" textFill="WHITE" />
+      <Button fx:id="orderSnacks" layoutX="297.0" layoutY="502.0" mnemonicParsing="false" onAction="#goToSnacksSelect" prefHeight="35.0" prefWidth="139.0" style="-fx-background-color: #e31837; -fx-cursor: hand;" text="%orderSnacksButton" textFill="WHITE" />
+      <TextField fx:id="totalPrize" editable="false" layoutX="575.0" layoutY="67.0" prefHeight="26.0" prefWidth="116.0" style="-fx-background-color: #2c2c2c; -fx-text-fill: white;">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
 
-      <Label layoutX="502.0" layoutY="401.0" prefHeight="30.0" prefWidth="67.0" text="Total:" textFill="WHITE">
+      <Label layoutX="508.0" layoutY="69.0" prefHeight="30.0" prefWidth="67.0" text="Total:" textFill="WHITE">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
 
-      <TextArea fx:id="movieInfo" editable="false" layoutX="67.0" layoutY="296.0" prefHeight="98.0" prefWidth="300.0" style="-fx-background-color: #2c2c2c; -fx-text-fill: white; -fx-control-inner-background: #2c2c2c;" />
+      <TextArea fx:id="movieInfo" editable="false" layoutX="271.0" layoutY="85.0" prefHeight="98.0" prefWidth="203.0" style="-fx-background-color: #2c2c2c; -fx-text-fill: white; -fx-control-inner-background: #2c2c2c;" />
 
-      <TextArea fx:id="receipt" editable="false" layoutX="491.0" layoutY="196.0" prefHeight="200.0" prefWidth="217.0" style="-fx-background-color: #2c2c2c; -fx-text-fill: white; -fx-control-inner-background: #2c2c2c;" />
-      <ImageView fx:id="filmImage" fitHeight="226.0" fitWidth="300.0" layoutX="67.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" />
+      <TextArea fx:id="receipt" editable="false" layoutX="508.0" layoutY="108.0" prefHeight="331.0" prefWidth="217.0" style="-fx-background-color: #2c2c2c; -fx-text-fill: white; -fx-control-inner-background: #2c2c2c;" />
+      <ImageView fx:id="filmImage" fitHeight="371.0" fitWidth="203.0" layoutX="51.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

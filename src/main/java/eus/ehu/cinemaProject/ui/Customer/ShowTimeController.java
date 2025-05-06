@@ -107,6 +107,8 @@ public class ShowTimeController {
 
         for (ShowTime selectedShowTime: showTimes){
             Button showTimeButton = new Button(selectedShowTime.getScreeningTime().format(DateTimeFormatter.ofPattern("HH:mm")));
+            showTimeButton.setStyle("-fx-background-color: #e31837; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 6px 18px; -fx-cursor:  hand;");
+
             showTimeButton.setOnAction(event -> handleShowTimeClick(selectedShowTime));
 
             showtimesPane.getChildren().add(showTimeButton);

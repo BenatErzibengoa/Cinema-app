@@ -14,7 +14,7 @@
    <top>
       <HBox alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="800.0" style="-fx-background-color: rgba(0,0,0,0.6);" BorderPane.alignment="CENTER_RIGHT">
          <children>
-            <ImageView fitHeight="35.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="35.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
@@ -23,24 +23,24 @@
                </image>
             </ImageView>
 
-            <Text fx:id="titleText" fill="#e31837" onMouseClicked="#showMovieList" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text=" CineFlix" wrappingWidth="92.30599331855774">
+            <Text fx:id="titleText" fill="#e31837" onMouseClicked="#showMovieList" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text=" CineFlix" wrappingWidth="86.30599331855774">
                <HBox.margin>
                   <Insets right="295.0" />
                </HBox.margin>
                <font>
-                  <Font name="System Bold" size="18.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
             </Text>
 
             <Region prefHeight="47.0" prefWidth="27.0" />
-            <Button fx:id="receiptsButton" mnemonicParsing="false" onAction="#receiptsPane" prefHeight="31.0" prefWidth="89.0" style="-fx-background-color: rgba(0,0,0,0); -fx-border-color: #aaa; -fx-border-radius: 3px;" text="%receiptsButton" textFill="WHITE" visible="false" />
+            <Button fx:id="receiptsButton" mnemonicParsing="false" onAction="#receiptsPane" prefHeight="31.0" prefWidth="210.0" style="-fx-background-color: rgba(0,0,0,0); -fx-border-color: #aaa; -fx-border-radius: 3px;" text="%receiptsButton" textFill="WHITE" visible="false" />
             <Region prefHeight="47.0" prefWidth="82.0" />
-            <Button fx:id="loginButton" mnemonicParsing="false" onAction="#loginPane" prefHeight="31.0" prefWidth="79.0" style="-fx-background-color: rgba(0,0,0,0); -fx-border-color: #aaa; -fx-border-radius: 3px; -fx-cursor: hand;" text="%loginButton" textFill="WHITE">
+            <Button fx:id="loginButton" mnemonicParsing="false" onAction="#loginPane" prefHeight="31.0" prefWidth="199.0" style="-fx-background-color: rgba(0,0,0,0); -fx-border-color: #aaa; -fx-border-radius: 3px; -fx-cursor: hand;" text="%loginButton" textFill="WHITE">
                <HBox.margin>
                   <Insets right="30.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="registerButton" mnemonicParsing="false" onAction="#registerPane" prefHeight="31.0" prefWidth="89.0" style="-fx-background-color: #e31837; -fx-cursor: hand;" text="%registerButton" textFill="WHITE" />
+            <Button fx:id="registerButton" mnemonicParsing="false" onAction="#registerPane" prefHeight="31.0" prefWidth="200.0" style="-fx-background-color: #e31837; -fx-cursor: hand;" text="%registerButton" textFill="WHITE" />
          </children>
          <padding>
             <Insets left="20.0" right="20.0" />
