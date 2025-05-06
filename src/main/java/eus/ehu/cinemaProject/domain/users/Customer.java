@@ -63,4 +63,5 @@ public class Customer extends User {
     }
 
     public void addReceipt(PurchaseReceipt purchaseReceipt){purchaseHistory.add(purchaseReceipt);}
+    public List<PurchaseReceipt> getPurchaseHistory(){return purchaseHistory;}
 }

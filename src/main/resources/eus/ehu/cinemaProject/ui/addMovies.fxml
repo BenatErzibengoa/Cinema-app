@@ -61,5 +61,6 @@
       <Label layoutX="539.0" layoutY="22.0" text="%moviesLabel" textFill="WHITE" />
       <Button layoutX="28.0" layoutY="362.0" mnemonicParsing="false" onAction="#goBack" style="-fx-background-color: #e31837; -fx-text-fill: white; -fx-background-radius: 5;" text="%backB1" />
 
+
    </children>
 </AnchorPane>

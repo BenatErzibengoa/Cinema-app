@@ -13,7 +13,6 @@
       <Button fx:id="goBack" layoutX="77.0" layoutY="502.0" mnemonicParsing="false" onAction="#goToSeatSelect" prefHeight="35.0" prefWidth="139.0" style="-fx-background-color: #e31837; -fx-cursor: hand;" text="%BackButton" textFill="WHITE" />
       <Button fx:id="proceedPayment" layoutX="508.0" layoutY="502.0" mnemonicParsing="false" onAction="#proceedPaymentButton" prefHeight="35.0" prefWidth="182.0" style="-fx-background-color: #e31837; -fx-cursor: hand;" text="%proceedButton" textFill="WHITE" />
       <Button fx:id="orderSnacks" layoutX="307.0" layoutY="502.0" mnemonicParsing="false" onAction="#goToSnacksSelect" prefHeight="35.0" prefWidth="139.0" style="-fx-background-color: #e31837; -fx-cursor: hand;" text="%orderSnacksButton" textFill="WHITE" />
-
       <TextField fx:id="totalPrize" editable="false" layoutX="569.0" layoutY="403.0" prefHeight="26.0" prefWidth="116.0" style="-fx-background-color: #2c2c2c; -fx-text-fill: white;" />
 
       <Label layoutX="502.0" layoutY="401.0" prefHeight="30.0" prefWidth="67.0" text="Total:" textFill="WHITE">

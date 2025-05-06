@@ -161,4 +161,8 @@ public interface BlFacade {
     List<ShowTime>getAllShowtimes();
 
 
+
+    void setOrderStatus(PurchaseReceipt receipt, OrderStatus orderStatus);
+
+    List<PurchaseReceipt> getPendingCancellationPurchaseReceipts();
 }

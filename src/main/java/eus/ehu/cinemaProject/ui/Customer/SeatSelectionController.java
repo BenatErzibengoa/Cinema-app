@@ -26,6 +26,9 @@ public class SeatSelectionController {
     private GridPane seatGrid;
 
     @FXML
+    private Label errorLabel;
+
+    @FXML
     private Label totalPriceLabel;
 
     private Map<ToggleButton, Seat> seatMap = new HashMap<>();
@@ -37,6 +40,7 @@ public class SeatSelectionController {
 
     @FXML
     public void initialize() {
+        errorLabel.setVisible(false);
         int index =0, seatsPerRow;
         String id;
         ScreeningRoom room = uiState.getSelectedShowtime().getSchedule().getScreeningRoom();
@@ -99,10 +103,14 @@ public class SeatSelectionController {
 
     @FXML
     void buyTickets(ActionEvent event) {
-        uiState.setSelectedSeats(selectedSeats);
-        // Receipt is created when proceeding to payment
-        //bl.createPurchaseReceipt((Customer)customer, uiState.getSelectedShowtime(), selectedSeats);
-        uiState.setCurrentView("receipt.fxml");
+        if(selectedSeats.isEmpty()) {
+            errorLabel.setVisible(true);
+        }
+        else {
+            errorLabel.setVisible(false);
+            uiState.setSelectedSeats(selectedSeats);
+            uiState.setCurrentView("receipt.fxml");
+        }
     }
 
     //Update the total price label with the sum of the selected seats, using stream
@@ -116,6 +124,18 @@ public class SeatSelectionController {
     @FXML
     void goBack(ActionEvent event) {
         uiState.setCurrentView("showTime.fxml");
+    }
+
+    public void reselectSeats(){
+        uiState.getSelectedSeats().forEach(seat ->{
+            seatMap.entrySet().stream()
+                    .filter(entry -> entry.getValue().equals(seat))
+                    .findFirst()
+                    .ifPresent(entry -> {
+                        ToggleButton button = entry.getKey();
+                        button.setSelected(true);
+                    });
+        });
     }
 
 }
