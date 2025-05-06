@@ -2,9 +2,6 @@ package eus.ehu.cinemaProject.domain;
 
 import eus.ehu.cinemaProject.domain.users.Customer;
 import jakarta.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import javafx.beans.binding.Bindings;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,7 +29,7 @@ public class PurchaseReceipt {
         this.orderDate = orderDate;
         this.customer = customer;
         this.showTime = showTime;
-        status = OrderStatus.COMPLETED;
+        status = OrderStatus.PAID;
         this.bookedSeats = bookedSeats;
         this.totalAmount = getSeatAmount() + getFoodAmount();
         this.showTime.bookSeats(bookedSeats);

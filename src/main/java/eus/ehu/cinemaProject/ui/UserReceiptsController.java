@@ -6,6 +6,7 @@ import eus.ehu.cinemaProject.domain.PurchaseReceipt;
 import eus.ehu.cinemaProject.domain.users.Customer;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -71,11 +72,17 @@ public class UserReceiptsController {
 
 
         // Add a listener to observe changes in the list
-        purchaseReceipts.forEach(receipt -> {
-            receipt.getShowTime().getScreeningDate(); // Ensure ShowTime is loaded
-            receipt.getShowTime().getScreeningTime(); // Ensure ShowTime is loaded
-            updateStatusIfPast(receipt);
-        });
+        purchaseReceipts.addListener(
+                (ListChangeListener<PurchaseReceipt>) change -> {
+                    while (change.next()) {
+                        if (change.wasUpdated()) {
+                            for (PurchaseReceipt receipt : change.getRemoved()) {
+                                updateStatusIfPast(receipt);
+                            }
+                        }
+                    }
+                }
+        );
 
     }
 
@@ -148,7 +155,7 @@ public class UserReceiptsController {
     @FXML
     void cancelPurchase() {
         PurchaseReceipt selectedReceipt = tablePurchaseReceipts.getSelectionModel().getSelectedItem();
-        if((selectedReceipt != null) && selectedReceipt.getStatus() == OrderStatus.COMPLETED) {
+        if((selectedReceipt != null) && selectedReceipt.getStatus() == OrderStatus.PAID) {
             bl.setOrderStatus(selectedReceipt, OrderStatus.CANCELLATION_PENDING);
             tablePurchaseReceipts.refresh(); // Refresh the table to reflect the changes
         }

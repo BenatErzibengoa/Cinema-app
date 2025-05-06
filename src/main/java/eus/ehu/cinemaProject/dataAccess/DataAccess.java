@@ -11,7 +11,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
-import javafx.concurrent.Task;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.hibernate.boot.MetadataSources;
@@ -406,5 +405,20 @@ public class DataAccess {
         db.getTransaction().begin();
         receipt.setStatus(orderStatus);
         db.merge(receipt);
+    }
+
+    public List<PurchaseReceipt> getPendingCancellationPurchaseReceipts() {
+        List<PurchaseReceipt> receipts;
+        try {
+            TypedQuery<PurchaseReceipt> query = db.createQuery(
+                    "SELECT pr FROM PurchaseReceipt pr WHERE pr.status = :status",PurchaseReceipt.class);
+            query.setParameter("status", OrderStatus.CANCELLATION_PENDING);
+
+            receipts = query.getResultList();
+        } catch (NoResultException e) {
+            logger.info(String.format("No pending receipt cancellations found"));
+            receipts = null;
+        }
+        return receipts;
     }
 }

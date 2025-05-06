@@ -2,7 +2,7 @@ package eus.ehu.cinemaProject.domain;
 
 public enum OrderStatus {
     PAST,
-    COMPLETED,
+    PAID,
     CANCELLATION_PENDING,
-    CANCELLED;
+    CANCELLED, PENDING_CANCELLATION;
 }
