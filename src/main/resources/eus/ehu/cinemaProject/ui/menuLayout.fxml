@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="contentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="662.0" prefWidth="800.0" style="-fx-background-color: #171717;" stylesheets="@MovieListStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.MenuController">
+<BorderPane fx:id="contentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="662.0" prefWidth="800.0" style="-fx-background-color: #171717;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.MenuController">
    <top>
       <HBox alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="800.0" style="-fx-background-color: rgba(0,0,0,0.6);" BorderPane.alignment="CENTER_RIGHT">
          <children>
@@ -23,7 +23,7 @@
                </image>
             </ImageView>
 
-            <Text fx:id="titleText" fill="#dd6600" onMouseClicked="#showMovieList" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text=" CineFlix" wrappingWidth="92.30599331855774">
+            <Text fx:id="titleText" fill="#e31837" onMouseClicked="#showMovieList" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text=" CineFlix" wrappingWidth="92.30599331855774">
                <HBox.margin>
                   <Insets right="295.0" />
                </HBox.margin>
@@ -40,7 +40,7 @@
                   <Insets right="30.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="registerButton" mnemonicParsing="false" onAction="#registerPane" prefHeight="31.0" prefWidth="89.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="%registerButton" textFill="WHITE" />
+            <Button fx:id="registerButton" mnemonicParsing="false" onAction="#registerPane" prefHeight="31.0" prefWidth="89.0" style="-fx-background-color: #e31837; -fx-cursor: hand;" text="%registerButton" textFill="WHITE" />
          </children>
          <padding>
             <Insets left="20.0" right="20.0" />

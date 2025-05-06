@@ -5,6 +5,10 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.TilePane?>
+<!-- Add this to your root FXML element -->
+
+
+<?import java.net.URL?>
 
 <BorderPane prefHeight="92.0" prefWidth="745.0" style="-fx-background-color: #171717;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.User.MovieListController">
     <top>

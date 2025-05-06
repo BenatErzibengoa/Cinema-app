@@ -162,7 +162,7 @@ public class MovieListController {
 
     private Button createBookButton(Film film) {
         Button button = new Button(uiState.getBundle().getString("bookButton"));
-        button.setStyle("-fx-background-color: #dd6600; -fx-text-fill: white; -fx-font-weight: bold;");
+        button.setStyle("-fx-background-color: #e31837; -fx-text-fill: white; -fx-font-weight: bold;");
         button.setOnAction(event -> showBookingAlert(film));
         return button;
     }

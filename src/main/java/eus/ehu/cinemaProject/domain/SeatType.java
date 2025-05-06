@@ -1,10 +1,10 @@
 package eus.ehu.cinemaProject.domain;
 
 public enum SeatType {
-    NORMAL("-fx-background-color: gray;"),
-    COMFORTABLE("-fx-background-color: blue;"),
-    PREMIUM("-fx-background-color: gold;"),
-    OCCUPIED("-fx-background-color: red;"); // Occupied seats in red
+    NORMAL("-fx-background-color: #666666;"),
+    COMFORTABLE("-fx-background-color: #2266cc;"),
+    PREMIUM("-fx-background-color: #ea9308;"),
+    OCCUPIED("-fx-background-color: #333333;");
 
     private final String style;
 

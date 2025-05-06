@@ -44,7 +44,7 @@
     <bottom>
         <AnchorPane prefHeight="113.0" prefWidth="601.0" BorderPane.alignment="CENTER">
             <children>
-                <Button alignment="CENTER" layoutX="317.0" layoutY="53.0" mnemonicParsing="false" onAction="#buyTickets" prefHeight="35.0" prefWidth="255.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="%contBuyingButton" textFill="WHITE" />
+                <Button alignment="CENTER" layoutX="317.0" layoutY="53.0" mnemonicParsing="false" onAction="#buyTickets" prefHeight="35.0" prefWidth="255.0" style="-fx-background-color: #e31837; -fx-cursor: hand;" text="%contBuyingButton" textFill="WHITE" />
                 <Label layoutX="156.0" layoutY="8.0" text="%seatPriceLabel" textFill="WHITE">
                     <font>
                         <Font name="System Bold" size="20.0" />
@@ -55,7 +55,7 @@
                         <Font size="20.0" />
                     </font>
                 </Label>
-                <Button alignment="CENTER" layoutX="29.0" layoutY="53.0" mnemonicParsing="false" onAction="#goBack" prefHeight="35.0" prefWidth="255.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="%goBackButton" textFill="WHITE" />
+                <Button alignment="CENTER" layoutX="29.0" layoutY="53.0" mnemonicParsing="false" onAction="#goBack" prefHeight="35.0" prefWidth="255.0" style="-fx-background-color: #e31837; -fx-cursor: hand;" text="%goBackButton" textFill="WHITE" />
             </children>
         </AnchorPane>
     </bottom>
