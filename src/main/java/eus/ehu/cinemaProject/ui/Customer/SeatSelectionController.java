@@ -69,7 +69,7 @@ public class SeatSelectionController {
             ToggleButton seatButton = new ToggleButton(id);
             seatMap.put(seatButton, seat);
             seatButton.setContentDisplay(ContentDisplay.TOP); //id will appear on top of the image
-            seatButton.setStyle(seat.getType().getStyle() + "-fx-font-size: 10px;");
+            seatButton.setStyle(seat.getType().getStyle() + "-fx-font-size: 10px; -fx-text-fill: white");
 
             //Add image but make the size smaller
             ImageView seatImage = new ImageView(seat.getImage());

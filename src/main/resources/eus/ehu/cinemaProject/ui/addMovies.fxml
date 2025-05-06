@@ -14,7 +14,7 @@
 <AnchorPane prefHeight="400.0" prefWidth="656.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.Admin.AddMovieController">
    <children>
       <TextField fx:id="movieName" layoutX="28.0" layoutY="30.0" promptText="%enterTitle" />
-      <Button layoutX="185.0" layoutY="30.0" mnemonicParsing="false" onAction="#searchMovie" style="-fx-background-color: #dd6600; -fx-text-fill: white; -fx-background-radius: 5;" text="%searchB" />
+      <Button layoutX="185.0" layoutY="30.0" mnemonicParsing="false" onAction="#searchMovie" style="-fx-background-color: #e31837; -fx-text-fill: white; -fx-background-radius: 5;" text="%searchB" />
        <StackPane layoutX="28.0" layoutY="65.0" prefHeight="285.0" prefWidth="445.0">
            <children>
                <Label fx:id="movieTitle" prefHeight="27.0" prefWidth="345.0" textFill="WHITE" StackPane.alignment="TOP_LEFT">
@@ -52,14 +52,15 @@
                </Label>
            </children>
        </StackPane>
-      <Button fx:id="aMovieButton" layoutX="273.0" layoutY="30.0" mnemonicParsing="false" onAction="#addNewMovie" style="-fx-background-color: #dd6600; -fx-text-fill: white; -fx-background-radius: 5;" text="%addMovieB" />
+      <Button fx:id="aMovieButton" layoutX="273.0" layoutY="30.0" mnemonicParsing="false" onAction="#addNewMovie" style="-fx-background-color: #e31837; -fx-text-fill: white; -fx-background-radius: 5;" text="%addMovieB" />
        <TableView fx:id="moviesTable" layoutX="488.0" layoutY="43.0" prefHeight="322.0" prefWidth="143.0">
         <columns>
           <TableColumn fx:id="titleColumn" prefWidth="146.66665649414062" text="%tittle" />
         </columns>
       </TableView>
       <Label layoutX="539.0" layoutY="22.0" text="%moviesLabel" textFill="WHITE" />
-      <Button layoutX="28.0" layoutY="362.0" mnemonicParsing="false" onAction="#goBack" style="-fx-background-color: #dd6600; -fx-text-fill: white; -fx-background-radius: 5;" text="%back" />
+      <Button layoutX="28.0" layoutY="362.0" mnemonicParsing="false" onAction="#goBack" style="-fx-background-color: #e31837; -fx-text-fill: white; -fx-background-radius: 5;" text="%backB1" />
+
 
    </children>
 </AnchorPane>

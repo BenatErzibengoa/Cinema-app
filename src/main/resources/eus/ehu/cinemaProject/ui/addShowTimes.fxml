@@ -14,7 +14,7 @@
    <children>
       <ComboBox fx:id="screeningRoomComboBox" layoutX="30.0" layoutY="27.0" prefHeight="25.0" prefWidth="175.0" promptText="%selectRoom" />
       <ComboBox fx:id="movieCombobox" layoutX="222.0" layoutY="27.0" prefHeight="25.0" prefWidth="365.0" promptText="%selectMovie" />
-      <Button layoutX="30.0" layoutY="545.0" mnemonicParsing="false" onAction="#goBack" style="-fx-background-color: #dd6600; -fx-text-fill: white; -fx-cursor: hand;" text="%back" />
+      <Button layoutX="30.0" layoutY="545.0" mnemonicParsing="false" onAction="#goBack" style="-fx-background-color: #e31837; -fx-text-fill: white; -fx-cursor: hand;" text="%backB2" />
       <ScrollPane fx:id="timelineScrollPane" layoutX="30.0" layoutY="80.0" prefHeight="455.0" prefWidth="657.0" VBox.vgrow="ALWAYS">
          <content>
             <VBox spacing="5">

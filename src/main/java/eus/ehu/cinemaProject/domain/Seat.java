@@ -28,9 +28,9 @@ public class Seat {
     public Image getImage(){
         String name = "";
         switch (type){
-            case NORMAL -> name ="plasticSeat.jpeg";
-            case COMFORTABLE -> name = "redSeat.png";
-            case PREMIUM -> name = "premiumSeat.jpg";
+            case NORMAL -> name ="seat.png";
+            case COMFORTABLE -> name = "premium seat.png";
+            case PREMIUM -> name = "premium seat.png";
             case OCCUPIED -> name = "occupiedSeat.png";
         }
         InputStream stream = getClass().getResourceAsStream("/eus/ehu/cinemaProject/ui/pictures/" + name);
