@@ -19,7 +19,7 @@
                   <Insets />
                </HBox.margin>
                <image>
-                  <Image url="@logo.png" />
+                  <Image url="@pictures/logo.png" />
                </image>
             </ImageView>
 

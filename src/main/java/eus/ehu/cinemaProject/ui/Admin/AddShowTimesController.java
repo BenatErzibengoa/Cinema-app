@@ -64,7 +64,7 @@ public class AddShowTimesController {
         bl = BlFacadeImplementation.getInstance();
         refreshMovieList();
         timelineScrollPane.getStylesheets().add(
-                Objects.requireNonNull(getClass().getResource("/eus/ehu/cinemaProject/ui/timeline-style.css")).toExternalForm()
+                Objects.requireNonNull(getClass().getResource("/eus/ehu/cinemaProject/ui/css/timeline-style.css")).toExternalForm()
         );
 
         screeningRoomComboBox.valueProperty().addListener((obs, old, room) -> {
