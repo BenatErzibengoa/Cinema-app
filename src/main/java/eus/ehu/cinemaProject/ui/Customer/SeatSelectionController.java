@@ -128,5 +128,17 @@ public class SeatSelectionController {
         uiState.setCurrentView("showTime.fxml");
     }
 
+    public void reselectSeats(){
+        uiState.getSelectedSeats().forEach(seat ->{
+            seatMap.entrySet().stream()
+                    .filter(entry -> entry.getValue().equals(seat))
+                    .findFirst()
+                    .ifPresent(entry -> {
+                        ToggleButton button = entry.getKey();
+                        button.setSelected(true);
+                    });
+        });
+    }
+
 }
 

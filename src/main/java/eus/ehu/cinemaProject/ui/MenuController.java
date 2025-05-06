@@ -2,7 +2,6 @@ package eus.ehu.cinemaProject.ui;
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
 import eus.ehu.cinemaProject.ui.User.MovieListController;
 import eus.ehu.cinemaProject.domain.users.Admin;
-import eus.ehu.cinemaProject.domain.users.Customer;
 import eus.ehu.cinemaProject.domain.users.User;
 import eus.ehu.cinemaProject.domain.users.Worker;
 import javafx.event.ActionEvent;
@@ -12,7 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
@@ -42,7 +40,7 @@ public class MenuController {
     ResourceBundle bundle = ResourceBundle.getBundle("eus.ehu.cinemaProject.ui.Language", locale);
 
 
-    @FXML //Théo
+    @FXML
     private void showMovieList() {
         User user = bl.getUserByEmail(uiState.getWorkerEmail());
         if(!(user instanceof Admin)){
@@ -130,16 +128,19 @@ public class MenuController {
             // Check if content is already cached
             Pane content = contentCache.get(fxmlFile);
             if (content == null || fxmlFile.equals("MovieList.fxml")) {
-                // If not cached, load it and store in cache
+
+                contentCache.clear();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile), bundle);
                 content = loader.load();
                 contentCache.put(fxmlFile, content);
+
                 if (loader.getController() instanceof MovieListController) {
                     ((MovieListController) loader.getController()).setBusinessLogic(bl);
                 }
-            }
 
-            contentCache.put(fxmlFile, content);
+                contentCache.put(fxmlFile, content);
+
+            }
             contentPane.setCenter(content);
 
         } catch (IOException e) {

@@ -10,7 +10,7 @@
 
 <AnchorPane fx:id="contentArea" prefHeight="620.0" prefWidth="829.0" style="-fx-background-color: #242424; -fx-background-radius: 12px;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.Customer.ReceiptController">
    <children>
-      <Button fx:id="goBack" layoutX="77.0" layoutY="502.0" mnemonicParsing="false" onAction="#goToSeatSelect" prefHeight="35.0" prefWidth="139.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="%BackButton" textFill="WHITE" />
+      <Button fx:id="goBack" layoutX="77.0" layoutY="502.0" mnemonicParsing="false" onAction="#goToSeatSelect" prefHeight="35.0" prefWidth="139.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="%back" textFill="WHITE" />
       <Button fx:id="proceedPayment" layoutX="508.0" layoutY="502.0" mnemonicParsing="false" onAction="#proceedPaymentButton" prefHeight="35.0" prefWidth="182.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="%proceedButton" textFill="WHITE" />
       <Button fx:id="orderSnacks" layoutX="307.0" layoutY="502.0" mnemonicParsing="false" onAction="#goToSnacksSelect" prefHeight="35.0" prefWidth="139.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="%orderSnacksButton" textFill="WHITE" />
 

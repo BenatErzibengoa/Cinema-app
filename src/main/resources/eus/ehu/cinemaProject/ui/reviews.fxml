@@ -14,7 +14,7 @@
             style="-fx-background-color: #242424;">
     <children>
         <!-- Título -->
-        <Label layoutX="36.0" layoutY="20.0" text="Reviews" textFill="white"
+        <Label layoutX="36.0" layoutY="20.0" text="%reviews" textFill="white"
                style="-fx-font-size: 18px; -fx-font-weight: bold;" />
 
         <!-- ScrollPane para reviews -->
@@ -26,7 +26,7 @@
         </ScrollPane>
 
         <!-- Botón abajo -->
-        <Button layoutX="36.0" layoutY="550.0" text="Back" onAction="#goBack"
+        <Button layoutX="36.0" layoutY="550.0" text="%back" onAction="#goBack"
                 style="-fx-background-color: #dd6600; -fx-text-fill: white; -fx-background-radius: 5;" />
     </children>
 </AnchorPane>

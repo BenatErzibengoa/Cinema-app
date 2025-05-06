@@ -55,7 +55,7 @@
                         <Font size="20.0" />
                     </font>
                 </Label>
-                <Button alignment="CENTER" layoutX="29.0" layoutY="53.0" mnemonicParsing="false" onAction="#goBack" prefHeight="35.0" prefWidth="255.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="%goBackButton" textFill="WHITE" />
+                <Button alignment="CENTER" layoutX="29.0" layoutY="53.0" mnemonicParsing="false" onAction="#goBack" prefHeight="35.0" prefWidth="255.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="%back" textFill="WHITE" />
             <Label fx:id="errorLabel" layoutX="215.0" layoutY="-1.0" prefHeight="18.0" prefWidth="182.0" text="%errorMessage" textFill="#ff6600" />
             </children>
         </AnchorPane>
