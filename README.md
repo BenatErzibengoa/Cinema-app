@@ -46,6 +46,26 @@ The controllers and UIs we have developed during this second sprint are MovieLis
 
 We also created a sequence diagram, and we stylized our views following the style used in the previous sprint.
 
+### Third sprint
+
+As previously done in the second sprint, we firstly started correcting some errors that we got in the last sprint and ensuring that everything that we missed was functioning well and was all finished.
+
+Then we started hashing our passwords, we created some tests and we implemented an API that would let us easily get the information of the films for adding them to the cinema. 
+
+After that, we implemented the admin and the worker roles, each with their own UIs and functionalities.
+We also updated the customer role.
+
+The customer will now have a feature to post reviews of the film that they watched, and those reviews will count to the rating of each film.
+Also the customer can 
+
+The admin will be able to add films just by searching the title, then the api will return the information of that film and add it to the system. Along with that, the admin will be able to hire and fire workers, by adding them to the database with the worker role, or in the other case removing them from the database. Finally, it will be able to add films to concrete showtimes; The admin will select the room and get the available time frames for that room, then it will create a showtime in the selected time frame with the previously selected film.
+
+The worker
+
+
+
+along with the feature of adding reviews under the condition that the reviewer was a user that 
+
 ### Test Users
 
 The system comes with several pre-configured test users for different roles:
