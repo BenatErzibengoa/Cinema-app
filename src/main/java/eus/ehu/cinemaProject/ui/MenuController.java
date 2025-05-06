@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -127,30 +128,28 @@ public class MenuController {
 
     private Map<String, Pane> contentCache = new HashMap<>();
 
+
     private void loadContent(String fxmlFile) {
         try {
+            // Check if content is already cached
             Pane content = contentCache.get(fxmlFile);
-            if (content == null || fxmlFile.equals("MovieList.fxml")) {
-
-                contentCache.clear();
+            if (content == null) {
+                // If not cached, load it and store in cache
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile), bundle);
                 content = loader.load();
                 contentCache.put(fxmlFile, content);
-
                 if (loader.getController() instanceof MovieListController) {
                     ((MovieListController) loader.getController()).setBusinessLogic(bl);
                 }
                 if (loader.getController() instanceof SeatSelectionController) {
                     uiState.setSeatSelectionController((SeatSelectionController) loader.getController());
                 }
-
-                contentCache.put(fxmlFile, content);
-
             }
             contentPane.setCenter(content);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
 }
