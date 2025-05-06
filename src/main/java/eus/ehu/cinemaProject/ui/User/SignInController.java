@@ -43,8 +43,9 @@ public class SignInController {
                 outputText.setStyle("-fx-text-fill: green;");
 
                 //Pass the email to the UIState
-                uiState.setEmail(emailField.getText());
-                uiState.setUser(user);
+                uiState.setCustomerEmail(null);
+                uiState.setWorkerEmail(emailField.getText());
+                uiState.setUser(null);
                 uiState.setLoggedIn(true);
 
                 if(user instanceof Admin){
@@ -52,6 +53,9 @@ public class SignInController {
                 } else if (user instanceof Worker) {
                     uiState.setCurrentView("workerMenu.fxml");
                 }else{
+                    uiState.setCustomerEmail(emailField.getText());
+                    uiState.setWorkerEmail(null);
+                    uiState.setUser(user);
                     uiState.setCurrentView("MovieList.fxml");
                 }
 

@@ -64,7 +64,7 @@ public class SignUpController {
             message.setStyle("-fx-text-fill: green; -fx-alignment: center;");
 
             //Pass the email to the UIState
-            uiState.setEmail(emailField.getText());
+            uiState.setCustomerEmail(emailField.getText());
             uiState.setUser(bl.getUserByEmail(emailField.getText()));
             uiState.setLoggedIn(true);
             uiState.setCurrentView("MovieList.fxml");

@@ -19,7 +19,7 @@ public class PurchaseReceipt {
     private Customer customer;
     @ManyToOne
     private ShowTime showTime;
-    private OrderStatus status = OrderStatus.RESERVED;
+    private OrderStatus status;
     @ManyToOne
     private Review review;
     @ManyToMany
@@ -29,7 +29,7 @@ public class PurchaseReceipt {
         this.orderDate = orderDate;
         this.customer = customer;
         this.showTime = showTime;
-        this.status = OrderStatus.RESERVED;
+        status = OrderStatus.PAID;
         this.bookedSeats = bookedSeats;
         this.totalAmount = getSeatAmount() + getFoodAmount();
         this.showTime.bookSeats(bookedSeats);
@@ -60,6 +60,10 @@ public class PurchaseReceipt {
         return 0;
     }
 
-
-
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
+    public OrderStatus getStatus() {
+        return status;
+    }
 }

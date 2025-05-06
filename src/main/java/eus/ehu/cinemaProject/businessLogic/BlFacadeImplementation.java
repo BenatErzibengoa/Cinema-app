@@ -109,6 +109,9 @@ public class BlFacadeImplementation implements BlFacade {
     public Schedule getScheduleByRoomAndDate(LocalDate date, ScreeningRoom screeningRoom) {
         return dbManager.getScheduleByRoomAndDate(date, screeningRoom);
     }
+    public void setOrderStatus(PurchaseReceipt receipt, OrderStatus orderStatus) {
+        dbManager.setOrderStatus(receipt, orderStatus);
+    }
 
     public void saveShowTime(ShowTime showTime){dbManager.saveShowTime(showTime);}
 
@@ -119,6 +122,9 @@ public class BlFacadeImplementation implements BlFacade {
     }
 
     public List<ShowTime>getAllShowtimes(){return dbManager.getAllShowtimes();}
+    public List<PurchaseReceipt> getPendingCancellationPurchaseReceipts() {
+        return dbManager.getPendingCancellationPurchaseReceipts();
+    }
 }
 
 

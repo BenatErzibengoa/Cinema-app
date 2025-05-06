@@ -87,7 +87,10 @@ public class ReceiptController {
     private void proceedPaymentButton(ActionEvent event) {
         bl.createPurchaseReceipt((Customer) uiState.getUser(), uiState.getSelectedShowtime(), uiState.getSelectedSeats());
         System.out.println(bundle.getString("proceedButton"));
-        uiState.setCurrentView("MovieList.fxml");
+        if(uiState.getWorkerEmail() != null)
+            uiState.setCurrentView("workerMenu.fxml");
+        else
+            uiState.setCurrentView("MovieList.fxml");
     }
 
     public void setSnackData(String snackSummary, double snackPrice) {

@@ -71,7 +71,8 @@ public class UIState {
     }
 
     //Attributes to share between different view controllers (we have to add more!!!)
-    private String email;
+    private String customerEmail;
+    private String workerEmail;
     private Film selectedFilm;
     private ShowTime selectedShowtime;
     private List<Seat> selectedSeats;
@@ -90,12 +91,14 @@ public class UIState {
 
 
     //Corresponding getters and setters to interchange data between controllers
-    public String getEmail() {
-        return email;
+    public String getCustomerEmail() {
+        return customerEmail;
     }
-    public void setEmail(String email) {
-        this.email = email;
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
     }
+    public String getWorkerEmail() { return workerEmail;}
+    public void setWorkerEmail(String workerEmail) { this.workerEmail = workerEmail; }
     public User getUser(){return user;}
     public void setUser(User user){this.user = user;}
     public Film getFilm() {
