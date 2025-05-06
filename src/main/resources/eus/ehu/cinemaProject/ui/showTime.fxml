@@ -11,17 +11,17 @@
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="432.0" prefWidth="597.0" style="-fx-background-color: #242424; -fx-background-radius: 12px;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.Customer.ShowTimeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="501.0" prefWidth="597.0" style="-fx-background-color: #242424; -fx-background-radius: 12px;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.Customer.ShowTimeController">
     <children>
-        <DatePicker fx:id="datePicker" layoutX="45.0" layoutY="249.0" prefHeight="35.0" prefWidth="200.0" promptText="%choseDate" />
-        <TilePane fx:id="showtimesPane" layoutX="35.0" layoutY="329.0" prefHeight="79.0" prefWidth="519.0" />
-        <Label layoutX="46.0" layoutY="297.0" text="%showTimeLabel" textFill="WHITE">
+        <DatePicker fx:id="datePicker" layoutX="46.0" layoutY="306.0" prefHeight="35.0" prefWidth="200.0" promptText="%choseDate" />
+        <TilePane fx:id="showtimesPane" layoutX="36.0" layoutY="386.0" prefHeight="79.0" prefWidth="519.0" />
+        <Label layoutX="47.0" layoutY="354.0" text="%showTimeLabel" textFill="WHITE">
             <font>
                 <Font name="System Bold" size="20.0" />
             </font></Label>
-        <StackPane layoutX="45.0" layoutY="58.0" prefHeight="177.0" prefWidth="509.0">
+        <StackPane layoutX="45.0" layoutY="58.0" prefHeight="230.0" prefWidth="509.0">
             <children>
-                <ImageView fx:id="movieImage" fitHeight="150.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER_LEFT">
+                <ImageView fx:id="movieImage" fitHeight="215.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER_LEFT">
                     <StackPane.margin>
                         <Insets left="15.0" />
                     </StackPane.margin>
@@ -73,8 +73,8 @@
             <font>
                 <Font name="System Bold" size="26.0" />
             </font></Label>
-        <Button layoutX="260.0" layoutY="249.0" mnemonicParsing="false" onAction="#searchShowTimes" prefHeight="35.0" prefWidth="153.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="%SearchShowTimes" textFill="WHITE" />
-        <Button layoutX="420.0" layoutY="249.0" mnemonicParsing="false" onAction="#searchReviews" prefHeight="35.0" prefWidth="153.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="%reviews" textFill="WHITE" />
-        <Button layoutX="45.0" layoutY="380.0" mnemonicParsing="false" onAction="#goBack" prefHeight="28.0" prefWidth="80.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="%back" textFill="WHITE" />
+        <Button layoutX="261.0" layoutY="306.0" mnemonicParsing="false" onAction="#searchShowTimes" prefHeight="35.0" prefWidth="153.0" style="-fx-background-color: #e31837; -fx-cursor: hand;" text="%SearchShowTimes" textFill="WHITE" />
+        <Button layoutX="421.0" layoutY="306.0" mnemonicParsing="false" onAction="#searchReviews" prefHeight="35.0" prefWidth="153.0" style="-fx-background-color: #e31837; -fx-cursor: hand;" text="%reviews" textFill="WHITE" />
+        <Button layoutX="46.0" layoutY="438.0" mnemonicParsing="false" onAction="#goBack" prefHeight="30.0" prefWidth="90.0" style="-fx-background-color: #e31837; -fx-cursor: hand;" text="%back" textFill="WHITE" />
     </children>
 </AnchorPane>

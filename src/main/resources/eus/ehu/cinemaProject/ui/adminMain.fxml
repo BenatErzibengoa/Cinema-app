@@ -22,9 +22,9 @@
 
                 <!-- Botones principales -->
                 <HBox spacing="20">
-                    <Button onAction="#addMovies" prefWidth="150" style="-fx-background-color: #e31837; -fx-text-fill: white; -fx-cursor: hand;" text="%addMoviesB" />
-                    <Button onAction="#addShowtimes" prefWidth="150" style="-fx-background-color: #e31837; -fx-text-fill: white; -fx-cursor: hand;" text="%addShowTimesB" />
-                    <Button onAction="#manageWorkers" prefWidth="150" style="-fx-background-color: #e31837; -fx-text-fill: white; -fx-cursor: hand;" text="%manageStaffB" />
+                    <Button onAction="#addMovies" prefHeight="30.0" prefWidth="147.0" style="-fx-background-color: #e31837; -fx-text-fill: white; -fx-cursor: hand;" text="%addMoviesB" />
+                    <Button onAction="#addShowtimes" prefHeight="30.0" prefWidth="150" style="-fx-background-color: #e31837; -fx-text-fill: white; -fx-cursor: hand;" text="%addShowTimesB" />
+                    <Button onAction="#manageWorkers" prefHeight="30.0" prefWidth="150" style="-fx-background-color: #e31837; -fx-text-fill: white; -fx-cursor: hand;" text="%manageStaffB" />
                 </HBox>
 
                 <Separator />

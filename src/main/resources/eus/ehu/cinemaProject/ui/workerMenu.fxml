@@ -10,7 +10,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="321.0" prefWidth="366.0" style="-fx-background-color: #242424; -fx-background-radius: 12px;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.WorkerMenuController">
     <children>
         <TextField fx:id="emailField" layoutX="49.0" layoutY="122.0" prefHeight="43.0" prefWidth="270.0" promptText="Enter customer's email address" style="-fx-background-color: rgba(142,142,142,0.08); -fx-text-fill: #fff;" />
-        <Button layoutX="47.0" layoutY="185.0" mnemonicParsing="false" onAction="#proceedBuying" prefHeight="35.0" prefWidth="270.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="Proceed buying for the customer" textFill="WHITE" />
+        <Button layoutX="47.0" layoutY="185.0" mnemonicParsing="false" onAction="#proceedBuying" prefHeight="35.0" prefWidth="270.0" style="-fx-background-color: #e31837; -fx-cursor: hand;" text="Proceed buying for the customer" textFill="WHITE" />
         <Text fill="WHITE" layoutX="38.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Identification">
             <font>
                 <Font name="System Bold" size="26.0" />

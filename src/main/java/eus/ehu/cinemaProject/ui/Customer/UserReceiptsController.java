@@ -69,11 +69,11 @@ public class UserReceiptsController {
             priceLabel.setTextFill(Color.GOLD);
 
             Button rateButton = new Button(bundle.getString("rateButton"));
-            rateButton.setStyle("-fx-background-color: #dd6600; -fx-text-fill: white; -fx-cursor: hand;");
+            rateButton.setStyle("-fx-background-color: #e31837; -fx-text-fill: white; -fx-cursor: hand;");
             rateButton.setOnAction(e -> handleRateFilm(receipt));
 
             Button requestCancellation = new Button(bundle.getString("reqCancelButton"));
-            requestCancellation.setStyle("-fx-background-color: #dd6600; -fx-text-fill: white; -fx-cursor: hand;");
+            requestCancellation.setStyle("-fx-background-color: #e31837; -fx-text-fill: white; -fx-cursor: hand;");
             requestCancellation.setOnAction(e -> requestCancellation(receipt));
 
             receiptBox.getChildren().addAll(filmLabel, dateLabel, seatsBox, priceLabel, rateButton, requestCancellation);

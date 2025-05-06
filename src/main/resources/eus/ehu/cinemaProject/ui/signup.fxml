@@ -16,7 +16,7 @@
       <PasswordField fx:id="passwordField" layoutX="51.0" layoutY="285.0" prefHeight="35.0" prefWidth="270.0" promptText="%createPassword" style="-fx-background-color: rgba(142,142,142,0.08); -fx-text-fill: #fff;" />
       <PasswordField fx:id="passwordField2" layoutX="51.0" layoutY="326.0" prefHeight="35.0" prefWidth="270.0" promptText="%repeatPassword" style="-fx-background-color: rgba(142,142,142,0.08); -fx-text-fill: #fff;" />
       <Button fx:id="loginButton" layoutX="51.0" layoutY="397.0" mnemonicParsing="false" onAction="#signUp" prefHeight="35.0" prefWidth="270.0" style="-fx-background-color: #e31837; -fx-cursor: hand;" text="%registerButton" textFill="WHITE" />
-      <Text fill="WHITE" layoutX="93.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%registerLabel" textAlignment="CENTER">
+      <Text fill="WHITE" layoutX="75.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%registerLabel" textAlignment="CENTER" wrappingWidth="224.60968017578125">
          <font>
             <Font name="System Bold" size="26.0" />
          </font>
