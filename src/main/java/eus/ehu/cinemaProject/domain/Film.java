@@ -1,5 +1,4 @@
 package eus.ehu.cinemaProject.domain;
-import eus.ehu.cinemaProject.dataAccess.FilmDataFetcher;
 import jakarta.persistence.*;
 
 import java.time.LocalTime;

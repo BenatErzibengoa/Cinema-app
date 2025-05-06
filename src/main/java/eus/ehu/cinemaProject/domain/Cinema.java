@@ -4,7 +4,6 @@ import eus.ehu.cinemaProject.domain.users.Admin;
 import jakarta.persistence.*;
 
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.List;
 
 @Entity
