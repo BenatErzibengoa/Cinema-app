@@ -12,44 +12,51 @@
 <?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="485.0" prefWidth="601.0" style="-fx-background-radius: 12px; -fx-background-color: #242424;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.Customer.SeatSelectionController">
-   <center>
-      <GridPane fx:id="seatGrid" alignment="TOP_CENTER" prefWidth="600.0" BorderPane.alignment="CENTER">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints vgrow="SOMETIMES" />
-        </rowConstraints>
-      </GridPane>
-   </center>
-   <top>
-      <HBox alignment="CENTER_LEFT" prefHeight="63.0" prefWidth="601.0" BorderPane.alignment="CENTER_LEFT">
-         <children>
-            <Label text="%roomNumberLabel" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="26.0" />
-               </font></Label>
-            <Label fx:id="roomNumberLabel" />
-         </children>
-         <padding>
-            <Insets left="30.0" />
-         </padding>
-      </HBox>
-   </top>
-   <bottom>
-      <AnchorPane prefHeight="113.0" prefWidth="601.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button alignment="CENTER" layoutX="317.0" layoutY="53.0" mnemonicParsing="false" onAction="#buyTickets" prefHeight="35.0" prefWidth="255.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="%contBuyingButton" textFill="WHITE" />
-            <Label layoutX="156.0" layoutY="8.0" text="%seatPriceLabel" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="20.0" />
-               </font></Label>
-             <Label fx:id="totalPriceLabel" layoutX="362.0" layoutY="9.0" maxWidth="Infinity" prefHeight="30.0" prefWidth="92.0" text="0.00 €" textFill="WHITE">
-               <font>
-                  <Font size="20.0" />
-               </font></Label>
-            <Button alignment="CENTER" layoutX="29.0" layoutY="53.0" mnemonicParsing="false" onAction="#goBack" prefHeight="35.0" prefWidth="255.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="%goBackButton" textFill="WHITE" />
-         </children>
-      </AnchorPane>
-   </bottom>
+    <center>
+        <GridPane fx:id="seatGrid" alignment="TOP_CENTER" prefWidth="600.0" BorderPane.alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints vgrow="SOMETIMES" />
+            </rowConstraints>
+        </GridPane>
+    </center>
+    <top>
+        <HBox alignment="CENTER_LEFT" prefHeight="63.0" prefWidth="601.0" BorderPane.alignment="CENTER_LEFT">
+            <children>
+                <Label text="%roomNumberLabel" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="26.0" />
+                    </font>
+                </Label>
+                <Label fx:id="roomNumberLabel" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="26.0" />
+                    </font>
+                </Label>
+            </children>
+            <padding>
+                <Insets left="30.0" />
+            </padding>
+        </HBox>
+    </top>
+    <bottom>
+        <AnchorPane prefHeight="113.0" prefWidth="601.0" BorderPane.alignment="CENTER">
+            <children>
+                <Button alignment="CENTER" layoutX="317.0" layoutY="53.0" mnemonicParsing="false" onAction="#buyTickets" prefHeight="35.0" prefWidth="255.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="%contBuyingButton" textFill="WHITE" />
+                <Label layoutX="156.0" layoutY="8.0" text="%seatPriceLabel" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="20.0" />
+                    </font>
+                </Label>
+                <Label fx:id="totalPriceLabel" layoutX="362.0" layoutY="9.0" maxWidth="Infinity" prefHeight="30.0" prefWidth="92.0" text="0.00 €" textFill="WHITE">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Label>
+                <Button alignment="CENTER" layoutX="29.0" layoutY="53.0" mnemonicParsing="false" onAction="#goBack" prefHeight="35.0" prefWidth="255.0" style="-fx-background-color: #dd6600; -fx-cursor: hand;" text="%goBackButton" textFill="WHITE" />
+            </children>
+        </AnchorPane>
+    </bottom>
 </BorderPane>
