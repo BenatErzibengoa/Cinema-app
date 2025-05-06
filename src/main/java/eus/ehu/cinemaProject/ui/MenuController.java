@@ -103,6 +103,7 @@ public class MenuController {
 
     private void loadContent(String fxmlFile) {
         try {
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile), bundle);
             Pane content = loader.load();
 

@@ -1,6 +1,5 @@
 package eus.ehu.cinemaProject.domain.users;
 import jakarta.persistence.*;
-import org.h2.engine.UserBuilder;
 
 
 @Entity

@@ -3,7 +3,6 @@ package eus.ehu.cinemaProject.domain.users;
 import eus.ehu.cinemaProject.domain.PurchaseReceipt;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
