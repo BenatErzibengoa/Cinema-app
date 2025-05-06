@@ -53,6 +53,8 @@ public class MenuController {
     @FXML
     void initialize() {
         bl = BlFacadeImplementation.getInstance();
+        registerButton.setVisible(true);
+
 
         showMovieList(); // Default behavior for other users
 
@@ -66,14 +68,28 @@ public class MenuController {
             if (isNowLoggedIn) {
                 User loggedInUser = uiState.getUser();
                 loginButton.setVisible(false);
-                registerButton.setVisible(false);
+                registerButton.setText("Logout");
+
+                registerButton.onMouseClickedProperty().set(event -> {
+                    uiState.setUser(null);
+                    registerButton.setText("Register");
+                    loginButton.setVisible(true);
+                    receiptsButton.setVisible(false);
+                    uiState.setLoggedIn(false);
+                    contentCache.clear(); // Clear the cache on logout
+                    loadContent("MovieList.fxml");
+                });
 
                 receiptsButton.setVisible(!(loggedInUser instanceof Admin));
 
             } else {
                 loginButton.setVisible(true);
-                registerButton.setVisible(true);
                 receiptsButton.setVisible(false);
+
+                registerButton.setText("Register");
+                registerButton.onMouseClickedProperty().set(event -> {
+                    loadContent("signup.fxml");
+                });
             }
         });
     }

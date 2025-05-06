@@ -383,9 +383,6 @@ public class DataAccess {
         }
 
 
-
-
-
         for(Seat seat: screeningRoom1.getSeats()){
             db.persist(seat);
         }
