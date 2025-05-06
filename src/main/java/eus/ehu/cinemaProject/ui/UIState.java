@@ -80,6 +80,8 @@ public class UIState {
     private List<Seat> selectedSeats;
     private PurchaseReceipt provisionalReceipt;
     private String lastView = "MovieList.fxml"; // Default view
+    private MenuController menuController;
+
 
     private User user;
 
@@ -133,6 +135,9 @@ public class UIState {
 
     public String getLastView() { return lastView; }
     public void setLastView(String lastView) { this.lastView = lastView; }
+
+    public MenuController getMenuController() { return menuController; }
+    public void setMenuController(MenuController menuController) { this.menuController = menuController; }
 
     //To update addShowtime after adding movies
     private final BooleanProperty movieListDirty = new SimpleBooleanProperty(false);

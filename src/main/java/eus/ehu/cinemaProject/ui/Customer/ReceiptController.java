@@ -90,6 +90,7 @@ public class ReceiptController {
     private void proceedPaymentButton(ActionEvent event) {
         bl.createPurchaseReceipt((Customer) uiState.getUser(), uiState.getSelectedShowtime(), uiState.getSelectedSeats());
         System.out.println(bundle.getString("proceedButton"));
+        uiState.getMenuController().clearCache();
         if(uiState.getWorkerEmail() != null)
             uiState.setCurrentView("workerMenu.fxml");
         else

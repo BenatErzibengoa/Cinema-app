@@ -101,6 +101,7 @@ public class MenuController {
                 });
             }
         });
+        uiState.setMenuController(this);
     }
 
 
@@ -150,6 +151,12 @@ public class MenuController {
             e.printStackTrace();
         }
     }
+
+    public void clearCache(){
+        contentCache.clear();
+    }
+
+
 
 
 }
