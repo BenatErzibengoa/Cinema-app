@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="591.0" prefWidth="794.0" style="-fx-background-radius: 12px; -fx-background-color: #242424;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.OrderFoodController">
+<AnchorPane prefHeight="591.0" prefWidth="794.0" style="-fx-background-radius: 12px; -fx-background-color: #242424;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.Customer.OrderFoodController">
    <children>
       <Label layoutX="103.0" layoutY="219.0" text="%popCorn" textFill="WHITE" />
       <Label layoutX="103.0" layoutY="287.0" text="%nacho" textFill="WHITE" />
