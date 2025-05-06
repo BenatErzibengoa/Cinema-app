@@ -109,8 +109,6 @@ public class SeatSelectionController {
         else {
             errorLabel.setVisible(false);
             uiState.setSelectedSeats(selectedSeats);
-            // Receipt is created when proceeding to payment
-            //bl.createPurchaseReceipt((Customer)customer, uiState.getSelectedShowtime(), selectedSeats);
             uiState.setCurrentView("receipt.fxml");
         }
     }

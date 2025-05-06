@@ -1,9 +1,11 @@
 package eus.ehu.cinemaProject.ui;
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
+import eus.ehu.cinemaProject.ui.Customer.SeatSelectionController;
 import eus.ehu.cinemaProject.ui.User.MovieListController;
 import eus.ehu.cinemaProject.domain.users.Admin;
 import eus.ehu.cinemaProject.domain.users.User;
 import eus.ehu.cinemaProject.domain.users.Worker;
+import javafx.beans.value.ObservableBooleanValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -68,14 +70,19 @@ public class MenuController {
             loadContent(newView);
         });
 
+
+
         uiState.loggedInProperty().addListener((obs, wasLoggedIn, isNowLoggedIn) -> {
             if (isNowLoggedIn) {
                 User loggedInUser = uiState.getUser();
                 loginButton.setVisible(false);
-                registerButton.setText("Logout");
+                registerButton.setText(bundle.getString("logout"));
+                receiptsButton.setVisible(!(bl.getUserByEmail(uiState.getWorkerEmail()) instanceof Admin));
 
                 registerButton.onMouseClickedProperty().set(event -> {
                     uiState.setUser(null);
+                    uiState.setWorkerEmail(null);
+                    uiState.setCustomerEmail(null);
                     registerButton.setText("Register");
                     loginButton.setVisible(true);
                     receiptsButton.setVisible(false);
@@ -83,13 +90,10 @@ public class MenuController {
                     contentCache.clear(); // Clear the cache on logout
                     loadContent("MovieList.fxml");
                 });
-
-                receiptsButton.setVisible(!(loggedInUser instanceof Admin));
-
             } else {
                 loginButton.setVisible(true);
                 receiptsButton.setVisible(false);
-
+                registerButton.setVisible(true);
                 registerButton.setText("Register");
                 registerButton.onMouseClickedProperty().set(event -> {
                     loadContent("signup.fxml");
@@ -125,7 +129,6 @@ public class MenuController {
 
     private void loadContent(String fxmlFile) {
         try {
-            // Check if content is already cached
             Pane content = contentCache.get(fxmlFile);
             if (content == null || fxmlFile.equals("MovieList.fxml")) {
 
@@ -136,6 +139,9 @@ public class MenuController {
 
                 if (loader.getController() instanceof MovieListController) {
                     ((MovieListController) loader.getController()).setBusinessLogic(bl);
+                }
+                if (loader.getController() instanceof SeatSelectionController) {
+                    uiState.setSeatSelectionController((SeatSelectionController) loader.getController());
                 }
 
                 contentCache.put(fxmlFile, content);

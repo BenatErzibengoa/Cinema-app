@@ -81,6 +81,9 @@ public class ReceiptController {
     @FXML
     private void goToSeatSelect(ActionEvent event) {
         uiState.setCurrentView("seatSelection.fxml");
+        if (uiState.getSeatSelectionController() != null) {
+            uiState.getSeatSelectionController().reselectSeats();
+        }
     }
 
     @FXML

@@ -3,6 +3,7 @@ package eus.ehu.cinemaProject.ui;
 import eus.ehu.cinemaProject.domain.*;
 
 import eus.ehu.cinemaProject.domain.users.User;
+import eus.ehu.cinemaProject.ui.Customer.SeatSelectionController;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -26,6 +27,7 @@ public class UIState {
     private final BooleanProperty loggedIn = new SimpleBooleanProperty(false);
 
     private final ResourceBundle bundle;
+    private SeatSelectionController seatSelectionController;
 
 
     private UIState() {
@@ -148,8 +150,11 @@ public class UIState {
     }
 
 
+    public void setSeatSelectionController(SeatSelectionController controller) {
+        this.seatSelectionController = controller;
+    }
 
-
-
-
+    public SeatSelectionController getSeatSelectionController() {
+        return seatSelectionController;
+    }
 }

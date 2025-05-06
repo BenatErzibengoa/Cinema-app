@@ -56,7 +56,10 @@ public class SignInController {
                     uiState.setCustomerEmail(emailField.getText());
                     uiState.setWorkerEmail(null);
                     uiState.setUser(user);
-                    uiState.setCurrentView("MovieList.fxml");
+                    if(uiState.getFilm()==null)
+                        uiState.setCurrentView("MovieList.fxml");
+                    else
+                        uiState.setCurrentView("showTime.fxml");
                 }
 
             }

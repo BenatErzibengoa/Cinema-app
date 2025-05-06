@@ -164,7 +164,7 @@ public class UserReceiptsController {
                 selectedReceipt.getStatus() == OrderStatus.PAID &&
                 showDateTime.isAfter(LocalDateTime.now().plusHours(1))
         ) {
-            bl.setOrderStatus(selectedReceipt, OrderStatus.CANCELLATION_PENDING);
+            bl.setOrderStatus(selectedReceipt, OrderStatus.PENDING_CANCELLATION);
             tablePurchaseReceipts.refresh(); // Refresh the table to reflect the changes
         }
     }

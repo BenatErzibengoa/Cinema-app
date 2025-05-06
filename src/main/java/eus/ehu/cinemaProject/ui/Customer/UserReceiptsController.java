@@ -2,8 +2,10 @@ package eus.ehu.cinemaProject.ui.Customer;
 
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
 import eus.ehu.cinemaProject.configuration.UtilDate;
+import eus.ehu.cinemaProject.domain.OrderStatus;
 import eus.ehu.cinemaProject.domain.PurchaseReceipt;
 import eus.ehu.cinemaProject.domain.Seat;
+import eus.ehu.cinemaProject.domain.ShowTime;
 import eus.ehu.cinemaProject.domain.users.Customer;
 import eus.ehu.cinemaProject.ui.UIState;
 import javafx.event.ActionEvent;
@@ -14,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.util.Pair;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -69,8 +72,27 @@ public class UserReceiptsController {
             rateButton.setStyle("-fx-background-color: #dd6600; -fx-text-fill: white; -fx-cursor: hand;");
             rateButton.setOnAction(e -> handleRateFilm(receipt));
 
-            receiptBox.getChildren().addAll(filmLabel, dateLabel, seatsBox, priceLabel, rateButton);
+            Button requestCancellation = new Button(bundle.getString("reqCancelButton"));
+            requestCancellation.setStyle("-fx-background-color: #dd6600; -fx-text-fill: white; -fx-cursor: hand;");
+            requestCancellation.setOnAction(e -> requestCancellation(receipt));
+
+            receiptBox.getChildren().addAll(filmLabel, dateLabel, seatsBox, priceLabel, rateButton, requestCancellation);
             receiptsContainer.getChildren().add(receiptBox);
+        }
+    }
+
+    private void requestCancellation(PurchaseReceipt receipt) {
+        LocalDateTime showDateTime = LocalDateTime.of(
+                receipt.getShowTime().getScreeningDate(),
+                receipt.getShowTime().getScreeningTime());
+        if(showDateTime.isAfter(LocalDateTime.now().plusHours(3))) {
+            bl.setOrderStatus(receipt, OrderStatus.PENDING_CANCELLATION);
+        }else{
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle(null);
+            alert.setHeaderText(null);
+            alert.setContentText(bundle.getString("cancelError"));
+            alert.showAndWait();
         }
     }
 
@@ -80,7 +102,7 @@ public class UserReceiptsController {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Information");
             alert.setHeaderText(null);
-            alert.setContentText("You have already reviewed this film.");
+            alert.setContentText(bundle.getString("filmReviewError"));
             alert.showAndWait();
         } else {
             Optional<Pair<Integer, String>> result = obtainReview();
@@ -138,6 +160,7 @@ public class UserReceiptsController {
 
     @FXML
     void goBack(ActionEvent event) {
-        uiState.setCurrentView(UIState.getInstance().getLastView());
+        uiState.setCurrentView("MovieList.fxml");
+        //user could log in and just view receipts. If it went back, they would see the login screen again
     }
 }

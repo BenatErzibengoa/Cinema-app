@@ -173,8 +173,9 @@ public class MovieListController {
         alert.setHeaderText("Booking for: " + film.getTitle());
         alert.setContentText("Redirecting to booking page...");
         //alert.showAndWait();
+        uiState.setFilm(film);
+
         if(uiState.isLoggedIn()){
-            uiState.setFilm(film);
             uiState.setCurrentView("showTime.fxml");
         } else {
             uiState.setCurrentView("signin.fxml");

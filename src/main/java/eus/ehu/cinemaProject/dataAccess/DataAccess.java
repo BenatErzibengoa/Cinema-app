@@ -528,7 +528,7 @@ public class DataAccess {
         try {
             TypedQuery<PurchaseReceipt> query = db.createQuery(
                     "SELECT pr FROM PurchaseReceipt pr WHERE pr.status = :status",PurchaseReceipt.class);
-            query.setParameter("status", OrderStatus.CANCELLATION_PENDING);
+            query.setParameter("status", OrderStatus.PENDING_CANCELLATION);
 
             receipts = query.getResultList();
         } catch (NoResultException e) {
