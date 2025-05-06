@@ -159,7 +159,7 @@ public class ManageWorkersController {
             salaryLabel.setTextFill(Color.GOLD);
 
             Button deleteBtn = new Button(bundle.getString("fireB"));
-            deleteBtn.setStyle("-fx-background-color: #dd6600; -fx-text-fill: white; -fx-cursor: hand;");
+            deleteBtn.setStyle("-fx-background-color: #e31837; -fx-text-fill: white; -fx-cursor: hand;");
             deleteBtn.setOnAction(e -> {
                 bl.deleteWorker(worker);
                 workers.remove(worker);

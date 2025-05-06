@@ -437,7 +437,7 @@ public class DataAccess {
 
         ShowTime showTime1 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom1), LocalTime.of(17, 00), film1);
         ShowTime showTime2 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom2), LocalTime.of(18, 30), film2);
-        ShowTime showTime3 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom3), LocalTime.of(16, 00), film2);
+        ShowTime showTime3 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now().plusDays(1), screeningRoom3), LocalTime.of(16, 00), film2);
         ShowTime showTime4 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom1), LocalTime.of(20, 30), film3);
         ShowTime showTime5 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom2), LocalTime.of(21, 30), film4);
         ShowTime showTime6 = storeShowtime(getScheduleByRoomAndDate(LocalDate.now(), screeningRoom3), LocalTime.of(18, 45), film5);

@@ -19,9 +19,9 @@
 
         <!-- ScrollPane para reviews -->
         <ScrollPane layoutX="36.0" layoutY="70.0" prefWidth="730.0" prefHeight="470.0"
-                    fitToWidth="true" style="-fx-background-color: transparent;">
+                    fitToWidth="true" style="-fx-background-color: transparent; -fx-background: #171717; -fx-border-color: #171717;">
             <content>
-                <VBox fx:id="reviewsContainer" spacing="15" style="-fx-padding: 10;" />
+                <VBox fx:id="reviewsContainer" spacing="15" style="-fx-padding: 10; -fx-background-color: #171717;" />
             </content>
         </ScrollPane>
 

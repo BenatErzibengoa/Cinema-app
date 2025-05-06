@@ -44,6 +44,8 @@ public class UserReceiptsController {
 
     private ObservableList<PurchaseReceipt> purchaseReceipts;
 
+    private List<PurchaseReceipt> receipts;
+
     private BlFacadeImplementation bl;
 
     private final UIState uiState = UIState.getInstance();
@@ -66,7 +68,7 @@ public class UserReceiptsController {
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
 
         purchaseReceipts = FXCollections.observableArrayList();
-        List<PurchaseReceipt> receipts = bl.getPurchaseReceiptsByUser((Customer) uiState.getUser());
+        receipts = bl.getPurchaseReceiptsByUser((Customer) uiState.getUser());
         purchaseReceipts.addAll(receipts);
         tablePurchaseReceipts.setItems(purchaseReceipts);
 
@@ -177,6 +179,7 @@ public class UserReceiptsController {
 
         if (showDateTime.isBefore(LocalDateTime.now())) {
             bl.setOrderStatus(receipt, OrderStatus.PAST);
+            receipts = bl.getPurchaseReceiptsByUser((Customer) uiState.getUser());
             tablePurchaseReceipts.refresh(); // Refresh the table to reflect the changes
         }
     }
