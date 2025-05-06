@@ -47,6 +47,7 @@ public class MenuController {
             else
                 loadContent("MovieList.fxml");
         }
+        contentCache.clear();
     }
 
 
