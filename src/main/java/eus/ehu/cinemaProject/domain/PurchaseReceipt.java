@@ -33,9 +33,6 @@ public class PurchaseReceipt {
         this.bookedSeats = bookedSeats;
         this.totalAmount = getSeatAmount() + getFoodAmount();
         this.showTime.bookSeats(bookedSeats);
-
-
-
     }
 
     public PurchaseReceipt(){}
