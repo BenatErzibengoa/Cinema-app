@@ -17,6 +17,6 @@
             <TableColumn fx:id="statusColumn" prefWidth="85.0" text="Status" />
         </columns>
       </TableView>
-      <Button layoutX="363.0" layoutY="361.0" mnemonicParsing="false" onAction="#cancelPurchase" text="Request cancellation" />
+      <Button layoutX="241.0" layoutY="361.0" mnemonicParsing="false" onAction="#cancelPurchase" text="Accept cancellation" />
    </children>
 </AnchorPane>

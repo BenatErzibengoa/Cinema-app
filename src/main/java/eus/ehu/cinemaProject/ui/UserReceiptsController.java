@@ -155,7 +155,15 @@ public class UserReceiptsController {
     @FXML
     void cancelPurchase() {
         PurchaseReceipt selectedReceipt = tablePurchaseReceipts.getSelectionModel().getSelectedItem();
-        if((selectedReceipt != null) && selectedReceipt.getStatus() == OrderStatus.PAID) {
+        LocalDateTime showDateTime = LocalDateTime.of(
+                selectedReceipt.getShowTime().getScreeningDate(),
+                selectedReceipt.getShowTime().getScreeningTime()
+        );
+
+        if((selectedReceipt != null) &&
+                selectedReceipt.getStatus() == OrderStatus.PAID &&
+                showDateTime.isAfter(LocalDateTime.now().plusHours(1))
+        ) {
             bl.setOrderStatus(selectedReceipt, OrderStatus.CANCELLATION_PENDING);
             tablePurchaseReceipts.refresh(); // Refresh the table to reflect the changes
         }

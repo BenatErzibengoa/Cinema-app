@@ -373,26 +373,36 @@ public class DataAccess {
             seatSelection1.add(screeningRoom1.getSeats().get(i));
         }
         for(int i = 21; i < 25; i++){
-            seatSelection2.add(screeningRoom1.getSeats().get(i));
+            seatSelection2.add(screeningRoom3.getSeats().get(i));
         }
         for(int i = 28; i < 35; i++){
             seatSelection3.add(screeningRoom1.getSeats().get(i));
         }
         for(int i = 37; i < 38; i++){
-            seatSelection4.add(screeningRoom1.getSeats().get(i));
+            seatSelection4.add(screeningRoom2.getSeats().get(i));
         }
+
+
 
 
 
         for(Seat seat: screeningRoom1.getSeats()){
             db.persist(seat);
         }
-        for(Seat seat: screeningRoom1.getSeats()){
+        for(Seat seat: screeningRoom2.getSeats()){
             db.persist(seat);
         }
+        for(Seat seat: screeningRoom3.getSeats()){
+            db.persist(seat);
+        }
+
         createPurchaseReceipt(customer1, showTime1, seatSelection1);
-        createPurchaseReceipt(customer1, showTime1, seatSelection1);
-        createPurchaseReceipt(customer2, showTime3, seatSelection1);
+        createPurchaseReceipt(customer1, showTime1, seatSelection3);
+        createPurchaseReceipt(customer2, showTime3, seatSelection2);
+        createPurchaseReceipt(customer3, showTime5, seatSelection4);
+
+        //setOrderStatus(customer3.getPurchaseHistory().get(0), OrderStatus.CANCELLATION_PENDING);
+
 
         storeReview(film1, 5, "Great film! Nothing similar has been seen recently", customer1);
         storeReview(film1, 1, "Interesting film", customer2);
@@ -402,9 +412,17 @@ public class DataAccess {
 
 
     public void setOrderStatus(PurchaseReceipt receipt, OrderStatus orderStatus) {
-        db.getTransaction().begin();
-        receipt.setStatus(orderStatus);
-        db.merge(receipt);
+        try {
+            db.getTransaction().begin();
+            receipt.setStatus(orderStatus);
+            db.merge(receipt);
+            db.getTransaction().commit(); // Commit the transaction
+        } catch (Exception e) {
+            if (db.getTransaction().isActive()) {
+                db.getTransaction().rollback(); // Rollback in case of an error
+            }
+            logger.error("Error setting order status: " + e.getMessage());
+        }
     }
 
     public List<PurchaseReceipt> getPendingCancellationPurchaseReceipts() {

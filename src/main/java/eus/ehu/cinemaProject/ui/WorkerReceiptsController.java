@@ -3,11 +3,10 @@ package eus.ehu.cinemaProject.ui;
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
 import eus.ehu.cinemaProject.domain.OrderStatus;
 import eus.ehu.cinemaProject.domain.PurchaseReceipt;
-import eus.ehu.cinemaProject.domain.users.Customer;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -37,7 +36,7 @@ public class WorkerReceiptsController {
     private TableColumn<PurchaseReceipt, Double> priceColumn;
 
     @FXML
-    private TableColumn<PurchaseReceipt, OrderStatus> statusColumn;     // TODO: Remove this column
+    private TableColumn<PurchaseReceipt, OrderStatus> statusColumn;     // TODO: Remove this column when done
 
     private ObservableList<PurchaseReceipt> purchaseReceipts;
 
@@ -69,14 +68,17 @@ public class WorkerReceiptsController {
 
 
         // Add a listener to observe changes in the list
-        purchaseReceipts.forEach(receipt -> {
-            receipt.getShowTime().getScreeningDate(); // Ensure ShowTime is loaded
-            receipt.getShowTime().getScreeningTime(); // Ensure ShowTime is loaded
-            updateStatusIfPast(receipt);
-            if(receipt.getStatus() == OrderStatus.PAST) {
-                tablePurchaseReceipts.getItems().remove(receipt);
-            }
-        });
+        purchaseReceipts.addListener(
+                (ListChangeListener<PurchaseReceipt>) change -> {
+                    while (change.next()) {
+                        if (change.wasUpdated()) {
+                            for (PurchaseReceipt receipt : change.getRemoved()) {
+                                updateStatusIfPast(receipt);
+                            }
+                        }
+                    }
+                }
+        );
 
 
     }

@@ -38,10 +38,14 @@ public class MenuController {
 
     @FXML //Théo
     private void showMovieList() {
-        if(!(uiState.getUser() instanceof Worker)){
+        User user = bl.getUserByEmail(uiState.getWorkerEmail());
+        if(!(user instanceof Admin)){
             uiState.setSummary("");
             uiState.setSnackprice(0.0);
-            loadContent("MovieList.fxml");
+            if(user instanceof Worker)
+                loadContent("workerMenu.fxml");
+            else
+                loadContent("MovieList.fxml");
         }
     }
 
@@ -87,7 +91,7 @@ public class MenuController {
 
     @FXML
     void receiptsPane(ActionEvent event) {
-        if(uiState.getUser() instanceof Customer)
+        if(uiState.getWorkerEmail() == null)
             loadContent("userReceipts.fxml");
         else
             loadContent("workerReceipts.fxml");
@@ -102,7 +106,7 @@ public class MenuController {
         try {
             // Check if content is already cached
             Pane content = contentCache.get(fxmlFile);
-            if (content == null) {
+            if (content == null || fxmlFile.equals("MovieList.fxml")) {
                 // If not cached, load it and store in cache
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
                 content = loader.load();
