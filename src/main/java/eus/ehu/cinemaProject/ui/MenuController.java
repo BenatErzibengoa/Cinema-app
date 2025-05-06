@@ -103,10 +103,6 @@ public class MenuController {
 
     private void loadContent(String fxmlFile) {
         try {
-            // Retirer la vue du cache si elle existe déjà
-            contentCache.remove(fxmlFile);
-
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile), bundle);
             Pane content = loader.load();
 
