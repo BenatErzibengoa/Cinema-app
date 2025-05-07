@@ -155,6 +155,11 @@ public class MenuController {
     public void clearCache(){
         contentCache.clear();
     }
+    public void clearReceipt(){
+        if(contentCache.containsKey("receipt.fxml")){
+            contentCache.remove("receipt.fxml");
+        }
+    }
 
 
 

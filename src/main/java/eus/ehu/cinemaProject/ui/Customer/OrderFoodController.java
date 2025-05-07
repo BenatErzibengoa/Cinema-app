@@ -58,6 +58,7 @@ public class OrderFoodController {
 
         uiState.setSnackprice(totalPrice);
         uiState.setSummary(summary.toString());
+        uiState.getMenuController().clearReceipt();
         uiState.setCurrentView("receipt.fxml");
     }
 }
