@@ -74,10 +74,9 @@ public class MenuController {
 
         // Add listeners for view and login state changes
         uiState.currentViewProperty().addListener((obs, oldView, newView) -> {
-            if(newView.equals("MovieList.fxml")){
-                loadContent(newView);
+            loadContent(newView);
+            if(newView.equals("MovieList.fxml"))
                 contentCache.clear();
-            }
 
         });
 
@@ -153,13 +152,7 @@ public class MenuController {
                     uiState.setSeatSelectionController((SeatSelectionController) loader.getController());
                 }
             }
-//            if(fxmlFile.equals("MovieList.fxml")){
-//                for(String key : contentCache.keySet()){
-//                    if(!key.equals("MovieList.fxml")){
-//                        contentCache.remove(key);
-//                    }
-//                }
-//            }
+
             contentPane.setCenter(content);
         } catch (IOException e) {
             e.printStackTrace();

@@ -91,9 +91,11 @@ public class ReceiptController {
         bl.createPurchaseReceipt((Customer) uiState.getUser(), uiState.getSelectedShowtime(), uiState.getSelectedSeats());
         System.out.println(bundle.getString("proceedButton"));
         uiState.getMenuController().clearCache();
-        if(uiState.getWorkerEmail() != null)
+        if(uiState.getWorkerEmail() != null) {
+            uiState.setUser(null);
+            uiState.setCustomerEmail(null);
             uiState.setCurrentView("workerMenu.fxml");
-        else
+        }else
             uiState.setCurrentView("MovieList.fxml");
     }
 
