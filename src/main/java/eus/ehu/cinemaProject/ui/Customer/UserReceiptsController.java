@@ -86,8 +86,9 @@ public class UserReceiptsController {
             Button rateButton = new Button(bundle.getString("rateButton"));
             rateButton.setStyle("-fx-background-color: #e31837; -fx-text-fill: white; -fx-cursor: hand;");
             rateButton.setOnAction(e -> handleRateFilm(receipt));
+            /*
             rateButton.setDisable(receipt.getStatus() != OrderStatus.PAST |
-                    bl.hasFilmBeenReviewed(receipt.getShowTime().getFilm(), (Customer) uiState.getUser()) );
+                    bl.hasFilmBeenReviewed(receipt.getShowTime().getFilm(), (Customer) uiState.getUser()) );*/
 
             if(receipt.getStatus() != OrderStatus.PAST) {
                 Button requestCancellation = new Button(bundle.getString("reqCancelButton"));
@@ -123,14 +124,14 @@ public class UserReceiptsController {
 
     private void handleRateFilm(PurchaseReceipt receipt) {
         updateStatusIfPast(receipt);
-        if(receipt.getStatus() != OrderStatus.PAST) {
+        /*if(receipt.getStatus() != OrderStatus.PAST) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Information");
             alert.setHeaderText(null);
             alert.setContentText(bundle.getString("filmNotWatched"));
             alert.showAndWait();
             return;
-        }
+        }*/
         // Verify if it has been reviewed
         if (bl.hasFilmBeenReviewed(receipt.getShowTime().getFilm(), (Customer) uiState.getUser())) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
