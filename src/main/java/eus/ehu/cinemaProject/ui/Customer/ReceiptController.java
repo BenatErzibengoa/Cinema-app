@@ -99,7 +99,6 @@ public class ReceiptController {
             uiState.getMenuController().clearCache();
             uiState.setCurrentView("MovieList.fxml");
     }
-
     public void setSnackData(String snackSummary, double snackPrice) {
         receipt.setText(snackSummary);
         snackPrice += seatPrices;
