@@ -79,7 +79,7 @@ public class UserReceiptsController {
             Label priceLabel = new Label(bundle.getString("priceLabel") + " " + receipt.getTotalAmount() + "€");
             priceLabel.setTextFill(Color.GOLD);
 
-            Label statusLabel = new Label(bundle.getString("statusLabel") + " " + receipt.translateStatus());
+            Label statusLabel = new Label(bundle.getString("status") + " " + receipt.translateStatus());
 
             updateStatusIfPast(receipt);
 
