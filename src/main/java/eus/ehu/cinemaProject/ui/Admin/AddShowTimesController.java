@@ -54,7 +54,7 @@ public class AddShowTimesController {
 
     BlFacadeImplementation bl;
     private final UIState uiState = UIState.getInstance();
-    private final ResourceBundle bundle = ResourceBundle.getBundle("eus.ehu.cinemaProject.ui.Language", Locale.getDefault());
+    private final ResourceBundle bundle = uiState.getBundle();
 
     private final Map<LocalDate, Pane> dateCache = new HashMap<>();
     private boolean isRefreshing = false;

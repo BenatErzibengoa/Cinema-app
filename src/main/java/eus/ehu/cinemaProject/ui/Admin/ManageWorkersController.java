@@ -28,7 +28,7 @@ public class ManageWorkersController {
 
     private final BlFacadeImplementation bl = BlFacadeImplementation.getInstance();
     private final UIState uiState = UIState.getInstance();
-    private final ResourceBundle bundle = ResourceBundle.getBundle("eus.ehu.cinemaProject.ui.Language", Locale.getDefault());
+    private final ResourceBundle bundle = uiState.getBundle();
 
     private ObservableList<Worker> workers;
 
