@@ -46,7 +46,6 @@ public class DataAccess {
         open(false);
     }
 
-
     public void open(boolean initializeMode) {
         Config config = Config.getInstance();
         logger.info("Opening DataAccess instance => isDatabaseLocal: " +
@@ -96,7 +95,6 @@ public class DataAccess {
         }
     }
 
-
     public User signUp(String email, String password, String name, String surname){
         User user = new Customer.CustomerBuilder(email, PasswordHasher.hashPassword(password)).name(name).surname(surname).build();
         if (!db.getTransaction().isActive()) {
@@ -106,7 +104,6 @@ public class DataAccess {
         db.getTransaction().commit();
         return user;
     }
-
 
     public User signUpWorker(String email, String password, String name, String surname, int salary){
         User user = new Worker.WorkerBuilder(email, PasswordHasher.hashPassword(password), 2000).name(name).surname(surname).build();
@@ -144,7 +141,6 @@ public class DataAccess {
         return showtimes;
     }
 
-
     public List<ShowTime> getShowTimesByDateAndFilm(LocalDate date, Film film){
         List<ShowTime> showtimes;
         try{
@@ -172,7 +168,6 @@ public class DataAccess {
         return purchaseReceipts;
     }
 
-
     public Schedule getScheduleByRoomAndDate(LocalDate date, ScreeningRoom screeningRoom) {
         Schedule schedule;
         try {
@@ -193,7 +188,6 @@ public class DataAccess {
         return schedule;
     }
 
-
     public Schedule createSchedule(LocalDate date, ScreeningRoom screeningRoom){
         Schedule schedule = new Schedule(date, screeningRoom);
         if (!db.getTransaction().isActive()) {
@@ -213,7 +207,6 @@ public class DataAccess {
         //db.getTransaction().commit();
     }
 
-
     public void createPurchaseReceipt(Customer customer, ShowTime showTime, List<Seat> seats){
         PurchaseReceipt purchaseReceipt = new PurchaseReceipt(new Date(), customer, showTime, seats);
         if (!db.getTransaction().isActive()) {
@@ -226,7 +219,6 @@ public class DataAccess {
         }
         //db.getTransaction().commit();
     }
-
 
     public void close() {
         if (db != null && db.isOpen()) db.close();
@@ -373,6 +365,7 @@ public class DataAccess {
         db.persist(film);
         db.getTransaction().commit();
     }
+
     public Film getFilmbyName(String name) {
         Film film;
         try {
@@ -397,6 +390,36 @@ public class DataAccess {
         }
         return showtimes;
     }
+
+    public void setOrderStatus(PurchaseReceipt receipt, OrderStatus orderStatus) {
+        try {
+            db.getTransaction().begin();
+            receipt.setStatus(orderStatus);
+            db.merge(receipt);
+            db.getTransaction().commit(); // Commit the transaction
+        } catch (Exception e) {
+            if (db.getTransaction().isActive()) {
+                db.getTransaction().rollback(); // Rollback in case of an error
+            }
+            logger.error("Error setting order status: " + e.getMessage());
+        }
+    }
+
+    public List<PurchaseReceipt> getPendingCancellationPurchaseReceipts() {
+        List<PurchaseReceipt> receipts;
+        try {
+            TypedQuery<PurchaseReceipt> query = db.createQuery(
+                    "SELECT pr FROM PurchaseReceipt pr WHERE pr.status = :status",PurchaseReceipt.class);
+            query.setParameter("status", OrderStatus.PENDING_CANCELLATION);
+
+            receipts = query.getResultList();
+        } catch (NoResultException e) {
+            logger.info(String.format("No pending receipt cancellations found"));
+            receipts = null;
+        }
+        return receipts;
+    }
+
     private void generateTestingData() {
 
         Cinema cinema = new Cinema("Cineflix", "Bilbo", 688861291, LocalTime.of(15, 30), LocalTime.of(01, 00));
@@ -508,33 +531,4 @@ public class DataAccess {
 
     }
 
-
-    public void setOrderStatus(PurchaseReceipt receipt, OrderStatus orderStatus) {
-        try {
-            db.getTransaction().begin();
-            receipt.setStatus(orderStatus);
-            db.merge(receipt);
-            db.getTransaction().commit(); // Commit the transaction
-        } catch (Exception e) {
-            if (db.getTransaction().isActive()) {
-                db.getTransaction().rollback(); // Rollback in case of an error
-            }
-            logger.error("Error setting order status: " + e.getMessage());
-        }
-    }
-
-    public List<PurchaseReceipt> getPendingCancellationPurchaseReceipts() {
-        List<PurchaseReceipt> receipts;
-        try {
-            TypedQuery<PurchaseReceipt> query = db.createQuery(
-                    "SELECT pr FROM PurchaseReceipt pr WHERE pr.status = :status",PurchaseReceipt.class);
-            query.setParameter("status", OrderStatus.PENDING_CANCELLATION);
-
-            receipts = query.getResultList();
-        } catch (NoResultException e) {
-            logger.info(String.format("No pending receipt cancellations found"));
-            receipts = null;
-        }
-        return receipts;
-    }
 }
