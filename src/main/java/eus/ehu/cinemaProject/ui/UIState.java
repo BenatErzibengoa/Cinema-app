@@ -33,7 +33,7 @@ public class UIState {
 
     private UIState() {
         // Private constructor for singleton
-        locale = Locale.forLanguageTag("es");
+        locale = Locale.forLanguageTag("en");
         bundle = ResourceBundle.getBundle("eus.ehu.cinemaProject.ui.Language", locale);
     }
 
