@@ -56,15 +56,15 @@ After that, we implemented the admin and the worker roles, each with their own U
 We also updated the customer role.
 
 The customer will now have a feature to post reviews of the film that they watched, and those reviews will count to the rating of each film.
-Also the customer can 
+Also the customer will be able to request a ticket cancellation, at least 3h before the screening of the film.
 
 The admin will be able to add films just by searching the title, then the api will return the information of that film and add it to the system. Along with that, the admin will be able to hire and fire workers, by adding them to the database with the worker role, or in the other case removing them from the database. Finally, it will be able to add films to concrete showtimes; The admin will select the room and get the available time frames for that room, then it will create a showtime in the selected time frame with the previously selected film.
 
-The worker
+The worker will be able to accept cancellation requests before the screening of the film. Also the worker can buy tickets for a customer given the user's email (this is for simulating a customer calling the cinema or buying the ticket in person)
 
+We have implemented internationalization in all of our project, supporting English and Spanish.
 
-
-along with the feature of adding reviews under the condition that the reviewer was a user that 
+We also styled our project to be as clean and visually appealing as possible.
 
 ### Test Users
 
