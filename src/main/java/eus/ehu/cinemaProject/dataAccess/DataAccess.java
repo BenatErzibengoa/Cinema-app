@@ -122,7 +122,7 @@ public class DataAccess {
             query.setParameter(1, email);
             user = query.getSingleResult();
         }catch(NoResultException e){
-            logger.error(String.format("There are no results related to %s email", email));
+            logger.info(String.format("There are no results related to %s email", email));
             user = null;
         }
         return user;
@@ -186,25 +186,6 @@ public class DataAccess {
             schedule = null;
         }
         return schedule;
-    }
-
-    public Schedule createSchedule(LocalDate date, ScreeningRoom screeningRoom){
-        Schedule schedule = new Schedule(date, screeningRoom);
-        if (!db.getTransaction().isActive()) {
-            db.getTransaction().begin();
-        }
-        db.persist(schedule);
-        //db.getTransaction().commit();
-        return schedule;
-    }
-
-    public void createShowTime(Schedule schedule, LocalTime screeningTime, Film film){
-        ShowTime showTime = new ShowTime(schedule, screeningTime, film);
-        if (!db.getTransaction().isActive()) {
-            db.getTransaction().begin();
-        }
-        db.persist(showTime);
-        //db.getTransaction().commit();
     }
 
     public void createPurchaseReceipt(Customer customer, ShowTime showTime, List<Seat> seats){

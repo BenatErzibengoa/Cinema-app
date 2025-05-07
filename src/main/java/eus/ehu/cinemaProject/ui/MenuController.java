@@ -39,9 +39,15 @@ public class MenuController {
 
     BlFacadeImplementation bl;
 
-    Locale locale = Locale.forLanguageTag("es");
-    ResourceBundle bundle = ResourceBundle.getBundle("eus.ehu.cinemaProject.ui.Language", locale);
 
+
+
+    // Reference to the UIState
+    private final UIState uiState = UIState.getInstance();
+    ResourceBundle bundle = uiState.getBundle();
+
+
+    private Map<String, Pane> contentCache = new HashMap<>();
 
     @FXML
     private void showMovieList() {
@@ -128,10 +134,7 @@ public class MenuController {
             loadContent("workerReceipts.fxml");
     }
 
-    // Reference to the UIState
-    private final UIState uiState = UIState.getInstance();
 
-    private Map<String, Pane> contentCache = new HashMap<>();
 
 
     private void loadContent(String fxmlFile) {
