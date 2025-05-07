@@ -1,8 +1,10 @@
 package eus.ehu.cinemaProject.ui;
 
 import eus.ehu.cinemaProject.businessLogic.BlFacadeImplementation;
+import eus.ehu.cinemaProject.configuration.UtilDate;
 import eus.ehu.cinemaProject.domain.OrderStatus;
 import eus.ehu.cinemaProject.domain.PurchaseReceipt;
+import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -14,7 +16,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.List;
 
 public class WorkerReceiptsController {
 
@@ -22,22 +23,19 @@ public class WorkerReceiptsController {
     private TableView<PurchaseReceipt> tablePurchaseReceipts;
 
     @FXML
-    private TableColumn<PurchaseReceipt, Long> showTimeIdColumn;
+    private TableColumn<PurchaseReceipt, Long> customerIdColumn;
 
     @FXML
     private TableColumn<PurchaseReceipt, String> filmColumn;
 
     @FXML
-    private TableColumn<PurchaseReceipt, Date> dateColumn;
-
-    @FXML
-    private TableColumn<PurchaseReceipt, String> seatColumn;
+    private TableColumn<PurchaseReceipt, String> dateColumn;
 
     @FXML
     private TableColumn<PurchaseReceipt, Double> priceColumn;
 
     @FXML
-    private TableColumn<PurchaseReceipt, OrderStatus> statusColumn;
+    private TableColumn<PurchaseReceipt, String> statusColumn;
 
     private ObservableList<PurchaseReceipt> purchaseReceipts;
     private BlFacadeImplementation bl;
@@ -47,27 +45,37 @@ public class WorkerReceiptsController {
     public void initialize() {
         bl = BlFacadeImplementation.getInstance();
 
-        showTimeIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        customerIdColumn.setCellValueFactory(cellData ->
+                new SimpleLongProperty(cellData.getValue().getCustomer().getId()).asObject());
 
         filmColumn.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getShowTime().getFilm().getTitle()));
 
-        dateColumn.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
-        seatColumn.setCellValueFactory(new PropertyValueFactory<>("bookedSeats"));
+        dateColumn.setCellValueFactory(cellData -> {
+            Date date = cellData.getValue().getOrderDate();
+            return new SimpleStringProperty(UtilDate.formatDate(date));
+        });
+
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("totalAmount"));
-        statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+        statusColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().translateStatus()));
 
         purchaseReceipts = FXCollections.observableArrayList();
         purchaseReceipts.addAll(bl.getPendingCancellationPurchaseReceipts());
         tablePurchaseReceipts.setItems(purchaseReceipts);
 
-        purchaseReceipts.addListener((ListChangeListener<PurchaseReceipt>) change -> {
-            while (change.next()) {
-                if (change.wasUpdated()) {
-                    for (PurchaseReceipt receipt : change.getRemoved()) {
-                        updateStatusIfPast(receipt);
-                    }
-                }
+
+        tablePurchaseReceipts.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                updateStatusIfPast(newValue);
+            }
+        });
+
+        uiState.currentViewProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.equals("workerReceipts.fxml")) {
+                purchaseReceipts.clear();
+                purchaseReceipts.addAll(bl.getPendingCancellationPurchaseReceipts());
             }
         });
     }
@@ -75,6 +83,7 @@ public class WorkerReceiptsController {
     @FXML
     void cancelPurchase() {
         PurchaseReceipt selectedReceipt = tablePurchaseReceipts.getSelectionModel().getSelectedItem();
+        updateStatusIfPast(selectedReceipt);
         if (selectedReceipt != null && selectedReceipt.getStatus() != OrderStatus.PAST) {
             bl.setOrderStatus(selectedReceipt, OrderStatus.CANCELLED);
             tablePurchaseReceipts.refresh();

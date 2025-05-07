@@ -1,11 +1,13 @@
 package eus.ehu.cinemaProject.domain;
 
 import eus.ehu.cinemaProject.domain.users.Customer;
+import eus.ehu.cinemaProject.ui.UIState;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
 
 @Entity
 @Table(name = "purchasereceipts")
@@ -46,6 +48,7 @@ public class PurchaseReceipt {
     }
 
     public long getId(){return id;}
+    public Customer getCustomer(){return customer;}
     public Date getOrderDate(){return orderDate;}
     public ShowTime getShowTime(){return showTime;}
     public List<Seat> getBookedSeats(){return bookedSeats;}
@@ -60,10 +63,21 @@ public class PurchaseReceipt {
         return 0;
     }
 
-    public void setStatus(OrderStatus status) {
-        this.status = status;
+    public void setStatus(OrderStatus status) { this.status = status;
     }
     public OrderStatus getStatus() {
+
         return status;
+    }
+
+    public String translateStatus(){
+        ResourceBundle bundle= UIState.getInstance().getBundle();
+        String res= "";
+        return switch (status) {
+            case PENDING_CANCELLATION -> bundle.getString("pendingCancellation");
+            case PAID -> bundle.getString("paid");
+            case PAST -> bundle.getString("past");
+            case CANCELLED -> bundle.getString("cancelled");
+        };
     }
 }

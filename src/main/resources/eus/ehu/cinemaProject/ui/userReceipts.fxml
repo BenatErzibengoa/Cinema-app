@@ -9,7 +9,7 @@
 <AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #242424;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.Customer.UserReceiptsController">
 
     <children>
-        <Label layoutX="36.0" layoutY="20.0" style="-fx-font-size: 26px; -fx-font-weight: bold;" text="Receipts" textFill="white" />
+        <Label layoutX="36.0" layoutY="20.0" style="-fx-font-size: 26px; -fx-font-weight: bold;" text="%receiptsButton" textFill="white" />
 
         <ScrollPane fitToWidth="true" layoutX="36.0" layoutY="70.0" prefHeight="470.0" prefWidth="730.0" style="-fx-background-color: transparent; -fx-background: #171717; -fx-border-color: #171717;">
             <content>
@@ -17,6 +17,6 @@
             </content>
         </ScrollPane>
 
-        <Button layoutX="37.0" layoutY="550.0" onAction="#goBack" prefHeight="30.0" prefWidth="90.0" style="-fx-background-color: #e31837; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand;" text="Back" />
+        <Button layoutX="37.0" layoutY="550.0" onAction="#goBack" prefHeight="30.0" prefWidth="90.0" style="-fx-background-color: #e31837; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand;" text="%films" />
     </children>
 </AnchorPane>

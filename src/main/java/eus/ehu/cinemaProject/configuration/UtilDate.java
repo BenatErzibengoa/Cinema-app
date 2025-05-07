@@ -1,21 +1,43 @@
 package eus.ehu.cinemaProject.configuration;
 
+import eus.ehu.cinemaProject.ui.UIState;
+
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class UtilDate {
 
+
+
     public static String formatDate(Date date) {
-        if (Locale.getDefault().getLanguage().equals("es")) {
+        Locale locale = UIState.getInstance().getLocale();
+        if (locale.getLanguage().equals("es")) {
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             return formatter.format(date);
         } else {
             SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
             return formatter.format(date);
         }
+    }
+
+    public static String formatDateTime(LocalDate localDate, LocalTime localTime){
+        Locale locale = UIState.getInstance().getLocale();
+        DateTimeFormatter dateFormatter;
+        if(locale.getLanguage().equals("es"))
+            dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        else
+            dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        String formattedDate = localDate.format(dateFormatter);
+        String formattedTime = localTime.format(timeFormatter);
+
+        return formattedDate + " " + formattedTime;
     }
 
     public static Date trim(Date date) {

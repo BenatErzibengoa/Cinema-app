@@ -393,10 +393,12 @@ public class DataAccess {
 
     public void setOrderStatus(PurchaseReceipt receipt, OrderStatus orderStatus) {
         try {
-            db.getTransaction().begin();
+            if (!db.getTransaction().isActive()) {
+                db.getTransaction().begin();
+            }
             receipt.setStatus(orderStatus);
             db.merge(receipt);
-            db.getTransaction().commit(); // Commit the transaction
+            //db.getTransaction().commit(); // Commit the transaction
         } catch (Exception e) {
             if (db.getTransaction().isActive()) {
                 db.getTransaction().rollback(); // Rollback in case of an error

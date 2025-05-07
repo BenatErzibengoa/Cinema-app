@@ -9,19 +9,18 @@
 <AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #242424;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.cinemaProject.ui.WorkerReceiptsController">
 
     <children>
-        <Label layoutX="36.0" layoutY="20.0" style="-fx-font-size: 26px; -fx-font-weight: bold;" text="Pending Cancellations" textFill="white" />
+        <Label layoutX="36.0" layoutY="20.0" style="-fx-font-size: 26px; -fx-font-weight: bold;" text="%pendingCancellations" textFill="white" />
 
         <TableView fx:id="tablePurchaseReceipts" layoutX="36.0" layoutY="70.0" prefHeight="470.0" prefWidth="730.0" style="-fx-background-color: #171717; -fx-table-cell-border-color: #444; -fx-control-inner-background: #171717; -fx-text-fill: white;">
             <columns>
-                <TableColumn fx:id="showTimeIdColumn" prefWidth="60.0" text="ID" />
-                <TableColumn fx:id="filmColumn" prefWidth="120.0" text="Film" />
-                <TableColumn fx:id="dateColumn" prefWidth="100.0" text="Date" />
-                <TableColumn fx:id="seatColumn" prefWidth="180.0" text="Seats" />
-                <TableColumn fx:id="priceColumn" prefWidth="100.0" text="Price" />
-                <TableColumn fx:id="statusColumn" prefWidth="120.0" text="Status" />
+                <TableColumn fx:id="customerIdColumn" prefWidth="60.0" text="%custID" />
+                <TableColumn fx:id="filmColumn" prefWidth="120.0" text="%film" />
+                <TableColumn fx:id="dateColumn" prefWidth="100.0" text="%purchaseDate" />
+                <TableColumn fx:id="priceColumn" prefWidth="100.0" text="%price" />
+                <TableColumn fx:id="statusColumn" prefWidth="120.0" text="%status" />
             </columns>
         </TableView>
 
-        <Button layoutX="36.0" layoutY="550.0" onAction="#cancelPurchase" prefHeight="30.0" prefWidth="180.0" style="-fx-background-color: #e31837; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand;" text="Accept Cancellation" />
+        <Button layoutX="36.0" layoutY="550.0" onAction="#cancelPurchase" prefHeight="30.0" prefWidth="180.0" style="-fx-background-color: #e31837; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand;" text="%acceptCancellation" />
     </children>
 </AnchorPane>

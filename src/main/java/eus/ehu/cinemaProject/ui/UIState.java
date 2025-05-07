@@ -27,12 +27,13 @@ public class UIState {
     private final BooleanProperty loggedIn = new SimpleBooleanProperty(false);
 
     private final ResourceBundle bundle;
+    private final Locale locale;
     private SeatSelectionController seatSelectionController;
 
 
     private UIState() {
         // Private constructor for singleton
-        Locale locale = Locale.forLanguageTag("es");
+        locale = Locale.forLanguageTag("es");
         bundle = ResourceBundle.getBundle("eus.ehu.cinemaProject.ui.Language", locale);
     }
 
@@ -71,6 +72,7 @@ public class UIState {
     public ResourceBundle getBundle() {
         return bundle;
     }
+    public Locale getLocale() { return locale;}
 
     //Attributes to share between different view controllers (we have to add more!!!)
     private String customerEmail;

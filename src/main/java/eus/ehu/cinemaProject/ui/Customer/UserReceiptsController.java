@@ -39,6 +39,12 @@ public class UserReceiptsController {
         bl = BlFacadeImplementation.getInstance();
         List<PurchaseReceipt> receipts = bl.getPurchaseReceiptsByUser((Customer) uiState.getUser());
         loadReceipts(receipts);
+
+        uiState.currentViewProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.equals("userReceipts.fxml")) {
+                loadReceipts(bl.getPurchaseReceiptsByUser((Customer) uiState.getUser()));
+            }
+        });
     }
     public void loadReceipts(List<PurchaseReceipt> receipts) {
         receiptsContainer.getChildren().clear();
@@ -50,8 +56,10 @@ public class UserReceiptsController {
             receiptBox.setStyle("-fx-background-color: #333333; -fx-background-radius: 8;");
             receiptBox.setPrefWidth(550);
 
-            Label filmLabel = new Label(bundle.getString("filmLabel") + " " + receipt.getShowTime().getFilm().getTitle());
+            Label filmLabel = new Label(bundle.getString("filmLabel") + " " + receipt.getShowTime().getFilm().getTitle()
+            + "\t" + UtilDate.formatDateTime(receipt.getShowTime().getScreeningDate(), receipt.getShowTime().getScreeningTime()));
             filmLabel.setTextFill(Color.WHITE);
+
 
             Label dateLabel = new Label(bundle.getString("dateLabel") + " " + UtilDate.formatDate(receipt.getOrderDate()));
             dateLabel.setTextFill(Color.LIGHTGRAY);
@@ -71,17 +79,26 @@ public class UserReceiptsController {
             Label priceLabel = new Label(bundle.getString("priceLabel") + " " + receipt.getTotalAmount() + "€");
             priceLabel.setTextFill(Color.GOLD);
 
+            Label statusLabel = new Label(bundle.getString("statusLabel") + " " + receipt.translateStatus());
+
+            updateStatusIfPast(receipt);
+
             Button rateButton = new Button(bundle.getString("rateButton"));
             rateButton.setStyle("-fx-background-color: #e31837; -fx-text-fill: white; -fx-cursor: hand;");
             rateButton.setOnAction(e -> handleRateFilm(receipt));
-            //TODO: manage visibility. Customers can only review if status is past
+            rateButton.setDisable(receipt.getStatus() != OrderStatus.PAST |
+                    bl.hasFilmBeenReviewed(receipt.getShowTime().getFilm(), (Customer) uiState.getUser()) );
 
-            Button requestCancellation = new Button(bundle.getString("reqCancelButton"));
-            requestCancellation.setStyle("-fx-background-color: #e31837; -fx-text-fill: white; -fx-cursor: hand;");
-            requestCancellation.setOnAction(e -> requestCancellation(receipt));
+            if(receipt.getStatus() != OrderStatus.PAST) {
+                Button requestCancellation = new Button(bundle.getString("reqCancelButton"));
+                requestCancellation.setStyle("-fx-background-color: #e31837; -fx-text-fill: white; -fx-cursor: hand;");
+                requestCancellation.setOnAction(e -> requestCancellation(receipt));
 
-
-            receiptBox.getChildren().addAll(filmLabel, dateLabel, seatsBox, priceLabel, rateButton, requestCancellation);
+                receiptBox.getChildren().addAll(filmLabel, dateLabel, seatsBox, priceLabel, statusLabel, rateButton, requestCancellation);
+            }
+            else {
+                receiptBox.getChildren().addAll(filmLabel, dateLabel, seatsBox, priceLabel, statusLabel, rateButton);
+            }
             receiptMap.put(receipt, receiptBox);
             receiptsContainer.getChildren().add(receiptBox);
         }
@@ -94,7 +111,7 @@ public class UserReceiptsController {
         if(showDateTime.isAfter(LocalDateTime.now().plusHours(3))) {
             bl.setOrderStatus(receipt, OrderStatus.PENDING_CANCELLATION);
             VBox receiptBox = receiptMap.get(receipt);
-            receiptBox.getChildren().remove(5);
+            receiptBox.getChildren().remove(6);
         }else{
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle(null);
@@ -105,6 +122,15 @@ public class UserReceiptsController {
     }
 
     private void handleRateFilm(PurchaseReceipt receipt) {
+        updateStatusIfPast(receipt);
+        if(receipt.getStatus() != OrderStatus.PAST) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information");
+            alert.setHeaderText(null);
+            alert.setContentText(bundle.getString("filmNotWatched"));
+            alert.showAndWait();
+            return;
+        }
         // Verify if it has been reviewed
         if (bl.hasFilmBeenReviewed(receipt.getShowTime().getFilm(), (Customer) uiState.getUser())) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -179,8 +205,6 @@ public class UserReceiptsController {
 
         if (showDateTime.isBefore(LocalDateTime.now())) {
             bl.setOrderStatus(receipt, OrderStatus.PAST);
-            //tablePurchaseReceipts.refresh();
-
         }
     }
 }
