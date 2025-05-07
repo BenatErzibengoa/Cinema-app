@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 public class WorkerReceiptsController {
+
     @FXML
     private TableView<PurchaseReceipt> tablePurchaseReceipts;
 
@@ -36,70 +37,58 @@ public class WorkerReceiptsController {
     private TableColumn<PurchaseReceipt, Double> priceColumn;
 
     @FXML
-    private TableColumn<PurchaseReceipt, OrderStatus> statusColumn;     // TODO: Remove this column when done
+    private TableColumn<PurchaseReceipt, OrderStatus> statusColumn;
 
     private ObservableList<PurchaseReceipt> purchaseReceipts;
-
     private BlFacadeImplementation bl;
-
     private final UIState uiState = UIState.getInstance();
 
     @FXML
     public void initialize() {
-
         bl = BlFacadeImplementation.getInstance();
+
         showTimeIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 
-        filmColumn.setCellValueFactory(cellData -> {
-            PurchaseReceipt pr = cellData.getValue();
-            return new SimpleStringProperty(pr.getShowTime().getFilm().getTitle());
-        });
+        filmColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getShowTime().getFilm().getTitle()));
+
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
         seatColumn.setCellValueFactory(new PropertyValueFactory<>("bookedSeats"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("totalAmount"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
 
         purchaseReceipts = FXCollections.observableArrayList();
-        List<PurchaseReceipt> receipts = bl.getPendingCancellationPurchaseReceipts();
-        System.out.println("Pending cancellation receipts: " + receipts);
-        purchaseReceipts.addAll(receipts);
-        System.out.println("Loading all pending cancellation receipts");
+        purchaseReceipts.addAll(bl.getPendingCancellationPurchaseReceipts());
         tablePurchaseReceipts.setItems(purchaseReceipts);
 
-
-        // Add a listener to observe changes in the list
-        purchaseReceipts.addListener(
-                (ListChangeListener<PurchaseReceipt>) change -> {
-                    while (change.next()) {
-                        if (change.wasUpdated()) {
-                            for (PurchaseReceipt receipt : change.getRemoved()) {
-                                updateStatusIfPast(receipt);
-                            }
-                        }
+        purchaseReceipts.addListener((ListChangeListener<PurchaseReceipt>) change -> {
+            while (change.next()) {
+                if (change.wasUpdated()) {
+                    for (PurchaseReceipt receipt : change.getRemoved()) {
+                        updateStatusIfPast(receipt);
                     }
                 }
-        );
-
-
+            }
+        });
     }
 
     @FXML
     void cancelPurchase() {
         PurchaseReceipt selectedReceipt = tablePurchaseReceipts.getSelectionModel().getSelectedItem();
-        if((selectedReceipt != null) && selectedReceipt.getStatus() != OrderStatus.PAST) {
+        if (selectedReceipt != null && selectedReceipt.getStatus() != OrderStatus.PAST) {
             bl.setOrderStatus(selectedReceipt, OrderStatus.CANCELLED);
+            tablePurchaseReceipts.refresh();
         }
     }
 
     private void updateStatusIfPast(PurchaseReceipt receipt) {
         LocalDateTime showDateTime = LocalDateTime.of(
                 receipt.getShowTime().getScreeningDate(),
-                receipt.getShowTime().getScreeningTime()
-        );
+                receipt.getShowTime().getScreeningTime());
 
         if (showDateTime.isBefore(LocalDateTime.now())) {
             bl.setOrderStatus(receipt, OrderStatus.PAST);
-            tablePurchaseReceipts.refresh(); // Refresh the table to reflect the changes
+            tablePurchaseReceipts.refresh();
         }
     }
 }

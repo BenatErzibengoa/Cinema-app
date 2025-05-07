@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Pair;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -28,9 +29,10 @@ public class UserReceiptsController {
 
     private BlFacadeImplementation bl;
 
-    private final UIState uiState = UIState.getInstance();
-    private final ResourceBundle bundle = uiState.getBundle();
+    UIState uiState = UIState.getInstance();
+    ResourceBundle bundle = uiState.getBundle();
 
+    HashMap<PurchaseReceipt, VBox> receiptMap = new HashMap<>();
 
     @FXML
     public void initialize() {
@@ -40,6 +42,7 @@ public class UserReceiptsController {
     }
     public void loadReceipts(List<PurchaseReceipt> receipts) {
         receiptsContainer.getChildren().clear();
+        receiptMap.clear();
 
         for (PurchaseReceipt receipt : receipts) {
             VBox receiptBox = new VBox(8);
@@ -71,12 +74,15 @@ public class UserReceiptsController {
             Button rateButton = new Button(bundle.getString("rateButton"));
             rateButton.setStyle("-fx-background-color: #e31837; -fx-text-fill: white; -fx-cursor: hand;");
             rateButton.setOnAction(e -> handleRateFilm(receipt));
+            //TODO: manage visibility. Customers can only review if status is past
 
             Button requestCancellation = new Button(bundle.getString("reqCancelButton"));
             requestCancellation.setStyle("-fx-background-color: #e31837; -fx-text-fill: white; -fx-cursor: hand;");
             requestCancellation.setOnAction(e -> requestCancellation(receipt));
 
+
             receiptBox.getChildren().addAll(filmLabel, dateLabel, seatsBox, priceLabel, rateButton, requestCancellation);
+            receiptMap.put(receipt, receiptBox);
             receiptsContainer.getChildren().add(receiptBox);
         }
     }
@@ -87,6 +93,8 @@ public class UserReceiptsController {
                 receipt.getShowTime().getScreeningTime());
         if(showDateTime.isAfter(LocalDateTime.now().plusHours(3))) {
             bl.setOrderStatus(receipt, OrderStatus.PENDING_CANCELLATION);
+            VBox receiptBox = receiptMap.get(receipt);
+            receiptBox.getChildren().remove(5);
         }else{
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle(null);
@@ -162,5 +170,17 @@ public class UserReceiptsController {
     void goBack(ActionEvent event) {
         uiState.setCurrentView("MovieList.fxml");
         //user could log in and just view receipts. If it went back, they would see the login screen again
+    }
+
+    private void updateStatusIfPast(PurchaseReceipt receipt) {
+        LocalDateTime showDateTime = LocalDateTime.of(
+                receipt.getShowTime().getScreeningDate(),
+                receipt.getShowTime().getScreeningTime());
+
+        if (showDateTime.isBefore(LocalDateTime.now())) {
+            bl.setOrderStatus(receipt, OrderStatus.PAST);
+            //tablePurchaseReceipts.refresh();
+
+        }
     }
 }
