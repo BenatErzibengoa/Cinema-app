@@ -5,6 +5,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+
+import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
 public class WorkerMenuController {
@@ -17,6 +19,7 @@ public class WorkerMenuController {
 
     BlFacadeImplementation bl= BlFacadeImplementation.getInstance();
     UIState uiState = UIState.getInstance();
+    ResourceBundle bundle = uiState.getBundle();
 
     @FXML
     private void initialize() {
@@ -33,13 +36,13 @@ public class WorkerMenuController {
     void proceedBuying(ActionEvent event) {
         if(emailField.getText().isEmpty()){
             System.out.println("Please enter an email address.");
-            outputText.setText("Please enter an email address.");
+            outputText.setText(bundle.getString("error.invalid.email"));
             outputText.setStyle("-fx-text-fill: red;");
         } else {
-            System.out.println("Proceeding with email: " + emailField.getText());
+            System.out.println(bundle.getString("proceedEmail")+" " + emailField.getText());
             User cust = bl.getUserByEmail(emailField.getText());
             if(cust == null){
-                outputText.setText("User not found.");
+                outputText.setText(bundle.getString("userNotFound"));
                 outputText.setStyle("-fx-text-fill: red;");
                 return;
             }
@@ -48,7 +51,7 @@ public class WorkerMenuController {
             uiState.setUser(cust);
 
 
-            outputText.setText("Purchase process initiated for %s".formatted(emailField.getText()));
+            outputText.setText(bundle.getString("proceedForCust")+emailField.getText());
             outputText.setStyle("-fx-text-fill: green;");
             try {
                 TimeUnit.SECONDS.sleep(1);
