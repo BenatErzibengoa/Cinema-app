@@ -56,7 +56,7 @@ public class MenuController {
             uiState.setSummary("");
             uiState.setSnackprice(0.0);
             if(user instanceof Worker)
-                loadContent("workerMenu.fxml");
+                uiState.setCurrentView("workerMenu.fxml");
             else
                 loadContent("MovieList.fxml");
         }
@@ -74,10 +74,10 @@ public class MenuController {
 
         // Add listeners for view and login state changes
         uiState.currentViewProperty().addListener((obs, oldView, newView) -> {
-            if(newView.equals("MovieList.fxml"))
-                showMovieList();
-            else
+            if(newView.equals("MovieList.fxml")){
                 loadContent(newView);
+                contentCache.clear();
+            }
 
         });
 

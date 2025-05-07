@@ -53,11 +53,7 @@ public class WorkerMenuController {
 
             outputText.setText(bundle.getString("proceedForCust")+emailField.getText());
             outputText.setStyle("-fx-text-fill: green;");
-            try {
-                TimeUnit.SECONDS.sleep(1);
-            } catch (InterruptedException ie) {
-                Thread.currentThread().interrupt();
-            }
+
             uiState.setCurrentView("MovieList.fxml");
         }
 
