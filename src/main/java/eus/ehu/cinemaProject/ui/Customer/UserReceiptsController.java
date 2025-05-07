@@ -194,7 +194,7 @@ public class UserReceiptsController {
 
     @FXML
     void goBack(ActionEvent event) {
-        uiState.setCurrentView("MovieList.fxml");
+        uiState.setCurrentView(uiState.getLastView());
         //user could log in and just view receipts. If it went back, they would see the login screen again
     }
 

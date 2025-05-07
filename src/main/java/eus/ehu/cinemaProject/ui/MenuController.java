@@ -117,20 +117,21 @@ public class MenuController {
 
     @FXML
     void loginPane(ActionEvent event) {
-        loadContent("signin.fxml");
+        uiState.setCurrentView("signin.fxml");
     }
 
     @FXML
     void registerPane(ActionEvent event) {
-        loadContent("signup.fxml");
+        uiState.setCurrentView("signup.fxml");
     }
 
     @FXML
     void receiptsPane(ActionEvent event) {
+        uiState.setLastView(uiState.getCurrentView());
         if(uiState.getWorkerEmail() == null)
-            loadContent("userReceipts.fxml");
+            uiState.setCurrentView("userReceipts.fxml");
         else
-            loadContent("workerReceipts.fxml");
+            uiState.setCurrentView("workerReceipts.fxml");
     }
 
 

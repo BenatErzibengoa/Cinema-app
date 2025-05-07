@@ -96,6 +96,7 @@ public class ReceiptController {
             uiState.setCustomerEmail(null);
             uiState.setCurrentView("workerMenu.fxml");
         }else
+            uiState.getMenuController().clearCache();
             uiState.setCurrentView("MovieList.fxml");
     }
 
