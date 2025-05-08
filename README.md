@@ -63,8 +63,11 @@ The admin will be able to add films just by searching the title, then the api wi
 The worker will be able to accept cancellation requests before the screening of the film. Also the worker can buy tickets for a customer given the user's email (this is for simulating a customer calling the cinema or buying the ticket in person)
 
 We have implemented internationalization in all of our project, supporting English and Spanish.
+We also have created tests for Schedule class, fetch movie data from TMDB API and implemented Singleton(UIState) and Builder(Users) patterns.
 
 We also styled our project to be as clean and visually appealing as possible.
+
+
 
 ### Test Users
 
