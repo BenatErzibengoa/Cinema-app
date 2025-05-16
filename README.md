@@ -1,4 +1,36 @@
 # Project about the management of a Cinema
+## Screenshots
+### Menu
+
+The first screen you see when opening the app.  
+
+![Menu](docs/Screenshots/Menu.png)
+
+### Admin Showtimes
+Where the admin adds new showtimes.  
+
+![Admin Showtimes](docs/Screenshots/Admin_showtimes.png)
+
+### Customer Showtime
+Information shown to the customer when selecting a movie.  
+
+![Customer Showtime](docs/Screenshots/Customer_ShowTime.png)
+
+### Reviews
+Section displaying reviews for a movie.  
+
+![Reviews](docs/Screenshots/Reviews.png)
+
+### Seatview
+View of available seats to select from.  
+
+![Seatview](docs/Screenshots/SeatView.png)
+
+### Pay
+Summary of the purchase, including tickets, snacks, and total price.  
+
+![Pay](docs/Screenshots/Pay.png)
+
 ---
 ### Description
 A client-server application for managing movie listings, schedules, and ticket sales.
