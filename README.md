@@ -29,7 +29,7 @@ Summary of the purchase, including tickets, snacks, and total price.
 ### Admin Showtimes
 Where the admin adds new showtimes.
 
-![Admin Showtimes](docs/Screenshots/Admin_showtimes.png)
+![Admin Showtimes](docs/Screenshots/Admin_ShowTimes.png)
 
 ---
 ### Description
