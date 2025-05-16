@@ -27,34 +27,34 @@ The system comes with several pre-configured test users for different roles:
 
 #### Admin User
 
-- Email: juanan.pereira@ehu.eus
+- Email: admin@example.com
 - Password: admin1234
-- Name: Juanan Pereira
+- Name:  Admin Admin
 
 #### Worker Users
 
-1. Beñat Ercibengoa
+1. John Smith
 
-   - Email: bercibengoa001@ikasle.ehu.eus
+   - Email: jsmith@example.com
    - Password: 12345678
    - 
-2. Viktoria Andrushkiv
+2. Emily Johnson
 
-   - Email: vandrushkiv001@ikasle.ehu.eus
+   - Email: ejohnson@example.com
    - Password: 87654321
 
-3. Théo Rolland
+3. Michael Brown
 
-   - Email: trolland001@ikasle.ehu.eus
+   - Email: mbrown@example.com
    - Password: abcdefghi
 
-4. Laura Rodríguez
+4. Sophia Martinez
 
-   - Email: lrodriguez154@ikasle.ehu.eus
+   - Email: smartinez@example.com
    - Password: 12345678
 
-5. Ekhi Ugarte
-   - Email: eugarte001@ikasle.ehu.eus
+5. Daniel Garcia
+   - Email: dgarcia@example.com
    - Password: 111222333g
 
 #### Customer Users
