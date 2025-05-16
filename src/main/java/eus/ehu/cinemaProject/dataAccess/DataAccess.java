@@ -408,7 +408,7 @@ public class DataAccess {
         Cinema cinema = new Cinema("Cineflix", "Bilbo", 688861291, LocalTime.of(15, 30), LocalTime.of(01, 00));
         db.persist(cinema);
 
-        Admin admin = (Admin) new Admin.AdminBuilder("juanan.pereira@ehu.eus", PasswordHasher.hashPassword("admin1234"), 3100).name("Juanan").surname("Pereira").build();
+        Admin admin = (Admin) new Admin.AdminBuilder("admin@example.com", PasswordHasher.hashPassword("admin1234"), 3100).name("Admin").surname("Admin").build();
         db.persist(admin);
 
         ScreeningRoom screeningRoom1 = new ScreeningRoom(cinema,1);
@@ -419,11 +419,11 @@ public class DataAccess {
         db.persist(screeningRoom3);
 
 
-        signUpWorker("bercibengoa001@ikasle.ehu.eus", "12345678", "Beñat", "Ercibengoa", 2000);
-        signUpWorker("vandrushkiv001@ikasle.ehu.eus", "87654321", "Viktoria", "Andrushkiv", 2000);
-        signUpWorker("trolland001@ikasle.ehu.eus", "abcdefghi", "Théo", "Rolland", 2000);
-        signUpWorker("lrodriguez154@ikasle.ehu.eus", "12345678", "Laura", "Rodríguez", 2000);
-        signUpWorker("eugarte001@ikasle.ehu.eus", "111222333g", "Ekhi", "Ugarte", 2000);
+        signUpWorker("jsmith@example.com", "12345678", "John", "Smith", 2000);
+        signUpWorker("ejohnson@example.com", "87654321", "Emily", "Johnson", 2000);
+        signUpWorker("mbrown@example.com", "abcdefghi", "Michael", "Brown", 2000);
+        signUpWorker("smartinez@example.com", "12345678", "Sophia", "Martinez", 2000);
+        signUpWorker("dgarcia@example.com", "111222333g", "Daniel", "Garcia", 2000);
 
         Customer customer1 = (Customer)signUp("aitor@gmail.com", "12345", "Aitor", "Elizondo");
         Customer customer2 = (Customer)signUp("amaia@gmail.com", "12345", "Amaia", "Susperregi");
