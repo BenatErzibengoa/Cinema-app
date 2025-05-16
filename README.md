@@ -6,11 +6,6 @@ The first screen you see when opening the app.
 
 ![Menu](docs/Screenshots/Menu.png)
 
-### Admin Showtimes
-Where the admin adds new showtimes.  
-
-![Admin Showtimes](docs/Screenshots/Admin_showtimes.png)
-
 ### Customer Showtime
 Information shown to the customer when selecting a movie.  
 
@@ -30,6 +25,11 @@ View of available seats to select from.
 Summary of the purchase, including tickets, snacks, and total price.  
 
 ![Pay](docs/Screenshots/Pay.png)
+
+### Admin Showtimes
+Where the admin adds new showtimes.
+
+![Admin Showtimes](docs/Screenshots/Admin_showtimes.png)
 
 ---
 ### Description
