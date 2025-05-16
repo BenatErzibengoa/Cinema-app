@@ -10,6 +10,7 @@ module eus.ehu.cinemaProject {
     requires org.apache.logging.log4j;
     requires com.google.gson;
     requires jbcrypt;
+    requires java.dotenv;
 
     opens eus.ehu.cinemaProject.domain to javafx.base, org.hibernate.orm.core;
 

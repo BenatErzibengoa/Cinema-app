@@ -5,6 +5,8 @@ import eus.ehu.cinemaProject.domain.Genre;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonArray;
+import io.github.cdimascio.dotenv.Dotenv;
+
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -15,7 +17,8 @@ import java.util.List;
 
 public class FilmDataFetcher {
 
-    private static final String API_KEY = "4f7b23dc0dc0fe3332d6425df703e845"; // Tu API Key de TMDb
+    private static final Dotenv dotenv = Dotenv.load();
+    private static final String API_KEY = dotenv.get("TMDB_API_KEY");
 
     public static Film fetchFilmDataByName(String movieName) {
         try {

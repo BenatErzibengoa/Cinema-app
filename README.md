@@ -20,6 +20,13 @@ In addition, I actively contributed to all areas of development, from the backen
 This hands-on approach allowed me to gain experience in the full software development cycle, collaborating closely with my teammates.
 
 ---
+### Setup
+To run the project, you need to create a .env file in the root directory with the following content:
+API_KEY=*your_tmdb_api_key_here*
+Replace *your_tmdb_api_key_here* with your own TMDB API key.
+The Movie Database (TMDB) API is a free API that provides access to a vast collection of movie data, including information about movies, TV shows, actors, and more. 
+You can sign up for a free account and obtain a free API key at [TMDB](https://www.themoviedb.org/documentation/api).
+
 
 ### Test Users
 
